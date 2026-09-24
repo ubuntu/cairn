@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=84"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cairn"
+version = "0.1.0"
+description = "A single view of Ubuntu archive health"
+requires-python = ">=3.13"
+
+dependencies = [
+    "python-debian>=1.1.1,<2",
+    "requests>=2.34.2",
+    "PyYAML>=6.0.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=9.1.1"]
+
+[tool.setuptools.packages.find]
+include = ["cairn*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
