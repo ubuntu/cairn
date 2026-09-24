@@ -180,3 +180,11 @@ pyrightconfig.json
 # SQLite3 db
 *.db
 *.db-journal
+
+# cairn
+# cairn/build/ is the render package, not a build artifact: the generic
+# "build/" rule above would otherwise drop real source.
+!cairn/build/
+# Generated. SQLite is rebuilt from the log and never committed.
+*.sqlite3
+.cache/

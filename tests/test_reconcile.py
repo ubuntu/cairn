@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -9,7 +9,7 @@ from cairn.core.log import Event, EventType, SignalState
 from cairn.core.reconcile import MassResolve, reconcile
 from cairn.ingest.base import Kind, Signal
 
-T0 = datetime(2026, 1, 1, tzinfo=timezone.utc)
+T0 = datetime(2026, 1, 1, tzinfo=UTC)
 T1 = T0 + timedelta(days=1)
 T2 = T0 + timedelta(days=2)
 SOURCE = "merges"

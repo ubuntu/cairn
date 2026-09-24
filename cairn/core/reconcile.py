@@ -49,12 +49,16 @@ def reconcile(
 
     gone = [sid for sid in active if sid not in seen]
 
-    if max_resolve_fraction is not None and active and gone:
-        if len(gone) / len(active) > max_resolve_fraction:
-            raise MassResolve(
-                f"{source}: {len(gone)} of {len(active)} signals would resolve "
-                f"in one run. Pass max_resolve_fraction=None if this is real."
-            )
+    if (
+        max_resolve_fraction is not None
+        and active
+        and gone
+        and len(gone) / len(active) > max_resolve_fraction
+    ):
+        raise MassResolve(
+            f"{source}: {len(gone)} of {len(active)} signals would resolve "
+            f"in one run. Pass max_resolve_fraction=None if this is real."
+        )
 
     for sid in gone:
         events.append(

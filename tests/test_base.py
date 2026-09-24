@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 import os
 import subprocess
 import sys
@@ -74,7 +75,7 @@ class TestValidation:
             Signal(kind=Kind.NBS, source_package="")
 
     def test_is_frozen(self):
-        with pytest.raises(Exception):
+        with pytest.raises(dataclasses.FrozenInstanceError):
             sig().source_package = "other"
 
 

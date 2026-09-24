@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Any, Generic, Protocol, TypeVar, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 
 class Kind(StrEnum):
@@ -80,15 +80,12 @@ class Signal:
         return hashlib.sha256("\x1f".join(self.identity).encode()).hexdigest()[:16]
 
 
-Raw = TypeVar("Raw")
-
-
 @runtime_checkable
 class Fetcher(Protocol):
     def get(self, url: str) -> bytes: ...
 
 
-class Ingester(ABC, Generic[Raw]):
+class Ingester[Raw](ABC):
     """Translates one source into Signals.
 
     Generic over Raw because sources are not all HTTP: UDD yields database
