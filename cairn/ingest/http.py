@@ -57,8 +57,8 @@ class Cache(Protocol):
 
 
 class FileCache:
-    def __init__(self, directory: Path) -> None:
-        self.directory = directory
+    def __init__(self, directory: Path | str) -> None:
+        self.directory = Path(directory)
 
     def _paths(self, url: str) -> tuple[Path, Path]:
         key = hashlib.sha256(url.encode()).hexdigest()[:32]

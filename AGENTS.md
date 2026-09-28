@@ -365,7 +365,7 @@ this project's design.
 3. Add any new `Kind` constants to `base.py`. Do not invent kinds locally.
 4. If the source implies severity, express it in `core/rules.py`, not in the
    ingester.
-5. Register the module in `cairn/ingest/__init__.py`.
+5. Register the ingester in `cairn/ingest/registry.py`.
 6. Add a fixture under `tests/fixtures/` — a trimmed real response, not
    hand-written — and a parse test.
 7. If this ingester reimplements a published report, wire up the corresponding

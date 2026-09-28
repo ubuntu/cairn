@@ -1,0 +1,265 @@
+Package: aalib
+Binary: libaa1-dev, libaa1, libaa-bin
+Version: 1.4p5-51.1
+Maintainer: Jonathan Carter <jcc@debian.org>
+Architecture: any
+Standards-Version: 4.6.2
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/debian/aalib
+Vcs-Git: https://salsa.debian.org/debian/aalib.git
+Homepage: http://aa-project.sourceforge.net/aalib/
+Directory: pool/main/a/aalib
+Priority: optional
+Section: libs
+
+Package: cloud-init
+Binary: cloud-init
+Version: 26.2-1
+Maintainer: Debian Cloud Team <debian-cloud@lists.debian.org>
+Architecture: all
+Standards-Version: 4.6.1
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/cloud-team/cloud-init
+Vcs-Git: https://salsa.debian.org/cloud-team/cloud-init.git
+Homepage: https://launchpad.net/cloud-init
+Directory: pool/main/c/cloud-init
+Priority: optional
+Section: admin
+
+Package: cron
+Binary: cron, cron-daemon-common
+Version: 3.0pl1-210
+Maintainer: Georges Khaznadar <georgesk@debian.org>
+Architecture: any all
+Standards-Version: 4.6.2
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/debian/cron
+Vcs-Git: https://salsa.debian.org/debian/cron.git
+Homepage: https://ftp.isc.org/isc/cron/
+Testsuite: autopkgtest
+Testsuite-Triggers: adduser, apt, binutils, bsdextrautils, exim4, expect, mailutils, python3, rsyslog
+Directory: pool/main/c/cron
+Priority: optional
+Section: admin
+
+Package: devscripts
+Binary: devscripts
+Version: 2.26.12
+Maintainer: Devscripts Maintainers <devscripts@packages.debian.org>
+Architecture: all
+Standards-Version: 4.7.4
+Format: 3.0 (native)
+Vcs-Browser: https://salsa.debian.org/debian/devscripts
+Vcs-Git: https://salsa.debian.org/debian/devscripts.git
+Testsuite: autopkgtest
+Testsuite-Triggers: apt, build-essential, debhelper, fakeroot, faketime, git, gnupg, gpgv, libdistro-info-perl, libdpkg-perl, libfile-dirlist-perl, libfile-homedir-perl, libfile-touch-perl, libgitlab-api-v4-perl, libio-string-perl, libjson-perl, liblwp-protocol-psgi-perl, libmetacpan-client-perl, libtest-output-perl, libwww-perl, libyaml-libyaml-perl, lzip-compressor, perl, plzip, python3-debian, python3-pyftpdlib, shunit2, subversion, unzip, wdiff, zip, zstd
+Directory: pool/main/d/devscripts
+Priority: optional
+Section: devel
+
+Package: gtk+3.0
+Binary: libgtk-3-0t64, libgtk-3-0-udeb, libgtk-3-common, libgtk-3-bin, libgtk-3-dev, libgtk-3-doc, gtk-3-examples, gir1.2-gtk-3.0, gtk-update-icon-cache, libgail-3-0t64, libgail-3-dev, libgail-3-doc
+Version: 3.24.52-1
+Maintainer: Debian GNOME Maintainers <pkg-gnome-maintainers@lists.alioth.debian.org>
+Architecture: any all
+Standards-Version: 4.7.2
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/gnome-team/gtk3
+Vcs-Git: https://salsa.debian.org/gnome-team/gtk3.git
+Homepage: https://www.gtk.org/
+Dgit: 8df51b2b45c2d969161e42b217548850ebf02520 debian archive/debian/3.24.52-1 https://git.dgit.debian.org/gtk+3.0
+Testsuite: autopkgtest
+Testsuite-Triggers: adwaita-icon-theme, at-spi2-core, build-essential, dbus-daemon, dpkg-dev, dpkg-repack, gnome-desktop-testing, librsvg2-common, python3-gi, xauth, xvfb
+Directory: pool/main/g/gtk+3.0
+Priority: optional
+Section: libs
+
+Package: hello
+Binary: hello
+Version: 2.12.3-1
+Maintainer: Santiago Vila <sanvila@debian.org>
+Architecture: any
+Standards-Version: 4.7.4
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/sanvila/hello
+Vcs-Git: https://salsa.debian.org/sanvila/hello.git
+Homepage: https://www.gnu.org/software/hello/
+Testsuite: autopkgtest
+Testsuite-Triggers: make
+Directory: pool/main/h/hello
+Priority: optional
+Section: devel
+
+Package: libnet-ssleay-perl
+Binary: libnet-ssleay-perl
+Version: 1.96-2
+Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
+Architecture: any
+Standards-Version: 4.7.4
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/perl-team/modules/packages/libnet-ssleay-perl
+Vcs-Git: https://salsa.debian.org/perl-team/modules/packages/libnet-ssleay-perl.git
+Homepage: https://metacpan.org/release/Net-SSLeay
+Dgit: 71575b800982fac24535cdd18017395bf538289d debian archive/debian/1.96-2 https://git.dgit.debian.org/libnet-ssleay-perl
+Git-Tag-Info: tag=e08cf931078a39d77bdeac0d6cfde3399b7a99f2 fp=d1e1316e93a760a8104d85fabb3a68018649aa06
+Git-Tag-Tagger: gregor herrmann <gregoa@debian.org>
+Testsuite: autopkgtest-pkg-perl
+Directory: pool/main/libn/libnet-ssleay-perl
+Priority: optional
+Section: perl
+
+Package: live-build
+Binary: live-build
+Version: 1:20250814
+Maintainer: Debian Live <debian-live@lists.debian.org>
+Architecture: all
+Standards-Version: 4.7.0
+Format: 3.0 (native)
+Vcs-Browser: https://salsa.debian.org/live-team/live-build
+Vcs-Git: https://salsa.debian.org/live-team/live-build.git
+Homepage: https://wiki.debian.org/DebianLive
+Testsuite: autopkgtest
+Testsuite-Triggers: apt-utils, bzip2, ca-certificates, cpio, curl, file, git, wget, xz-utils
+Directory: pool/main/l/live-build
+Priority: optional
+Section: misc
+
+Package: qemu
+Binary: qemu-system, qemu-block-extra, qemu-system-data, qemu-system-common, qemu-system-gui, qemu-system-modules-spice, qemu-system-modules-opengl, qemu-system-misc, qemu-system-arm, qemu-system-mips, qemu-system-ppc, qemu-system-riscv, qemu-system-s390x, qemu-system-sparc, qemu-system-x86, qemu-system-xen, qemu-user, qemu-user-binfmt, qemu-utils, qemu-guest-agent
+Version: 1:10.2.2+ds-1
+Maintainer: Debian QEMU Team <pkg-qemu-devel@lists.alioth.debian.org>
+Build-Conflicts: oss4-dev
+Architecture: linux-any all
+Standards-Version: 4.7.2
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/qemu-team/qemu
+Vcs-Git: https://salsa.debian.org/qemu-team/qemu.git
+Homepage: http://www.qemu.org/
+Build-Depends-Arch: pkgconf, libglib2.0-dev, zlib1g-dev, pkgconf:native, libglib2.0-dev:native, libcapstone-dev, libaio-dev [linux-any], libjack-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libpulse-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libasound2-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libpipewire-0.3-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libbpf-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libblkio-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libbrlapi-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libcap-ng-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libcurl4-gnutls-dev, libfdt-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libfuse3-dev [linux-any], gnutls-dev, libgtk-3-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libvte-2.91-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libiscsi-dev, libncurses-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libvirglrenderer-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libepoxy-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libdrm-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libgbm-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libnfs-dev, libnuma-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libcacard-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libpixman-1-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], librbd-dev [amd64 arm64 loong64 mips64el ppc64el riscv64 s390x], libglusterfs-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libsasl2-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libsdl2-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libseccomp-dev [amd64 arm64 armel armhf i386 loong64 mips64el mipsel ppc64 ppc64el powerpc riscv64 s390x], libslirp-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libspice-server-dev [amd64 i386 arm64 armel armhf loong64 mips64el mipsel ppc64el riscv64], librdmacm-dev [linux-any], libibverbs-dev [linux-any], libibumad-dev [linux-any], liburing-dev [linux-any], libusb-1.0-0-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libusbredirparser-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libssh-dev, libzstd-dev, libvdeplug-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libxen-dev [linux-amd64], nettle-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libudev-dev [linux-any], libjpeg-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libpng-dev [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64], libpmem-dev [amd64 arm64], seabios (>> 1.17.0-1~) [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64] <!nocheck>, qemu-system-data (>> 1:9.0) [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64] <!nocheck !pkg.qemu.omit-system>, qemu-system-data (>> 1:10.2.0+ds-1~) [amd64 arm arm64 armel armhf i386 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc sparc64] <!pkg.qemu.use-upstream-vdso !pkg.qemu.omit-vdso-build-dep !pkg.qemu.omit-user>
+Testsuite: autopkgtest
+Directory: pool/main/q/qemu
+Priority: optional
+Section: otherosfs
+
+Package: qemu
+Binary: qemu-system, qemu-block-extra, qemu-system-data, qemu-system-common, qemu-system-gui, qemu-system-modules-spice, qemu-system-modules-opengl, qemu-system-misc, qemu-system-arm, qemu-system-mips, qemu-system-ppc, qemu-system-riscv, qemu-system-s390x, qemu-system-sparc, qemu-system-x86, qemu-system-xen, qemu-user, qemu-user-binfmt, qemu-utils, qemu-guest-agent
+Version: 1:11.1.1+ds-1
+Maintainer: Debian QEMU Team <pkg-qemu-devel@lists.alioth.debian.org>
+Architecture: linux-any all
+Standards-Version: 4.7.4
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/qemu-team/qemu
+Vcs-Git: https://salsa.debian.org/qemu-team/qemu.git
+Homepage: http://www.qemu.org/
+Build-Depends-Arch: pkgconf, libglib2.0-dev, zlib1g-dev, pkgconf:native, libglib2.0-dev:native, libcapstone-dev, libaio-dev [linux-any], libjack-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libpulse-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libasound2-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libpipewire-0.3-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libbpf-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libblkio-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libbrlapi-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libcap-ng-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libcurl4-gnutls-dev, libfdt-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libfuse3-dev [linux-any], gnutls-dev, libgtk-3-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libvte-2.91-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libiscsi-dev, libncurses-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libvirglrenderer-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libepoxy-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libdrm-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libgbm-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libnfs-dev, libnuma-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libcacard-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libpixman-1-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], librbd-dev [amd64 arm64 loong64 mips64el ppc64el riscv64 s390x], libsasl2-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libsdl2-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libseccomp-dev [amd64 arm64 loong64 mips64el ppc64 ppc64el riscv64 s390x], libslirp-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libspice-server-dev [amd64 arm64 loong64 mips64el ppc64el riscv64], librdmacm-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libibverbs-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libibumad-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], liburing-dev [linux-any], libusb-1.0-0-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libusbredirparser-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libssh-dev, libzstd-dev, libvdeplug-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libxen-dev [linux-amd64], nettle-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libudev-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libjpeg-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libpng-dev [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64], libpmem-dev [amd64 arm64], seabios (>> 1.17.0-1~) [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64] <!nocheck>, qemu-system-data (>> 1:9.0) [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64] <!nocheck !pkg.qemu.omit-system>, qemu-system-data (>> 1:11.1.0~) [amd64 arm64 loong64 mips64 mips64el ppc64 ppc64el riscv64 s390x sparc64] <!pkg.qemu.use-upstream-vdso !pkg.qemu.omit-vdso-build-dep !pkg.qemu.omit-user>
+Testsuite: autopkgtest
+Directory: pool/main/q/qemu
+Priority: optional
+Section: otherosfs
+
+Package: shim
+Binary: shim-unsigned, shim-helpers-amd64-signed-template, shim-helpers-arm64-signed-template
+Version: 16.1-2
+Maintainer: Debian EFI team <debian-efi@lists.debian.org>
+Architecture: amd64 arm64
+Standards-Version: 4.6.2
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/efi-team/shim
+Vcs-Git: https://salsa.debian.org/efi-team/shim.git
+Testsuite: autopkgtest
+Testsuite-Triggers: autopkgtest, ca-certificates, distro-info, genisoimage, grub-efi-amd64-signed, grub-efi-arm64-signed, lsb-release, openssl, ovmf, python3, qemu-efi-aarch64, qemu-system-arm, qemu-system-x86, qemu-utils, sbsigntool, shim-signed, wget
+Directory: pool/main/s/shim
+Priority: optional
+Section: misc
+
+Package: wireless-regdb
+Binary: wireless-regdb, wireless-regdb-udeb
+Version: 2026.05.30-1~deb13u1
+Maintainer: Debian kernel team <debian-kernel@lists.debian.org>
+Architecture: all
+Standards-Version: 4.5.0
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/kernel-team/wireless-regdb
+Vcs-Git: https://salsa.debian.org/kernel-team/wireless-regdb.git
+Homepage: https://wireless.wiki.kernel.org/en/developers/regulatory/wireless-regdb
+Testsuite: autopkgtest
+Testsuite-Triggers: linux-source, openssl, python3
+Extra-Source-Only: yes
+Directory: pool/main/w/wireless-regdb
+Priority: optional
+Section: net
+
+Package: wireless-regdb
+Binary: wireless-regdb, wireless-regdb-udeb
+Version: 2026.05.30-1
+Maintainer: Debian kernel team <debian-kernel@lists.debian.org>
+Architecture: all
+Standards-Version: 4.5.0
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/kernel-team/wireless-regdb
+Vcs-Git: https://salsa.debian.org/kernel-team/wireless-regdb.git
+Homepage: https://wireless.wiki.kernel.org/en/developers/regulatory/wireless-regdb
+Testsuite: autopkgtest
+Testsuite-Triggers: linux-source, openssl, python3
+Extra-Source-Only: yes
+Directory: pool/main/w/wireless-regdb
+Priority: optional
+Section: net
+
+Package: wireless-regdb
+Binary: wireless-regdb, wireless-regdb-udeb
+Version: 2026.09.03-1
+Maintainer: Debian kernel team <debian-kernel@lists.debian.org>
+Architecture: all
+Standards-Version: 4.5.0
+Format: 3.0 (quilt)
+Vcs-Browser: https://salsa.debian.org/kernel-team/wireless-regdb
+Vcs-Git: https://salsa.debian.org/kernel-team/wireless-regdb.git
+Homepage: https://wireless.wiki.kernel.org/en/developers/regulatory/wireless-regdb
+Testsuite: autopkgtest
+Testsuite-Triggers: linux-source, openssl, python3
+Directory: pool/main/w/wireless-regdb
+Priority: optional
+Section: net
+
+Package: zlib
+Binary: zlib1g, zlib1g-dev, zlib1g-udeb, lib64z1, lib64z1-dev, lib32z1, lib32z1-dev, libn32z1, libn32z1-dev, minizip, libminizip1t64, libminizip-dev
+Version: 1:1.3.dfsg+really1.3.1-1
+Maintainer: Mark Brown <broonie@debian.org>
+Architecture: any
+Standards-Version: 4.6.1
+Format: 3.0 (quilt)
+Homepage: http://zlib.net/
+Extra-Source-Only: yes
+Directory: pool/main/z/zlib
+Priority: optional
+Section: libs
+
+Package: zlib
+Binary: zlib1g, zlib1g-dev, zlib1g-udeb, lib64z1, lib64z1-dev, lib32z1, lib32z1-dev, libn32z1, libn32z1-dev, minizip, libminizip1t64, libminizip-dev
+Version: 1:1.3.dfsg+really1.3.1-3
+Maintainer: Mark Brown <broonie@debian.org>
+Architecture: any
+Standards-Version: 4.6.1
+Format: 3.0 (quilt)
+Homepage: http://zlib.net/
+Testsuite: autopkgtest
+Testsuite-Triggers: gcc
+Extra-Source-Only: yes
+Directory: pool/main/z/zlib
+Priority: optional
+Section: libs
+
+Package: zlib
+Binary: zlib1g, zlib1g-dev, zlib1g-udeb, lib64z1, lib64z1-dev, lib32z1, lib32z1-dev, libn32z1, libn32z1-dev, minizip, libminizip1t64, libminizip-dev
+Version: 1:1.3.dfsg+really1.3.2-3
+Maintainer: Mark Brown <broonie@debian.org>
+Architecture: any
+Standards-Version: 4.6.1
+Format: 3.0 (quilt)
+Homepage: http://zlib.net/
+Testsuite: autopkgtest
+Testsuite-Triggers: gcc
+Directory: pool/main/z/zlib
+Priority: optional
+Section: libs
