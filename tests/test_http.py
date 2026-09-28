@@ -179,6 +179,11 @@ class TestFileCache:
         assert entry.body == b"body"
         assert entry.etag == '"e"'
 
+    def test_accepts_a_string_directory(self, tmp_path):
+        cache = FileCache(str(tmp_path))
+        cache.store("http://example/a", CacheEntry(b"body"))
+        assert cache.load("http://example/a").body == b"body"
+
     def test_miss_returns_none(self, tmp_path):
         assert FileCache(tmp_path).load("http://example/nope") is None
 
