@@ -91,6 +91,23 @@ class FileCache:
             log.warning("could not cache %s: %s", url, exc)
 
 
+class ReadOnlyCache:
+    """Serves what is already stored but records nothing.
+
+    Lets a dry run reuse validators, and so stay cheap, without leaving
+    anything behind.
+    """
+
+    def __init__(self, inner: Cache) -> None:
+        self.inner = inner
+
+    def load(self, url: str) -> CacheEntry | None:
+        return self.inner.load(url)
+
+    def store(self, url: str, entry: CacheEntry) -> None:
+        return None
+
+
 class HttpFetcher:
     """Implements the Fetcher protocol in ingest.base.
 

@@ -9,6 +9,7 @@ from cairn.ingest.http import (
     FetchError,
     FileCache,
     HttpFetcher,
+    ReadOnlyCache,
     Retries,
     Timeouts,
 )
@@ -199,3 +200,31 @@ class TestFileCache:
         cache.store("http://example/b", CacheEntry(b"b"))
         assert cache.load("http://example/a").body == b"a"
         assert cache.load("http://example/b").body == b"b"
+
+
+class TestReadOnlyCache:
+    def test_serves_what_is_already_stored(self, tmp_path):
+        inner = FileCache(tmp_path)
+        inner.store("http://example/a", CacheEntry(b"body", etag='"e"'))
+        entry = ReadOnlyCache(inner).load("http://example/a")
+        assert entry.body == b"body"
+        assert entry.etag == '"e"'
+
+    def test_store_is_a_no_op(self, tmp_path):
+        cache = ReadOnlyCache(FileCache(tmp_path))
+        cache.store("http://example/a", CacheEntry(b"body"))
+        assert cache.load("http://example/a") is None
+        assert list(tmp_path.iterdir()) == []
+
+    def test_a_fetch_through_it_writes_nothing(self, tmp_path):
+        session = FakeSession(FakeResponse(200, b"fresh"))
+        fetcher = HttpFetcher(cache=ReadOnlyCache(FileCache(tmp_path)), session=session)
+        assert fetcher.get("http://example/a") == b"fresh"
+        assert list(tmp_path.iterdir()) == []
+
+    def test_a_304_still_resolves_from_the_inner_cache(self, tmp_path):
+        inner = FileCache(tmp_path)
+        inner.store("http://example/a", CacheEntry(b"cached", etag='"e"'))
+        session = FakeSession(FakeResponse(304))
+        fetcher = HttpFetcher(cache=ReadOnlyCache(inner), session=session)
+        assert fetcher.get("http://example/a") == b"cached"
