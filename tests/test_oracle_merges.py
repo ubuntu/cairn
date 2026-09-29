@@ -11,12 +11,11 @@ import pytest
 
 from cairn.ingest.base import Kind, Signal
 from cairn.ingest.merges import UBUNTU_COMPONENTS
+from cairn.ingest.series import SERIES_URL, development_series
 from cairn.oracles.merges import (
-    SERIES_URL,
     Divergence,
     check,
     compare,
-    development_series,
     published_candidates,
 )
 

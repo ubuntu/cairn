@@ -14,12 +14,9 @@ from typing import Any
 
 from cairn.ingest.base import Fetcher, Signal
 from cairn.ingest.merges import UBUNTU_COMPONENTS, MergesIngester
+from cairn.ingest.series import development_series
 
 ORACLE_URL = "https://merges.ubuntu.com/{component}.json"
-SERIES_URL = "https://api.launchpad.net/devel/ubuntu/series"
-
-# Statuses a series passes through while still open for development.
-DEVELOPMENT_STATUSES = frozenset({"Active Development", "Pre-release Freeze"})
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,17 +73,6 @@ class Divergence:
             "missing": sorted(self.missing),
             "unexplained": sorted(self.unexplained),
         }
-
-
-def development_series(fetcher: Fetcher) -> str:
-    url: str | None = SERIES_URL
-    while url:
-        page = json.loads(fetcher.get(url))
-        for entry in page["entries"]:
-            if entry.get("status") in DEVELOPMENT_STATUSES:
-                return entry["name"]
-        url = page.get("next_collection_link")
-    raise LookupError("no Ubuntu series is open for development")
 
 
 def published_candidates(fetcher: Fetcher, components: Iterable[str]) -> set[str]:

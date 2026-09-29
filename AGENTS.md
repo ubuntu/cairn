@@ -397,6 +397,21 @@ broad `except` with `# noqa: BLE001` and a reason.
 **Never hand-edit `data/signals.jsonl`.** It is append-only. Corrections are new
 events, not rewrites. Never edit `site/` — it is generated.
 
+**The log may be reset once, before v1 publishes.** The `needs_merge` ingester
+still diverges from its oracle on a handful of packages, so the first weeks of
+history record some things that were never true. Until the site is published,
+deleting `data/*.jsonl` and starting again is allowed; after that it is not.
+Record the date the log restarted here when it happens, so the append-only
+guarantee begins from a stated point rather than being quietly broken later.
+
+**Running the pipeline.** `cairn ingest` is the only writer. It resolves the
+development series from Launchpad unless `--series` says otherwise, appends
+changes to `data/signals.jsonl` and the run outcome to `data/health.jsonl`, and
+exits non-zero only when every source failed. `--dry-run` reports without
+writing. The schedule lives in `.github/workflows/ingest.yaml` and belongs to
+the repository: history cannot be backfilled, so a run that does not happen is
+a permanent gap.
+
 **Frontend.** Canonical [Vanilla](https://vanillaframework.io/) for CSS,
 server-rendered Jinja templates. Avoid JavaScript; there is no build step and no
 framework. Colour must never be the sole carrier of meaning — pair it with text

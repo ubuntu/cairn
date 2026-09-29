@@ -1,0 +1,111 @@
+name: Ingest
+
+# cairn's history is the product and cannot be backfilled: every upstream
+# source is a stateless snapshot, so a run that does not happen is a gap
+# forever. The schedule therefore belongs to the repository, not to a laptop.
+on:
+  schedule:
+    # Deliberately not on the hour. GitHub documents that scheduled workflows
+    # are most likely to be delayed or dropped at the top of the hour.
+    - cron: "37 5 * * *"
+  workflow_dispatch:
+    inputs:
+      series:
+        description: "Series to ingest (default: the development series)"
+        type: string
+      allow_mass_resolve:
+        description: "Accept a run that resolves most of a source's signals"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+# Appends must not interleave: replay folds the log in file order.
+concurrency:
+  group: ingest
+  cancel-in-progress: false
+
+env:
+  POETRY_VERSION: "2.5.1"
+  # There is one log and it lives here. A dispatch can select any ref, and the
+  # data must not follow it. Literal, not github.event.repository.*: the
+  # schedule event carries no webhook payload.
+  LOG_BRANCH: main
+
+jobs:
+  ingest:
+    name: Ingest
+    runs-on: ubuntu-latest
+    # Launchpad has been observed stalling for ~270 s. The fetcher times out
+    # and retries rather than waiting, but leave headroom for the indexes.
+    timeout-minutes: 20
+
+    steps:
+      # No persist-credentials: false here, unlike tests.yaml — this job pushes.
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.LOG_BRANCH }}
+          # Full history: the rebase below needs a merge base.
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install Poetry
+        run: pipx install "poetry==${{ env.POETRY_VERSION }}"
+
+      - name: Install dependencies
+        run: poetry install
+
+      # Measured: ~31 MiB of indexes per run. Both archives send ETag and
+      # Last-Modified, but the development series republishes hourly, so on a
+      # daily schedule expect mostly 200s. Kept because it is free and helps
+      # re-runs within one publishing window. A miss just means a full fetch.
+      - name: Restore HTTP cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/http
+          key: cairn-http-${{ github.run_id }}
+          restore-keys: cairn-http-
+
+      # Inputs go through env, never into the script text: a dispatch value is
+      # attacker-controlled shell otherwise, and this job can write.
+      - name: Ingest
+        env:
+          SERIES: ${{ inputs.series }}
+          ALLOW_MASS_RESOLVE: ${{ inputs.allow_mass_resolve }}
+        run: |
+          args=()
+          if [ -n "$SERIES" ]; then
+            args+=(--series "$SERIES")
+          fi
+          if [ "$ALLOW_MASS_RESOLVE" = "true" ]; then
+            args+=(--allow-mass-resolve)
+          fi
+          poetry run cairn ingest "${args[@]}"
+
+      # !cancelled(), not always(): if every source failed the step above exits
+      # 1 and the health record must still land. But a timeout cancels the job
+      # mid-write, and committing a half-written line would break every later
+      # run, since the log is append-only and must not be hand-edited.
+      - name: Commit
+        if: ${{ !cancelled() }}
+        run: |
+          # --porcelain, not git diff: on the first run the log is untracked.
+          if [ -z "$(git status --porcelain -- data/)" ]; then
+            echo "No change under data/; nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          # {id}+{login}@users.noreply.github.com is GitHub's noreply format.
+          # The pair must match or the commit shows up unattributed.
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "data: ingest $(date -u +%F)"
+          # A manual dispatch can land while the schedule is running.
+          git pull --rebase --autostash origin "$LOG_BRANCH"
+          git push origin "HEAD:$LOG_BRANCH"
