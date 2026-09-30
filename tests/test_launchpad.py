@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import ClassVar
@@ -363,3 +364,29 @@ class TestDebianUploads:
         """connect_timeout only covers the handshake; a stalled query would
         otherwise run until the workflow itself is killed."""
         assert debian_uploads.STATEMENT_TIMEOUT_MS > 0
+
+
+class TestProgressWithoutATerminal:
+    """CI has no terminal, so progress must reach the log or the run looks
+    hung for the whole Launchpad crawl."""
+
+    def test_publications_log_every_tenth_page(self, caplog):
+        caplog.set_level(logging.INFO, logger="cairn.ingest.publications")
+        publications._progress(9, 4)
+        publications._progress(10, 5)
+        messages = [r.getMessage() for r in caplog.records]
+        assert messages == ["publications: 10 pages, 5 matched"]
+
+    def test_a_crawl_logs_as_it_goes(self, caplog):
+        caplog.set_level(logging.INFO, logger="cairn.ingest.publications")
+        publications.fetch(Fetcher(default=PUBLICATIONS), SERIES, max_pages=10)
+        messages = [r.getMessage() for r in caplog.records]
+        assert "publications: crawling stonking" in messages
+        assert "publications: 10 pages, 4 matched" in messages
+
+    def test_teams_log_each_team(self, caplog):
+        caplog.set_level(logging.INFO, logger="cairn.ingest.teams")
+        teams.fetch(Fetcher(default=TEAM_PACKAGES), ["ubuntu-security"])
+        assert "teams: ubuntu-security, 4 candidates" in [
+            r.getMessage() for r in caplog.records
+        ]
