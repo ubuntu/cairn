@@ -1,0 +1,20 @@
+services:
+  # One-shot commands: docker compose run --rm cairn <subcommand>
+  # cairn/ is mounted so edits take effect without rebuilding.
+  cairn:
+    build: .
+    volumes:
+      - ./cairn:/app/cairn:ro
+      - ./data:/app/data
+      - ./site:/app/site
+      - ./.cache:/app/.cache
+
+  # Serves whatever `cairn build` last wrote, on http://localhost:8080
+  site:
+    image: python:3.14-slim
+    working_dir: /site
+    volumes:
+      - ./site:/site:ro
+    ports:
+      - "8080:8080"
+    command: ["python", "-m", "http.server", "8080"]
