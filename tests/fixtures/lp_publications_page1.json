@@ -1,0 +1,42 @@
+{
+  "start": 0,
+  "entries": [
+    {
+      "source_package_name": "0ad",
+      "source_package_version": "0.28.0-3build1",
+      "date_created": "2026-09-22T13:28:14.106654+00:00",
+      "date_published": "2026-09-22T13:51:57.891741+00:00",
+      "package_creator_link": "https://api.launchpad.net/devel/~doko",
+      "package_signer_link": "https://api.launchpad.net/devel/~doko",
+      "component_name": "universe"
+    },
+    {
+      "source_package_name": "0ad-data",
+      "source_package_version": "0.28.0-1",
+      "date_created": "2026-04-24T08:45:29.056843+00:00",
+      "date_published": "2026-04-24T08:45:29.056843+00:00",
+      "package_creator_link": "https://api.launchpad.net/devel/~pkg-games-devel",
+      "package_signer_link": null,
+      "component_name": "universe"
+    },
+    {
+      "source_package_name": "0install-solver",
+      "source_package_version": "2.18-1build6",
+      "date_created": "2026-09-22T18:32:26.806330+00:00",
+      "date_published": "2026-09-22T20:25:58.133256+00:00",
+      "package_creator_link": "https://api.launchpad.net/devel/~costamagnagianfranco",
+      "package_signer_link": "https://api.launchpad.net/devel/~costamagnagianfranco",
+      "component_name": "universe"
+    },
+    {
+      "source_package_name": "0xffff",
+      "source_package_version": "0.9-1build1",
+      "date_created": "2026-04-24T08:45:29.056843+00:00",
+      "date_published": "2026-04-24T08:45:29.056843+00:00",
+      "package_creator_link": "https://api.launchpad.net/devel/~ginggs",
+      "package_signer_link": "https://api.launchpad.net/devel/~ginggs",
+      "component_name": "universe"
+    }
+  ],
+  "next_collection_link": "https://api.launchpad.net/devel/ubuntu/+archive/primary?distro_series=https%3A%2F%2Fapi.launchpad.net%2Fdevel%2Fubuntu%2Fstonking&status=Published&ws.op=getPublishedSources&ws.size=75&memo=75&ws.start=75"
+}

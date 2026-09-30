@@ -11,6 +11,7 @@ from cairn.cli import _fetcher, build_parser, main
 from cairn.core import health
 from cairn.core import log as logmod
 from cairn.ingest.http import FileCache, ReadOnlyCache
+from cairn.ingest.series import SERIES_URL
 
 FIXTURES = Path(__file__).parent / "fixtures"
 UBUNTU_SOURCES = (FIXTURES / "ubuntu_sources").read_bytes()
@@ -39,10 +40,16 @@ class StubFetcher:
         self.urls.append(url)
         if self.fail and "archive.ubuntu.com" in url:
             raise self.fail
-        if "api.launchpad.net" in url:
+        if url == SERIES_URL:
             return json.dumps(
                 {"entries": [{"name": "stonking", "status": "Active Development"}]}
             ).encode()
+        # Launchpad enrichment: served empty so the tests exercise the real
+        # code path rather than the degrade-on-exception fallback.
+        if "getPublishedSources" in url or "getBySeries" in url:
+            return json.dumps({"entries": []}).encode()
+        if "getSourcesIncluded" in url:
+            return json.dumps([]).encode()
         if "archive.ubuntu.com" in url:
             return gzip.compress(self.ubuntu)
         if "deb.debian.org" in url:
@@ -106,10 +113,11 @@ class TestFirstRun:
         series = {e.series for e in logmod.read(logs[0])}
         assert series == {"stonking"}
 
-    def test_explicit_series_skips_launchpad(self, logs):
+    def test_explicit_series_skips_series_detection(self, logs):
+        """Enrichment still calls Launchpad; only the lookup should be skipped."""
         fetcher = StubFetcher()
         ingest(logs, "--source", "merges", "--series", "noble", fetcher=fetcher)
-        assert not [u for u in fetcher.urls if "api.launchpad.net" in u]
+        assert SERIES_URL not in fetcher.urls
 
 
 class TestSecondRun:

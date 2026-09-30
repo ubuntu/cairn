@@ -12,6 +12,7 @@ pre-filter does; cairn/oracles/merges.py measures the remaining divergence.
 
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import dataclass
 
@@ -28,6 +29,8 @@ from cairn.ingest.archive import (
 )
 from cairn.ingest.base import Fetcher, Ingester, Kind, Signal
 
+log = logging.getLogger(__name__)
+
 UBUNTU_COMPONENTS = ("main", "universe")
 DEBIAN_COMPONENTS = ("main",)
 
@@ -36,6 +39,56 @@ DEBIAN_COMPONENTS = ("main",)
 class ArchiveSnapshot:
     ubuntu: dict[str, SourcePackage]
     debian: dict[str, SourcePackage]
+
+
+# Markers that decorate a version without changing the upstream code.
+# Only these are stripped: '+' is legitimate in an upstream version, so
+# dropping everything after it would hide real movement such as
+# 2.0.0+20250617 -> 2.0.0+20260327.
+_REPACK_MARKER = re.compile(r"[+~](?:dfsg|ds|repack)\d*")
+
+# Ubuntu snapshot suffix, as in 0.5.6+22.04.20220217.
+_UBUNTU_SNAPSHOT = re.compile(r"\+\d{2}\.\d{2}\.\d{8}")
+
+# Debian's downgrade convention: 3.24+really3.22 ships upstream 3.22 under a
+# string that still sorts above 3.24. Taking it literally inverts the answer.
+_REALLY = re.compile(r".*\+really")
+
+
+def upstream_release(version: str) -> str:
+    """The upstream release, with packaging decoration removed.
+
+    Strips only markers whose meaning is known: Debian's +dfsg,
+    0.5.6+22.04.20220217 and 0.5.6+repack are both release 0.5.6, which is
+    the honest answer -- neither carries upstream changes the other lacks.
+
+    Anything else after '+' is preserved, so git and date snapshots still
+    read as different releases. A +really prefix is dropped rather than
+    preserved: it exists to make a downgrade sort upwards, so keeping it
+    would report the older upstream as the newer one. '~' is kept
+    too: 1.0~rc1 and 1.0 must not compare equal.
+
+    The comparison itself is still python-debian's; only the choice of what
+    to compare is made here.
+    """
+    without_epoch = version.split(":", 1)[-1]
+    upstream = (
+        without_epoch.rsplit("-", 1)[0] if "-" in without_epoch else without_epoch
+    )
+    upstream = _REALLY.sub("", upstream)
+    upstream = _UBUNTU_SNAPSHOT.sub("", upstream)
+    return _REPACK_MARKER.sub("", upstream)
+
+
+def has_new_upstream(ubuntu: str, debian: str) -> bool:
+    """Debian carries a newer upstream release than Ubuntu.
+
+    Strictly newer, not merely different. A handful of candidates qualify
+    through an epoch bump or a +really downgrade while Debian's upstream is
+    actually older; calling those "new upstream" would contradict the label
+    the board puts on them.
+    """
+    return version_compare(upstream_release(debian), upstream_release(ubuntu)) > 0
 
 
 _REVISION_TAIL = re.compile(r"[\d.]*(?:[~+][A-Za-z0-9.+~]+)?")
@@ -86,6 +139,27 @@ def is_independent_lineage(version: str) -> bool:
     return "-" in base and base.rsplit("-", 1)[1] == "0"
 
 
+def is_candidate(ubuntu: SourcePackage, debian: SourcePackage | None) -> bool:
+    """Debian must be ahead of what Ubuntu actually ships.
+
+    This is the deliberate divergence from Merge-o-Matic, which compares
+    against the base version instead.
+    """
+    if debian is None or not has_ubuntu_delta(ubuntu.version):
+        return False
+    return version_compare(debian.version, ubuntu.version) > 0
+
+
+def candidate_names(
+    ubuntu: dict[str, SourcePackage], debian: dict[str, SourcePackage]
+) -> set[str]:
+    return {
+        name
+        for name, source in ubuntu.items()
+        if is_candidate(source, debian.get(name))
+    }
+
+
 class MergesIngester(Ingester[ArchiveSnapshot]):
     name = "merges"
 
@@ -128,23 +202,25 @@ class MergesIngester(Ingester[ArchiveSnapshot]):
         signals = []
         for name, ubuntu in raw.ubuntu.items():
             debian = raw.debian.get(name)
-            if debian is None or not has_ubuntu_delta(ubuntu.version):
+            if not is_candidate(ubuntu, debian):
                 continue
-            if version_compare(debian.version, ubuntu.version) <= 0:
-                continue
+            payload = {
+                "ubuntu_version": ubuntu.version,
+                "debian_version": debian.version,
+                "base_version": base_version(ubuntu.version),
+                "component": ubuntu.component,
+                "debian_suite": self.debian_suite,
+                "independent_lineage": is_independent_lineage(ubuntu.version),
+                # Distinguishes a packaging-only difference from real merge
+                # work: the two are very different jobs.
+                "new_upstream": has_new_upstream(ubuntu.version, debian.version),
+            }
             signals.append(
                 Signal(
                     kind=Kind.NEEDS_MERGE,
                     source_package=name,
                     series=self.series,
-                    payload={
-                        "ubuntu_version": ubuntu.version,
-                        "debian_version": debian.version,
-                        "base_version": base_version(ubuntu.version),
-                        "component": ubuntu.component,
-                        "debian_suite": self.debian_suite,
-                        "independent_lineage": is_independent_lineage(ubuntu.version),
-                    },
+                    payload=payload,
                     url=f"https://launchpad.net/ubuntu/+source/{name}",
                 )
             )
