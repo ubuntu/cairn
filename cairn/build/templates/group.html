@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ group.title }} — merge candidates — cairn{% endblock %}
+{% block title %}Cairn | Merges for {{ group.title }}{% endblock %}
 
 {% block content %}
 <section class="p-strip is-shallow">
@@ -25,8 +25,8 @@
     <div class="col-12">
       <table class="p-table--mobile-card">
         <caption class="u-hide">
-          Merge candidates for {{ group.title }}. Package and tracker links open
-          in a new tab.
+          Merge candidates for {{ group.title }}. Package, version and tracker
+          links open in a new tab.
         </caption>
         <thead>
           <tr>
@@ -74,8 +74,12 @@
                 ></a>
               </div>
             </td>
-            <td data-heading="Ubuntu" class="cairn-version--ubuntu"><code>{{ row.ubuntu_version }}</code></td>
-            <td data-heading="Debian" class="cairn-version--debian"><code>{{ row.debian_version }}</code></td>
+            <td data-heading="Ubuntu" class="cairn-version--ubuntu">
+              <a href="{{ row.ubuntu_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.ubuntu_version }}</code></a>
+            </td>
+            <td data-heading="Debian" class="cairn-version--debian">
+              <a href="{{ row.debian_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.debian_version }}</code></a>
+            </td>
             <td data-heading="Component" class="cairn-component">
               {% if row.component %}{{ row.component }}
               {% else %}<span class="u-text--muted">unknown</span>{% endif %}

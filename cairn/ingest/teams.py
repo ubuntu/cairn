@@ -49,9 +49,12 @@ def parse_page(raw: bytes) -> tuple[list[str], str | None]:
     return names, page.get("next_collection_link")
 
 
-def _tty_progress(team: str, found: int) -> None:
+def _progress(team: str, found: int) -> None:
+    """Terminal: one redrawn line. CI: a log line per team."""
     if sys.stderr.isatty():
         print(f"\r  teams: {team} ({found})", end="", file=sys.stderr, flush=True)
+    else:
+        log.info("teams: %s, %d candidates", team, found)
 
 
 class TruncatedTeam(RuntimeError):
@@ -79,7 +82,7 @@ def fetch(
     teams: Iterable[str] = TRACKED_TEAMS,
     *,
     keep: Container[str] | None = None,
-    on_team: Callable[[str, int], None] | None = _tty_progress,
+    on_team: Callable[[str, int], None] | None = _progress,
     strict: bool = False,
 ) -> dict[str, tuple[str, ...]]:
     """Maps source package name to the teams subscribed to its bugs.
@@ -106,7 +109,7 @@ def fetch(
         if on_team is not None:
             on_team(team, kept)
 
-    if on_team is _tty_progress and sys.stderr.isatty():
+    if on_team is _progress and sys.stderr.isatty():
         print(file=sys.stderr)
     log.info("teams: %d sources have a subscribed team", len(membership))
     return {source: tuple(sorted(t)) for source, t in membership.items()}

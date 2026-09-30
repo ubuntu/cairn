@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
 import pytest
@@ -299,11 +300,24 @@ class TestRender:
         assert "<script>alert(1)</script>" not in everything
         assert "&lt;script&gt;" in everything
 
-    def test_a_healthy_run_is_reported_as_a_statistic_not_a_banner(self):
+    def test_a_healthy_run_shows_no_banner_and_no_relative_time(self):
+        """The page is static, so "N min ago" is frozen at build time; the
+        footer carries the absolute build time instead."""
         meta = just()
         html = render(state_of(opened(signal("cron"))), healthy(), meta, now=NOW)
         assert "p-notification--positive" not in html
-        assert "last collected" in html
+        assert "last collected" not in html
+        assert "Built 2026-04-01 00:00 UTC" in html
+        assert "1 Apr 2026" in html
+        assert "data collected" in html
+
+    def test_tab_titles(self, tmp_path):
+        build(
+            state_of(opened(signal("cron"))), healthy(), just(), out=tmp_path, now=NOW
+        )
+        assert "<title>Cairn | Merges</title>" in (tmp_path / "index.html").read_text()
+        page = (tmp_path / "uploaders/doko.html").read_text()
+        assert "<title>Cairn | Merges for doko</title>" in page
 
     def test_a_stale_source_still_raises_a_banner(self):
         meta = just()
@@ -356,14 +370,24 @@ class TestBuild:
         assert "https://launchpad.net/ubuntu/+source/cron" in page
         assert "https://tracker.debian.org/pkg/cron" in page
 
-    def test_version_cells_are_plain_text(self, tmp_path):
-        """Linking a version makes it hard to read and easy to truncate."""
-        meta = just()
-        build(state_of(opened(signal("cron"))), healthy(), meta, out=tmp_path, now=NOW)
+    def test_versions_link_to_that_upload(self, tmp_path):
+        build(
+            state_of(opened(signal("cron"))), healthy(), just(), out=tmp_path, now=NOW
+        )
         page = (tmp_path / "uploaders/doko.html").read_text()
-        assert "<code>1.0-1ubuntu1</code>" in page
-        assert "<code>1.0-2</code>" in page
-        assert 'href="https://tracker.debian.org/pkg/cron"><code>' not in page
+        assert 'href="https://launchpad.net/ubuntu/+source/cron/1.0-1ubuntu1"' in page
+        assert (
+            '<a href="https://tracker.debian.org/pkg/cron" target="_blank"'
+            ' rel="noopener noreferrer"><code>1.0-2</code></a>'
+        ) in page
+
+    def test_version_links_quote_the_epoch_only(self):
+        rows = merge_rows(state_of(opened(signal("cron"))), just(), now=NOW)
+        row = replace(
+            rows[0],
+            ubuntu_version="1:0.9.14.2+25.10-0ubuntu3",
+        )
+        assert row.ubuntu_version_url.endswith("/cron/1%3A0.9.14.2+25.10-0ubuntu3")
 
     def test_the_tracker_link_sits_under_the_package_name(self, tmp_path):
         meta = just()

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Merge candidates — {{ series }} — cairn{% endblock %}
+{% block title %}Cairn | Merges{% endblock %}
 
 {% macro grouptable(groups, heading, what, note) %}
 {% if groups %}
@@ -117,10 +117,12 @@
       <p class="p-heading--2 u-no-margin--bottom">{{ overview.resolved_recently }}</p>
       <p class="u-text--muted">merged this week</p>
     </div>
+    {% if overview.collected %}
     <div class="col-2 col-medium-2 col-small-2">
-      <p class="p-heading--2 u-no-margin--bottom">{{ overview.collected | ago(now) }}</p>
-      <p class="u-text--muted">last collected</p>
+      <p class="p-heading--2 u-no-margin--bottom">{{ overview.collected.strftime('%-d %b %Y') }}</p>
+      <p class="u-text--muted">data collected</p>
     </div>
+    {% endif %}
   </div>
   <div class="row">
     <div class="col-12">

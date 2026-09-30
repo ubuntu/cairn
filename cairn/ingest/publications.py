@@ -86,7 +86,12 @@ def _newer(a: Publication, b: Publication) -> Publication:
     return a if a.uploaded >= b.uploaded else b
 
 
-def _tty_progress(pages: int, kept: int) -> None:
+# In CI there is no terminal to redraw, so progress becomes a log line every
+# LOG_EVERY pages: often enough to tell a slow crawl from a stuck one.
+LOG_EVERY = 10
+
+
+def _progress(pages: int, kept: int) -> None:
     """Launchpad takes minutes. Silence for that long reads as a hang."""
     if sys.stderr.isatty():
         print(
@@ -95,6 +100,8 @@ def _tty_progress(pages: int, kept: int) -> None:
             file=sys.stderr,
             flush=True,
         )
+    elif pages % LOG_EVERY == 0:
+        log.info("publications: %d pages, %d matched", pages, kept)
 
 
 def fetch(
@@ -103,7 +110,7 @@ def fetch(
     *,
     keep: Container[str] | None = None,
     max_pages: int | None = None,
-    on_page: Callable[[int, int], None] | None = _tty_progress,
+    on_page: Callable[[int, int], None] | None = _progress,
 ) -> dict[str, Publication]:
     """Pass `keep` to discard uninteresting sources as pages arrive.
 
@@ -114,6 +121,7 @@ def fetch(
     latest: dict[str, Publication] = {}
     url: str | None = published_sources_url(series)
     pages = 0
+    log.info("publications: crawling %s", series)
 
     while url and (max_pages is None or pages < max_pages):
         publications, url = parse_page(fetcher.get(url))
@@ -128,7 +136,7 @@ def fetch(
         if on_page is not None:
             on_page(pages, len(latest))
 
-    if on_page is _tty_progress and sys.stderr.isatty():
+    if on_page is _progress and sys.stderr.isatty():
         print(file=sys.stderr)
     log.info("publications: %d sources over %d page(s)", len(latest), pages)
     return latest

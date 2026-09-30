@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -81,6 +82,15 @@ class Row:
     @property
     def debian_url(self) -> str:
         return DEBIAN_TRACKER.format(source=self.package)
+
+    # Launchpad keeps a page per version. Only ':' is quoted, matching the
+    # links Launchpad generates itself.
+    @property
+    def ubuntu_version_url(self) -> str:
+        return (
+            f"https://launchpad.net/ubuntu/+source/{self.package}/"
+            f"{quote(self.ubuntu_version, safe='+~')}"
+        )
 
     def behind_days(self, now: datetime) -> int | None:
         """How long Debian has been ahead.
