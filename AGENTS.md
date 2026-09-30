@@ -127,6 +127,15 @@ in 7.8 KB. Follow that precedent.
 the log, so there is no binary churn in git. Gives real SQL for the joins that
 make the unified view possible.
 
+> **Not built yet, deliberately.** With one source and ~780 signals there are no
+> joins to justify it, and `replay()` already returns exactly what the templates
+> need. Building it now would mean a schema, loader and queries that get
+> rewritten when the second and third sources arrive with different payload
+> shapes. The seam is unchanged either way: `build/site.py` takes a mapping of
+> `SignalState`, so swapping the provider touches one module. Build it when a
+> page must join across sources — realistically `package → package sets → teams`
+> for the per-developer view — or when replay gets slow.
+
 **Static output.** Removes the entire operational surface — no server, no
 database to run, no secrets. Proven for this exact domain by `auto-mp-reviewer`
 (a sibling project: Python script → committed JSON → GitHub Pages, two
