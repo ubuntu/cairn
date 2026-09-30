@@ -37,9 +37,12 @@ jobs:
   ingest:
     name: Ingest
     runs-on: ubuntu-latest
-    # Launchpad has been observed stalling for ~270 s. The fetcher times out
-    # and retries rather than waiting, but leave headroom for the indexes.
-    timeout-minutes: 20
+    # Measured: archive indexes ~25 s, package sets ~12 s, teams ~3 min,
+    # Debian upload dates ~1 s, publications ~10 min. That is roughly 14
+    # minutes of work, and Launchpad has been observed stalling for ~270 s,
+    # so 45 leaves room for setup and a retry. A timeout skips the commit
+    # and leaves a permanent gap in history, which is not recoverable.
+    timeout-minutes: 45
 
     steps:
       # No persist-credentials: false here, unlike tests.yaml — this job pushes.
