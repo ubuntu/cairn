@@ -20,3 +20,6 @@ SIGNALS_LOG = DATA_DIR / "signals.jsonl"
 HEALTH_LOG = DATA_DIR / "health.jsonl"
 
 CACHE_DIR = Path(".cache/http")
+
+# Generated. Rebuildable from the log, so never committed.
+SITE_DIR = Path("site")

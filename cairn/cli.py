@@ -17,6 +17,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from cairn import paths
+from cairn.build import site
 from cairn.core import health
 from cairn.core import log as logmod
 from cairn.core.reconcile import DEFAULT_MAX_RESOLVE_FRACTION
@@ -138,6 +139,27 @@ def cmd_ingest(args: argparse.Namespace, fetcher: Fetcher | None = None) -> int:
     return EXIT_TOTAL_FAILURE if report.total_failure else EXIT_OK
 
 
+def cmd_build(args: argparse.Namespace, fetcher: Fetcher | None = None) -> int:
+    state = logmod.load(args.signals)
+    if not state:
+        print(
+            f"cairn: no signals in {args.signals}; run `cairn ingest` first",
+            file=sys.stderr,
+        )
+        return EXIT_USAGE
+
+    index = site.build(
+        state,
+        health.load(args.health),
+        out=args.out,
+        now=datetime.now(UTC),
+        series=args.series,
+    )
+    active = sum(1 for s in state.values() if s.is_active)
+    print(f"cairn: wrote {index} ({active} active signals)")
+    return EXIT_OK
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="cairn", description="A single view of Ubuntu archive health."
@@ -171,6 +193,13 @@ def build_parser() -> argparse.ArgumentParser:
         help="accept a run that resolves most of a source's signals",
     )
     ingest.set_defaults(handler=cmd_ingest)
+
+    build = sub.add_parser("build", help="render the log into a static site")
+    build.add_argument("--signals", type=Path, default=paths.SIGNALS_LOG)
+    build.add_argument("--health", type=Path, default=paths.HEALTH_LOG)
+    build.add_argument("--out", type=Path, default=paths.SITE_DIR)
+    build.add_argument("--series", help="default: taken from the log")
+    build.set_defaults(handler=cmd_build)
     return parser
 
 
