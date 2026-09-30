@@ -31,9 +31,10 @@ def without(package: str, data: bytes = UBUNTU_SOURCES) -> bytes:
 class StubFetcher:
     """Serves the archive indexes and the Launchpad series collection."""
 
-    def __init__(self, *, ubuntu=UBUNTU_SOURCES, fail=None):
+    def __init__(self, *, ubuntu=UBUNTU_SOURCES, fail=None, launchpad=True):
         self.ubuntu = ubuntu
         self.fail = fail
+        self.launchpad = launchpad
         self.urls: list[str] = []
 
     def get(self, url: str) -> bytes:
@@ -44,12 +45,20 @@ class StubFetcher:
             return json.dumps(
                 {"entries": [{"name": "stonking", "status": "Active Development"}]}
             ).encode()
-        # Launchpad enrichment: served empty so the tests exercise the real
-        # code path rather than the degrade-on-exception fallback.
+        # Ownership lookups, which a test can switch off to stand in for an
+        # unreachable Launchpad.
         if "getPublishedSources" in url or "getBySeries" in url:
+            if not self.launchpad:
+                raise OSError("launchpad 503")
             return json.dumps({"entries": []}).encode()
         if "getSourcesIncluded" in url:
+            if not self.launchpad:
+                raise OSError("launchpad 503")
             return json.dumps([]).encode()
+        if "getBugSubscriberPackages" in url:
+            if not self.launchpad:
+                raise OSError("launchpad 503")
+            return json.dumps({"entries": []}).encode()
         if "archive.ubuntu.com" in url:
             return gzip.compress(self.ubuntu)
         if "deb.debian.org" in url:
@@ -64,16 +73,47 @@ class NoSeries:
         return json.dumps({"entries": []}).encode()
 
 
+class FakeUDD:
+    """Stands in for the UDD mirror so tests never open a socket."""
+
+    def __init__(self, rows=()):
+        self.rows = list(rows)
+        self.queries: list[tuple] = []
+        self.closed = False
+
+    def cursor(self):
+        return self
+
+    def execute(self, sql, params=None):
+        self.queries.append((sql, params))
+
+    def fetchall(self):
+        return self.rows
+
+    def close(self):
+        self.closed = True
+
+
 @pytest.fixture
 def logs(tmp_path):
     return tmp_path / "signals.jsonl", tmp_path / "health.jsonl"
 
 
-def ingest(logs, *extra, fetcher=None):
+def ingest(logs, *extra, fetcher=None, connect=None):
     signals, healthlog = logs
     return main(
-        ["ingest", "--signals", str(signals), "--health", str(healthlog), *extra],
+        [
+            "ingest",
+            "--signals",
+            str(signals),
+            "--health",
+            str(healthlog),
+            "--packages",
+            str(signals.parent / "packages.json"),
+            *extra,
+        ],
         fetcher=fetcher or StubFetcher(),
+        connect=connect or FakeUDD,
     )
 
 
@@ -294,3 +334,58 @@ class TestFetcherConstruction:
     def test_cache_dir_is_honoured(self, tmp_path):
         fetcher = _fetcher(self.args(tmp_path=tmp_path))
         assert fetcher.cache.directory == tmp_path / "cache"
+
+
+class TestOwnershipSurvivesLaunchpad:
+    """An unreachable Launchpad must not rewrite the append-only log.
+
+    Ownership used to live in the signal payload, so an outage appended an
+    event per signal stripping it and another per signal restoring it, while
+    the run still reported success.
+    """
+
+    def metadata(self, logs):
+        return logs[0].parent / "packages.json"
+
+    def run(self, logs, *, lp_up):
+        signals, healthlog = logs
+        return main(
+            [
+                "ingest",
+                "--source",
+                "merges",
+                "--signals",
+                str(signals),
+                "--health",
+                str(healthlog),
+                "--packages",
+                str(self.metadata(logs)),
+            ],
+            fetcher=StubFetcher(launchpad=lp_up),
+            connect=FakeUDD,
+        )
+
+    def test_an_outage_appends_no_events(self, logs):
+        self.run(logs, lp_up=True)
+        before = logs[0].read_text()
+        self.run(logs, lp_up=False)
+        assert logs[0].read_text() == before
+
+    def test_an_outage_keeps_the_previous_ownership_file(self, logs):
+        self.run(logs, lp_up=True)
+        before = self.metadata(logs).read_text()
+        self.run(logs, lp_up=False)
+        assert self.metadata(logs).read_text() == before
+
+    def test_an_outage_is_reported_rather_than_hidden(self, logs, capsys):
+        self.run(logs, lp_up=True)
+        capsys.readouterr()
+        self.run(logs, lp_up=False)
+        assert "keeping the previous ownership data" in capsys.readouterr().err
+
+    def test_the_signal_log_carries_no_ownership(self, logs):
+        """Ownership is a property of a package, not an observation."""
+        self.run(logs, lp_up=True)
+        for event in logmod.read(logs[0]):
+            assert "ubuntu_uploader" not in event.payload
+            assert "teams" not in event.payload

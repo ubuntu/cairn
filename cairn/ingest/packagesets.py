@@ -41,8 +41,14 @@ def parse_sets(raw: bytes) -> tuple[list[tuple[str, str]], str | None]:
     return sets, page.get("next_collection_link")
 
 
-def fetch(fetcher: Fetcher, series: str) -> dict[str, tuple[str, ...]]:
-    """Maps source package name to the package sets that include it."""
+def fetch(
+    fetcher: Fetcher, series: str, *, strict: bool = False
+) -> dict[str, tuple[str, ...]]:
+    """Maps source package name to the package sets that include it.
+
+    With strict=True one unreadable set fails the call, because a set that
+    silently drops out looks like its packages have no owner.
+    """
     membership: dict[str, list[str]] = {}
     url: str | None = by_series_url(series)
     names: list[tuple[str, str]] = []
@@ -54,7 +60,9 @@ def fetch(fetcher: Fetcher, series: str) -> dict[str, tuple[str, ...]]:
     for name, sources_url in names:
         try:
             sources = json.loads(fetcher.get(sources_url))
-        except Exception as exc:  # noqa: BLE001 - one empty set must not lose the rest
+        except Exception as exc:
+            if strict:
+                raise
             log.warning("package set %s: %s", name, exc)
             continue
         for source in sources or ():

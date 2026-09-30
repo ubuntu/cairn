@@ -54,6 +54,10 @@ def _tty_progress(team: str, found: int) -> None:
         print(f"\r  teams: {team} ({found})", end="", file=sys.stderr, flush=True)
 
 
+class TruncatedTeam(RuntimeError):
+    """More pages remained than max_pages allowed."""
+
+
 def packages(fetcher: Fetcher, team: str, *, max_pages: int = 40) -> list[str]:
     names: list[str] = []
     url: str | None = subscriber_url(team)
@@ -62,6 +66,11 @@ def packages(fetcher: Fetcher, team: str, *, max_pages: int = 40) -> list[str]:
         page, url = parse_page(fetcher.get(url))
         names.extend(page)
         pages += 1
+    if url:
+        # Returning what we have would look like a team that simply owns
+        # fewer packages, which is exactly the silent reassignment strict
+        # mode exists to prevent.
+        raise TruncatedTeam(f"{team}: stopped after {pages} pages with more to fetch")
     return names
 
 
@@ -71,13 +80,21 @@ def fetch(
     *,
     keep: Container[str] | None = None,
     on_team: Callable[[str, int], None] | None = _tty_progress,
+    strict: bool = False,
 ) -> dict[str, tuple[str, ...]]:
-    """Maps source package name to the teams subscribed to its bugs."""
+    """Maps source package name to the teams subscribed to its bugs.
+
+    With strict=True a single failing team fails the whole call. A partial
+    answer is worse than none here: it does not look like an error, it looks
+    like those packages have no owner.
+    """
     membership: dict[str, list[str]] = {}
     for team in teams:
         try:
             names = packages(fetcher, team)
-        except Exception as exc:  # noqa: BLE001 - one team must not lose the rest
+        except Exception as exc:
+            if strict:
+                raise
             log.warning("team %s: %s", team, exc)
             continue
         kept = 0

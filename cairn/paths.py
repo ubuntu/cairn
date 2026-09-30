@@ -19,6 +19,10 @@ SIGNALS_LOG = DATA_DIR / "signals.jsonl"
 # "unchanged" from "not collected".
 HEALTH_LOG = DATA_DIR / "health.jsonl"
 
+# Ownership and publication metadata. Derived, so it is overwritten whole and
+# a failed refresh simply leaves the previous file in place.
+PACKAGES = DATA_DIR / "packages.json"
+
 CACHE_DIR = Path(".cache/http")
 
 # Generated. Rebuildable from the log, so never committed.
