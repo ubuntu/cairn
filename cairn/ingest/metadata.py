@@ -82,25 +82,26 @@ def collect(
     series: str,
     *,
     keep: Container[str] | None = None,
-    debian_versions: Mapping[str, str] | None = None,
+    candidates: Mapping[str, tuple[str, str]] | None = None,
+    debian_suite: str = "unstable",
     connect: Callable[[], object] | None = None,
     now: datetime | None = None,
 ) -> Snapshot:
     """Fetch every axis, or raise. Callers keep the previous snapshot on error."""
-    debian_versions = debian_versions or {}
+    candidates = candidates or {}
     try:
         published = publications.fetch(fetcher, series, keep=keep)
         sets = packagesets.fetch(fetcher, series, strict=True)
         subscribed = teams.fetch(fetcher, keep=keep, strict=True)
-        uploaded = debian_uploads.fetch(debian_versions.items(), connect=connect)
+        uploaded = debian_uploads.fetch(candidates, suite=debian_suite, connect=connect)
     except Exception as exc:
         raise IncompleteRefresh(f"{type(exc).__name__}: {exc}") from exc
 
-    names = set(published) | set(sets) | set(subscribed) | set(debian_versions)
+    names = set(published) | set(sets) | set(subscribed) | set(candidates)
     packages = {}
     for name in names:
         publication = published.get(name)
-        debian_date = uploaded.get((name, debian_versions.get(name, "")))
+        debian_date = uploaded.get(name)
         packages[name] = PackageMetadata(
             uploader=publication.uploader if publication else None,
             published=(

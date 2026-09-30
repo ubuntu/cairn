@@ -18,6 +18,7 @@ from pathlib import Path
 
 from cairn import paths
 from cairn.build import site
+from cairn.build.site import NotASiteDirectory
 from cairn.core import health
 from cairn.core import log as logmod
 from cairn.core.reconcile import DEFAULT_MAX_RESOLVE_FRACTION
@@ -174,17 +175,23 @@ def _refresh_metadata(
     """
     active = [st for st in logmod.load(args.signals).values() if st.is_active]
     wanted = {st.signal.source_package for st in active}
-    debian_versions = {
-        st.signal.source_package: st.signal.payload["debian_version"]
+    candidates = {
+        st.signal.source_package: (
+            st.signal.payload["ubuntu_version"],
+            st.signal.payload["debian_version"],
+        )
         for st in active
         if st.signal.payload.get("debian_version")
+        and st.signal.payload.get("ubuntu_version")
     }
+    suites = {st.signal.payload.get("debian_suite") for st in active} - {None}
     try:
         snapshot = metadata.collect(
             fetcher,
             series,
             keep=wanted,
-            debian_versions=debian_versions,
+            candidates=candidates,
+            debian_suite=suites.pop() if len(suites) == 1 else "unstable",
             connect=connect,
         )
     except IncompleteRefresh as exc:
@@ -208,14 +215,19 @@ def cmd_build(
         )
         return EXIT_USAGE
 
-    index = site.build(
-        state,
-        health.load(args.health),
-        metadata.load(args.packages),
-        out=args.out,
-        now=datetime.now(UTC),
-        series=args.series,
-    )
+    try:
+        index = site.build(
+            state,
+            health.load(args.health),
+            metadata.load(args.packages),
+            out=args.out,
+            now=datetime.now(UTC),
+            series=args.series,
+        )
+    except NotASiteDirectory as exc:
+        print(f"cairn: {exc}", file=sys.stderr)
+        print("cairn: pass --out to write somewhere else", file=sys.stderr)
+        return EXIT_USAGE
     active = sum(1 for s in state.values() if s.is_active)
     print(f"cairn: wrote {index} ({active} active signals)")
     return EXIT_OK

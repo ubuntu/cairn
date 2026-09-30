@@ -389,3 +389,30 @@ class TestOwnershipSurvivesLaunchpad:
         for event in logmod.read(logs[0]):
             assert "ubuntu_uploader" not in event.payload
             assert "teams" not in event.payload
+
+
+class TestBuildRefusesToClobber:
+    def test_a_foreign_directory_is_a_usage_error_not_a_traceback(
+        self, logs, tmp_path, capsys
+    ):
+        ingest(logs, "--source", "merges")
+        precious = tmp_path / "home"
+        (precious / "assets").mkdir(parents=True)
+        (precious / "assets" / "thesis.txt").write_text("years of work")
+
+        code = main(
+            [
+                "build",
+                "--signals",
+                str(logs[0]),
+                "--health",
+                str(logs[1]),
+                "--packages",
+                str(logs[0].parent / "packages.json"),
+                "--out",
+                str(precious),
+            ]
+        )
+        assert code == 2
+        assert "refusing to remove its contents" in capsys.readouterr().err
+        assert (precious / "assets" / "thesis.txt").exists()

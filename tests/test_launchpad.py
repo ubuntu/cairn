@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import ClassVar
 from urllib.parse import unquote
 
 import pytest
@@ -213,6 +214,28 @@ class TestTeams:
         found = teams.fetch(fetcher, ["a", "b"], on_team=None)
         assert found["apparmor"] == ("a", "b")
 
+    def test_stopping_early_is_an_error_not_a_short_team(self):
+        """strict mode promises to reject partial ownership, and a truncated
+        walk looks exactly like a team that owns fewer packages."""
+        endless = json.dumps(
+            {
+                "entries": [{"name": "a"}],
+                "next_collection_link": "https://api.launchpad.net/devel/~t?ws.start=75",
+            }
+        ).encode()
+        with pytest.raises(teams.TruncatedTeam):
+            teams.packages(Fetcher(default=endless), "t", max_pages=2)
+
+    def test_a_truncated_team_fails_the_whole_strict_fetch(self):
+        endless = json.dumps(
+            {
+                "entries": [{"name": "a"}],
+                "next_collection_link": "https://api.launchpad.net/devel/~t?ws.start=75",
+            }
+        ).encode()
+        with pytest.raises(teams.TruncatedTeam):
+            teams.fetch(Fetcher(default=endless), ["t"], strict=True, on_team=None)
+
     def test_does_not_raise_ws_size(self):
         """ws.size is rejected with 503 on this operation."""
         assert "ws.size" not in teams.subscriber_url("ubuntu-security")
@@ -253,32 +276,77 @@ class FakeConnection:
 
 
 class TestDebianUploads:
-    def test_maps_versions_to_upload_dates(self):
-        when = datetime(2026, 7, 19, 11, 33, 55, tzinfo=UTC)
-        conn = FakeConnection([("abseil", "20260526.0-2", when)])
-        found = debian_uploads.fetch([("abseil", "20260526.0-2")], connect=lambda: conn)
-        assert found == {("abseil", "20260526.0-2"): when}
+    """The metric is when Debian first got ahead, not the age of its current
+    version: dating the current version understates 285 of 780 candidates."""
 
-    def test_asks_for_every_pair_in_one_query(self):
+    UPLOADS: ClassVar = [
+        ("cron", "3.0-1", datetime(2020, 1, 1, tzinfo=UTC)),
+        ("cron", "3.0-2", datetime(2021, 6, 1, tzinfo=UTC)),
+        ("cron", "3.0-3", datetime(2026, 9, 1, tzinfo=UTC)),
+    ]
+
+    def test_dates_the_first_upload_that_overtook_ubuntu(self):
+        conn = FakeConnection(self.UPLOADS)
+        found = debian_uploads.fetch(
+            {"cron": ("3.0-1ubuntu1", "3.0-3")}, connect=lambda: conn
+        )
+        # 3.0-2 is the first newer than 3.0-1ubuntu1, not the current 3.0-3.
+        assert found == {"cron": datetime(2021, 6, 1, tzinfo=UTC)}
+
+    def test_a_later_debian_upload_does_not_reset_the_wait(self):
+        first = debian_uploads.fetch(
+            {"cron": ("3.0-1ubuntu1", "3.0-2")},
+            connect=lambda: FakeConnection(self.UPLOADS),
+        )
+        later = debian_uploads.fetch(
+            {"cron": ("3.0-1ubuntu1", "3.0-3")},
+            connect=lambda: FakeConnection(self.UPLOADS),
+        )
+        assert first == later
+
+    def test_ignores_versions_beyond_the_current_debian_one(self):
+        """An abandoned epoch outranks Ubuntu forever without being on the
+        path to what Debian ships now."""
+        uploads = [
+            ("openldap", "1:1.2.3-1", datetime(1999, 6, 9, tzinfo=UTC)),
+            ("openldap", "2.6.14+dfsg-2", datetime(2026, 8, 25, tzinfo=UTC)),
+        ]
+        found = debian_uploads.fetch(
+            {"openldap": ("2.6.13+dfsg-1ubuntu3", "2.6.14+dfsg-2")},
+            connect=lambda: FakeConnection(uploads),
+        )
+        assert found == {"openldap": datetime(2026, 8, 25, tzinfo=UTC)}
+
+    def test_a_source_with_no_qualifying_upload_is_absent(self):
+        conn = FakeConnection([("cron", "3.0-1", datetime(2020, 1, 1, tzinfo=UTC))])
+        found = debian_uploads.fetch(
+            {"cron": ("9.0-1ubuntu1", "9.0-2")}, connect=lambda: conn
+        )
+        assert found == {}
+
+    def test_asks_for_every_source_in_one_query(self):
         """774 round trips would take minutes; one takes about a second."""
         conn = FakeConnection()
         debian_uploads.fetch(
-            [("a", "1-1"), ("b", "2-1"), ("c", "3-1")], connect=lambda: conn
+            {"a": ("1-1", "1-2"), "b": ("2-1", "2-2")}, connect=lambda: conn
         )
         assert len(conn.queries) == 1
-        _, params = conn.queries[0]
-        assert params == ((("a", "1-1"), ("b", "2-1"), ("c", "3-1")),)
+        assert conn.queries[0][1][0] == ("a", "b")
 
-    def test_deduplicates_and_orders_the_lookup(self):
+    def test_restricts_the_lookup_to_the_candidate_suite(self):
         conn = FakeConnection()
-        debian_uploads.fetch(
-            [("b", "2-1"), ("a", "1-1"), ("b", "2-1")], connect=lambda: conn
-        )
-        assert conn.queries[0][1] == ((("a", "1-1"), ("b", "2-1")),)
+        debian_uploads.fetch({"a": ("1-1", "1-2")}, connect=lambda: conn)
+        sql, params = conn.queries[0]
+        assert "distribution ~" in sql
+        assert params[1] == r"(^| )(unstable|sid)( |$)"
 
-    def test_no_versions_means_no_connection(self):
+    def test_unstable_matches_its_historical_aliases(self):
+        assert debian_uploads.suite_pattern("unstable") == r"(^| )(unstable|sid)( |$)"
+        assert debian_uploads.suite_pattern("testing") == r"(^| )(testing)( |$)"
+
+    def test_no_candidates_means_no_connection(self):
         opened = []
-        assert debian_uploads.fetch([], connect=lambda: opened.append(1)) == {}
+        assert debian_uploads.fetch({}, connect=lambda: opened.append(1)) == {}
         assert opened == []
 
     def test_closes_the_connection_even_when_the_query_fails(self):
@@ -288,10 +356,10 @@ class TestDebianUploads:
 
         conn = Boom()
         with pytest.raises(RuntimeError):
-            debian_uploads.fetch([("a", "1-1")], connect=lambda: conn)
+            debian_uploads.fetch({"a": ("1-1", "1-2")}, connect=lambda: conn)
         assert conn.closed
 
-    def test_skips_entries_without_a_source(self):
-        conn = FakeConnection()
-        debian_uploads.fetch([("", "1-1"), ("a", "1-1")], connect=lambda: conn)
-        assert conn.queries[0][1] == ((("a", "1-1"),),)
+    def test_bounds_how_long_a_query_may_run(self):
+        """connect_timeout only covers the handshake; a stalled query would
+        otherwise run until the workflow itself is killed."""
+        assert debian_uploads.STATEMENT_TIMEOUT_MS > 0
