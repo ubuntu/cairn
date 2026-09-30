@@ -1,0 +1,72 @@
+name: Publish
+
+# Rendered output is never committed: site/ is gitignored and rebuildable from
+# the log. It is deployed as a Pages artifact instead.
+on:
+  # Not `push`, because commits made with GITHUB_TOKEN do not trigger
+  # workflows, so an ingest commit would never republish.
+  workflow_run:
+    workflows: [Ingest]
+    types: [completed]
+  push:
+    branches: [main]
+    paths:
+      - cairn/build/**
+      - .github/workflows/publish.yaml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: true
+
+env:
+  POETRY_VERSION: "2.5.1"
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    # An ingest that failed outright has nothing new to show.
+    if: >
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # The ingest commit lands on main; workflow_run checks out the SHA
+          # that triggered it, which predates that commit.
+          ref: main
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install Poetry
+        run: pipx install "poetry==${{ env.POETRY_VERSION }}"
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build
+        run: poetry run cairn build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@v4
