@@ -142,8 +142,11 @@ class TestFirstRun:
                 str(nested / "signals.jsonl"),
                 "--health",
                 str(nested / "health.jsonl"),
+                "--packages",
+                str(nested / "packages.json"),
             ],
             fetcher=StubFetcher(),
+            connect=FakeUDD,
         )
         assert (nested / "signals.jsonl").exists()
         assert (nested / "health.jsonl").exists()
