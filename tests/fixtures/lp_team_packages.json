@@ -1,0 +1,17 @@
+{
+  "entries": [
+    {
+      "name": "aide"
+    },
+    {
+      "name": "apparmor"
+    },
+    {
+      "name": "apparmor-easyprof-ubuntu"
+    },
+    {
+      "name": "audit"
+    }
+  ],
+  "next_collection_link": null
+}

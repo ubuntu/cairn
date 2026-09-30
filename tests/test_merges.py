@@ -19,8 +19,10 @@ from cairn.ingest.merges import (
     ArchiveSnapshot,
     MergesIngester,
     base_version,
+    has_new_upstream,
     has_ubuntu_delta,
     is_independent_lineage,
+    upstream_release,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -269,3 +271,55 @@ class TestRegistry:
     def test_available_is_a_copy(self):
         registry.available()["injected"] = None
         assert "injected" not in registry.available()
+
+
+class TestUpstreamRelease:
+    """Distinguishing real merge work from a packaging-only difference."""
+
+    @pytest.mark.parametrize(
+        ("version", "expected"),
+        [
+            ("0.5.6+22.04.20220217-0ubuntu6", "0.5.6"),
+            ("0.5.6+repack-2", "0.5.6"),
+            ("3.1.6+dfsg-1ubuntu2", "3.1.6"),
+            ("1:2.13.0-7ubuntu2", "2.13.0"),
+            ("1.0~rc1-1", "1.0~rc1"),
+            ("20260526.0-2", "20260526.0"),
+            ("3.4", "3.4"),
+        ],
+    )
+    def test_strips_packaging_decoration_but_keeps_prereleases(self, version, expected):
+        assert upstream_release(version) == expected
+
+    @pytest.mark.parametrize(
+        ("ubuntu", "debian", "expected"),
+        [
+            # An Ubuntu snapshot marker against a Debian repack marker is not
+            # upstream movement, even though the full versions differ.
+            ("0.5.6+22.04.20220217-0ubuntu6", "0.5.6+repack-2", False),
+            ("3.1.6+dfsg-1ubuntu2", "3.1.6+dfsg-3", False),
+            ("2.3.10-1ubuntu2", "2.3.10-2", False),
+            ("20260526.0-1ubuntu5", "20260526.0-2", False),
+            ("1.5.5-1ubuntu1", "1.5.7-1", True),
+            ("2.21.1~rc1-2ubuntu1", "2.22.0~beta1-1", True),
+            ("1.0~rc1-1ubuntu1", "1.0-1", True),
+            ("1:2.13.0-7ubuntu2", "1:2.15.0-2", True),
+        ],
+    )
+    def test_new_upstream_verdict(self, ubuntu, debian, expected):
+        assert has_new_upstream(ubuntu, debian) is expected
+
+
+class TestNewUpstreamIsStrictlyNewer:
+    """The board says "Debian carries a newer upstream release", so a merely
+    different one must not set the flag."""
+
+    def test_an_older_debian_upstream_is_not_new(self):
+        # A higher epoch makes this a candidate while upstream went backwards.
+        assert has_new_upstream("1:0.9.14.2-0ubuntu3", "2:0.8.18-9") is False
+
+    def test_a_really_downgrade_is_not_new(self):
+        assert has_new_upstream("3.24-1ubuntu1", "3.24+really3.22-1") is False
+
+    def test_a_newer_debian_upstream_still_is(self):
+        assert has_new_upstream("1.5.5-1ubuntu1", "1.5.7-1") is True

@@ -1,0 +1,15 @@
+# Build artifacts and caches: never needed in the image, and copying them
+# would invalidate layers on every run.
+.git
+.github
+.venv
+.cache
+site
+build
+dist
+*.egg-info
+__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+.mypy_cache

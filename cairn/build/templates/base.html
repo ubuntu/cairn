@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}cairn{% endblock %}</title>
+    <link rel="stylesheet" href="{{ vanilla_css }}" />
+    <style>
+      /* Vanilla caps the grid at 80rem, which is narrow for a seven-column
+         table of versions. 108rem is a width Vanilla already uses for its own
+         wide layouts, so this widens without inventing a new measurement. */
+      .row,
+      .p-navigation__row--25-75 {
+        max-width: 108rem;
+      }
+
+      /* A p-button inside the navigation bar: centre it vertically and drop
+         the bottom margin it carries when used in body copy. */
+      .cairn-nav-cta {
+        align-items: center;
+        display: flex;
+      }
+
+      .cairn-nav-cta .p-button--brand {
+        margin-bottom: 0;
+      }
+
+      /* Package names reach 37 characters and the cell also carries chips and
+         a tracker link, so it needs the room. Component is drawn from a
+         two-word vocabulary and only needs to fit its own heading. */
+      .cairn-package {
+        width: 24%;
+      }
+
+      .cairn-component {
+        width: 9%;
+      }
+
+      /* Ubuntu versions carry an ubuntuN suffix that Debian's do not, so they
+         are reliably longer: measured over the current archive, 19 characters
+         against 12 at the 90th percentile. These widths follow that 1.6 ratio
+         instead of splitting the space evenly and wrapping one side. */
+      .cairn-version--ubuntu {
+        width: 22%;
+      }
+
+      .cairn-version--debian {
+        width: 14%;
+      }
+
+      /* A secondary link on every row: grey so it does not compete with the
+         package name, and the icon keeps it recognisable as a link rather
+         than relying on colour alone. */
+      .cairn-external,
+      .cairn-external:visited {
+        color: var(--vf-color-text-muted);
+        text-decoration-color: var(--vf-color-text-muted);
+      }
+
+      /* The icon is a black SVG, so 0.6 alpha lands on exactly the same
+         value as --vf-color-text-muted rather than merely near it. */
+      .cairn-external .p-icon--external-link {
+        margin-left: 0.25rem;
+        margin-right: 0;
+        opacity: 0.6;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <header id="navigation" class="p-navigation is-dark">
+      <div class="p-navigation__row--25-75">
+        <div class="p-navigation__banner">
+          <div class="p-navigation__tagged-logo">
+            <a class="p-navigation__link" href="{{ root }}index.html">
+              {# The title is a sibling of the tag, not a child: nesting it
+                 inside draws the text on top of the orange square. #}
+              <div class="p-navigation__logo-tag">
+                <img
+                  class="p-navigation__logo-icon"
+                  src="{{ ubuntu_logo }}"
+                  alt=""
+                  width="16"
+                  height="16"
+                />
+              </div>
+              <span class="p-navigation__logo-title">Ubuntu Cairn</span>
+            </a>
+          </div>
+        </div>
+        <nav class="p-navigation__nav" aria-label="Main">
+          <ul class="p-navigation__items">
+            <li class="p-navigation__item is-selected">
+              <a class="p-navigation__link" href="{{ root }}index.html">Merges</a>
+            </li>
+          </ul>
+          <ul class="p-navigation__items">
+            <li class="p-navigation__item cairn-nav-cta">
+              <a
+                class="p-button--brand"
+                href="https://github.com/ubuntu/cairn/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Report a bug<span class="u-off-screen">
+                  (opens in a new tab)</span
+                ></a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="p-strip--light is-shallow">
+      <div class="row">
+        <div class="col-12">
+          <p class="u-text--muted u-no-margin--bottom">
+            Built {{ now.strftime('%Y-%m-%d %H:%M') }} UTC from
+            <a
+              class="cairn-external"
+              href="https://github.com/ubuntu/cairn"
+              target="_blank"
+              rel="noopener noreferrer"
+              >ubuntu/cairn<i class="p-icon--external-link"></i
+            ></a>.
+          </p>
+          <p class="u-text--muted">
+            Copyright &copy; {{ now.year }} Canonical Ltd.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

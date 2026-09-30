@@ -1,0 +1,16 @@
+{
+  "entries": [
+    {
+      "name": "amd64v3-excludes",
+      "self_link": "https://api.launchpad.net/devel/package-sets/ubuntu/stonking/amd64v3-excludes"
+    },
+    {
+      "name": "amd64v3-excludes-kernel",
+      "self_link": "https://api.launchpad.net/devel/package-sets/ubuntu/stonking/amd64v3-excludes-kernel"
+    },
+    {
+      "name": "bzr",
+      "self_link": "https://api.launchpad.net/devel/package-sets/ubuntu/stonking/bzr"
+    }
+  ]
+}
