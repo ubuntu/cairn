@@ -338,6 +338,40 @@ class TestRender:
         assert "<table" not in render({}, healthy(), Snapshot(), now=NOW)
 
 
+class TestIndexLayout:
+    def everything(self):
+        meta = just(
+            "cron", uploader="doko", package_sets=("core",), teams=("foundations",)
+        )
+        return render(state_of(opened(signal("cron"))), healthy(), meta, now=NOW)
+
+    def test_sections_run_team_then_package_set_then_uploader(self):
+        html = self.everything()
+        positions = [
+            html.index(f'id="{anchor}"')
+            for anchor in ("by-team", "by-package-set", "by-uploader")
+        ]
+        assert positions == sorted(positions)
+
+    def test_contents_link_to_every_section_in_page_order(self):
+        html = self.everything()
+        nav = html.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
+        anchors = re.findall(r'href="#([\w-]+)"', nav)
+        assert anchors == ["by-team", "by-package-set", "by-uploader"]
+        for anchor in anchors:
+            assert f'id="{anchor}"' in html
+
+    def test_contents_omit_sections_that_do_not_render(self):
+        """No team means no team table, so a link to it would go nowhere."""
+        html = render(state_of(opened(signal("cron"))), healthy(), just(), now=NOW)
+        nav = html.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
+        assert "#by-team" not in nav
+        assert "#by-uploader" in nav
+
+    def test_an_empty_board_has_no_contents(self):
+        assert "Contents" not in render({}, healthy(), Snapshot(), now=NOW)
+
+
 class TestProposedFlag:
     """Issue #10: a version waiting in -proposed is what Ubuntu has, and the
     board says so as text beside the version rather than in a new column."""
