@@ -64,6 +64,8 @@ class Row:
     debian_version: str
     base_version: str
     new_upstream: bool
+    # ubuntu_version is the -proposed upload, not yet migrated to release.
+    in_proposed: bool
     uploader: str | None
     published: datetime | None
     debian_uploaded: datetime | None
@@ -208,6 +210,7 @@ def merge_rows(
                 debian_version=payload.get("debian_version", ""),
                 base_version=payload.get("base_version", ""),
                 new_upstream=bool(payload.get("new_upstream")),
+                in_proposed=bool(payload.get("in_proposed")),
                 uploader=owner.uploader,
                 published=datetime.fromisoformat(published) if published else None,
                 debian_uploaded=(

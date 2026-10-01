@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Cairn | Merges{% endblock %}
 
-{% macro grouptable(groups, heading, what, note) %}
+{% macro grouptable(groups, anchor, heading, what, note) %}
 {% if groups %}
-<section class="p-strip is-shallow u-no-padding--top">
+<section class="p-strip is-shallow u-no-padding--top" id="{{ anchor }}">
   <div class="row">
     <div class="col-12">
       <h2 class="p-heading--4">{{ heading }}</h2>
@@ -41,6 +41,20 @@
     <div class="col-12">
       <h1 class="p-heading--2">Merge candidates</h1>
       <p class="p-text--small-caps u-text--muted">{{ series }}</p>
+      {# Mirrors the section order below; a link only for a section that renders. #}
+      {% set contents = [] %}
+      {% if teams %}{% set _ = contents.append(("by-team", "By subscribed team")) %}{% endif %}
+      {% if package_sets %}{% set _ = contents.append(("by-package-set", "By package set")) %}{% endif %}
+      {% if uploaders %}{% set _ = contents.append(("by-uploader", "By last uploader")) %}{% endif %}
+      {% if contents %}
+      <nav aria-label="Contents">
+        <ul class="p-inline-list--middot">
+          {% for anchor, label in contents %}
+          <li class="p-inline-list__item"><a href="#{{ anchor }}">{{ label }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
     </div>
   </div>
 
@@ -140,7 +154,7 @@
 </section>
 
 {% if overview.buckets %}
-<section class="p-strip is-shallow u-no-padding--top">
+<section class="p-strip is-shallow u-no-padding--top" id="age">
   <div class="row">
     <div class="col-12">
       <h2 class="p-heading--4">How long Debian has been ahead</h2>
@@ -176,14 +190,14 @@
 </section>
 {% endif %}
 
-{{ grouptable(uploaders, "By last uploader", "Uploader",
-   "The last person to touch a package is normally the one who merges it.") }}
-
-{{ grouptable(teams, "By subscribed team", "Team",
+{{ grouptable(teams, "by-team", "By subscribed team", "Team",
    "Who gets the bug mail. A different axis from package sets, which are upload rights, and a name can appear on both while covering different packages.") }}
 
-{{ grouptable(package_sets, "By package set", "Package set",
+{{ grouptable(package_sets, "by-package-set", "By package set", "Package set",
    "Upload rights, keyed by name and series.") }}
+
+{{ grouptable(uploaders, "by-uploader", "By last uploader", "Uploader",
+   "The last person to touch a package is normally the one who merges it.") }}
 
 {% if not rows %}
 <section class="p-strip is-shallow u-no-padding--top">

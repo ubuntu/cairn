@@ -76,6 +76,11 @@
             </td>
             <td data-heading="Ubuntu" class="cairn-version--ubuntu">
               <a href="{{ row.ubuntu_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.ubuntu_version }}</code></a>
+              {% if row.in_proposed %}
+              <span class="p-chip is-readonly is-inline is-dense" title="This version is in -proposed and has not migrated to release yet">
+                <span class="p-chip__value">proposed</span>
+              </span>
+              {% endif %}
             </td>
             <td data-heading="Debian" class="cairn-version--debian">
               <a href="{{ row.debian_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.debian_version }}</code></a>

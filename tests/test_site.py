@@ -37,6 +37,7 @@ def signal(
     package_sets=(),
     teams=(),
     kind=Kind.NEEDS_MERGE,
+    in_proposed=False,
 ):
     payload = {
         "ubuntu_version": "1.0-1ubuntu1",
@@ -45,6 +46,8 @@ def signal(
         "component": component,
         "new_upstream": new_upstream,
     }
+    if in_proposed:
+        payload["in_proposed"] = True
     if uploader:
         payload["ubuntu_uploader"] = uploader
     if published:
@@ -333,6 +336,74 @@ class TestRender:
 
     def test_empty_log_renders_a_page_not_a_crash(self):
         assert "<table" not in render({}, healthy(), Snapshot(), now=NOW)
+
+
+class TestIndexLayout:
+    def everything(self):
+        meta = just(
+            "cron", uploader="doko", package_sets=("core",), teams=("foundations",)
+        )
+        return render(state_of(opened(signal("cron"))), healthy(), meta, now=NOW)
+
+    def test_sections_run_team_then_package_set_then_uploader(self):
+        html = self.everything()
+        positions = [
+            html.index(f'id="{anchor}"')
+            for anchor in ("by-team", "by-package-set", "by-uploader")
+        ]
+        assert positions == sorted(positions)
+
+    def test_contents_link_to_every_section_in_page_order(self):
+        html = self.everything()
+        nav = html.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
+        anchors = re.findall(r'href="#([\w-]+)"', nav)
+        assert anchors == ["by-team", "by-package-set", "by-uploader"]
+        for anchor in anchors:
+            assert f'id="{anchor}"' in html
+
+    def test_contents_omit_sections_that_do_not_render(self):
+        """No team means no team table, so a link to it would go nowhere."""
+        html = render(state_of(opened(signal("cron"))), healthy(), just(), now=NOW)
+        nav = html.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
+        assert "#by-team" not in nav
+        assert "#by-uploader" in nav
+
+    def test_an_empty_board_has_no_contents(self):
+        assert "Contents" not in render({}, healthy(), Snapshot(), now=NOW)
+
+
+class TestProposedFlag:
+    """Issue #10: a version waiting in -proposed is what Ubuntu has, and the
+    board says so as text beside the version rather than in a new column."""
+
+    def page(self, tmp_path, **kw):
+        build(
+            state_of(opened(signal("cron", **kw))),
+            healthy(),
+            just(),
+            out=tmp_path,
+            now=NOW,
+        )
+        return (tmp_path / "uploaders/doko.html").read_text()
+
+    def test_marks_a_proposed_version(self, tmp_path):
+        cell = self.page(tmp_path, in_proposed=True).split('data-heading="Ubuntu"')[1]
+        cell = cell.split("</td>")[0]
+        assert ">proposed<" in cell
+
+    def test_a_release_version_carries_no_mark(self, tmp_path):
+        assert ">proposed<" not in self.page(tmp_path)
+
+    def test_adds_no_column(self, tmp_path):
+        with_flag = self.page(tmp_path / "a", in_proposed=True)
+        without = self.page(tmp_path / "b")
+        assert with_flag.count("<th") == without.count("<th")
+
+    def test_row_reads_the_flag(self):
+        rows = merge_rows(state_of(opened(signal("cron", in_proposed=True))), now=NOW)
+        assert rows[0].in_proposed
+        rows = merge_rows(state_of(opened(signal("cron"))), now=NOW)
+        assert not rows[0].in_proposed
 
 
 class TestBuild:

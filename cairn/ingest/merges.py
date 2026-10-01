@@ -4,6 +4,14 @@ Merges happen only in the development series; stable series receive SRUs and
 syncs instead. The caller supplies the series, so passing a stable one produces
 signals that mean nothing.
 
+Ubuntu's side is the newest version across the release *and* -proposed
+pockets. Every upload to the development series lands in -proposed first, so
+reading release alone reports the version before the last upload: a merge
+already uploaded but stuck in -proposed looked outstanding, and the board
+paired the release version with the -proposed uploader (issue #10). On equal
+versions release wins, so the in_proposed flag only appears when -proposed
+really is ahead.
+
 The candidate rule diverges from Merge-o-Matic deliberately: cairn requires
 Debian to be ahead of what Ubuntu ships, where MoM only requires it to be ahead
 of the base. This tracks MoM's published output more closely than MoM's own
@@ -33,6 +41,9 @@ log = logging.getLogger(__name__)
 
 UBUNTU_COMPONENTS = ("main", "universe")
 DEBIAN_COMPONENTS = ("main",)
+# Order matters: newest() keeps the first of two equal versions.
+UBUNTU_POCKETS = ("", "-proposed")
+PROPOSED = "-proposed"
 
 
 @dataclass(frozen=True, slots=True)
@@ -179,22 +190,30 @@ class MergesIngester(Ingester[ArchiveSnapshot]):
         self.debian_components = debian_components
 
     def _load(
-        self, archive: str, suite: str, components: tuple[str, ...], compression: str
+        self,
+        archive: str,
+        suites: tuple[str, ...],
+        components: tuple[str, ...],
+        compression: str,
     ) -> dict[str, SourcePackage]:
         packages: list[SourcePackage] = []
-        for component in components:
-            url = sources_url(archive, suite, component, compression)
-            raw = decompress(self.fetcher.get(url), url)
-            packages.extend(parse_sources(raw, component=component))
+        for suite in suites:
+            for component in components:
+                url = sources_url(archive, suite, component, compression)
+                raw = decompress(self.fetcher.get(url), url)
+                packages.extend(parse_sources(raw, component=component, suite=suite))
         return newest(packages)
 
     def fetch(self) -> ArchiveSnapshot:
         return ArchiveSnapshot(
             ubuntu=self._load(
-                UBUNTU_ARCHIVE, self.series, self.ubuntu_components, "gz"
+                UBUNTU_ARCHIVE,
+                tuple(self.series + pocket for pocket in UBUNTU_POCKETS),
+                self.ubuntu_components,
+                "gz",
             ),
             debian=self._load(
-                DEBIAN_ARCHIVE, self.debian_suite, self.debian_components, "xz"
+                DEBIAN_ARCHIVE, (self.debian_suite,), self.debian_components, "xz"
             ),
         )
 
@@ -215,6 +234,11 @@ class MergesIngester(Ingester[ArchiveSnapshot]):
                 # work: the two are very different jobs.
                 "new_upstream": has_new_upstream(ubuntu.version, debian.version),
             }
+            # Only present when true. Release is the common case, and an
+            # always-present False would change every payload and append one
+            # meaningless UPDATED event per signal to the log.
+            if ubuntu.suite is not None and ubuntu.suite.endswith(PROPOSED):
+                payload["in_proposed"] = True
             signals.append(
                 Signal(
                     kind=Kind.NEEDS_MERGE,
