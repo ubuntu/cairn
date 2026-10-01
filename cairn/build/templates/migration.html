@@ -47,15 +47,17 @@
         Britney's verdict is the verdict; cairn adds who owns each upload and
         how long it has been stuck.
       </p>
-      {% set contents = [] %}
-      {% if migration_teams %}{% set _ = contents.append(("by-team", "By subscribed team")) %}{% endif %}
-      {% if migration_package_sets %}{% set _ = contents.append(("by-package-set", "By package set")) %}{% endif %}
-      {% if migration_uploaders %}{% set _ = contents.append(("by-uploader", "By uploader")) %}{% endif %}
+      {# "All" leads the row: the whole list is one more way to view the same
+         board, a peer of the groupings, though it opens its own page. #}
+      {% set contents = [("all.html", "All packages")] if stuck else [] %}
+      {% if migration_teams %}{% set _ = contents.append(("#by-team", "By subscribed team")) %}{% endif %}
+      {% if migration_package_sets %}{% set _ = contents.append(("#by-package-set", "By package set")) %}{% endif %}
+      {% if migration_uploaders %}{% set _ = contents.append(("#by-uploader", "By uploader")) %}{% endif %}
       {% if contents %}
       <nav aria-label="Contents">
         <ul class="p-inline-list--middot">
           {% for anchor, text in contents %}
-          <li class="p-inline-list__item"><a href="#{{ anchor }}">{{ text }}</a></li>
+          <li class="p-inline-list__item"><a href="{{ anchor }}">{{ text }}</a></li>
           {% endfor %}
         </ul>
       </nav>
@@ -137,8 +139,9 @@
   <div class="row">
     <div class="col-12">
       <p class="u-text--muted">
-        <strong>Still settling</strong> means in proposed for under
-        {{ settling_days }} days: probably still in the uploader's hands.
+        <strong>Still settling</strong> means uploaded to -proposed less than
+        {{ settling_days }} days ago. The uploader is usually still dealing
+        with it, so it is not flagged as stuck yet.
         <strong>Stuck through several uploads</strong> counts packages cairn
         has seen held under more than one upload, which britney cannot show:
         it only knows the current one. <strong>Left the list</strong> counts

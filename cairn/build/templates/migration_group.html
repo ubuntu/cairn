@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "_migration.html" as m with context %}
-{% block title %}Cairn | Stuck in proposed for {{ group.title }}{% endblock %}
+{% block title %}Cairn | {% if group.is_everything %}All uploads stuck in proposed{% else %}Stuck in proposed for {{ group.title }}{% endif %}{% endblock %}
 
 {% block content %}
 {% set settled = group.settled(now) %}
@@ -11,7 +11,7 @@
       <p class="p-text--small-caps u-text--muted">
         <a href="{{ root }}migration/index.html">Stuck in proposed</a> / {{ group.subtitle }}
       </p>
-      <h1 class="p-heading--3">{{ group.title }}</h1>
+      <h1 class="p-heading--3">{{ "All uploads stuck in proposed" if group.is_everything else group.title }}</h1>
       {% if group.note %}
       <p class="u-text--muted">{{ group.note }}</p>
       {% endif %}
@@ -50,8 +50,9 @@
       <details>
         <summary>Still settling ({{ settling | length }})</summary>
         <p class="u-text--muted">
-          In proposed for under {{ settling_days }} days: probably still in
-          the uploader's hands.
+          Uploaded to -proposed less than {{ settling_days }} days ago. The
+          uploader is usually still dealing with it, so it is not flagged as
+          stuck yet.
         </p>
         {{ m.stuck_table(settling, group, "Uploads still settling for " ~ group.title) }}
       </details>
@@ -72,7 +73,7 @@
         the way out.
         {{ m.ext(m.guide("regression"), "Handling autopkgtest regressions") }}.
       </p>
-      {{ m.blocking_table(group.blocking) }}
+      {{ m.blocking_table(group.blocking, group) }}
     </div>
   </div>
 </section>

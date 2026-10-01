@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "_migration.html" as m with context %}
-{% block title %}Cairn | Merges for {{ group.title }}{% endblock %}
+{% block title %}Cairn | {% if group.is_everything %}All merge candidates{% else %}Merges for {{ group.title }}{% endif %}{% endblock %}
 
 {% block content %}
 <section class="p-strip is-shallow">
@@ -9,7 +9,7 @@
       <p class="p-text--small-caps u-text--muted">
         <a href="{{ root }}merges/index.html">Merge candidates</a> / {{ group.subtitle }}
       </p>
-      <h1 class="p-heading--3">{{ group.title }}</h1>
+      <h1 class="p-heading--3">{{ "All merge candidates" if group.is_everything else group.title }}</h1>
       {% if group.note %}
       <p class="u-text--muted">{{ group.note }}</p>
       {% endif %}
