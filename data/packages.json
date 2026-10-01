@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-01T07:53:35.567620+00:00",
+ "collected_at": "2026-10-01T12:08:53.438226+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -10059,7 +10059,7 @@
    "package_sets": [
     "kernel-dkms"
    ],
-   "published": "2026-09-30T14:47:57.217768+00:00",
+   "published": "2026-10-01T10:25:18.461888+00:00",
    "teams": [],
    "uploader": "ivan-hu"
   },
@@ -10514,7 +10514,7 @@
    "uploader": null
   },
   "gdal": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-01T00:06:12+00:00",
    "package_sets": [
     "kubuntu"
    ],
@@ -12311,7 +12311,7 @@
   "golang-github-googleapis-gax-go": {
    "debian_uploaded": "2026-09-22T14:22:42+00:00",
    "package_sets": [],
-   "published": "2026-09-27T17:30:08.617815+00:00",
+   "published": "2026-10-01T10:25:53.185124+00:00",
    "teams": [],
    "uploader": "levihackerman-102"
   },
@@ -12415,7 +12415,7 @@
   "golang-github-shopify-sarama": {
    "debian_uploaded": "2026-09-28T22:34:14+00:00",
    "package_sets": [],
-   "published": "2026-09-29T21:40:23.005035+00:00",
+   "published": "2026-10-01T10:25:51.870253+00:00",
    "teams": [],
    "uploader": "levihackerman-102"
   },
@@ -32770,11 +32770,11 @@
     "ubuntu-server",
     "virt"
    ],
-   "published": "2026-09-27T20:56:11.637810+00:00",
+   "published": "2026-10-01T08:10:03.608058+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "mdeslaur"
+   "uploader": "hectorcao"
   },
   "libvirt-glib": {
    "debian_uploaded": null,
@@ -43066,11 +43066,11 @@
     "i386-whitelist",
     "ubuntu-server"
    ],
-   "published": null,
+   "published": "2026-09-17T18:03:40.906971+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": null
+   "uploader": "ural"
   },
   "openlp": {
    "debian_uploaded": "2026-08-02T20:26:27+00:00",
@@ -43282,7 +43282,7 @@
     "ubuntu-desktop",
     "ubuntu-server"
    ],
-   "published": "2026-09-30T13:24:09.805185+00:00",
+   "published": "2026-10-01T10:25:19.604618+00:00",
    "teams": [
     "ubuntu-server"
    ],
@@ -44860,6 +44860,13 @@
    "published": "2026-04-24T08:45:29.056843+00:00",
    "teams": [],
    "uploader": "rr"
+  },
+  "php-mongodb": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "published": "2026-08-12T19:13:57.909170+00:00",
+   "teams": [],
+   "uploader": "ravi-sharma"
   },
   "php-net-ldap2": {
    "debian_uploaded": "2026-03-04T08:51:53+00:00",
@@ -56690,14 +56697,16 @@
    "uploader": null
   },
   "tar": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-16T23:04:22+00:00",
    "package_sets": [
     "core",
     "i386-whitelist"
    ],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "published": "2026-10-01T05:38:29.304429+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "peb"
   },
   "tar-doc": {
    "debian_uploaded": null,
@@ -57757,7 +57766,7 @@
    "uploader": null
   },
   "tzdata": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-30T21:19:39+00:00",
    "package_sets": [
     "core",
     "i386-whitelist"
@@ -60014,7 +60023,7 @@
    "uploader": "seb128"
   },
   "workrave": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-30T20:35:36+00:00",
    "package_sets": [],
    "published": "2026-07-29T02:07:09.369219+00:00",
    "teams": [],
