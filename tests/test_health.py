@@ -138,3 +138,32 @@ class TestPersistence:
         assert payload["stale"] is True
         assert payload["age_seconds"] is None
         assert payload["consecutive_failures"] == 1
+
+
+class TestLatestSeries:
+    def record(self, path, series, *, ok=True, now=T0):
+        ingester = (
+            StubIngester("merges")
+            if ok
+            else StubIngester("merges", fail_on=OSError("down"))
+        )
+        health.append(path, run([ingester], {}, now=now, series=series))
+
+    def test_names_the_series_of_the_last_successful_run(self, tmp_path):
+        path = tmp_path / "runs.jsonl"
+        self.record(path, "stonking", now=T0)
+        self.record(path, "tumbling", now=T1)
+        assert health.latest_series(health.read(path)) == "tumbling"
+
+    def test_a_run_that_observed_nothing_does_not_move_it(self, tmp_path):
+        """Every source failed, so nothing on the board is from that series."""
+        path = tmp_path / "runs.jsonl"
+        self.record(path, "stonking", now=T0)
+        self.record(path, "tumbling", ok=False, now=T1)
+        assert health.latest_series(health.read(path)) == "stonking"
+
+    def test_records_from_before_runs_named_a_series(self, tmp_path):
+        path = tmp_path / "runs.jsonl"
+        health.append(path, run([StubIngester("merges")], {}, now=T0))
+        assert "series" not in json.loads(path.read_text())
+        assert health.latest_series(health.read(path)) is None

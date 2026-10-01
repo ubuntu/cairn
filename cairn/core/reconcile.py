@@ -44,7 +44,12 @@ def reconcile(
         known = active.get(sid)
         if known is None:
             events.append(Event.of(EventType.OPENED, signal, source=source, ts=now))
-        elif dict(known.signal.payload) != dict(signal.payload):
+        elif (
+            dict(known.signal.payload) != dict(signal.payload)
+            # A development-series kind keeps its identity across a release,
+            # so the move to the new series is itself the change to record.
+            or known.signal.series != signal.series
+        ):
             events.append(Event.of(EventType.UPDATED, signal, source=source, ts=now))
 
     gone = [sid for sid in active if sid not in seen]

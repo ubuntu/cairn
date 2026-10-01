@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
 import pytest
@@ -119,3 +120,66 @@ class TestLogRoundTrip:
 
     def test_load_missing_file_is_empty(self, tmp_path):
         assert log.load(tmp_path / "nope.jsonl") == {}
+
+
+class TestSeriesRollover:
+    def test_a_new_series_updates_rather_than_reopens(self):
+        first = reconcile({}, [sig(series="stonking")], source=SOURCE, now=T0)
+        events = reconcile(
+            state_from(first), [sig(series="tumbling")], source=SOURCE, now=T1
+        )
+        assert [(e.event, e.series) for e in events] == [
+            (EventType.UPDATED, "tumbling")
+        ]
+
+    def test_a_whole_board_moving_series_is_not_a_mass_resolve(self):
+        names = [str(i) for i in range(10)]
+        first = reconcile(
+            {}, [sig(n, series="stonking") for n in names], source=SOURCE, now=T0
+        )
+        events = reconcile(
+            state_from(first),
+            [sig(n, series="tumbling") for n in names],
+            source=SOURCE,
+            now=T1,
+        )
+        assert {e.event for e in events} == {EventType.UPDATED}
+
+    def test_series_bound_kinds_still_split_by_series(self):
+        """Only development kinds roll over; an NBS in noble is not one in
+        plucky, so a series change there is a different signal."""
+        first = reconcile(
+            {}, [sig(kind=Kind.NBS, series="noble")], source="nbs", now=T0
+        )
+        events = reconcile(
+            state_from(first),
+            [sig(kind=Kind.NBS, series="plucky")],
+            source="nbs",
+            now=T1,
+            max_resolve_fraction=None,
+        )
+        assert sorted(e.event for e in events) == [
+            EventType.OPENED,
+            EventType.RESOLVED,
+        ]
+
+
+class TestReplayRecomputesIdentity:
+    def test_lines_written_under_an_older_identity_rule_still_fold(self):
+        """Log lines from before DEVELOPMENT_KINDS stored an id that hashed in
+        the series. Replay must not trust it, or the next run would see every
+        signal as new and every old one as gone."""
+        opened = Event.of(
+            EventType.OPENED, sig(series="stonking"), source=SOURCE, ts=T0
+        )
+        legacy = replace(opened, signal_id="0123456789abcdef")
+        updated = Event.of(
+            EventType.UPDATED,
+            sig(series="stonking", payload={"d": 1}),
+            source=SOURCE,
+            ts=T1,
+        )
+        state = state_from([legacy, updated])
+        assert list(state) == [sig().signal_id]
+        assert state[sig().signal_id].first_seen == T0
+        assert state[sig().signal_id].signal.payload == {"d": 1}

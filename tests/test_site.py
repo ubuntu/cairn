@@ -372,6 +372,26 @@ class TestIndexLayout:
         assert "Contents" not in render({}, healthy(), Snapshot(), now=NOW)
 
 
+class TestSeriesHeading:
+    def test_an_explicit_series_wins(self):
+        state = state_of(opened(signal("cron")))
+        html = render(state, healthy(), just(), now=NOW, series="tumbling")
+        assert "tumbling" in html
+        assert "stonking" not in html
+
+    def test_falls_back_to_the_most_recently_observed_series(self):
+        """Not the log's first line: that names the series cairn started in."""
+        old = signal("cron")
+        moved = replace(old, series="tumbling")
+        state = state_of(
+            opened(old, ts=T0),
+            Event.of(EventType.UPDATED, moved, source="merges", ts=T0 + timedelta(1)),
+        )
+        html = render(state, healthy(), just(), now=NOW)
+        assert "tumbling" in html
+        assert "stonking" not in html
+
+
 class TestProposedFlag:
     """Issue #10: a version waiting in -proposed is what Ubuntu has, and the
     board says so as text beside the version rather than in a new column."""

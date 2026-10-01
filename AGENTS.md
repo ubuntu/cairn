@@ -305,6 +305,24 @@ Identity is `(kind, source_package, binary_package, series)`. That tuple is
 hashed into a stable `signal_id` used to match observations across runs — which
 is what makes `first_seen` and `resolved_at` possible.
 
+**Except for development kinds.** Kinds listed in `DEVELOPMENT_KINDS`
+(currently `needs_merge`) are only ever observed in whichever series is open
+for development, and that is a moving pointer: at each release a new series
+opens and the archive is copied forward, but the outstanding work is the same.
+For those kinds the series is left out of identity and kept as an observed
+field, so a rollover appends one `updated` event per signal instead of
+resolving every signal as if merged (which would also trip the mass-resolve
+guard) and reopening it as if new. Series-bound kinds such as `nbs` or
+`sru_pending` keep the series in identity: an NBS in noble is not one in plucky.
+
+Replay recomputes `signal_id` from each event's fields rather than trusting the
+stored one, so a revised identity rule applies to all history without
+rewriting the log. Lines written before `DEVELOPMENT_KINDS` existed store ids
+that hashed in the series; they still fold onto the right signal.
+
+The board names its series from the latest successful run in `health.jsonl`,
+never from the log, which outlives every series it has seen.
+
 ### Vocabulary discipline
 
 - **Kinds** (`needs_merge`, `sru_verification_failed`, …) are defined in

@@ -139,34 +139,39 @@ def replay(events: Iterable[Event]) -> dict[str, SignalState]:
 
     A reopened signal keeps its original first_seen and increments occurrences,
     so a package that has broken three times is distinguishable from a new one.
+
+    The id is recomputed from each event's fields rather than read from the
+    stored signal_id, so revising the identity rule re-applies to all history
+    without rewriting the append-only log. Lines written before
+    DEVELOPMENT_KINDS existed carry ids that hashed in the series; they still
+    fold onto the right signal. The stored field is kept for readers of the
+    raw file and is otherwise informational.
     """
     state: dict[str, SignalState] = {}
     for event in events:
-        current = state.get(event.signal_id)
+        signal = event.to_signal()
+        sid = signal.signal_id
+        current = state.get(sid)
         if event.event is EventType.OPENED:
             if current is None:
-                state[event.signal_id] = SignalState(
-                    signal=event.to_signal(),
+                state[sid] = SignalState(
+                    signal=signal,
                     source=event.source,
                     first_seen=event.ts,
                     last_seen=event.ts,
                 )
             else:
-                state[event.signal_id] = replace(
+                state[sid] = replace(
                     current,
-                    signal=event.to_signal(),
+                    signal=signal,
                     last_seen=event.ts,
                     resolved_at=None,
                     occurrences=current.occurrences + 1,
                 )
         elif event.event is EventType.UPDATED and current is not None:
-            state[event.signal_id] = replace(
-                current, signal=event.to_signal(), last_seen=event.ts
-            )
+            state[sid] = replace(current, signal=signal, last_seen=event.ts)
         elif event.event is EventType.RESOLVED and current is not None:
-            state[event.signal_id] = replace(
-                current, last_seen=event.ts, resolved_at=event.ts
-            )
+            state[sid] = replace(current, last_seen=event.ts, resolved_at=event.ts)
     return state
 
 
