@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-01T06:55:17.251842+00:00",
+ "collected_at": "2026-10-01T07:53:35.567620+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -43066,11 +43066,11 @@
     "i386-whitelist",
     "ubuntu-server"
    ],
-   "published": "2026-09-17T18:03:40.906971+00:00",
+   "published": null,
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "ural"
+   "uploader": null
   },
   "openlp": {
    "debian_uploaded": "2026-08-02T20:26:27+00:00",
@@ -55731,13 +55731,6 @@
    "teams": [],
    "uploader": null
   },
-  "sra-sdk": {
-   "debian_uploaded": "2026-09-28T01:34:14+00:00",
-   "package_sets": [],
-   "published": "2026-10-01T03:47:38.644743+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
-  },
   "sratom": {
    "debian_uploaded": null,
    "package_sets": [
@@ -56697,16 +56690,14 @@
    "uploader": null
   },
   "tar": {
-   "debian_uploaded": "2026-09-16T23:04:22+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "core",
     "i386-whitelist"
    ],
-   "published": "2026-10-01T05:38:29.304429+00:00",
-   "teams": [
-    "debcrafters-packages"
-   ],
-   "uploader": "peb"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "tar-doc": {
    "debian_uploaded": null,

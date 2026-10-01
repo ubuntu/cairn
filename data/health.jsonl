@@ -3,3 +3,4 @@
 {"events": 0, "outcomes": [{"error": null, "events": 0, "ok": true, "signals": 777, "source": "merges"}], "stale_sources": [], "started_at": "2026-09-30T11:19:13.767599+00:00", "total_failure": false}
 {"events": 0, "outcomes": [{"error": null, "events": 0, "ok": true, "signals": 777, "source": "merges"}], "stale_sources": [], "started_at": "2026-09-30T12:59:00.411387+00:00", "total_failure": false}
 {"events": 105, "outcomes": [{"error": null, "events": 105, "ok": true, "signals": 765, "source": "merges"}], "stale_sources": [], "started_at": "2026-10-01T06:32:05.064240+00:00", "total_failure": false}
+{"events": 2, "outcomes": [{"error": null, "events": 2, "ok": true, "signals": 763, "source": "merges"}], "series": "stonking", "stale_sources": [], "started_at": "2026-10-01T07:38:37.202128+00:00", "total_failure": false}
