@@ -38,22 +38,36 @@
         width: 18%;
       }
 
-      /* Stuck package names: 10 characters at the median, 20 at the 90th
-         percentile (1 Oct 2026). Longer ones wrap; the reason column is
-         where the content is. */
+      /* The stuck table, with every column (the all-packages page). Sums to
+         100%, so no column is left with whatever remains: earlier the
+         ownership columns shared 5% and vanished. Owner pages drop their own
+         column and the rest scale up.
+         Package names: 10 characters at the median, 20 at the 90th
+         percentile; uploader names 11 and 27 (1 Oct 2026). */
       .cairn-stuck .cairn-package {
         width: 12%;
       }
 
-      .cairn-stuck .cairn-why {
-        width: 40%;
+      .cairn-stuck .cairn-upload {
+        width: 15%;
       }
 
-      /* Uploader names: 11 characters at the median, 27 at the 90th
-         percentile (1 Oct 2026), plus "synced from …" under +1 maintenance.
-         Without a width it shared the leftover with team and package set. */
-      .cairn-stuck .cairn-uploader {
-        width: 10%;
+      .cairn-stuck .cairn-component {
+        width: 7%;
+      }
+
+      .cairn-stuck .cairn-why {
+        width: 28%;
+      }
+
+      .cairn-stuck .cairn-days {
+        width: 6%;
+      }
+
+      .cairn-stuck .cairn-uploader,
+      .cairn-stuck .cairn-team,
+      .cairn-stuck .cairn-set {
+        width: 10.66%;
       }
 
       .cairn-upload {
@@ -119,7 +133,10 @@
         color: var(--vf-color-text-muted);
       }
 
-      .cairn-result {
+      /* An architecture and its rerun never split; the list of them may
+         wrap. Making the whole line nowrap let one long list force the
+         reason column wide and squeeze the owner columns off the page. */
+      .cairn-arch {
         white-space: nowrap;
       }
 

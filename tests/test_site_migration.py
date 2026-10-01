@@ -1350,3 +1350,115 @@ class TestFourthReview:
         assert "No data collected yet." in pages["home"].split("<footer")[1]
         assert "Data collected 2026-10-01" in pages["merges"].split("<footer")[1]
         assert "No data collected yet." in pages["migration"].split("<footer")[1]
+
+
+class TestAllPackages:
+    """Every row of a board on one page, reached from the board's total."""
+
+    def built(self, tmp_path):
+        events = [
+            opened(stuck("libssh2")),
+            opened(stuck("sudo")),
+            opened(merge("cron", in_proposed=False)),
+            opened(merge("grub2", in_proposed=False)),
+        ]
+        owners = meta(
+            libssh2=PackageMetadata(teams=("a",)),
+            sudo=PackageMetadata(package_sets=("core",)),
+            cron=PackageMetadata(teams=("a",)),
+        )
+        build(
+            replay(events), healthy(), owners, out=tmp_path, now=NOW, series="stonking"
+        )
+        return tmp_path
+
+    def test_each_board_lists_every_package(self, tmp_path):
+        out = self.built(tmp_path)
+        merges = (out / "merges/all.html").read_text()
+        stuck_page = (out / "migration/all.html").read_text()
+        assert 'id="cron"' in merges and 'id="grub2"' in merges
+        assert 'id="libssh2"' in stuck_page and 'id="sudo"' in stuck_page
+        assert "<title>Cairn | All merge candidates</title>" in merges
+        assert "<title>Cairn | All uploads stuck in proposed</title>" in stuck_page
+
+    def test_every_ownership_column_is_shown(self, tmp_path):
+        page = (self.built(tmp_path) / "migration/all.html").read_text()
+        for heading in ("Uploader", "Subscribed team", "Package set"):
+            assert f">{heading}</th>" in page
+
+    def test_all_leads_the_contents_row(self, tmp_path):
+        """A peer of the groupings, first in the row; not a button and not a
+        link on a statistic."""
+        out = self.built(tmp_path)
+        for board, label in (
+            ("merges", "All candidates"),
+            ("migration", "All packages"),
+        ):
+            index = (out / f"{board}/index.html").read_text()
+            nav = index.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
+            assert nav.index(f'<a href="all.html">{label}</a>') < nav.index("#by-")
+            assert index.count('href="all.html"') == 1
+            assert "p-button" not in index.split("<main>")[1]
+
+    def test_links_from_the_all_page_resolve(self, tmp_path):
+        import re
+
+        out = self.built(tmp_path)
+        for page in (out / "merges/all.html", out / "migration/all.html"):
+            for href in re.findall(r'href="([^"#]+)', page.read_text()):
+                if href.startswith("http"):
+                    continue
+                assert (page.parent / href).resolve().exists(), (page, href)
+
+    def test_an_empty_board_does_not_link_to_an_empty_page(self, tmp_path):
+        build(
+            replay([opened(merge("cron", in_proposed=False))]),
+            healthy(),
+            meta(),
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        index = (tmp_path / "migration/index.html").read_text()
+        assert 'href="all.html"' not in index
+        assert not (tmp_path / "migration/all.html").exists()
+
+
+class TestHoldingBackLinksToCairn:
+    def page(self, tmp_path, owners):
+        build(
+            replay([opened(stuck())]),
+            healthy(),
+            owners,
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        page = (tmp_path / "migration/teams/tests.html").read_text()
+        return page.split('id="blocking"')[1].split("</table>")[0]
+
+    def test_links_to_the_uploaders_page_row(self, tmp_path):
+        owners = meta(
+            libssh2=PackageMetadata(publications=(pub("1.0-2", uploader="kat"),)),
+            curl=PackageMetadata(teams=("tests",)),
+        )
+        cell = self.page(tmp_path, owners).split('data-heading="Holding back"')[1]
+        cell = cell.split("</td>")[0]
+        assert 'href="../../migration/uploaders/kat.html#libssh2"' in cell
+        assert 'launchpad.net/ubuntu/+source/libssh2"' not in cell
+
+    def test_links_on_the_same_page_when_the_owner_has_it(self, tmp_path):
+        owners = meta(
+            libssh2=PackageMetadata(teams=("tests",)),
+            curl=PackageMetadata(teams=("tests",)),
+        )
+        cell = self.page(tmp_path, owners).split('data-heading="Holding back"')[1]
+        assert (
+            'href="../../migration/teams/tests.html#libssh2"' in cell.split("</td>")[0]
+        )
+
+
+def test_settling_says_what_it_means():
+    html = render_migration(replay([opened(stuck())]), healthy(), now=NOW)
+    assert "uploader's hands" not in html
+    assert "uploaded to -proposed less than" in " ".join(html.split())

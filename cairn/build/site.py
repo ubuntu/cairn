@@ -85,6 +85,11 @@ REASON_ORDER = (
 # migration docs give those to +1 maintenance, so they are grouped there
 # rather than under a Debian developer who will never read this page.
 PLUS_ONE = "plus-one-maintenance"
+
+# Not an owner: every row of a board, at merges/all.html and
+# migration/all.html, in the same table as an owner page with every
+# ownership column shown.
+EVERYTHING = "all"
 NO_UPLOADER = "no-uploader-recorded"
 
 LAUNCHPAD_SOURCE = "https://launchpad.net/ubuntu/+source/{source}"
@@ -410,14 +415,22 @@ class Group:
         return _slug(self.name)
 
     @property
+    def is_everything(self) -> bool:
+        return self.kind == EVERYTHING
+
+    @property
     def href(self) -> str:
         """The owner's merges page, relative to the site root. Under merges/,
         like the stuck page under migration/: neither board is the default."""
+        if self.is_everything:
+            return "merges/all.html"
         return f"merges/{self.kind}/{self.slug}.html"
 
     @property
     def migration_href(self) -> str:
         """The owner's stuck-in-proposed page, relative to the site root."""
+        if self.is_everything:
+            return "migration/all.html"
         return f"migration/{self.kind}/{self.slug}.html"
 
     @property
@@ -1117,6 +1130,15 @@ def _context(
         "migration_package_sets": stuck_in(package_sets),
         "migration_teams": stuck_in(teams),
         "all_groups": [*uploaders, *package_sets, *teams],
+        # Tests holding back others are left out of the all-packages page:
+        # each is already listed under the upload it holds.
+        "everything": Group(
+            kind=EVERYTHING,
+            name=EVERYTHING,
+            subtitle="every package",
+            rows=rows,
+            stuck=stuck,
+        ),
         # Cross-links between the boards: a lookup by package, no more.
         "stuck_by_package": {r.package: r for r in stuck},
         "merge_for_stuck": merges_for_stuck(rows, stuck),
@@ -1199,21 +1221,40 @@ def _render_migration(context: Mapping[str, Any]) -> str:
     )
 
 
+def _depth(href: str) -> str:
+    """The prefix from a page at `href` back to the site root."""
+    return "../" * href.count("/")
+
+
 def render_group(group: Group, context: Mapping[str, Any]) -> str:
-    """An owner's merges. Two directories down, so links need a prefix."""
+    """An owner's merges, or every merge. Links are prefixed back to the root."""
     return (
         _environment()
         .get_template("group.html")
-        .render(**{**context, "group": group, "root": "../../", "section": "merges"})
+        .render(
+            **{
+                **context,
+                "group": group,
+                "root": _depth(group.href),
+                "section": "merges",
+            }
+        )
     )
 
 
 def render_migration_group(group: Group, context: Mapping[str, Any]) -> str:
-    """An owner's stuck uploads. Two directories down."""
+    """An owner's stuck uploads, or every stuck upload."""
     return (
         _environment()
         .get_template("migration_group.html")
-        .render(**{**context, "group": group, "root": "../../", "section": "migration"})
+        .render(
+            **{
+                **context,
+                "group": group,
+                "root": _depth(group.migration_href),
+                "section": "migration",
+            }
+        )
     )
 
 
@@ -1276,7 +1317,7 @@ def build(
         _render_migration(context), encoding="utf-8"
     )
 
-    for group in context["all_groups"]:
+    for group in [context["everything"], *context["all_groups"]]:
         pages = []
         if group.has_merges:
             pages.append((group.href, render_group))

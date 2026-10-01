@@ -122,10 +122,12 @@
    is followed by its rerun. Then one tag for the group. #}
 {% macro status_group(test, status, results, row) -%}
 <span class="cairn-result">
+  {#- Each architecture stays on one line with its rerun; the list may wrap
+      between architectures, so a long one cannot widen the column. -#}
   {%- for r in results %}
-  <a href="{{ autopkgtest_url(test, series, r.arch) }}" target="_blank" rel="noopener noreferrer" title="{{ test }} history on {{ r.arch }}">{{ r.arch }}</a>
+  <span class="cairn-arch"><a href="{{ autopkgtest_url(test, series, r.arch) }}" target="_blank" rel="noopener noreferrer" title="{{ test }} history on {{ r.arch }}">{{ r.arch }}</a>
   {%- if r.failed %} {{ retry(test, r.arch, row) }}{% endif %}
-  {%- if not loop.last %}, {% endif %}
+  {%- if not loop.last %},{% endif %}</span>
   {%- endfor %}
   <span class="p-chip--{{ RESULT_TAGS.get(status, 'information') }} is-readonly is-inline is-dense cairn-status"><span class="p-chip__value">{{ RESULT_WORDS.get(status, status) }}</span></span>
 </span>
@@ -199,8 +201,8 @@
       <th class="cairn-why">Why it is held</th>
       <th class="cairn-days u-align--right">In proposed</th>
       {% if not group or group.kind != 'uploaders' %}<th class="cairn-uploader">Uploader</th>{% endif %}
-      {% if not group or group.kind != 'teams' %}<th>Subscribed team</th>{% endif %}
-      {% if not group or group.kind != 'sets' %}<th>Package set</th>{% endif %}
+      {% if not group or group.kind != 'teams' %}<th class="cairn-team">Subscribed team</th>{% endif %}
+      {% if not group or group.kind != 'sets' %}<th class="cairn-set">Package set</th>{% endif %}
     </tr>
   </thead>
   <tbody>
@@ -280,7 +282,7 @@
 </table>
 {% endmacro %}
 
-{% macro blocking_table(rows) %}
+{% macro blocking_table(rows, group=None) %}
 <table class="p-table--mobile-card">
   <caption class="u-hide">Tests that fail against another package's upload. Links open in a new tab.</caption>
   <thead>
@@ -302,7 +304,12 @@
         {{ results_line(row, row.holding) }}
       </td>
       <td data-heading="Holding back">
-        {{ ext(row.holding.url, row.holding.package) }}
+        {# The held upload's row on cairn, which says everything holding it:
+           on this page when the owner also has it, else on its uploader's
+           page, which always does. #}
+        {% set held = row.holding %}
+        {% set page = group.migration_href if group and held.package in group.stuck_names else held.page %}
+        <a href="{{ root }}{{ page }}#{{ held.anchor }}">{{ held.package }}</a>
         <div><a href="{{ row.holding.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.holding.new_version }}</code></a></div>
       </td>
       <td data-heading="Held for" class="cairn-days u-align--right">
