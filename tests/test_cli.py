@@ -31,10 +31,13 @@ def without(package: str, data: bytes = UBUNTU_SOURCES) -> bytes:
 class StubFetcher:
     """Serves the archive indexes and the Launchpad series collection."""
 
-    def __init__(self, *, ubuntu=UBUNTU_SOURCES, fail=None, launchpad=True):
+    def __init__(
+        self, *, ubuntu=UBUNTU_SOURCES, fail=None, launchpad=True, series="stonking"
+    ):
         self.ubuntu = ubuntu
         self.fail = fail
         self.launchpad = launchpad
+        self.series = series
         self.urls: list[str] = []
 
     def get(self, url: str) -> bytes:
@@ -43,7 +46,7 @@ class StubFetcher:
             raise self.fail
         if url == SERIES_URL:
             return json.dumps(
-                {"entries": [{"name": "stonking", "status": "Active Development"}]}
+                {"entries": [{"name": self.series, "status": "Active Development"}]}
             ).encode()
         # Ownership lookups, which a test can switch off to stand in for an
         # unreachable Launchpad.
@@ -419,3 +422,70 @@ class TestBuildRefusesToClobber:
         assert code == 2
         assert "refusing to remove its contents" in capsys.readouterr().err
         assert (precious / "assets" / "thesis.txt").exists()
+
+
+def build_site(logs, out):
+    return main(
+        [
+            "build",
+            "--signals",
+            str(logs[0]),
+            "--health",
+            str(logs[1]),
+            "--packages",
+            str(logs[0].parent / "packages.json"),
+            "--out",
+            str(out),
+        ]
+    )
+
+
+class TestSeriesRollover:
+    """A new development series opens and stonking becomes stable.
+
+    The archive is copied forward, so the same merges are still owed; they
+    must carry over to the new series rather than resolve as merged.
+    """
+
+    @pytest.fixture
+    def rolled(self, logs):
+        ingest(logs, "--source", "merges")
+        before = logmod.load(logs[0])
+        code = ingest(
+            logs, "--source", "merges", fetcher=StubFetcher(series="tumbling")
+        )
+        return code, before, logmod.load(logs[0])
+
+    def test_the_run_succeeds_without_an_override(self, rolled):
+        """The mass-resolve guard must not read a release as a mass merge."""
+        code, _, _ = rolled
+        assert code == 0
+
+    def test_every_signal_moves_to_the_new_series(self, rolled):
+        _, _, after = rolled
+        active = [s for s in after.values() if s.is_active]
+        assert len(active) == FIXTURE_MERGES
+        assert {s.signal.series for s in active} == {"tumbling"}
+
+    def test_history_is_kept(self, rolled):
+        _, before, after = rolled
+        assert set(after) == set(before)
+        for sid, st in after.items():
+            assert st.first_seen == before[sid].first_seen
+            assert st.occurrences == 1
+
+    def test_nothing_is_logged_as_merged(self, logs, rolled):
+        events = list(logmod.read(logs[0]))
+        assert not [e for e in events if e.event is logmod.EventType.RESOLVED]
+        moved = [e for e in events if e.series == "tumbling"]
+        assert len(moved) == FIXTURE_MERGES
+        assert {e.event for e in moved} == {logmod.EventType.UPDATED}
+
+    def test_the_run_records_its_series(self, logs, rolled):
+        assert health.latest_series(health.read(logs[1])) == "tumbling"
+
+    def test_the_page_names_the_new_series(self, logs, rolled, tmp_path):
+        assert build_site(logs, tmp_path / "site") == 0
+        page = (tmp_path / "site" / "index.html").read_text()
+        assert "tumbling" in page
+        assert "stonking" not in page

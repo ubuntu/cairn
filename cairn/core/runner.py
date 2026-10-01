@@ -42,6 +42,9 @@ class RunReport:
     started_at: datetime
     outcomes: tuple[Outcome, ...]
     events: tuple[Event, ...]
+    # Which series this run observed. The board names the series from here,
+    # not from the log, which still holds signals from every series it has seen.
+    series: str | None = None
 
     @property
     def succeeded(self) -> tuple[Outcome, ...]:
@@ -61,13 +64,16 @@ class RunReport:
         return tuple(o.source for o in self.failed)
 
     def as_dict(self) -> dict[str, Any]:
-        return {
+        record: dict[str, Any] = {
             "started_at": self.started_at.isoformat(),
             "outcomes": [o.as_dict() for o in self.outcomes],
             "events": len(self.events),
             "stale_sources": list(self.stale_sources),
             "total_failure": self.total_failure,
         }
+        if self.series is not None:
+            record["series"] = self.series
+        return record
 
 
 def run(
@@ -76,6 +82,7 @@ def run(
     *,
     now: datetime,
     max_resolve_fraction: float | None = DEFAULT_MAX_RESOLVE_FRACTION,
+    series: str | None = None,
 ) -> RunReport:
     """Pass max_resolve_fraction=None to accept a legitimate mass resolution.
 
@@ -121,4 +128,6 @@ def run(
             Outcome(source, ok=True, signals=len(signals), events=len(produced))
         )
 
-    return RunReport(started_at=now, outcomes=tuple(outcomes), events=tuple(events))
+    return RunReport(
+        started_at=now, outcomes=tuple(outcomes), events=tuple(events), series=series
+    )

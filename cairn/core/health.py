@@ -95,3 +95,17 @@ def replay(runs: Iterable[dict[str, Any]]) -> dict[str, SourceHealth]:
 
 def load(path: Path) -> dict[str, SourceHealth]:
     return replay(read(path))
+
+
+def latest_series(runs: Iterable[dict[str, Any]]) -> str | None:
+    """The series the most recent successful run observed.
+
+    A run in which every source failed observed nothing, so it does not move
+    the answer. Records written before runs carried a series yield None.
+    """
+    found = None
+    for record in runs:
+        ok = any(o.get("ok") for o in record.get("outcomes", []))
+        if record.get("series") and ok:
+            found = record["series"]
+    return found

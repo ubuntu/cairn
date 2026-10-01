@@ -148,6 +148,7 @@ def cmd_ingest(
         max_resolve_fraction=(
             None if args.allow_mass_resolve else DEFAULT_MAX_RESOLVE_FRACTION
         ),
+        series=series,
     )
 
     _record(report, args)
@@ -222,7 +223,9 @@ def cmd_build(
             metadata.load(args.packages),
             out=args.out,
             now=datetime.now(UTC),
-            series=args.series,
+            # The series the last good ingest observed, so the page follows
+            # the development series across a release without a redeploy.
+            series=args.series or health.latest_series(health.read(args.health)),
         )
     except NotASiteDirectory as exc:
         print(f"cairn: {exc}", file=sys.stderr)
@@ -273,7 +276,7 @@ def build_parser() -> argparse.ArgumentParser:
     build.add_argument("--health", type=Path, default=paths.HEALTH_LOG)
     build.add_argument("--packages", type=Path, default=paths.PACKAGES)
     build.add_argument("--out", type=Path, default=paths.SITE_DIR)
-    build.add_argument("--series", help="default: taken from the log")
+    build.add_argument("--series", help="default: the last ingest run's series")
     build.set_defaults(handler=cmd_build)
     return parser
 

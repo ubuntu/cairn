@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-09-30T13:23:14.477755+00:00",
+ "collected_at": "2026-10-01T06:55:17.251842+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -287,13 +287,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "aflplusplus": {
-   "debian_uploaded": "2026-07-25T08:33:46+00:00",
-   "package_sets": [],
-   "published": "2026-09-30T07:40:40.541781+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
   },
   "aglfn": {
    "debian_uploaded": null,
@@ -962,13 +955,13 @@
    "uploader": null
   },
   "arctica-greeter": {
-   "debian_uploaded": "2024-06-09T20:34:39+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "ubuntu-mate"
    ],
-   "published": "2026-04-24T08:45:29.056843+00:00",
+   "published": null,
    "teams": [],
-   "uploader": "debian-remote"
+   "uploader": null
   },
   "ardour": {
    "debian_uploaded": null,
@@ -2437,13 +2430,6 @@
    "teams": [],
    "uploader": null
   },
-  "bootcd": {
-   "debian_uploaded": "2026-09-17T16:36:24+00:00",
-   "package_sets": [],
-   "published": "2026-09-13T00:26:38.822064+00:00",
-   "teams": [],
-   "uploader": "bdrung"
-  },
   "booth": {
    "debian_uploaded": "2026-09-07T19:48:49+00:00",
    "package_sets": [],
@@ -3128,7 +3114,7 @@
    "uploader": "enr0n"
   },
   "cacti": {
-   "debian_uploaded": "2026-03-14T07:05:25+00:00",
+   "debian_uploaded": "2026-09-23T20:21:31+00:00",
    "package_sets": [],
    "published": "2026-09-09T06:07:11.987428+00:00",
    "teams": [],
@@ -3585,11 +3571,11 @@
    "uploader": null
   },
   "ceph": {
-   "debian_uploaded": "2026-06-25T08:37:32+00:00",
+   "debian_uploaded": "2026-08-21T16:49:13+00:00",
    "package_sets": [
     "ubuntu-server"
    ],
-   "published": "2026-09-28T13:05:58.957063+00:00",
+   "published": "2026-09-30T13:15:47.283223+00:00",
    "teams": [
     "ubuntu-openstack"
    ],
@@ -4230,15 +4216,13 @@
    "uploader": null
   },
   "containerd": {
-   "debian_uploaded": "2026-09-16T01:10:42+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "ubuntu-server"
    ],
-   "published": "2026-09-29T09:21:17.587228+00:00",
-   "teams": [
-    "ubuntu-server"
-   ],
-   "uploader": "costamagnagianfranco"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "coreutils": {
    "debian_uploaded": null,
@@ -5667,13 +5651,6 @@
    "teams": [],
    "uploader": null
   },
-  "debugpy": {
-   "debian_uploaded": "2026-09-06T12:53:10+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T12:56:25.322846+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
-  },
   "debvm": {
    "debian_uploaded": "2026-05-09T07:33:43+00:00",
    "package_sets": [],
@@ -6474,15 +6451,6 @@
    "teams": [],
    "uploader": null
   },
-  "docker.io": {
-   "debian_uploaded": "2026-03-23T11:04:44+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T13:25:21.489771+00:00",
-   "teams": [
-    "ubuntu-server"
-   ],
-   "uploader": "costamagnagianfranco"
-  },
   "docky": {
    "debian_uploaded": null,
    "package_sets": [
@@ -6701,7 +6669,7 @@
    "uploader": null
   },
   "dput": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-30T05:05:20+00:00",
    "package_sets": [
     "core"
    ],
@@ -6976,13 +6944,6 @@
    "teams": [],
    "uploader": null
   },
-  "eccodes": {
-   "debian_uploaded": "2026-09-20T08:21:21+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T13:00:23.210479+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
-  },
   "ecflow": {
    "debian_uploaded": "2026-09-08T14:28:30+00:00",
    "package_sets": [],
@@ -7210,13 +7171,13 @@
    "uploader": null
   },
   "embree": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-30T08:22:27+00:00",
    "package_sets": [
     "ubuntustudio"
    ],
-   "published": null,
+   "published": "2026-09-28T01:26:17.102977+00:00",
    "teams": [],
-   "uploader": null
+   "uploader": "steelf"
   },
   "enblend-enfuse": {
    "debian_uploaded": null,
@@ -7554,7 +7515,7 @@
    "package_sets": [
     "ubuntu-server"
    ],
-   "published": "2026-09-17T17:55:14.191544+00:00",
+   "published": "2026-09-30T13:26:18.221056+00:00",
    "teams": [
     "ubuntu-server"
    ],
@@ -7588,14 +7549,16 @@
    "uploader": null
   },
   "expat": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-08-31T17:22:52+00:00",
    "package_sets": [
     "core",
     "i386-whitelist"
    ],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "published": "2026-09-30T17:52:33.837435+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "igcontreras"
   },
   "expect": {
    "debian_uploaded": null,
@@ -7690,13 +7653,13 @@
    "uploader": null
   },
   "falcosecurity-libs": {
-   "debian_uploaded": "2026-07-28T23:34:11+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "kernel-dkms"
    ],
-   "published": "2026-09-22T15:09:21.530358+00:00",
+   "published": null,
    "teams": [],
-   "uploader": "costamagnagianfranco"
+   "uploader": null
   },
   "falkon": {
    "debian_uploaded": null,
@@ -9911,15 +9874,17 @@
    "uploader": null
   },
   "freeipmi": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-05T19:07:34+00:00",
    "package_sets": [
     "i386-whitelist",
     "ubuntu-desktop",
     "ubuntu-server"
    ],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "published": "2026-09-30T13:17:51.104634+00:00",
+   "teams": [
+    "ubuntu-server"
+   ],
+   "uploader": "charlescochran"
   },
   "freepats": {
    "debian_uploaded": null,
@@ -10090,11 +10055,11 @@
    "uploader": null
   },
   "fwts": {
-   "debian_uploaded": "2026-09-29T10:00:57+00:00",
+   "debian_uploaded": "2026-09-30T08:49:36+00:00",
    "package_sets": [
     "kernel-dkms"
    ],
-   "published": "2026-07-24T11:16:44.620286+00:00",
+   "published": "2026-09-30T14:47:57.217768+00:00",
    "teams": [],
    "uploader": "ivan-hu"
   },
@@ -10553,9 +10518,9 @@
    "package_sets": [
     "kubuntu"
    ],
-   "published": null,
+   "published": "2026-09-24T18:37:37.186244+00:00",
    "teams": [],
-   "uploader": null
+   "uploader": "doko"
   },
   "gdata-sharp": {
    "debian_uploaded": null,
@@ -12343,6 +12308,13 @@
    "teams": [],
    "uploader": null
   },
+  "golang-github-googleapis-gax-go": {
+   "debian_uploaded": "2026-09-22T14:22:42+00:00",
+   "package_sets": [],
+   "published": "2026-09-27T17:30:08.617815+00:00",
+   "teams": [],
+   "uploader": "levihackerman-102"
+  },
   "golang-github-hashicorp-hcl": {
    "debian_uploaded": null,
    "package_sets": [
@@ -12369,6 +12341,13 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "golang-github-launchdarkly-go-test-helpers": {
+   "debian_uploaded": "2026-09-30T11:00:11+00:00",
+   "package_sets": [],
+   "published": "2026-09-28T09:20:50.943865+00:00",
+   "teams": [],
+   "uploader": "levihackerman-102"
   },
   "golang-github-magiconair-properties": {
    "debian_uploaded": null,
@@ -12406,13 +12385,6 @@
    "teams": [],
    "uploader": null
   },
-  "golang-github-peterbourgon-diskv": {
-   "debian_uploaded": "2026-09-22T13:49:15+00:00",
-   "package_sets": [],
-   "published": "2026-09-27T16:40:17.788841+00:00",
-   "teams": [],
-   "uploader": "team+pkg-go"
-  },
   "golang-github-pkg-errors": {
    "debian_uploaded": null,
    "package_sets": [
@@ -12439,6 +12411,13 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "golang-github-shopify-sarama": {
+   "debian_uploaded": "2026-09-28T22:34:14+00:00",
+   "package_sets": [],
+   "published": "2026-09-29T21:40:23.005035+00:00",
+   "teams": [],
+   "uploader": "levihackerman-102"
   },
   "golang-github-shurcool-sanitized-anchor-name": {
    "debian_uploaded": null,
@@ -13488,13 +13467,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "guestfs-tools": {
-   "debian_uploaded": "2026-09-07T00:04:35+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T12:57:05.649447+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
   },
   "gui-ufw": {
    "debian_uploaded": null,
@@ -15315,14 +15287,14 @@
    "uploader": null
   },
   "iproute2": {
-   "debian_uploaded": "2026-04-16T14:34:57+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "core",
     "i386-whitelist"
    ],
-   "published": "2026-08-02T11:08:23.009900+00:00",
+   "published": null,
    "teams": [],
-   "uploader": "ioanalazea"
+   "uploader": null
   },
   "iprutils": {
    "debian_uploaded": null,
@@ -16497,13 +16469,6 @@
    "teams": [],
    "uploader": null
   },
-  "kasts": {
-   "debian_uploaded": "2026-09-14T04:49:07+00:00",
-   "package_sets": [],
-   "published": "2026-09-21T23:20:36.791306+00:00",
-   "teams": [],
-   "uploader": "rikmills"
-  },
   "kasumi": {
    "debian_uploaded": null,
    "package_sets": [
@@ -17404,15 +17369,15 @@
    "uploader": null
   },
   "keystone": {
-   "debian_uploaded": "2026-04-17T12:20:42+00:00",
+   "debian_uploaded": "2026-09-20T19:43:48+00:00",
    "package_sets": [
     "openstack"
    ],
-   "published": "2026-09-10T19:57:45.546383+00:00",
+   "published": "2026-09-30T13:22:11.598213+00:00",
    "teams": [
     "ubuntu-openstack"
    ],
-   "uploader": "himax16"
+   "uploader": "gboutry"
   },
   "keystone-tempest-plugin": {
    "debian_uploaded": null,
@@ -24597,13 +24562,15 @@
    "uploader": null
   },
   "libauthen-sasl-perl": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-06T19:34:42+00:00",
    "package_sets": [
     "core"
    ],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "published": "2026-09-30T17:43:12.570449+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "allenpthuang"
   },
   "libautovivification-perl": {
    "debian_uploaded": null,
@@ -26553,6 +26520,13 @@
    "teams": [],
    "uploader": null
   },
+  "libengine-gost-openssl": {
+   "debian_uploaded": "2026-01-06T19:36:29+00:00",
+   "package_sets": [],
+   "published": "2026-07-23T14:30:11.625864+00:00",
+   "teams": [],
+   "uploader": "ravi-sharma"
+  },
   "libeot": {
    "debian_uploaded": null,
    "package_sets": [
@@ -27584,13 +27558,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "libguestfs": {
-   "debian_uploaded": "2026-07-28T22:20:20+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T12:50:41.549086+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
   },
   "libgusb": {
    "debian_uploaded": null,
@@ -31092,15 +31059,13 @@
    "uploader": null
   },
   "libreoffice": {
-   "debian_uploaded": "2026-08-26T20:50:14+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "ubuntu-desktop"
    ],
-   "published": "2026-09-04T02:51:17.758509+00:00",
-   "teams": [
-    "desktop-packages"
-   ],
-   "uploader": "ricotz"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "libreoffice-dictionaries": {
    "debian_uploaded": null,
@@ -31807,16 +31772,14 @@
    "uploader": null
   },
   "libssh2": {
-   "debian_uploaded": "2026-07-28T15:19:04+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "i386-whitelist",
     "kubuntu"
    ],
-   "published": "2026-09-19T06:27:31.490113+00:00",
-   "teams": [
-    "foundations-bugs"
-   ],
-   "uploader": "babelouest"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "libstatgrab": {
    "debian_uploaded": null,
@@ -35894,18 +35857,16 @@
    "uploader": null
   },
   "llvm-toolchain-21": {
-   "debian_uploaded": "2026-09-13T18:04:45+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "i386-whitelist"
    ],
-   "published": "2026-09-28T11:55:26.192041+00:00",
-   "teams": [
-    "foundations-bugs"
-   ],
-   "uploader": "doko"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "llvm-toolchain-22": {
-   "debian_uploaded": "2026-06-04T06:19:04+00:00",
+   "debian_uploaded": "2026-09-27T06:49:29+00:00",
    "package_sets": [
     "i386-whitelist"
    ],
@@ -37047,15 +37008,15 @@
    "uploader": "mylesjp"
   },
   "masakari-monitors": {
-   "debian_uploaded": "2026-04-01T13:50:09+00:00",
+   "debian_uploaded": "2026-09-20T12:20:19+00:00",
    "package_sets": [
     "openstack"
    ],
-   "published": "2026-09-11T10:56:03.071081+00:00",
+   "published": "2026-09-30T13:22:11.598213+00:00",
    "teams": [
     "ubuntu-openstack"
    ],
-   "uploader": "hectorcao"
+   "uploader": "himax16"
   },
   "mat2": {
    "debian_uploaded": "2026-02-09T22:09:01+00:00",
@@ -38097,13 +38058,6 @@
    "teams": [],
    "uploader": null
   },
-  "mmc-utils": {
-   "debian_uploaded": "2025-11-24T08:49:12+00:00",
-   "package_sets": [],
-   "published": "2026-04-24T08:45:29.056843+00:00",
-   "teams": [],
-   "uploader": "iwamatsu"
-  },
   "mobile-broadband-provider-info": {
    "debian_uploaded": null,
    "package_sets": [
@@ -38452,13 +38406,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "mopidy": {
-   "debian_uploaded": "2026-09-12T17:05:27+00:00",
-   "package_sets": [],
-   "published": "2026-09-13T07:44:38.765535+00:00",
-   "teams": [],
-   "uploader": "team+python"
   },
   "more-itertools": {
    "debian_uploaded": null,
@@ -39511,11 +39458,11 @@
     "i386-whitelist",
     "ubuntu-server"
    ],
-   "published": "2026-09-17T17:56:05.702182+00:00",
+   "published": "2026-09-30T13:24:09.805185+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "ural"
+   "uploader": "mdeslaur"
   },
   "net-tools": {
    "debian_uploaded": null,
@@ -39939,15 +39886,13 @@
    "uploader": null
   },
   "nginx": {
-   "debian_uploaded": "2026-09-14T11:48:50+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "ubuntu-server"
    ],
-   "published": "2026-09-17T17:56:15.183389+00:00",
-   "teams": [
-    "ubuntu-server"
-   ],
-   "uploader": "costamagnagianfranco"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "nifticlib": {
    "debian_uploaded": "2026-09-25T10:05:22+00:00",
@@ -40033,13 +39978,6 @@
    "teams": [],
    "uploader": "ginggs"
   },
-  "node-execa": {
-   "debian_uploaded": "2026-09-21T19:36:42+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T13:50:11.579373+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
-  },
   "node-html5shiv": {
    "debian_uploaded": null,
    "package_sets": [
@@ -40093,21 +40031,14 @@
    "teams": [],
    "uploader": null
   },
-  "node-yarnpkg": {
-   "debian_uploaded": "2026-08-17T19:35:04+00:00",
-   "package_sets": [],
-   "published": "2026-09-03T11:16:12.565772+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
-  },
   "nodejs": {
-   "debian_uploaded": "2026-08-31T22:34:15+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "kubuntu"
    ],
-   "published": "2026-09-12T20:25:57.952263+00:00",
+   "published": null,
    "teams": [],
-   "uploader": "costamagnagianfranco"
+   "uploader": null
   },
   "norm": {
    "debian_uploaded": null,
@@ -40742,8 +40673,29 @@
    "teams": [],
    "uploader": "eeickmeyer"
   },
+  "obs-downstream-keyer": {
+   "debian_uploaded": "2026-02-23T19:48:49+00:00",
+   "package_sets": [],
+   "published": "2026-04-24T08:45:29.056843+00:00",
+   "teams": [],
+   "uploader": "eeickmeyer"
+  },
   "obs-draw-dock": {
    "debian_uploaded": "2026-02-12T02:33:42+00:00",
+   "package_sets": [],
+   "published": "2026-04-24T08:45:29.056843+00:00",
+   "teams": [],
+   "uploader": "eeickmeyer"
+  },
+  "obs-scene-as-transition": {
+   "debian_uploaded": "2026-02-14T04:49:22+00:00",
+   "package_sets": [],
+   "published": "2026-04-24T08:45:29.056843+00:00",
+   "teams": [],
+   "uploader": "eeickmeyer"
+  },
+  "obs-scene-notes-dock": {
+   "debian_uploaded": "2026-02-23T19:04:12+00:00",
    "package_sets": [],
    "published": "2026-04-24T08:45:29.056843+00:00",
    "teams": [],
@@ -42770,13 +42722,6 @@
    "teams": [],
    "uploader": "suivue"
   },
-  "onnxruntime": {
-   "debian_uploaded": "2026-09-22T10:05:20+00:00",
-   "package_sets": [],
-   "published": "2026-09-22T15:09:14.802263+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
-  },
   "opal": {
    "debian_uploaded": null,
    "package_sets": [
@@ -42811,11 +42756,11 @@
     "ubuntu-desktop",
     "ubuntu-server"
    ],
-   "published": "2026-09-16T13:29:23.146905+00:00",
+   "published": "2026-09-30T13:27:51.023859+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "bdrung"
+   "uploader": "hectorcao"
   },
   "open-isns": {
    "debian_uploaded": null,
@@ -42929,13 +42874,13 @@
    "uploader": null
   },
   "opencv": {
-   "debian_uploaded": "2026-09-19T10:34:30+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "kubuntu"
    ],
-   "published": "2026-09-30T09:48:31.523703+00:00",
+   "published": null,
    "teams": [],
-   "uploader": "costamagnagianfranco"
+   "uploader": null
   },
   "openexr": {
    "debian_uploaded": "2026-08-22T11:04:38+00:00",
@@ -43337,11 +43282,11 @@
     "ubuntu-desktop",
     "ubuntu-server"
    ],
-   "published": "2026-08-12T19:15:37.780061+00:00",
+   "published": "2026-09-30T13:24:09.805185+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "ravi-sharma"
+   "uploader": "mdeslaur"
   },
   "openvpn-dco-dkms": {
    "debian_uploaded": null,
@@ -45018,13 +44963,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "phpunit": {
-   "debian_uploaded": "2026-04-05T15:06:27+00:00",
-   "package_sets": [],
-   "published": "2026-08-01T17:13:52.990545+00:00",
-   "teams": [],
-   "uploader": "pkg-php-pear"
   },
   "pibootctl": {
    "debian_uploaded": null,
@@ -46790,6 +46728,13 @@
    "teams": [],
    "uploader": null
   },
+  "pypy3": {
+   "debian_uploaded": "2026-09-09T14:24:23+00:00",
+   "package_sets": [],
+   "published": "2026-10-01T06:29:11.635237+00:00",
+   "teams": [],
+   "uploader": "ruancomelli"
+  },
   "pyqt-builder": {
    "debian_uploaded": null,
    "package_sets": [
@@ -47101,6 +47046,15 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "python-awscurl": {
+   "debian_uploaded": "2026-09-20T11:19:56+00:00",
+   "package_sets": [],
+   "published": "2026-09-08T13:49:11.923389+00:00",
+   "teams": [
+    "ubuntu-openstack"
+   ],
+   "uploader": "himax16"
   },
   "python-babel": {
    "debian_uploaded": null,
@@ -48574,13 +48528,15 @@
    "uploader": null
   },
   "python-observabilityclient": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-20T19:18:33+00:00",
    "package_sets": [
     "openstack"
    ],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "published": "2026-09-30T14:16:07.311091+00:00",
+   "teams": [
+    "ubuntu-openstack"
+   ],
+   "uploader": "gboutry"
   },
   "python-octavia-lib": {
    "debian_uploaded": "2026-09-20T19:50:14+00:00",
@@ -49120,17 +49076,15 @@
    "uploader": null
   },
   "python-pbr": {
-   "debian_uploaded": "2026-09-19T21:35:44+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "i386-whitelist",
     "openstack",
     "ubuntustudio"
    ],
-   "published": "2026-09-12T20:26:09.353421+00:00",
-   "teams": [
-    "ubuntu-openstack"
-   ],
-   "uploader": "himax16"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "python-pefile": {
    "debian_uploaded": null,
@@ -51105,11 +51059,11 @@
    "package_sets": [
     "ubuntu-server"
    ],
-   "published": "2026-09-08T00:44:59.203352+00:00",
+   "published": "2026-09-30T14:18:34.774777+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "hectorcao"
+   "uploader": "lvoytek"
   },
   "racc": {
    "debian_uploaded": null,
@@ -53018,18 +52972,11 @@
   "rust-gst-plugin-gtk4": {
    "debian_uploaded": "2026-09-23T10:49:38+00:00",
    "package_sets": [],
-   "published": "2026-07-24T17:58:20.909820+00:00",
+   "published": "2026-09-30T13:27:51.023859+00:00",
    "teams": [
     "desktop-packages"
    ],
    "uploader": "charles05-d"
-  },
-  "rust-gtk4": {
-   "debian_uploaded": "2026-09-05T10:18:52+00:00",
-   "package_sets": [],
-   "published": "2026-09-06T19:11:21.122614+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-im-rc": {
    "debian_uploaded": null,
@@ -54087,13 +54034,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "scotch": {
-   "debian_uploaded": "2026-09-22T13:06:12+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T13:01:08.906733+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
   },
   "scour": {
    "debian_uploaded": null,
@@ -55794,7 +55734,7 @@
   "sra-sdk": {
    "debian_uploaded": "2026-09-28T01:34:14+00:00",
    "package_sets": [],
-   "published": "2026-09-28T14:11:17.512524+00:00",
+   "published": "2026-10-01T03:47:38.644743+00:00",
    "teams": [],
    "uploader": "costamagnagianfranco"
   },
@@ -56467,13 +56407,6 @@
    ],
    "uploader": "ravi-sharma"
   },
-  "symfony": {
-   "debian_uploaded": "2026-08-24T16:19:42+00:00",
-   "package_sets": [],
-   "published": "2026-09-28T14:05:41.502762+00:00",
-   "teams": [],
-   "uploader": "costamagnagianfranco"
-  },
   "symlinks": {
    "debian_uploaded": null,
    "package_sets": [
@@ -56764,14 +56697,16 @@
    "uploader": null
   },
   "tar": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-09-16T23:04:22+00:00",
    "package_sets": [
     "core",
     "i386-whitelist"
    ],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "published": "2026-10-01T05:38:29.304429+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "peb"
   },
   "tar-doc": {
    "debian_uploaded": null,
@@ -57836,9 +57771,11 @@
     "core",
     "i386-whitelist"
    ],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "published": "2026-07-30T03:27:07.553770+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "bdrung"
   },
   "u-boot": {
    "debian_uploaded": null,
@@ -60021,15 +59958,15 @@
    "uploader": "tsimonq2"
   },
   "wireplumber": {
-   "debian_uploaded": "2026-09-08T16:48:53+00:00",
+   "debian_uploaded": "2026-09-30T10:06:10+00:00",
    "package_sets": [
     "ubuntu-desktop"
    ],
-   "published": "2026-08-23T20:33:24.309093+00:00",
+   "published": "2026-09-30T13:57:16.673648+00:00",
    "teams": [
     "desktop-packages"
    ],
-   "uploader": "lvoytek"
+   "uploader": "charles05-d"
   },
   "witalian": {
    "debian_uploaded": null,
@@ -60084,6 +60021,13 @@
    "published": "2026-04-24T08:45:29.056843+00:00",
    "teams": [],
    "uploader": "seb128"
+  },
+  "workrave": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "published": "2026-07-29T02:07:09.369219+00:00",
+   "teams": [],
+   "uploader": "aleasto"
   },
   "wpa": {
    "debian_uploaded": null,
@@ -61595,17 +61539,15 @@
    "uploader": null
   },
   "xorg-server": {
-   "debian_uploaded": "2026-06-02T09:34:40+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "desktop-core",
     "i386-whitelist",
     "xorg"
    ],
-   "published": "2026-09-15T17:23:12.513468+00:00",
-   "teams": [
-    "debcrafters-packages"
-   ],
-   "uploader": "tjaalton"
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "xorg-server-omap-revert": {
    "debian_uploaded": null,

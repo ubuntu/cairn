@@ -386,6 +386,25 @@ def _environment() -> Environment:
     return env
 
 
+def _observed_series(state: Mapping[str, SignalState]) -> str:
+    """Fallback when no run record names the series.
+
+    The most recently observed active signal, never the first in the log:
+    the log outlives every series, so its first line names whichever series
+    cairn started in, long after that series has been released.
+    """
+    latest = max(
+        (
+            st
+            for st in state.values()
+            if st.is_active and st.signal.kind is Kind.NEEDS_MERGE and st.signal.series
+        ),
+        key=lambda st: st.last_seen,
+        default=None,
+    )
+    return latest.signal.series if latest and latest.signal.series else "unknown"
+
+
 def _context(
     state: Mapping[str, SignalState],
     health: Mapping[str, SourceHealth],
@@ -397,9 +416,7 @@ def _context(
     metadata = metadata or Snapshot()
     rows = merge_rows(state, metadata, now=now)
     if series is None:
-        series = next(
-            (st.signal.series for st in state.values() if st.signal.series), "unknown"
-        )
+        series = _observed_series(state)
     return {
         "rows": rows,
         "overview": overview(state, rows, health, now=now),

@@ -21,6 +21,14 @@ class Kind(StrEnum):
     BUILD_FAILED = "build_failed"
 
 
+# Kinds observed only in whichever series is open for development. That series
+# is a moving pointer: at every release a new one opens and the archive is
+# copied forward, but the outstanding work is the same work. Keeping the series
+# out of identity lets a merge that waits through a release keep its history,
+# rather than resolving as if merged and reopening as if new.
+DEVELOPMENT_KINDS: frozenset[Kind] = frozenset({Kind.NEEDS_MERGE})
+
+
 class Severity(StrEnum):
     INFO = "info"
     LOW = "low"
@@ -66,12 +74,17 @@ class Signal:
 
     @property
     def identity(self) -> tuple[str, str, str, str]:
-        """Excludes payload, so a changing day count does not reset history."""
+        """Excludes payload, so a changing day count does not reset history.
+
+        Excludes the series for DEVELOPMENT_KINDS, which still carry it as an
+        observed field: a rollover is then an update, not a resolve and reopen.
+        """
+        series = "" if self.kind in DEVELOPMENT_KINDS else (self.series or "")
         return (
             str(self.kind),
             self.source_package,
             self.binary_package or "",
-            self.series or "",
+            series,
         )
 
     @property
