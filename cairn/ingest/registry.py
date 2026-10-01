@@ -10,6 +10,7 @@ from collections.abc import Callable, Mapping
 
 from cairn.ingest.base import Fetcher, Ingester
 from cairn.ingest.merges import MergesIngester
+from cairn.ingest.migration import MigrationIngester
 
 IngesterFactory = Callable[[Fetcher, str], Ingester]
 
@@ -38,4 +39,8 @@ def build(name: str, fetcher: Fetcher, series: str) -> Ingester:
 register(
     MergesIngester.name,
     lambda fetcher, series: MergesIngester(fetcher, series=series),
+)
+register(
+    MigrationIngester.name,
+    lambda fetcher, series: MigrationIngester(fetcher, series=series),
 )

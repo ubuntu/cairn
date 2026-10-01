@@ -26,7 +26,9 @@ class Kind(StrEnum):
 # copied forward, but the outstanding work is the same work. Keeping the series
 # out of identity lets a merge that waits through a release keep its history,
 # rather than resolving as if merged and reopening as if new.
-DEVELOPMENT_KINDS: frozenset[Kind] = frozenset({Kind.NEEDS_MERGE})
+DEVELOPMENT_KINDS: frozenset[Kind] = frozenset(
+    {Kind.NEEDS_MERGE, Kind.MIGRATION_BLOCKED}
+)
 
 
 class Severity(StrEnum):

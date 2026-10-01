@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_migration.html" as m with context %}
 {% block title %}Cairn | Merges for {{ group.title }}{% endblock %}
 
 {% block content %}
@@ -6,21 +7,21 @@
   <div class="row">
     <div class="col-12">
       <p class="p-text--small-caps u-text--muted">
-        <a href="{{ root }}index.html">Merge candidates</a> / {{ group.subtitle }}
+        <a href="{{ root }}merges/index.html">Merge candidates</a> / {{ group.subtitle }}
       </p>
       <h1 class="p-heading--3">{{ group.title }}</h1>
-      <p class="u-text--muted">
-        {{ group.count }} candidate{{ '' if group.count == 1 else 's' }},
-        {{ group.new_upstream }} with a new upstream release.
-      </p>
       {% if group.note %}
       <p class="u-text--muted">{{ group.note }}</p>
       {% endif %}
+      <ul class="p-inline-list--middot">
+        <li class="p-inline-list__item">{{ group.count }} merge candidate{{ '' if group.count == 1 else 's' }}, {{ group.new_upstream }} with a new upstream release</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<section class="p-strip is-shallow u-no-padding--top">
+{% if group.rows %}
+<section class="p-strip is-shallow u-no-padding--top" id="merges">
   <div class="row">
     <div class="col-12">
       <table class="p-table--mobile-card">
@@ -37,14 +38,14 @@
             <th class="u-align--right">Debian uploaded</th>
             {# Ownership trails the versions: it is context, not the work.
                This page's own axis is omitted, being one repeated value. #}
-            {% if group.kind != 'uploaders' %}<th>Last uploader</th>{% endif %}
+            {% if group.kind != 'uploaders' %}<th>Uploader</th>{% endif %}
             {% if group.kind != 'teams' %}<th>Subscribed team</th>{% endif %}
             {% if group.kind != 'sets' %}<th>Package set</th>{% endif %}
           </tr>
         </thead>
         <tbody>
           {% for row in group.rows %}
-          <tr>
+          <tr id="{{ row.anchor }}">
             <td data-heading="Package" class="cairn-package">
               {% if row.url %}<a
                 href="{{ row.url }}"
@@ -76,11 +77,7 @@
             </td>
             <td data-heading="Ubuntu" class="cairn-version--ubuntu">
               <a href="{{ row.ubuntu_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.ubuntu_version }}</code></a>
-              {% if row.in_proposed %}
-              <span class="p-chip is-readonly is-inline is-dense" title="This version is in -proposed and has not migrated to release yet">
-                <span class="p-chip__value">proposed</span>
-              </span>
-              {% endif %}
+              {% if row.in_proposed %}{{ m.proposed_chip(row, group) }}{% endif %}
             </td>
             <td data-heading="Debian" class="cairn-version--debian">
               <a href="{{ row.debian_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.debian_version }}</code></a>
@@ -90,12 +87,12 @@
               {% else %}<span class="u-text--muted">unknown</span>{% endif %}
             </td>
             <td data-heading="Debian uploaded" class="u-align--right">
-              {{ row.debian_uploaded | ago(now) }}
+              {{ row.debian_uploaded | iso_date or "unknown" }}
             </td>
             {% if group.kind != 'uploaders' %}
-            <td data-heading="Last uploader">
+            <td data-heading="Uploader">
               {% if row.uploader %}
-              <a href="{{ root }}uploaders/{{ row.uploader | slug }}.html">{{ row.uploader }}</a>
+              <a href="{{ root }}merges/uploaders/{{ row.uploader | slug }}.html">{{ row.uploader }}</a>
               {% else %}
               <span class="u-text--muted">unknown</span>
               {% endif %}
@@ -104,7 +101,7 @@
             {% if group.kind != 'teams' %}
             <td data-heading="Subscribed team">
               {% for name in row.teams %}
-              <a href="{{ root }}teams/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
+              <a href="{{ root }}merges/teams/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
               {% else %}
               <span class="u-text--muted">none</span>
               {% endfor %}
@@ -113,7 +110,7 @@
             {% if group.kind != 'sets' %}
             <td data-heading="Package set">
               {% for name in row.package_sets %}
-              <a href="{{ root }}sets/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
+              <a href="{{ root }}merges/sets/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
               {% else %}
               <span class="u-text--muted">none</span>
               {% endfor %}
@@ -123,8 +120,8 @@
           {% endfor %}
         </tbody>
       </table>
-      <p><a href="{{ root }}index.html">Back to all merge candidates</a></p>
     </div>
   </div>
 </section>
+{% endif %}
 {% endblock %}

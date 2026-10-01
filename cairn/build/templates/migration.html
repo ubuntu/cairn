@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% block title %}Cairn | Stuck in proposed{% endblock %}
+
+{% macro grouptable(groups, anchor, heading, what, note) %}
+{% if groups %}
+<section class="p-strip is-shallow u-no-padding--top" id="{{ anchor }}">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">{{ heading }}</h2>
+      <p class="u-text--muted">{{ note }}</p>
+      <table class="p-table--mobile-card">
+        <caption class="u-hide">Uploads stuck in proposed grouped by {{ what }}</caption>
+        <thead>
+          <tr>
+            <th>{{ what }}</th>
+            <th class="u-align--right">Stuck</th>
+            <th class="u-align--right">Still settling</th>
+            {% if anchor != "by-uploader" %}<th class="u-align--right">Tests blocking others</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in groups %}
+          <tr>
+            <td data-heading="{{ what }}"><a href="{{ root }}{{ group.migration_href }}">{{ group.title }}</a></td>
+            <td data-heading="Stuck" class="u-align--right">{{ group.stuck_count }}</td>
+            <td data-heading="Still settling" class="u-align--right">{{ group.settling(now) | length }}</td>
+            {% if anchor != "by-uploader" %}<td data-heading="Tests blocking others" class="u-align--right">{{ group.blocking_count }}</td>{% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endmacro %}
+
+{% block content %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="p-heading--2">Stuck in proposed</h1>
+      <p class="p-text--small-caps u-text--muted">{{ series }}</p>
+      <p>
+        Uploads to {{ series }} that britney will not migrate from -proposed.
+        Britney's verdict is the verdict; cairn adds who owns each upload and
+        how long it has been stuck.
+      </p>
+      {% set contents = [] %}
+      {% if migration_teams %}{% set _ = contents.append(("by-team", "By subscribed team")) %}{% endif %}
+      {% if migration_package_sets %}{% set _ = contents.append(("by-package-set", "By package set")) %}{% endif %}
+      {% if migration_uploaders %}{% set _ = contents.append(("by-uploader", "By uploader")) %}{% endif %}
+      {% if contents %}
+      <nav aria-label="Contents">
+        <ul class="p-inline-list--middot">
+          {% for anchor, text in contents %}
+          <li class="p-inline-list__item"><a href="#{{ anchor }}">{{ text }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+
+  {% include "_ownership.html" %}
+
+  {% if migration.frozen %}
+  <div class="row">
+    <div class="col-12">
+      <div class="p-notification--information">
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">{{ series }} is frozen</h5>
+          <p class="p-notification__message">
+            {{ migration.frozen }} upload{{ '' if migration.frozen == 1 else 's' }}
+            need{{ 's' if migration.frozen == 1 else '' }} release-team approval
+            before {{ 'it' if migration.frozen == 1 else 'they' }} can migrate,
+            whatever else is wrong.
+            {{ m.ext(m.guide("needs_approval"), "How to request a freeze exception") }}.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% set stale = stale_for.get(section, []) %}
+  {% if stale %}
+  <div class="row">
+    <div class="col-12">
+      <div class="p-notification--caution">
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">Data may be out of date</h5>
+          <p class="p-notification__message">
+            cairn last collected
+            {% for h in stale %}
+            <strong>{{ h.source }}</strong> {{ h.last_success | iso_time or "never" }}{% if not loop.last %}, {% endif %}
+            {% endfor %}.
+            This is about cairn's own pipeline, not about the packages below.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-2 col-medium-2 col-small-2">
+      <p class="p-heading--2 u-no-margin--bottom">{{ migration.total }}</p>
+      <p class="u-text--muted">stuck</p>
+    </div>
+    <div class="col-2 col-medium-2 col-small-2">
+      <p class="p-heading--2 u-no-margin--bottom">{{ migration.total - migration.settling }}</p>
+      <p class="u-text--muted">past settling</p>
+    </div>
+    <div class="col-2 col-medium-2 col-small-2">
+      <p class="p-heading--2 u-no-margin--bottom">{{ migration.blocking }}</p>
+      <p class="u-text--muted">packages whose tests block others</p>
+    </div>
+    {% if migration.has_a_week(now) %}
+    <div class="col-2 col-medium-2 col-small-2">
+      <p class="p-heading--2 u-no-margin--bottom">{{ migration.opened_recently }}</p>
+      <p class="u-text--muted">stuck this week</p>
+    </div>
+    <div class="col-2 col-medium-2 col-small-2">
+      <p class="p-heading--2 u-no-margin--bottom">{{ migration.resolved_recently }}</p>
+      <p class="u-text--muted">left the list this week</p>
+    </div>
+    <div class="col-2 col-medium-2 col-small-2">
+      <p class="p-heading--2 u-no-margin--bottom">{{ migration.reuploaded }}</p>
+      <p class="u-text--muted">stuck through several uploads</p>
+    </div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <p class="u-text--muted">
+        <strong>Still settling</strong> means in proposed for under
+        {{ settling_days }} days: probably still in the uploader's hands.
+        <strong>Stuck through several uploads</strong> counts packages cairn
+        has seen held under more than one upload, which britney cannot show:
+        it only knows the current one. <strong>Left the list</strong> counts
+        uploads that stopped being blocked, by migrating, being superseded or
+        being removed: britney does not say which.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% if migration.reasons %}
+<section class="p-strip is-shallow u-no-padding--top" id="why">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Why packages are stuck</h2>
+      <table class="p-table--mobile-card">
+        <caption class="u-hide">Uploads held by each reason. An upload can be held for more than one.</caption>
+        <thead>
+          <tr><th>Reason</th><th class="u-align--right">Uploads</th><th>Guide</th></tr>
+        </thead>
+        <tbody>
+          {% for reason, count in migration.reasons %}
+          <tr>
+            <td data-heading="Reason">{{ m.label(reason) }}</td>
+            <td data-heading="Uploads" class="u-align--right">{{ count }}</td>
+            {# Link text names its target: eight identical "docs" links are
+               indistinguishable in a screen reader's link list. #}
+            <td data-heading="Guide">{{ m.ext(m.guide(reason), m.guide_title(reason)) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p class="u-text--muted">An upload held for two reasons is counted under both.</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{{ grouptable(migration_teams, "by-team", "By subscribed team", "Team",
+   "Teams see their own stuck uploads and the uploads their packages' tests are holding back.") }}
+
+{{ grouptable(migration_package_sets, "by-package-set", "By package set", "Package set",
+   "Upload rights, keyed by name and series.") }}
+
+{{ grouptable(migration_uploaders, "by-uploader", "By uploader", "Uploader",
+   "Ubuntu's migration docs make the uploader responsible for getting an upload to migrate. Debian syncs have no Ubuntu uploader and go to +1 maintenance.") }}
+
+{% if not stuck %}
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <p>Nothing is stuck in proposed. Either every upload is migrating, or
+         the log has not been written yet.</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

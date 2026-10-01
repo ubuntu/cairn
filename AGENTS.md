@@ -127,14 +127,16 @@ in 7.8 KB. Follow that precedent.
 the log, so there is no binary churn in git. Gives real SQL for the joins that
 make the unified view possible.
 
-> **Not built yet, deliberately.** With one source and ~780 signals there are no
-> joins to justify it, and `replay()` already returns exactly what the templates
-> need. Building it now would mean a schema, loader and queries that get
-> rewritten when the second and third sources arrive with different payload
-> shapes. The seam is unchanged either way: `build/site.py` takes a mapping of
-> `SignalState`, so swapping the provider touches one module. Build it when a
-> page must join across sources — realistically `package → package sets → teams`
-> for the per-developer view — or when replay gets slow.
+> **Not built yet, deliberately.** Two sources now meet on one page — the
+> merges and stuck-in-proposed boards share owner pages, and each links to the
+> other's row for the same package — but that join is a lookup by source
+> package name, which a dict answers in `build/site.py`. A database earns its
+> place when a page needs a join a dict cannot do cheaply: realistically
+> `developer → teams → packages → signals` for a personal view, or filters
+> chosen by the reader. Building it now would mean a schema, loader and
+> queries that get rewritten as payload shapes keep arriving. The seam is
+> unchanged either way: `build/site.py` takes a mapping of `SignalState`, so
+> swapping the provider touches one module. Also build it when replay gets slow.
 
 **Static output.** Removes the entire operational surface — no server, no
 database to run, no secrets. Proven for this exact domain by `auto-mp-reviewer`
@@ -161,7 +163,7 @@ Counted live from the current archive, as a sanity check on the static approach:
 
 | Source | Active signals |
 | --- | --- |
-| proposed-migration (entries not a candidate) | ~1,080 of ~1,335 |
+| proposed-migration (entries not a candidate) | 587 of 606 (1 Oct 2026, during freeze); ~1,080 of ~1,335 at first count |
 | merge candidates (main + universe) | ~690 |
 | NBS binaries | ~675 |
 | pending SRU (all series) | ~215 |
@@ -230,14 +232,20 @@ exception above. It is listed separately so it is never mistaken for raw data:
 
 | Need | Endpoint | Size | Why it is here |
 | --- | --- | --- | --- |
-| Migration verdict | `ubuntu-archive-team.ubuntu.com/proposed-migration/update_excuses.yaml` | 1.7 MB xz → 26 MB | Britney's output. A package migrates *because britney said so*, so this is the verdict, not a description of it. Served as `application/x-xz` despite the `.yaml` name. ~1,335 entries, ~1,080 blocked. |
+| Migration verdict | `ubuntu-archive-team.ubuntu.com/proposed-migration/update_excuses.yaml.xz` | 0.7 MB xz → 13.4 MB (1 Oct 2026); 1.7 MB xz at first count | Britney's output. A package migrates *because britney said so*, so this is the verdict, not a description of it. Served as `application/x-xz` despite the `.yaml` name. 606 entries, 587 blocked on 1 Oct 2026; ~1,335 and ~1,080 at first count. Read by `cairn/ingest/migration.py`. |
 
 Note what cairn replaces here: `update_excuses_by_team.html` — the *page*. The
 YAML underneath is britney's structured output and is the thing worth keeping.
-When displaying a blocked package, show britney's verdict as the verdict, and
-compute the *explanation* (failing tests, missing builds) from the primary inputs
-above. That separation is what lets cairn answer "why" instead of relaying
-"blocked".
+When displaying a blocked package, show britney's verdict as the verdict.
+
+**Britney's policy results count as part of the verdict.** Each entry carries
+how britney decided: autopkgtest results per architecture, missing builds,
+freeze blocks, the items it waits for. Those are the decision engine's own
+reasons, not a report about them, so `migration.py` reads them from the same
+file. Recomputing them from the autopkgtest API and Launchpad would reproduce
+britney's inputs without its judgement, and could disagree with the verdict
+beside it. The primary inputs above may *add* detail — a build log, a test's
+history — but must not replace or contradict what britney says held a package.
 
 ### How each signal is derived
 
@@ -249,7 +257,7 @@ from, and which published report validates it as an oracle.
 | `needs_merge` | Ubuntu `Sources` vs Debian `Sources`, compared with Debian version ordering | `merges.ubuntu.com/{main,universe}.json` |
 | `nbs` | binaries in `Packages.gz` that no current source's `Binary:` field claims | `static-reports.ubuntu.com/nbs/` |
 | `sru_pending`, `sru_verification_failed` | LP bugs with `verification-*` tags + `-proposed` queue + archive state | `static-reports.ubuntu.com/pending-sru/sru_report.yaml` |
-| `migration_blocked` | britney verdict (consumed); explanation from autopkgtest + archive + LP builds | — verdict is itself authoritative |
+| `migration_blocked` | britney verdict and its policy results (consumed, see above); detail may be added from autopkgtest + LP builds | `update_excuses.csv` "not considered" count; `update_excuses_by_team.yaml` for regressing-other |
 | `transition_*` | ben config from the transition tracker + archive state | `transitions.ubuntu.com` |
 | `sponsorship_pending` | UDD | — UDD is the system of record |
 | `build_failed`, `bug_*` | LP API | — LP is the system of record |
@@ -306,7 +314,7 @@ hashed into a stable `signal_id` used to match observations across runs — whic
 is what makes `first_seen` and `resolved_at` possible.
 
 **Except for development kinds.** Kinds listed in `DEVELOPMENT_KINDS`
-(currently `needs_merge`) are only ever observed in whichever series is open
+(currently `needs_merge` and `migration_blocked`) are only ever observed in whichever series is open
 for development, and that is a moving pointer: at each release a new series
 opens and the archive is copied forward, but the outstanding work is the same.
 For those kinds the series is left out of identity and kept as an observed
@@ -373,6 +381,32 @@ package   → teams          (responsibility)
 developer → teams          (LP team membership)
 ```
 
+**The uploader is a third axis, per version.** Ubuntu's migration docs make
+the uploader responsible for getting their upload to migrate, and +1
+maintenance responsible for merges. So the uploader shown is always the one
+of the version on the row — `packages.json` keeps every current publication
+for that reason — never whichever upload is newest.
+
+"Uploader" means the person in the changelog, which Launchpad calls
+`package_creator`, never the sponsor. Launchpad's `package_signer` is whoever
+signed the upload, which for a sponsored upload is the sponsor (measured:
+`shadow` 1:4.19.3-2ubuntu1, creator `nadzeya`, signer `seb128`). The person
+who made the change owns getting it to migrate, so the signer is never shown
+and never routed to. It is only checked for being absent. A publication with no
+signer is a copy, almost always an auto-sync from Debian: Launchpad names the
+*Debian* uploader as its creator (measured: `gettext` → `sanvila`). Those are
+routed to the "+1 maintenance" group, never to someone outside Ubuntu.
+
+**One page per owner per kind.** A team, package set or
+uploader has a merges page (`merges/teams/x.html`) and a stuck-in-proposed page
+(`migration/teams/x.html`). A single page holding
+every kind grew as long as britney's excuses page, which is the problem the
+board exists to fix. Rows that concern the same package on both boards link
+straight to each other's row with a chip, so splitting the pages does not
+split the information. A page is only written for an owner with work of that
+kind. Each board has its own directory (`merges/`, `migration/`) and
+none is the default: the site root only lists the boards.
+
 **Pagination.** Launchpad collections paginate. Follow `next_collection_link`
 rather than trusting the first page — reading one page of `/package-sets` and
 concluding the list was short is a mistake that has already been made once during
@@ -431,7 +465,12 @@ deleting `data/*.jsonl` and starting again is allowed; after that it is not.
 Record the date the log restarted here when it happens, so the append-only
 guarantee begins from a stated point rather than being quietly broken later.
 
-**Running the pipeline.** `cairn ingest` is the only writer. It resolves the
+**Running the pipeline.** `cairn ingest` is the only writer, and it runs in
+CI. A run made elsewhere and committed alongside code conflicts with the next
+CI run, because both append to the same files: that is what failed ingest run
+36829185364 on 1 Oct 2026, and the laptop run that caused it (06:32 UTC) is
+the one entry in the log not written by CI. Keep `data/` out of pull requests.
+It resolves the
 development series from Launchpad unless `--series` says otherwise, appends
 changes to `data/signals.jsonl` and the run outcome to `data/health.jsonl`, and
 exits non-zero only when every source failed. `--dry-run` reports without

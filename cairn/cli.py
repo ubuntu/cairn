@@ -23,7 +23,7 @@ from cairn.core import health
 from cairn.core import log as logmod
 from cairn.core.reconcile import DEFAULT_MAX_RESOLVE_FRACTION
 from cairn.core.runner import Outcome, RunReport, run
-from cairn.ingest import metadata, registry
+from cairn.ingest import metadata, migration, registry
 from cairn.ingest.base import Fetcher
 from cairn.ingest.http import Cache, FileCache, HttpFetcher, ReadOnlyCache
 from cairn.ingest.metadata import IncompleteRefresh
@@ -176,6 +176,9 @@ def _refresh_metadata(
     """
     active = [st for st in logmod.load(args.signals).values() if st.is_active]
     wanted = {st.signal.source_package for st in active}
+    # The owners of a regressing test can fix it, so they need routing too.
+    for st in active:
+        wanted |= migration.referenced_packages(st.signal)
     candidates = {
         st.signal.source_package: (
             st.signal.payload["ubuntu_version"],
@@ -208,7 +211,8 @@ def cmd_build(
     fetcher: Fetcher | None = None,
     connect: Callable[[], object] | None = None,
 ) -> int:
-    state = logmod.load(args.signals)
+    events = list(logmod.read(args.signals))
+    state = logmod.replay(events)
     if not state:
         print(
             f"cairn: no signals in {args.signals}; run `cairn ingest` first",
@@ -226,6 +230,7 @@ def cmd_build(
             # The series the last good ingest observed, so the page follows
             # the development series across a release without a redeploy.
             series=args.series or health.latest_series(health.read(args.health)),
+            history=site.History.of(events),
         )
     except NotASiteDirectory as exc:
         print(f"cairn: {exc}", file=sys.stderr)
