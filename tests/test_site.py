@@ -231,7 +231,7 @@ class TestGrouping:
         )
         groups = group_by_uploader(merge_rows(state, meta, now=NOW))
         assert groups[-1].name == "no-uploader-recorded"
-        assert groups[-1].href == "uploaders/no-uploader-recorded.html"
+        assert groups[-1].href == "merges/uploaders/no-uploader-recorded.html"
 
     def test_package_sets_and_teams_stay_separate(self):
         """AGENTS.md section 5: one name can exist on both axes."""
@@ -242,8 +242,8 @@ class TestGrouping:
         rows = merge_rows(state, meta, now=NOW)
         sets = group_by_package_set(rows)
         teams = group_by_team(rows)
-        assert [g.href for g in sets] == ["sets/ubuntu-desktop.html"]
-        assert [g.href for g in teams] == ["teams/ubuntu-desktop.html"]
+        assert [g.href for g in sets] == ["merges/sets/ubuntu-desktop.html"]
+        assert [g.href for g in teams] == ["merges/teams/ubuntu-desktop.html"]
 
     def test_a_package_can_be_in_several_sets(self):
         meta = just("x", package_sets=("core", "kernel"))
@@ -311,15 +311,34 @@ class TestRender:
         assert "p-notification--positive" not in html
         assert "last collected" not in html
         assert "Built 2026-04-01 00:00 UTC" in html
-        assert "1 Apr 2026" in html
-        assert "data collected" in html
+
+    def test_the_collection_date_is_in_the_footer_only(self, tmp_path):
+        both = healthy() | {
+            "migration": SourceHealth("migration", last_attempt=NOW, last_success=NOW)
+        }
+        build(state_of(opened(signal("cron"))), both, just(), out=tmp_path, now=NOW)
+        pages = list(tmp_path.rglob("*.html"))
+        assert len(pages) >= 3
+        for page in pages:
+            html = page.read_text()
+            footer = html.split("<footer")[1]
+            assert "Data collected 2026-04-01 00:00 UTC." in footer, page
+            assert "data collected" not in html.split("<footer")[0], page
+
+    def test_says_so_when_nothing_was_ever_collected(self):
+        html = render(state_of(opened(signal("cron"))), {}, just(), now=NOW)
+        assert "No data collected yet." in html.split("<footer")[1]
 
     def test_tab_titles(self, tmp_path):
         build(
             state_of(opened(signal("cron"))), healthy(), just(), out=tmp_path, now=NOW
         )
-        assert "<title>Cairn | Merges</title>" in (tmp_path / "index.html").read_text()
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        assert "<title>Cairn</title>" in (tmp_path / "index.html").read_text()
+        merges = (tmp_path / "merges/index.html").read_text()
+        assert "<title>Cairn | Merges</title>" in merges
+        migration = (tmp_path / "migration/index.html").read_text()
+        assert "<title>Cairn | Stuck in proposed</title>" in migration
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "<title>Cairn | Merges for doko</title>" in page
 
     def test_a_stale_source_still_raises_a_banner(self):
@@ -404,7 +423,7 @@ class TestProposedFlag:
             out=tmp_path,
             now=NOW,
         )
-        return (tmp_path / "uploaders/doko.html").read_text()
+        return (tmp_path / "merges/uploaders/doko.html").read_text()
 
     def test_marks_a_proposed_version(self, tmp_path):
         cell = self.page(tmp_path, in_proposed=True).split('data-heading="Ubuntu"')[1]
@@ -437,7 +456,8 @@ class TestBuild:
             now=NOW,
         )
         assert out.name == "index.html"
-        assert "uploaders/doko.html" in out.read_text()
+        merges = (tmp_path / "s" / "merges/index.html").read_text()
+        assert 'href="../merges/uploaders/doko.html"' in merges
 
     def test_writes_a_page_per_group(self, tmp_path):
         meta = just(
@@ -446,9 +466,9 @@ class TestBuild:
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
         for path in (
-            "uploaders/doko.html",
-            "sets/core.html",
-            "teams/ubuntu-server.html",
+            "merges/uploaders/doko.html",
+            "merges/sets/core.html",
+            "merges/teams/ubuntu-server.html",
         ):
             assert (tmp_path / path).exists(), path
             assert "cron" in (tmp_path / path).read_text()
@@ -457,7 +477,7 @@ class TestBuild:
         """Launchpad for the Ubuntu side, tracker.debian.org for the Debian."""
         meta = just()
         build(state_of(opened(signal("cron"))), healthy(), meta, out=tmp_path, now=NOW)
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "https://launchpad.net/ubuntu/+source/cron" in page
         assert "https://tracker.debian.org/pkg/cron" in page
 
@@ -465,7 +485,7 @@ class TestBuild:
         build(
             state_of(opened(signal("cron"))), healthy(), just(), out=tmp_path, now=NOW
         )
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert 'href="https://launchpad.net/ubuntu/+source/cron/1.0-1ubuntu1"' in page
         assert (
             '<a href="https://tracker.debian.org/pkg/cron" target="_blank"'
@@ -483,7 +503,7 @@ class TestBuild:
     def test_the_tracker_link_sits_under_the_package_name(self, tmp_path):
         meta = just()
         build(state_of(opened(signal("cron"))), healthy(), meta, out=tmp_path, now=NOW)
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "Debian tracker" in page
         assert "p-text--small" in page
 
@@ -491,7 +511,7 @@ class TestBuild:
         """Muted colour is not the only cue: the icon carries it too."""
         meta = just()
         build(state_of(opened(signal("cron"))), healthy(), meta, out=tmp_path, now=NOW)
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "p-icon--external-link" in page
 
     def test_tracker_links_survive_awkward_names(self, tmp_path):
@@ -499,13 +519,13 @@ class TestBuild:
         build(
             state_of(opened(signal("gtk+3.0"))), healthy(), meta, out=tmp_path, now=NOW
         )
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "https://tracker.debian.org/pkg/gtk+3.0" in page
 
     def test_group_pages_link_back_up_a_directory(self, tmp_path):
         meta = just()
         build(state_of(opened(signal("cron"))), healthy(), meta, out=tmp_path, now=NOW)
-        assert "../index.html" in (tmp_path / "uploaders/doko.html").read_text()
+        assert "../index.html" in (tmp_path / "merges/uploaders/doko.html").read_text()
 
 
 class TestCrossReferences:
@@ -517,10 +537,10 @@ class TestCrossReferences:
         )
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "Subscribed team" in page and "Package set" in page
-        assert "../teams/ubuntu-server.html" in page
-        assert "../sets/core.html" in page
+        assert "../../merges/teams/ubuntu-server.html" in page
+        assert "../../merges/sets/core.html" in page
 
     def test_a_page_omits_its_own_axis(self, tmp_path):
         """A column of one repeated value carries no information."""
@@ -529,37 +549,41 @@ class TestCrossReferences:
         )
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
-        assert "Last uploader" not in (tmp_path / "uploaders/doko.html").read_text()
         assert (
-            "Subscribed team" not in (tmp_path / "teams/ubuntu-server.html").read_text()
+            "<th>Uploader</th>"
+            not in (tmp_path / "merges/uploaders/doko.html").read_text()
         )
-        assert "Package set" not in (tmp_path / "sets/core.html").read_text()
+        assert (
+            "Subscribed team"
+            not in (tmp_path / "merges/teams/ubuntu-server.html").read_text()
+        )
+        assert "Package set" not in (tmp_path / "merges/sets/core.html").read_text()
 
-    def test_a_team_page_names_the_last_uploader(self, tmp_path):
+    def test_a_team_page_names_the_uploader(self, tmp_path):
         meta = just("cron", uploader="doko", teams=("ubuntu-server",))
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
-        page = (tmp_path / "teams/ubuntu-server.html").read_text()
-        assert "Last uploader" in page and "Package set" in page
-        assert "../uploaders/doko.html" in page
+        page = (tmp_path / "merges/teams/ubuntu-server.html").read_text()
+        assert "<th>Uploader</th>" in page and "Package set" in page
+        assert "../../merges/uploaders/doko.html" in page
 
-    def test_a_package_set_page_names_the_last_uploader(self, tmp_path):
+    def test_a_package_set_page_names_the_uploader(self, tmp_path):
         meta = just("cron", uploader="doko", package_sets=("core",))
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
-        page = (tmp_path / "sets/core.html").read_text()
-        assert "../uploaders/doko.html" in page
+        page = (tmp_path / "merges/sets/core.html").read_text()
+        assert "../../merges/uploaders/doko.html" in page
 
     def test_a_package_with_no_team_says_so(self, tmp_path):
         meta = just()
         build(state_of(opened(signal("cron"))), healthy(), meta, out=tmp_path, now=NOW)
-        assert "none" in (tmp_path / "uploaders/doko.html").read_text()
+        assert "none" in (tmp_path / "merges/uploaders/doko.html").read_text()
 
     def test_an_unknown_uploader_says_so(self, tmp_path):
         meta = just("cron", uploader=None, teams=("ubuntu-server",))
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
-        assert "unknown" in (tmp_path / "teams/ubuntu-server.html").read_text()
+        assert "unknown" in (tmp_path / "merges/teams/ubuntu-server.html").read_text()
 
     def test_creates_the_directory(self, tmp_path):
         meta = just()
@@ -583,20 +607,44 @@ class TestCrossReferences:
             out=out,
             now=NOW,
         )
-        index = (out / "index.html").read_text()
-        assert "uploaders/bob.html" in index
-        assert "uploaders/alice.html" not in index
+        index = (out / "merges/index.html").read_text()
+        assert "merges/uploaders/bob.html" in index
+        assert "merges/uploaders/alice.html" not in index
+        assert not (out / "merges/uploaders/alice.html").exists()
 
 
 @pytest.mark.parametrize(
     ("days", "expected"),
-    [(0, "just now"), (5, "5 d ago"), (800, "2 y ago")],
+    [(0, "2026-04-01"), (5, "2026-03-27"), (800, "2024-01-22")],
 )
-def test_debian_upload_age_reads_as_text(days, expected, tmp_path):
+def test_debian_upload_is_an_iso_date(days, expected, tmp_path):
+    """A date, not "5 d ago": relative text freezes when a static page is
+    built and is wrong by the time anyone reads it."""
     meta = just("cron", debian_uploaded=NOW - timedelta(days=days))
     state = state_of(opened(signal("cron")))
     build(state, healthy(), meta, out=tmp_path, now=NOW)
-    assert expected in (tmp_path / "uploaders/doko.html").read_text()
+    page = (tmp_path / "merges/uploaders/doko.html").read_text()
+    cell = page.split('data-heading="Debian uploaded"')[1].split("</td>")[0]
+    assert cell.strip().endswith(expected)
+
+
+def test_every_date_on_every_page_is_iso(tmp_path):
+    """One format everywhere: YYYY-MM-DD, with HH:MM UTC for a moment."""
+    import re
+
+    build(
+        state_of(opened(signal("cron"))),
+        stale_health(),
+        just(),
+        out=tmp_path,
+        now=NOW,
+    )
+    months = r"\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b"
+    for page in tmp_path.rglob("*.html"):
+        html = re.sub(r"<(style|head)[^>]*>.*?</\1>", " ", page.read_text(), flags=re.S)
+        text = re.sub(r"<[^>]+>", " ", html)
+        assert not re.search(months, text), page
+        assert not re.search(r"\b\d+ (d|h|y|min) ago\b|just now", text), page
 
 
 class TestComponent:
@@ -608,7 +656,7 @@ class TestComponent:
         )
         meta = owned(("cron", {}), ("qemu", {}))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert ">Component</th>" in page
         cells = re.findall(r'data-heading="Component"[^>]*>\s*([a-z]+)', page)
         assert sorted(cells) == ["main", "universe"]
@@ -616,7 +664,7 @@ class TestComponent:
     def test_a_missing_component_says_unknown(self, tmp_path):
         state = state_of(opened(signal("cron", component=None)))
         build(state, healthy(), just(), out=tmp_path, now=NOW)
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "unknown" in page
 
 
@@ -653,7 +701,7 @@ class TestExternalLinks:
         build(
             state_of(opened(signal("cron"))), healthy(), just(), out=tmp_path, now=NOW
         )
-        page = (tmp_path / "uploaders/doko.html").read_text()
+        page = (tmp_path / "merges/uploaders/doko.html").read_text()
         back = next(a for a in re.findall(r"<a\b[^>]*>", page) if "../index.html" in a)
         assert "target=" not in back
 
@@ -710,7 +758,7 @@ class TestOutputDirectorySafety:
             out=tmp_path,
             now=NOW,
         )
-        assert (tmp_path / "uploaders/alice.html").exists()
+        assert (tmp_path / "merges/uploaders/alice.html").exists()
 
         build(
             state_of(opened(signal("qemu"))),
@@ -719,8 +767,8 @@ class TestOutputDirectorySafety:
             out=tmp_path,
             now=NOW,
         )
-        assert not (tmp_path / "uploaders/alice.html").exists()
-        assert (tmp_path / "uploaders/bob.html").exists()
+        assert not (tmp_path / "merges/uploaders/alice.html").exists()
+        assert (tmp_path / "merges/uploaders/bob.html").exists()
 
 
 class TestOutputDirectoryUpgrade:
@@ -748,3 +796,57 @@ class TestOutputDirectoryUpgrade:
                 now=NOW,
             )
         assert (tmp_path / "assets" / "keep.txt").exists()
+
+
+class TestLayout:
+    """Each board lives in its own directory; the root favours neither."""
+
+    def built(self, tmp_path):
+        build(
+            state_of(opened(signal("cron"))),
+            healthy(),
+            just("cron", teams=("debcrafters-packages",)),
+            out=tmp_path,
+            now=NOW,
+        )
+        return tmp_path
+
+    def test_merges_owner_pages_live_under_merges(self, tmp_path):
+        out = self.built(tmp_path)
+        assert (out / "merges/teams/debcrafters-packages.html").exists()
+        assert not (out / "teams").exists()
+
+    def test_the_root_links_to_every_board(self, tmp_path):
+        home = (self.built(tmp_path) / "index.html").read_text()
+        main = home.split("<main>")[1]
+        assert 'href="merges/index.html"' in main
+        assert 'href="migration/index.html"' in main
+        # The root is not the merges board.
+        assert "By subscribed team" not in home
+
+    def test_no_nav_item_is_selected_at_the_root(self, tmp_path):
+        home = (self.built(tmp_path) / "index.html").read_text()
+        assert 'aria-current="page"' not in home
+
+    def test_a_site_built_before_the_move_is_cleaned_up(self, tmp_path):
+        (tmp_path / "teams").mkdir()
+        (tmp_path / "teams/old.html").write_text("stale")
+        (tmp_path / "index.html").write_text("old")
+        self.built(tmp_path)
+        assert not (tmp_path / "teams").exists()
+
+    def test_owner_pages_carry_no_footer_links_back(self, tmp_path):
+        """The breadcrumb at the top already leads back to the board."""
+        page = (
+            self.built(tmp_path) / "merges/teams/debcrafters-packages.html"
+        ).read_text()
+        assert "All merge candidates" not in page
+        assert "Everything stuck in proposed" not in page
+
+
+def test_no_page_calls_the_owner_the_last_uploader(tmp_path):
+    """Copilot review on #13: rows are routed to the uploader of the version
+    shown, which can differ from the latest uploader."""
+    build(state_of(opened(signal("cron"))), healthy(), just(), out=tmp_path, now=NOW)
+    for page in tmp_path.rglob("*.html"):
+        assert "last uploader" not in page.read_text().lower(), page

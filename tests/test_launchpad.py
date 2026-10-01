@@ -122,6 +122,61 @@ class TestPublicationFetch:
         )
         assert found["cron"].uploader == "new"
 
+    def test_a_tie_on_date_is_settled_by_version_not_listing_order(self):
+        """Opening a series copies both pockets in one instant: 2026-04-24
+        08:45:29 on opensnitch, parsinsert, rxtx. Listing order must not pick
+        the uploader."""
+        copied = "2026-04-24T08:45:29.056843+00:00"
+        release = {
+            "source_package_name": "opensnitch",
+            "source_package_version": "1.6.9-3ubuntu1",
+            "date_created": copied,
+            "package_creator_link": "https://api.launchpad.net/devel/~mpellizzer",
+            "pocket": "Release",
+        }
+        proposed = dict(
+            release,
+            source_package_version="1.6.9-3ubuntu2",
+            package_creator_link="https://api.launchpad.net/devel/~desktop-rebuild-bot",
+            pocket="Proposed",
+        )
+        for order in ([release, proposed], [proposed, release]):
+            raw = json.dumps({"entries": order}).encode()
+            found = publications.fetch(
+                Fetcher(default=raw), SERIES, max_pages=1, on_page=None
+            )
+            assert found["opensnitch"].uploader == "desktop-rebuild-bot"
+
+    def test_fetch_all_keeps_every_pocket(self):
+        release = {
+            "source_package_name": "shadow",
+            "source_package_version": "1:4.19.3-2ubuntu1",
+            "package_creator_link": "https://api.launchpad.net/devel/~nadzeya",
+            "package_signer_link": "https://api.launchpad.net/devel/~seb128",
+            "pocket": "Release",
+        }
+        proposed = dict(
+            release,
+            source_package_version="1:4.19.3-2ubuntu2",
+            package_creator_link="https://api.launchpad.net/devel/~mwhudson",
+            package_signer_link="https://api.launchpad.net/devel/~mwhudson",
+            pocket="Proposed",
+        )
+        raw = json.dumps({"entries": [release, proposed]}).encode()
+        found = publications.fetch_all(
+            Fetcher(default=raw), SERIES, max_pages=1, on_page=None
+        )
+        by_pocket = {p.pocket: p for p in found["shadow"]}
+        assert by_pocket["Release"].signer == "seb128"
+        assert by_pocket["Proposed"].uploader == "mwhudson"
+
+    def test_an_unsigned_publication_is_a_sync(self):
+        """Measured: gettext 1.0-5 has creator sanvila and no signer."""
+        found, _ = publications.parse_page(PUBLICATIONS)
+        by_name = {p.source: p for p in found}
+        assert by_name["0ad-data"].synced
+        assert not by_name["0ad"].synced
+
     def test_reports_progress(self):
         seen = []
         publications.fetch(

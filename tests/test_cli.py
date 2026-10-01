@@ -3,6 +3,8 @@ from __future__ import annotations
 import gzip
 import json
 import lzma
+import re
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -11,14 +13,27 @@ from cairn.cli import _fetcher, build_parser, main
 from cairn.core import health
 from cairn.core import log as logmod
 from cairn.ingest.http import FileCache, ReadOnlyCache
+from cairn.ingest.migration import EXCUSES_URL
 from cairn.ingest.series import SERIES_URL
 
 FIXTURES = Path(__file__).parent / "fixtures"
 UBUNTU_SOURCES = (FIXTURES / "ubuntu_sources").read_bytes()
 DEBIAN_SOURCES = (FIXTURES / "debian_sources").read_bytes()
+EXCUSES = (FIXTURES / "update_excuses.yaml").read_bytes()
 
 # Merge candidates the fixtures yield, as asserted in test_oracle_merges.py.
 FIXTURE_MERGES = 8
+# Blocked uploads in the britney fixture, as asserted in test_migration.py.
+FIXTURE_STUCK = 9
+
+
+def fresh_excuses() -> bytes:
+    """The britney fixture, dated now: the ingester refuses a stale verdict,
+    and a test must not start failing because the calendar moved."""
+    stamp = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S")
+    return re.sub(
+        rb"(?m)^generated-date: .*$", f"generated-date: {stamp}".encode(), EXCUSES
+    )
 
 
 def without(package: str, data: bytes = UBUNTU_SOURCES) -> bytes:
@@ -66,6 +81,8 @@ class StubFetcher:
             return gzip.compress(self.ubuntu)
         if "deb.debian.org" in url:
             return lzma.compress(DEBIAN_SOURCES)
+        if url == EXCUSES_URL:
+            return lzma.compress(fresh_excuses())
         raise AssertionError(f"unexpected url {url}")
 
 
@@ -310,7 +327,43 @@ class TestSummary:
 class TestDefaults:
     def test_runs_every_registered_source(self, logs):
         ingest(logs)
-        assert {e.source for e in logmod.read(logs[0])} == {"merges"}
+        assert {e.source for e in logmod.read(logs[0])} == {"merges", "migration"}
+        assert all(o["ok"] for o in next(health.read(logs[1]))["outcomes"]), (
+            "a source failed in the stub"
+        )
+
+    def test_records_every_blocked_upload(self, logs):
+        ingest(logs, "--source", "migration")
+        assert len(logmod.load(logs[0])) == FIXTURE_STUCK
+
+    def test_collects_ownership_for_the_tests_that_regress(self, logs):
+        """curl's tests hold libssh2 back; curl's owners are the ones to tell.
+
+        curl has no signal of its own, so without this it would be filtered
+        out of the crawl and its page would never be routed to."""
+
+        def publication(name):
+            return {
+                "source_package_name": name,
+                "source_package_version": "1.0-1",
+                "date_created": "2026-09-01T00:00:00+00:00",
+                "package_creator_link": "https://api.launchpad.net/devel/~kat",
+                "package_signer_link": "https://api.launchpad.net/devel/~kat",
+                "pocket": "Release",
+            }
+
+        class WithPublications(StubFetcher):
+            def get(self, url):
+                if "getPublishedSources" in url:
+                    self.urls.append(url)
+                    entries = [publication("curl"), publication("unrelated")]
+                    return json.dumps({"entries": entries}).encode()
+                return super().get(url)
+
+        ingest(logs, "--source", "migration", fetcher=WithPublications())
+        packages = json.loads((logs[0].parent / "packages.json").read_text())
+        assert "curl" in packages["packages"]
+        assert "unrelated" not in packages["packages"]
 
 
 class TestFetcherConstruction:

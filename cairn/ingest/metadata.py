@@ -35,12 +35,74 @@ class IncompleteRefresh(RuntimeError):
 
 
 @dataclass(frozen=True, slots=True)
+class PublishedVersion:
+    """One version of a package as published in one pocket of the series."""
+
+    version: str
+    pocket: str | None = None
+    # The changelog person, never the sponsor. See publications.Publication.
+    uploader: str | None = None
+    # The sponsor when there is one. Only ever tested for None, which marks a
+    # Debian sync or a copy; never displayed in place of the uploader.
+    signer: str | None = None
+    published: str | None = None
+
+    @property
+    def synced(self) -> bool:
+        return self.signer is None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "version": self.version,
+            "pocket": self.pocket,
+            "uploader": self.uploader,
+            "signer": self.signer,
+            "published": self.published,
+        }
+
+    @classmethod
+    def from_dict(cls, raw: Mapping[str, Any]) -> PublishedVersion:
+        return cls(
+            version=raw.get("version") or "",
+            pocket=raw.get("pocket"),
+            uploader=raw.get("uploader"),
+            signer=raw.get("signer"),
+            published=raw.get("published"),
+        )
+
+
+@dataclass(frozen=True, slots=True)
 class PackageMetadata:
     uploader: str | None = None
     published: str | None = None
     debian_uploaded: str | None = None
     package_sets: tuple[str, ...] = ()
     teams: tuple[str, ...] = ()
+    # Every current publication, so a row names the uploader of the version
+    # it actually shows rather than whichever upload is newest. Snapshots
+    # written before this existed have none, and fall back to the fields above.
+    publications: tuple[PublishedVersion, ...] = ()
+
+    def publication(self, version: str | None) -> PublishedVersion | None:
+        for found in self.publications:
+            if found.version == version:
+                return found
+        return None
+
+    def uploader_of(self, version: str | None) -> str | None:
+        """Who uploaded this version: the changelog person, never the sponsor.
+
+        With per-version publications recorded, only an exact match counts.
+        A version absent from them, say because this snapshot predates the
+        upload, has no known uploader: borrowing the newest one would route
+        the row to someone who did not make it. Only a snapshot written
+        before publications were recorded falls back to the newest uploader,
+        since that is all it knows.
+        """
+        if not self.publications:
+            return self.uploader
+        found = self.publication(version)
+        return found.uploader if found else None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -49,6 +111,7 @@ class PackageMetadata:
             "debian_uploaded": self.debian_uploaded,
             "package_sets": list(self.package_sets),
             "teams": list(self.teams),
+            "publications": [p.as_dict() for p in self.publications],
         }
 
     @classmethod
@@ -59,6 +122,9 @@ class PackageMetadata:
             debian_uploaded=raw.get("debian_uploaded"),
             package_sets=tuple(raw.get("package_sets") or ()),
             teams=tuple(raw.get("teams") or ()),
+            publications=tuple(
+                PublishedVersion.from_dict(p) for p in raw.get("publications") or ()
+            ),
         )
 
 
@@ -90,7 +156,7 @@ def collect(
     """Fetch every axis, or raise. Callers keep the previous snapshot on error."""
     candidates = candidates or {}
     try:
-        published = publications.fetch(fetcher, series, keep=keep)
+        published = publications.fetch_all(fetcher, series, keep=keep)
         sets = packagesets.fetch(fetcher, series, strict=True)
         subscribed = teams.fetch(fetcher, keep=keep, strict=True)
         uploaded = debian_uploads.fetch(candidates, suite=debian_suite, connect=connect)
@@ -100,7 +166,8 @@ def collect(
     names = set(published) | set(sets) | set(subscribed) | set(candidates)
     packages = {}
     for name in names:
-        publication = published.get(name)
+        every = published.get(name, ())
+        publication = publications.latest(every)
         debian_date = uploaded.get(name)
         packages[name] = PackageMetadata(
             uploader=publication.uploader if publication else None,
@@ -112,6 +179,16 @@ def collect(
             debian_uploaded=debian_date.isoformat() if debian_date else None,
             package_sets=tuple(sets.get(name, ())),
             teams=tuple(subscribed.get(name, ())),
+            publications=tuple(
+                PublishedVersion(
+                    version=p.version,
+                    pocket=p.pocket,
+                    uploader=p.uploader,
+                    signer=p.signer,
+                    published=p.uploaded.isoformat() if p.uploaded else None,
+                )
+                for p in sorted(every, key=lambda p: (p.pocket or "", p.version))
+            ),
         )
     return Snapshot(collected_at=now or datetime.now(UTC), packages=packages)
 

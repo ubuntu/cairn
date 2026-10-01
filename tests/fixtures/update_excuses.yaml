@@ -1,0 +1,3497 @@
+# Trimmed from update_excuses.yaml.xz, generated 2026-10-01 07:18:41.241683.
+# Real entries; autopkgtest results cut to every non-PASS test plus two passing
+# ones, and excuses text cut to three lines. Nothing here is hand-written.
+generated-date: 2026-10-01 07:18:41.241683
+sources:
+- excuses:
+  - 'Migration status for shadow (1:4.19.3-2ubuntu1 to 1:4.19.3-2ubuntu2): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - 'autopkgtest for golang-github-containers-buildah/1.42.1+ds1-2build1: <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/amd64">amd64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/g/golang-github-containers-buildah/20260923_223906_ce5f1@/log.gz"><span style="background:#e5c545">Not a regression</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/amd64v3">amd64v3</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/g/golang-github-containers-buildah/20260923_234622_d72d1@/log.gz"><span style="background:#e5c545">Not a regression</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/arm64">arm64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/g/golang-github-containers-buildah/20260923_212352_8c437@/log.gz"><span style="background:#87d96c">Pass</span></a>,
+    <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/armhf">armhf</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/g/golang-github-containers-buildah/20260923_205804_b7017@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/ppc64el">ppc64el</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/g/golang-github-containers-buildah/20260923_211551_3dda1@/log.gz"><span style="background:#87d96c">Pass</span></a>'
+  hints:
+  - hint-from: freeze
+    hint-type: block
+  is-candidate: false
+  item-name: shadow
+  maintainer: Ubuntu Developers
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 1:4.19.3-2ubuntu2
+  old-version: 1:4.19.3-2ubuntu1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 7.486111111111111
+      verdict: PASS
+    autopkgtest:
+      adduser/3.157ubuntu2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/a/adduser/20260923_220142_79e1d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/adduser/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/a/adduser/20260923_210628_2c296@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/adduser/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/a/adduser/20260923_211337_6e526@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/adduser/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/a/adduser/20260923_204732_0cb5d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/adduser/stonking/armhf
+        - null
+        - null
+        i386:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/a/adduser/20260923_202554_65f27@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/adduser/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/a/adduser/20260923_210330_e49f6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/adduser/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/a/adduser/20260927_051226_11e1e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/adduser/stonking/s390x
+        - null
+        - null
+      autopkgtest/6.0:
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/a/autopkgtest/20260924_024808_250a9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/autopkgtest/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/a/autopkgtest/20260923_211045_6548f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/autopkgtest/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/a/autopkgtest/20260923_205016_5ee00@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/autopkgtest/stonking/armhf
+        - null
+        - null
+        i386:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/a/autopkgtest/20260923_202946_c8529@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/autopkgtest/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/a/autopkgtest/20260923_210514_3ba9a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/autopkgtest/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/a/autopkgtest/20260927_051019_bbf76@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/autopkgtest/stonking/s390x
+        - null
+        - null
+      autopkgtest/unknown:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/a/autopkgtest/20260923_215714_600ba@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/autopkgtest/stonking/amd64
+        - null
+        - null
+      bash/5.3-3ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/b/bash/20260925_223510_57d43@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/bash/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/b/bash/20260923_210140_a6c29@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/bash/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/b/bash/20260923_210141_17daf@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/bash/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/b/bash/20260923_204140_f7a55@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/bash/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/b/bash/20260923_201543_e1204@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/bash/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/b/bash/20260923_205806_2ba0c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/bash/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/b/bash/20260927_041502_78442@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/bash/stonking/s390x
+        - null
+        - null
+      buildbot/4.3.0-4:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/b/buildbot/20260923_220029_6d543@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/buildbot/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/b/buildbot/20260923_210451_9b3b9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/buildbot/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/b/buildbot/20260923_210606_7c5a9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/buildbot/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/b/buildbot/20260923_204354_432bc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/buildbot/stonking/armhf
+        - null
+        - null
+        i386:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/b/buildbot/20260923_201710_5e715@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/buildbot/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/b/buildbot/20260923_205944_63ae1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/buildbot/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/b/buildbot/20260927_042456_569aa@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/b/buildbot/stonking/s390x
+        - null
+        - null
+      caddy/unknown:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/c/caddy/20260923_215744_43a7f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/caddy/stonking/amd64
+        - null
+        - null
+      debci/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/debci/20260927_042448_e1961@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debci/stonking/s390x
+        - null
+        - null
+      debomatic/0.40-1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/debomatic/20260923_220833_7ab2d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debomatic/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/debomatic/20260923_211300_8ccf2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debomatic/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/debomatic/20260923_211712_dcfdc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debomatic/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/debomatic/20260923_205454_2b394@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debomatic/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/d/debomatic/20260923_202805_575de@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debomatic/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/debomatic/20260923_210923_052c4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debomatic/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/debomatic/20260927_044504_8df86@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debomatic/stonking/s390x
+        - null
+        - null
+      debusine/0.15.0:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/debusine/20260923_223218_07418@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debusine/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/debusine/20260923_214046_70afa@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debusine/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/debusine/20260923_212909_c4869@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debusine/stonking/arm64
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/d/debusine/20260923_203631_df7ab@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debusine/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/debusine/20260923_211845_2318f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debusine/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/debusine/20260927_100130_fd958@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debusine/stonking/s390x
+        - null
+        - null
+      debusine/unknown:
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/debusine/20260923_204016_3d00d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debusine/stonking/armhf
+        - null
+        - null
+      debvm/0.5.2ubuntu1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/debvm/20260923_222723_45949@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debvm/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/debvm/20260923_214855_b580c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debvm/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/debvm/20260923_220342_277be@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debvm/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/debvm/20260923_204135_21c7f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debvm/stonking/armhf
+        - null
+        - null
+        i386:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/d/debvm/20260923_201513_fbbdc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debvm/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/debvm/20260923_213311_637a1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debvm/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/debvm/20260927_053447_e93c8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/debvm/stonking/s390x
+        - null
+        - null
+      dnsproxy/1.17+git20211129.22329c4-6build3:
+        amd64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/dnsproxy/20260923_220125_aaa4a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsproxy/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/dnsproxy/20260923_210514_37985@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsproxy/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/dnsproxy/20260923_210914_4a4a4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsproxy/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/dnsproxy/20260923_204356_0cf3d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsproxy/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/dnsproxy/20260923_210140_86221@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsproxy/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/dnsproxy/20260927_043137_499b9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsproxy/stonking/s390x
+        - null
+        - null
+      docker.io-app/29.7.2-0ubuntu1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/docker.io-app/20260923_221105_29cae@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/docker.io-app/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/docker.io-app/20260923_212508_09a0c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/docker.io-app/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/docker.io-app/20260923_210753_bdaa5@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/docker.io-app/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/docker.io-app/20260923_204220_b00a2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/docker.io-app/stonking/armhf
+        - null
+        - null
+        i386:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/d/docker.io-app/20260923_201554_1d06d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/docker.io-app/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/docker.io-app/20260923_210051_5483b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/docker.io-app/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/docker.io-app/20260928_162536_d2d16@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/docker.io-app/stonking/s390x
+        - null
+        - null
+      doodle/0.7.3-4:
+        amd64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/doodle/20260923_220157_59bb3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/doodle/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/doodle/20260923_210538_7c5e6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/doodle/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/doodle/20260923_210809_785c2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/doodle/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/doodle/20260923_204253_da66a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/doodle/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/doodle/20260923_210151_0ae63@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/doodle/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/doodle/20260927_042733_0181c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/doodle/stonking/s390x
+        - null
+        - null
+      golang-github-containers-buildah/1.42.1+ds1-2build1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/g/golang-github-containers-buildah/20260923_223906_ce5f1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/g/golang-github-containers-buildah/20260923_234622_d72d1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/g/golang-github-containers-buildah/20260923_212352_8c437@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/g/golang-github-containers-buildah/20260923_205804_b7017@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/g/golang-github-containers-buildah/20260923_211551_3dda1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/ppc64el
+        - null
+        - null
+      golang-github-containers-buildah/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/g/golang-github-containers-buildah/20260927_042403_350ff@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-buildah/stonking/s390x
+        - null
+        - null
+      golang-github-containers-storage/1.62.0-3:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/g/golang-github-containers-storage/20260923_222326_69ccb@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-storage/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/g/golang-github-containers-storage/20260923_213454_4710d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-storage/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/g/golang-github-containers-storage/20260923_213041_42644@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-storage/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/g/golang-github-containers-storage/20260923_210214_6c27d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-storage/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/g/golang-github-containers-storage/20260923_212136_e0549@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-storage/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/g/golang-github-containers-storage/20260927_124732_0167c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-containers-storage/stonking/s390x
+        - null
+        - null
+      hipercontracer/2.2.10-1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/h/hipercontracer/20260923_221751_8c6b7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hipercontracer/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/h/hipercontracer/20260923_211932_f6c81@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hipercontracer/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/h/hipercontracer/20260923_211630_e6549@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hipercontracer/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/h/hipercontracer/20260923_205140_0c719@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hipercontracer/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/h/hipercontracer/20260923_202035_12f4b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hipercontracer/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/h/hipercontracer/20260923_210754_615cc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hipercontracer/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/h/hipercontracer/20260927_053827_8ca41@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hipercontracer/stonking/s390x
+        - null
+        - null
+      incus/6.0.5-8:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/i/incus/20260923_221425_b4d81@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/incus/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/i/incus/20260923_212028_1d5ac@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/incus/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/i/incus/20260923_212643_ae69a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/incus/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/i/incus/20260923_205856_c2c9a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/incus/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/i/incus/20260923_212022_44a32@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/incus/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/i/incus/20260927_063435_8d61d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/incus/stonking/s390x
+        - null
+        - null
+      keyd/2.5.0-5:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/k/keyd/20260923_221222_36115@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/k/keyd/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/k/keyd/20260923_211513_10b03@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/k/keyd/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/k/keyd/20260923_211729_3b11c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/k/keyd/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/k/keyd/20260923_204803_c0b83@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/k/keyd/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/k/keyd/20260923_210950_c83e8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/k/keyd/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/k/keyd/20260927_053457_1bb80@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/k/keyd/stonking/s390x
+        - null
+        - null
+      libssh2/1.11.1-4ubuntu3:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libs/libssh2/20260923_220508_8405b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libs/libssh2/20260923_210927_02310@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libs/libssh2/20260923_211458_4979d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/libs/libssh2/20260923_204607_c5e43@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/libs/libssh2/20260923_201832_9ff20@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libs/libssh2/20260923_210634_4d727@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/libs/libssh2/20260927_045110_111b7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/s390x
+        - null
+        - null
+      lxc/1:7.0.0-2ubuntu2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/l/lxc/20260923_222116_e29ac@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/l/lxc/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/l/lxc/20260923_212536_e6c50@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/l/lxc/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/l/lxc/20260923_212741_328f5@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/l/lxc/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/l/lxc/20260925_190223_7cd46@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/l/lxc/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/l/lxc/20260923_212022_e2998@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/l/lxc/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/l/lxc/20260927_055814_fcf32@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/l/lxc/stonking/s390x
+        - null
+        - null
+      mariadb/1:11.8.8-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/m/mariadb/20260923_221521_0312e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mariadb/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/m/mariadb/20260923_211904_df288@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mariadb/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/m/mariadb/20260923_214228_5f08d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mariadb/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/m/mariadb/20260923_211648_46f17@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mariadb/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/m/mariadb/20260923_212052_c37db@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mariadb/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/m/mariadb/20260927_061624_9a340@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mariadb/stonking/s390x
+        - null
+        - null
+      mmdebstrap/1.5.7-3:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/m/mmdebstrap/20260923_220712_52343@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mmdebstrap/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/m/mmdebstrap/20260923_210842_2910c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mmdebstrap/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/m/mmdebstrap/20260923_211705_98611@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mmdebstrap/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/m/mmdebstrap/20260923_204524_34559@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mmdebstrap/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/m/mmdebstrap/20260923_210658_fc531@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mmdebstrap/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/m/mmdebstrap/20260927_045905_59c25@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mmdebstrap/stonking/s390x
+        - null
+        - null
+      mmdebstrap/unknown:
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/m/mmdebstrap/20260923_201625_6e44c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mmdebstrap/stonking/i386
+        - null
+        - null
+      mysql-9.7/9.7.2-4:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/m/mysql-9.7/20260923_230149_33538@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mysql-9.7/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/m/mysql-9.7/20260923_221825_c51c8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mysql-9.7/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/m/mysql-9.7/20260923_223106_bc0f6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mysql-9.7/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/m/mysql-9.7/20260924_000702_e973a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mysql-9.7/stonking/ppc64el
+        - null
+        - null
+      mysql-9.7/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/m/mysql-9.7/20260927_221816_210ce@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/mysql-9.7/stonking/s390x
+        - null
+        - null
+      nbd/1:3.27.1-3ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/n/nbd/20260923_222115_cb1ca@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nbd/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/n/nbd/20260923_212623_79125@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nbd/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/n/nbd/20260923_215024_c1f81@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nbd/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/n/nbd/20260923_211838_1399f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nbd/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/n/nbd/20260923_212342_52e3d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nbd/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/n/nbd/20260927_054908_92f05@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nbd/stonking/s390x
+        - null
+        - null
+      openssh-gssapi/1:10.5p1-1ubuntu2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/o/openssh-gssapi/20260925_205325_322f4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/o/openssh-gssapi/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/o/openssh-gssapi/20260923_213500_6a253@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/o/openssh-gssapi/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/o/openssh-gssapi/20260923_214601_74783@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/o/openssh-gssapi/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/o/openssh-gssapi/20260923_211354_62fa3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/o/openssh-gssapi/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/o/openssh-gssapi/20260923_213441_38f49@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/o/openssh-gssapi/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/o/openssh-gssapi/20260929_014959_a2629@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/o/openssh-gssapi/stonking/s390x
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=stonking&arch=s390x&package=openssh-gssapi&trigger=shadow%2F1%3A4.19.3-2ubuntu2
+      opentracker/unknown:
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/o/opentracker/20260923_201635_99c75@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/o/opentracker/stonking/i386
+        - null
+        - null
+      piuparts/1.6.0build1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/p/piuparts/20260923_221438_ed49f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/piuparts/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/p/piuparts/20260923_212051_d6787@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/piuparts/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/p/piuparts/20260923_213248_f8425@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/piuparts/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/p/piuparts/20260923_205120_08dbb@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/piuparts/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/p/piuparts/20260923_211246_127fa@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/piuparts/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/p/piuparts/20260924_235052_31fc0@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/piuparts/stonking/s390x
+        - null
+        - null
+      piuparts/unknown:
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/p/piuparts/20260923_201646_a8684@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/piuparts/stonking/i386
+        - null
+        - null
+      podman-compose/1.6.0-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/p/podman-compose/20260923_221457_1c2b2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman-compose/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/p/podman-compose/20260923_211707_365f3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman-compose/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/p/podman-compose/20260923_212219_67339@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman-compose/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/p/podman-compose/20260923_204833_ae820@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman-compose/stonking/armhf
+        - null
+        - null
+        i386:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/p/podman-compose/20260923_201729_4e4a1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman-compose/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/p/podman-compose/20260923_210950_7ff73@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman-compose/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/p/podman-compose/20260927_053129_5c1a9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman-compose/stonking/s390x
+        - null
+        - null
+      podman/5.8.6+ds1-2:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/p/podman/20260924_020248_f084c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/p/podman/20260923_234628_7f67f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/p/podman/20260923_213611_05b92@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/p/podman/20260923_210356_0a68d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/p/podman/20260923_212429_80d0a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman/stonking/ppc64el
+        - null
+        - null
+      podman/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/p/podman/20260927_050603_2453b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/podman/stonking/s390x
+        - null
+        - null
+      python-podman/5.4.0.1-4:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/p/python-podman/20260923_222054_fb971@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-podman/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/p/python-podman/20260923_213000_a6d7b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-podman/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/p/python-podman/20260923_212832_6689a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-podman/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/p/python-podman/20260923_205330_d96c0@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-podman/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/p/python-podman/20260923_202407_77403@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-podman/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/p/python-podman/20260923_211553_3d42e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-podman/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/p/python-podman/20260927_055802_9fac1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-podman/stonking/s390x
+        - null
+        - null
+      rust-virtiofsd/1.14.0-3:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/r/rust-virtiofsd/20260923_224148_45bb3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-virtiofsd/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/r/rust-virtiofsd/20260923_215022_36718@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-virtiofsd/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/r/rust-virtiofsd/20260923_214532_ee15e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-virtiofsd/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/r/rust-virtiofsd/20260923_213156_f29c3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-virtiofsd/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/r/rust-virtiofsd/20260927_072720_e2cac@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-virtiofsd/stonking/s390x
+        - null
+        - null
+      samba/2:4.24.7+dfsg-1ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/s/samba/20260923_223924_fe95e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/s/samba/20260923_221952_ee43a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/s/samba/20260923_213608_58b01@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/s/samba/20260923_205758_ffdab@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/armhf
+        - null
+        - null
+        i386:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/s/samba/20260923_202115_c9866@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/s/samba/20260923_212225_37968@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/s/samba/20260927_092024_dc39f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/s390x
+        - null
+        - null
+      sssd/2.12.0-4ubuntu2:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/s/sssd/20260925_223518_5e32b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/sssd/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/s/sssd/20260923_212735_0afc3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/sssd/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/s/sssd/20260923_213636_ce44d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/sssd/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/s/sssd/20260923_210047_f4eb0@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/sssd/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/s/sssd/20260923_203142_fe650@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/sssd/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/s/sssd/20260923_211823_23d3d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/sssd/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/s/sssd/20260927_062034_39161@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/sssd/stonking/s390x
+        - null
+        - null
+      systemd/261.2-1ubuntu2:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/s/systemd/20260924_003916_3286a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/s/systemd/20260923_222019_08a79@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/s/systemd/20260923_215452_2da36@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/s/systemd/20260923_212525_05b73@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/s/systemd/20260923_204148_5cf8f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/s/systemd/20260923_214347_34b94@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/s/systemd/20260927_071241_823f6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/s390x
+        - null
+        - null
+      ubiquity/26.10.2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/u/ubiquity/20260923_222029_97a27@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubiquity/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/u/ubiquity/20260923_212608_1e895@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubiquity/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/u/ubiquity/20260923_213553_cf1fd@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubiquity/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/u/ubiquity/20260923_205327_af9f4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubiquity/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/u/ubiquity/20260923_211647_2b7d1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubiquity/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/u/ubiquity/20260927_055711_05e3b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubiquity/stonking/s390x
+        - null
+        - null
+      util-linux/2.41.3-3ubuntu2:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/u/util-linux/20260923_222509_854de@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/util-linux/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/u/util-linux/20260923_213308_7c25a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/util-linux/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/u/util-linux/20260923_214037_6a5a7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/util-linux/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/u/util-linux/20260923_205852_5e3d2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/util-linux/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/u/util-linux/20260923_203655_2b82c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/util-linux/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/u/util-linux/20260923_212355_d3c97@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/util-linux/stonking/ppc64el
+        - null
+        - null
+      verdict: REJECTED_PERMANENTLY
+      walinuxagent/2.15.0.1-0ubuntu2:
+        amd64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/w/walinuxagent/20260923_221830_09532@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/w/walinuxagent/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/w/walinuxagent/20260923_212308_acd64@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/w/walinuxagent/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/w/walinuxagent/20260923_213335_1a4bc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/w/walinuxagent/stonking/arm64
+        - null
+        - null
+    block:
+      verdict: REJECTED_NEEDS_APPROVAL
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - block
+  source: shadow
+- detailed-info:
+  - 'old binaries on riscv64: ceph, ceph-base, ceph-common, ceph-exporter, ceph-immutable-object-cache, ceph-mds, ceph-mgr, ceph-mon, ceph-osd, cephfs-mirror, libcephfs-dev, libcephfs-jni, libcephfs2, librados-dev, librados2, libradospp-dev, libradosstriper-dev, libradosstriper1, librbd-dev, librbd1, librgw-dev, librgw2, libsqlite3-mod-ceph, libsqlite3-mod-ceph-dev, python3-ceph-argparse, python3-cephfs, python3-rados, python3-rbd, python3-rgw, rados-objclass-dev, radosgw, rbd-fuse, rbd-mirror, rbd-nbd (from <a href="https://launchpad.net/ubuntu/+source/ceph/20.2.1-0ubuntu3/+latestbuild/riscv64" target="_blank">20.2.1-0ubuntu3</a>)'
+  excuses:
+  - 'Migration status for ceph (20.2.1-0ubuntu3 to 20.2.4+ds-0ubuntu1): BLOCKED: Maybe temporary, maybe blocked but Britney is missing information (check below)'
+  - 'Issues preventing migration:'
+  - 'missing build on <a href="https://launchpad.net/ubuntu/+source/ceph/20.2.4%2Bds-0ubuntu1/+latestbuild/riscv64" target="_blank">riscv64</a>: ceph, ceph-base, ceph-common, ceph-exporter, ceph-immutable-object-cache, ceph-mds, ceph-mgr, ceph-mon, ceph-osd, cephfs-mirror, libcephfs-dev, libcephfs-jni, libcephfs2, librados-dev, librados2, libradospp-dev, libradosstriper-dev, libradosstriper1, librbd-dev, librbd1, librgw-dev, librgw2, libsqlite3-mod-ceph, libsqlite3-mod-ceph-dev, python3-ceph-argparse, python3-cephfs, python3-rados, python3-rbd, python3-rgw, rados-objclass-dev, radosgw, rbd-fuse, rbd-mirror, rbd-nbd (from <a href="https://launchpad.net/ubuntu/+source/ceph/20.2.1-0ubuntu3/+latestbuild/riscv64" target="_blank">20.2.1-0ubuntu3</a>)'
+  hints:
+  - hint-from: freeze
+    hint-type: block
+  is-candidate: false
+  item-name: ceph
+  maintainer: Ubuntu Developers
+  migration-policy-verdict: REJECTED_CANNOT_DETERMINE_IF_PERMANENT
+  missing-builds:
+    on-architectures:
+    - riscv64
+    on-unimportant-architectures: []
+  new-version: 20.2.4+ds-0ubuntu1
+  old-binaries:
+    20.2.1-0ubuntu3:
+    - ceph
+    - ceph-base
+    - ceph-common
+    - ceph-exporter
+    - ceph-immutable-object-cache
+    - ceph-mds
+    - ceph-mgr
+    - ceph-mon
+    - ceph-osd
+    - cephfs-mirror
+    - libcephfs-dev
+    - libcephfs-jni
+    - libcephfs2
+    - librados-dev
+    - librados2
+    - libradospp-dev
+    - libradosstriper-dev
+    - libradosstriper1
+    - librbd-dev
+    - librbd1
+    - librgw-dev
+    - librgw2
+    - libsqlite3-mod-ceph
+    - libsqlite3-mod-ceph-dev
+    - python3-ceph-argparse
+    - python3-cephfs
+    - python3-rados
+    - python3-rbd
+    - python3-rgw
+    - rados-objclass-dev
+    - radosgw
+    - rbd-fuse
+    - rbd-mirror
+    - rbd-nbd
+  old-version: 20.2.1-0ubuntu3
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 0.6428356481481481
+      verdict: PASS
+    autopkgtest:
+      ceph/20.2.4+ds-0ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/c/ceph/20260930_182858_bf3e9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ceph/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/c/ceph/20260930_183257_f55e4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ceph/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/c/ceph/20260930_182400_ab378@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ceph/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/c/ceph/20260930_182240_97f1e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ceph/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/c/ceph/20260930_182145_c247c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ceph/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/c/ceph/20260930_183302_ec6e8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ceph/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING-ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/c/ceph/stonking/s390x
+        - null
+        - null
+      cinder/2:29.0.0~rc1-0ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/c/cinder/20260930_182842_5ac9c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cinder/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/c/cinder/20260930_183103_cab51@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cinder/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/c/cinder/20260930_182222_e2fba@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cinder/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/c/cinder/20260930_181824_8b58d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cinder/stonking/armhf
+        - null
+        - null
+        i386:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/c/cinder/20260930_182411_bc39d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cinder/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/c/cinder/20260930_182623_7e4df@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cinder/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/c/cinder/stonking/s390x
+        - null
+        - null
+      eckit/2.3.0-1:
+        amd64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/e/eckit/20260930_182259_2abb3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/eckit/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/e/eckit/20260930_182541_8bff4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/eckit/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/e/eckit/20260930_181636_1ba4e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/eckit/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/e/eckit/20260930_181959_ae12b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/eckit/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/e/eckit/stonking/s390x
+        - null
+        - null
+      libvirt-hwe/12.6.0-1ubuntu3:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libv/libvirt-hwe/20260930_183850_d91b2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libv/libvirt-hwe/20260930_183458_3ce59@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libv/libvirt-hwe/20260930_182403_c34d1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libv/libvirt-hwe/20260930_182557_d25ef@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/s390x
+        - null
+        - null
+      libvirt/12.6.0-1ubuntu2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libv/libvirt/20260930_183800_a098a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libv/libvirt/20260930_184831_b8ba0@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libv/libvirt/20260930_182415_849fd@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libv/libvirt/20260930_182658_5c760@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING-ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt/stonking/s390x
+        - null
+        - null
+      manila/1:23.0.0~rc1-0ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/m/manila/20260930_182823_e6e51@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/manila/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/m/manila/20260930_182817_b2e5c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/manila/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/m/manila/20260930_182145_48229@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/manila/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/m/manila/20260930_181802_76aa6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/manila/stonking/armhf
+        - null
+        - null
+        i386:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/m/manila/20260930_182157_0e099@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/manila/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/m/manila/20260930_182803_36e17@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/manila/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/m/manila/stonking/s390x
+        - null
+        - null
+      qemu-hwe/1:11.0.3+ds-2ubuntu4:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/q/qemu-hwe/20260930_195858_82a7c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu-hwe/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/q/qemu-hwe/20260930_195033_b0398@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu-hwe/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/q/qemu-hwe/20260930_190720_74f73@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu-hwe/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/q/qemu-hwe/20260930_181942_50f4c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu-hwe/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/q/qemu-hwe/20260930_192112_9ec02@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu-hwe/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING-ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/q/qemu-hwe/stonking/s390x
+        - null
+        - null
+      qemu/1:11.0.3+ds-2ubuntu2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/q/qemu/20260930_183138_4e5d1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/q/qemu/20260930_183526_0ac44@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/q/qemu/20260930_182255_ab4bf@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/q/qemu/20260930_181937_c03c7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/q/qemu/20260930_182802_e85e2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/q/qemu/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/q/qemu/stonking/s390x
+        - null
+        - null
+      regress-stack/0.2.0build1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/r/regress-stack/20260930_183033_c0b34@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/regress-stack/stonking/amd64
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/r/regress-stack/20260930_182334_4c5fb@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/regress-stack/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/r/regress-stack/20260930_181639_68429@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/regress-stack/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/r/regress-stack/20260930_182437_31371@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/regress-stack/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/r/regress-stack/20260930_182811_1ddb7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/regress-stack/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING-ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/r/regress-stack/stonking/s390x
+        - null
+        - null
+      regress-stack/unknown:
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/r/regress-stack/20260930_182723_59fc4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/regress-stack/stonking/amd64v3
+        - null
+        - null
+      samba/2:4.24.7+dfsg-1ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/s/samba/20260930_190436_ccce4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/s/samba/20260930_195146_d4525@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/s/samba/20260930_182618_7078b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/s/samba/20260930_182659_f1f48@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING-ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/s/samba/stonking/s390x
+        - null
+        - null
+      tgt/1:1.0.85-1.3ubuntu2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/t/tgt/20260930_183602_67d64@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/t/tgt/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/t/tgt/20260930_184147_11560@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/t/tgt/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/t/tgt/20260930_182100_385f9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/t/tgt/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/t/tgt/20260930_182422_55b90@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/t/tgt/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/t/tgt/stonking/s390x
+        - null
+        - null
+      verdict: REJECTED_TEMPORARILY
+    block:
+      verdict: REJECTED_NEEDS_APPROVAL
+    block-bugs:
+      verdict: PASS
+    depends:
+      skip_dep_check:
+      - armhf
+      - armhf
+      - armhf
+      - armhf
+      - armhf
+      - armhf
+      - armhf
+      - armhf
+      - armhf
+      - armhf
+      - i386
+      - i386
+      - i386
+      - i386
+      - i386
+      - i386
+      - i386
+      - i386
+      - i386
+      - i386
+      - riscv64
+      - riscv64
+      - riscv64
+      - riscv64
+      - riscv64
+      - riscv64
+      - riscv64
+      - riscv64
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - block
+  - missingbuild
+  source: ceph
+- excuses:
+  - 'Migration status for libssh2 (1.11.1-4ubuntu3 to 1.11.1-6): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - "autopkgtest for curl/8.20.0-2ubuntu11: <a href=\"https://autopkgtest.ubuntu.com/packages/c/curl/stonking/s390x\">s390x</a>: <a href=\"https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/c/curl/20261001_031800_3e724@/log.gz\"><span style=\"background:#ff6666\">Regression</span></a> <a href=\"https://autopkgtest.ubuntu.com/request.cgi?release=stonking&arch=s390x&package=curl&trigger=libssh2%2F1.11.1-6\" style=\"text-decoration: none;\">\u267B </a> "
+  hints:
+  - hint-from: freeze
+    hint-type: block
+  is-candidate: false
+  item-name: libssh2
+  maintainer: Nicolas Mora
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 1.11.1-6
+  old-version: 1.11.1-4ubuntu3
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 11.92017361111111
+      verdict: PASS
+    autopkgtest:
+      aria2/1.37.0+debian-4:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/a/aria2/20260919_100724_72468@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/aria2/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/a/aria2/20260919_085958_83dde@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/aria2/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/a/aria2/20260919_085946_3c120@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/aria2/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/a/aria2/20260919_090355_9f37c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/aria2/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/a/aria2/20260920_002734_a8c7a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/aria2/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/a/aria2/20260921_032240_becbd@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/a/aria2/stonking/s390x
+        - null
+        - null
+      curl/8.20.0-2ubuntu11:
+        s390x:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/c/curl/20261001_031800_3e724@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/curl/stonking/s390x
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=stonking&arch=s390x&package=curl&trigger=libssh2%2F1.11.1-6
+      curl/8.20.0-2ubuntu3:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/c/curl/20260919_103047_6f154@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/curl/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/c/curl/20260919_092450_9ad4d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/curl/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/c/curl/20260919_093010_495dd@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/curl/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/c/curl/20260919_093739_558ae@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/curl/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/c/curl/20260919_091432_1c088@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/curl/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/c/curl/20260919_093107_51f5d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/curl/stonking/ppc64el
+        - null
+        - null
+      libgit2/1.9.6+ds-1ubuntu1:
+        amd64:
+        - OLD_NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libg/libgit2/20260919_100833_92943@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libgit2/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libg/libgit2/20260919_090350_a09b1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libgit2/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libg/libgit2/20260919_090350_15550@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libgit2/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/libg/libgit2/20260919_090846_e8ac6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libgit2/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/libg/libgit2/20260919_090424_db842@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libgit2/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - OLD_NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libg/libgit2/20260919_090424_b6fac@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libgit2/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - OLD_NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/libg/libgit2/20260922_011322_515f6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libgit2/stonking/s390x
+        - null
+        - null
+      libnet-ssh2-perl/0.74-1build1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libn/libnet-ssh2-perl/20260919_100906_b0a00@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-ssh2-perl/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libn/libnet-ssh2-perl/20260919_090203_84f35@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-ssh2-perl/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libn/libnet-ssh2-perl/20260919_090211_e214a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-ssh2-perl/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/libn/libnet-ssh2-perl/20260919_091012_a4ee2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-ssh2-perl/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libn/libnet-ssh2-perl/20260919_091716_81bcf@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-ssh2-perl/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/libn/libnet-ssh2-perl/20260927_090913_28502@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-ssh2-perl/stonking/s390x
+        - null
+        - null
+      libssh2/1.11.1-6:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libs/libssh2/20260919_100853_85697@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libs/libssh2/20260919_090123_22e78@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libs/libssh2/20260919_090048_affa0@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/libs/libssh2/20260919_090535_01222@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/libs/libssh2/20260919_090154_f3e1d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libs/libssh2/20260919_090113_7313c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/libs/libssh2/20260922_011116_11f07@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libs/libssh2/stonking/s390x
+        - null
+        - null
+      libvirt-hwe/12.6.0-1ubuntu2:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libv/libvirt-hwe/20260919_101332_931d8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libv/libvirt-hwe/20260919_091209_f62d2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libv/libvirt-hwe/20260919_090849_b00b6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/libv/libvirt-hwe/20260919_091041_003ca@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libv/libvirt-hwe/20260919_090721_628f2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/libv/libvirt-hwe/20260921_045600_324ed@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libv/libvirt-hwe/stonking/s390x
+        - null
+        - null
+      medusa/2.3-3build1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/m/medusa/20260919_100838_27e9e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/medusa/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/m/medusa/20260919_090020_32f7d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/medusa/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/m/medusa/20260919_090030_9bfca@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/medusa/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/m/medusa/20260919_090404_c88d6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/medusa/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/m/medusa/20260919_090044_9ff35@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/medusa/stonking/ppc64el
+        - null
+        - null
+      medusa/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/m/medusa/20260921_040116_c958a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/m/medusa/stonking/s390x
+        - null
+        - null
+      nmap/7.99+dfsg-1ubuntu2:
+        amd64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/n/nmap/20260919_100844_c4cfe@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nmap/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/n/nmap/20260919_085952_08f9d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nmap/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/n/nmap/20260919_090102_1cf2c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nmap/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/n/nmap/20260919_090449_ed3a9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nmap/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/n/nmap/20260919_090127_ee1b7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nmap/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/n/nmap/20260921_042010_e3ed2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/nmap/stonking/s390x
+        - null
+        - null
+      rust-cargo-c/0.10.16+ds1-0ubuntu1:
+        amd64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/r/rust-cargo-c/20260919_101027_cd0b8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-cargo-c/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/r/rust-cargo-c/20260919_090240_a32e7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-cargo-c/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/r/rust-cargo-c/20260919_090130_9c7d8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-cargo-c/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/r/rust-cargo-c/20260919_090944_3662c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-cargo-c/stonking/armhf
+        - null
+        - null
+        i386:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/r/rust-cargo-c/20260919_090226_6d5b9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-cargo-c/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/r/rust-cargo-c/20260919_090320_cf78d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-cargo-c/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/r/rust-cargo-c/20260921_042828_fb8d5@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-cargo-c/stonking/s390x
+        - null
+        - null
+      rustc-1.95/1.95.0+dfsg-0ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/r/rustc-1.95/20260919_112252_c3e56@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.95/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/r/rustc-1.95/20260919_102234_cfd2d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.95/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/r/rustc-1.95/20260919_091851_e5d3a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.95/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/r/rustc-1.95/20260919_092640_bdee2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.95/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/r/rustc-1.95/20260919_090659_12df7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.95/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/r/rustc-1.95/20260919_092254_f8643@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.95/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/r/rustc-1.95/20260925_083857_72682@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.95/stonking/s390x
+        - null
+        - null
+      rustc-1.96/1.96.1+dfsg-0ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/r/rustc-1.96/20260919_113455_9f8d4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.96/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/r/rustc-1.96/20260919_102709_a8bb7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.96/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/r/rustc-1.96/20260919_091901_935a6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.96/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/r/rustc-1.96/20260919_092807_4e5f3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.96/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/r/rustc-1.96/20260919_090730_da697@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.96/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/r/rustc-1.96/20260920_004141_0bc0d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.96/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/r/rustc-1.96/20260921_060538_23d24@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.96/stonking/s390x
+        - null
+        - null
+      rustc-1.97/1.97.1+dfsg-0ubuntu1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/r/rustc-1.97/20260919_110339_0e696@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.97/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/r/rustc-1.97/20260919_100150_ac50f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.97/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/r/rustc-1.97/20260919_092422_21d48@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.97/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/r/rustc-1.97/20260919_093635_9459c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.97/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/r/rustc-1.97/20260919_090820_e8a43@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.97/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/r/rustc-1.97/20260919_092159_b69d6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.97/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/r/rustc-1.97/20260921_071752_c1897@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rustc-1.97/stonking/s390x
+        - null
+        - null
+      verdict: REJECTED_PERMANENTLY
+      vlc/3.0.23-3build1:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/v/vlc/20260919_101250_389f8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/vlc/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/v/vlc/20260919_090756_87ebe@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/vlc/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/v/vlc/20260919_090755_1abf7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/vlc/stonking/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/v/vlc/20260919_091452_a4731@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/vlc/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/v/vlc/20260919_090904_2ada1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/vlc/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/v/vlc/20260921_050918_00ed2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/vlc/stonking/s390x
+        - null
+        - null
+    block:
+      verdict: REJECTED_NEEDS_APPROVAL
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - block
+  source: libssh2
+- detailed-info:
+  - 'old binaries on amd64: autopoint, gettext, gettext-base, gettext-doc, gettext-el, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/amd64" target="_blank">1.0-3</a>)'
+  - 'old binaries on amd64v3: gettext, gettext-base, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/amd64v3" target="_blank">1.0-3</a>)'
+  - 'old binaries on arm64: gettext, gettext-base, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/arm64" target="_blank">1.0-3</a>)'
+  - 'old binaries on armhf: gettext, gettext-base, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/armhf" target="_blank">1.0-3</a>)'
+  - 'old binaries on i386: gettext, gettext-base, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/i386" target="_blank">1.0-3</a>)'
+  - 'old binaries on ppc64el: gettext, gettext-base, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/ppc64el" target="_blank">1.0-3</a>)'
+  - 'old binaries on s390x: gettext, gettext-base, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/s390x" target="_blank">1.0-3</a>)'
+  excuses:
+  - 'Migration status for gettext (1.0-3 to 1.0-5): BLOCKED: Maybe temporary, maybe blocked but Britney is missing information (check below)'
+  - 'Issues preventing migration:'
+  - 'missing build on <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-5/+latestbuild/amd64" target="_blank">amd64</a>: autopoint, gettext, gettext-base, gettext-doc, gettext-el, libasprintf-dev, libasprintf0v5, libgettextpo-dev, libgettextpo0 (from <a href="https://launchpad.net/ubuntu/+source/gettext/1.0-3/+latestbuild/amd64" target="_blank">1.0-3</a>)'
+  hints:
+  - hint-from: freeze
+    hint-type: block
+  is-candidate: false
+  item-name: gettext
+  maintainer: Santiago Vila
+  migration-policy-verdict: REJECTED_CANNOT_DETERMINE_IF_PERMANENT
+  missing-builds:
+    on-architectures:
+    - amd64
+    - amd64v3
+    - arm64
+    - armhf
+    - i386
+    - ppc64el
+    - s390x
+    on-unimportant-architectures: []
+  new-version: 1.0-5
+  old-binaries:
+    1.0-3:
+    - autopoint
+    - gettext
+    - gettext-base
+    - gettext-doc
+    - gettext-el
+    - libasprintf-dev
+    - libasprintf0v5
+    - libgettextpo-dev
+    - libgettextpo0
+  old-version: 1.0-3
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 16.777743055555558
+      verdict: PASS
+    autopkgtest:
+      verdict: REJECTED_TEMPORARILY
+    block:
+      verdict: REJECTED_NEEDS_APPROVAL
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      '2167365': 1789485190
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - block
+  - missingbuild
+  source: gettext
+- component: universe
+  dependencies:
+    blocked-by:
+    - golang-k8s-apimachinery
+    migrate-after:
+    - golang-k8s-api
+    - golang-k8s-client-go
+    - golang-k8s-klog
+  excuses:
+  - 'Migration status for golang-k8s-component-helpers (0.33.4-1 to 0.36.4-2): BLOCKED: Cannot migrate due to another item, which is blocked (please check which dependencies are stuck)'
+  - 'Issues preventing migration:'
+  - 'Depends: golang-k8s-component-helpers <a href="#golang-k8s-apimachinery">golang-k8s-apimachinery</a> (not considered)'
+  invalidated-by-other-package: true
+  is-candidate: false
+  item-name: golang-k8s-component-helpers
+  maintainer: Debian Go Packaging Team
+  migration-policy-verdict: REJECTED_BLOCKED_BY_ANOTHER_ITEM
+  new-version: 0.36.4-2
+  old-version: 0.33.4-1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 1.8414351851851851
+      verdict: PASS
+    autopkgtest:
+      golang-k8s-component-helpers/0.36.4-2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/g/golang-k8s-component-helpers/20260929_163033_0f372@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-component-helpers/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/g/golang-k8s-component-helpers/20260930_151747_c5490@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-component-helpers/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/g/golang-k8s-component-helpers/20260929_162823_6dc76@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-component-helpers/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/g/golang-k8s-component-helpers/20260929_163032_be69c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-component-helpers/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/g/golang-k8s-component-helpers/20260929_164138_3698e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-component-helpers/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/g/golang-k8s-component-helpers/20260930_023117_8ec1b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-component-helpers/stonking/s390x
+        - null
+        - null
+      golang-k8s-sigs-apiserver-network-proxy/0.33.0+ds1-3:
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/g/golang-k8s-sigs-apiserver-network-proxy/20261001_044714_1056d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-sigs-apiserver-network-proxy/stonking/s390x
+        - null
+        - null
+      golang-k8s-sigs-apiserver-network-proxy/unknown:
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/g/golang-k8s-sigs-apiserver-network-proxy/20260929_162239_66071@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-k8s-sigs-apiserver-network-proxy/stonking/armhf
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - depends
+  source: golang-k8s-component-helpers
+- excuses:
+  - 'Migration status for dhcpcd (1:10.3.2-6 to 1:10.5.2-6): Will attempt migration (Any information below is purely informational)'
+  - 'Additional info:'
+  - 0 days old
+  is-candidate: true
+  item-name: dhcpcd
+  maintainer: "Martin-\xC9ric Racine"
+  migration-policy-verdict: PASS
+  new-version: 1:10.5.2-6
+  old-version: 1:10.3.2-6
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 0.6428356481481481
+      verdict: PASS
+    autopkgtest:
+      cloud-init/26.2-0ubuntu1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/c/cloud-init/20260930_165059_4c960@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cloud-init/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/c/cloud-init/20260930_162901_4dac6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cloud-init/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/c/cloud-init/20260930_162640_135c8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cloud-init/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/c/cloud-init/20260930_162658_ece40@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cloud-init/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/c/cloud-init/20260930_163355_5a291@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cloud-init/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/c/cloud-init/20260930_162856_4593d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cloud-init/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/c/cloud-init/20261001_052842_dc474@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/cloud-init/stonking/s390x
+        - null
+        - null
+      dhcpcd/1:10.5.2-6:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/dhcpcd/20260930_165543_fd67e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dhcpcd/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/dhcpcd/20260930_163622_49ab2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dhcpcd/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/dhcpcd/20260930_162700_20d7c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dhcpcd/stonking/arm64
+        - null
+        - null
+        armhf:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/dhcpcd/20260930_162646_42450@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dhcpcd/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/d/dhcpcd/20260930_163258_3e476@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dhcpcd/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - NEUTRAL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/dhcpcd/20260930_162939_5ddd3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dhcpcd/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/dhcpcd/20261001_054938_acfe3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dhcpcd/stonking/s390x
+        - null
+        - null
+      dnsmasq/2.93-3ubuntu1:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/d/dnsmasq/20260930_153944_d1c01@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsmasq/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/d/dnsmasq/20260930_154426_7bea6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsmasq/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/d/dnsmasq/20260930_153844_31068@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsmasq/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/d/dnsmasq/20260930_153727_72855@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsmasq/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/d/dnsmasq/20260930_154055_cb2dd@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsmasq/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/d/dnsmasq/20260930_154039_fddaa@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsmasq/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/d/dnsmasq/20261001_062053_11466@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dnsmasq/stonking/s390x
+        - null
+        - null
+      initramfs-tools/0.151ubuntu3:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/i/initramfs-tools/20260930_181643_bd1fe@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/initramfs-tools/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/i/initramfs-tools/20260930_173733_33b88@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/initramfs-tools/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/i/initramfs-tools/20260930_182044_31462@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/initramfs-tools/stonking/arm64
+        - null
+        - null
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/i/initramfs-tools/20260930_164453_c8b8b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/initramfs-tools/stonking/armhf
+        - null
+        - null
+        i386:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/i/initramfs-tools/20260930_164740_2e852@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/initramfs-tools/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/i/initramfs-tools/20260930_173812_2e2d8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/initramfs-tools/stonking/ppc64el
+        - null
+        - null
+      initramfs-tools/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/i/initramfs-tools/20261001_053955_94830@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/initramfs-tools/stonking/s390x
+        - null
+        - null
+      isc-kea/3.0.4-2ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/i/isc-kea/20260930_170708_aea35@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/isc-kea/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/i/isc-kea/20260930_165015_156c1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/isc-kea/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/i/isc-kea/20260930_163524_b55c1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/isc-kea/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/i/isc-kea/20260930_163255_e1b20@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/isc-kea/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/i/isc-kea/20260930_164646_0518d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/isc-kea/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/i/isc-kea/20260930_164640_8fa4c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/isc-kea/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/i/isc-kea/20261001_060853_6667d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/isc-kea/stonking/s390x
+        - null
+        - null
+      libguestfs/1:1.58.1-7ubuntu4:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/libg/libguestfs/20260930_170508_c496d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libguestfs/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/libg/libguestfs/20260930_164718_13915@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libguestfs/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/libg/libguestfs/20260930_163346_5b6fa@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libguestfs/stonking/arm64
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/libg/libguestfs/20260930_164534_5a49b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libguestfs/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/libg/libguestfs/20261001_060520_ebb84@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libg/libguestfs/stonking/s390x
+        - null
+        - null
+      netplan.io/1.2.2-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/n/netplan.io/20260930_165635_5b4a4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netplan.io/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/n/netplan.io/20260930_180115_1fc64@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netplan.io/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/n/netplan.io/20260930_172332_79de7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netplan.io/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/n/netplan.io/20260930_172112_711ba@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netplan.io/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/n/netplan.io/20260930_174230_4a639@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netplan.io/stonking/ppc64el
+        - null
+        - null
+      netplan.io/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/n/netplan.io/20261001_055010_9ad08@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netplan.io/stonking/s390x
+        - null
+        - null
+      network-manager/1.58.1-1ubuntu3:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/n/network-manager/20260930_160127_66d78@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/network-manager/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/n/network-manager/20260930_155937_f0ae7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/network-manager/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/n/network-manager/20260930_153605_81cd8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/network-manager/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/n/network-manager/20260930_153850_497af@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/network-manager/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/n/network-manager/20260930_153401_f8de1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/network-manager/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/n/network-manager/20260930_155814_11560@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/network-manager/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/n/network-manager/20261001_061945_0d2eb@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/network-manager/stonking/s390x
+        - null
+        - null
+      systemd/261.3-0ubuntu2:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/s/systemd/20260930_173439_f5cda@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/s/systemd/20260930_202750_6bb6e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/s/systemd/20260930_222238_cc397@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/s/systemd/20260930_170536_25231@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/i386/s/systemd/20260930_170521_35b49@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/s/systemd/20260930_171836_c56db@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/ppc64el
+        - null
+        - null
+      systemd/unknown:
+        s390x:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/s390x/s/systemd/20261001_060031_4f7c6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/s/systemd/stonking/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: dhcpcd
+- component: universe
+  excuses:
+  - 'Migration status for toil (- to 9.5.0-1): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - toil has no binaries on any arch
+  is-candidate: false
+  item-name: toil
+  maintainer: Debian Med Packaging Team
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 9.5.0-1
+  old-version: '-'
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 4.671921296296296
+      verdict: PASS
+    autopkgtest:
+      verdict: REJECTED_TEMPORARILY
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - no-binaries
+  source: toil
+- detailed-info:
+  - 'old binaries on amd64: fonts-opensymbol, gir1.2-lokdocview-0.1, libjuh-java, libjurt-java, liblibreoffice-java, liblibreofficekitgtk, libofficebean-java, libreoffice, libreoffice-base, libreoffice-base-core, libreoffice-base-drivers, libreoffice-base-nogui, libreoffice-calc, libreoffice-calc-nogui, libreoffice-common, libreoffice-core, libreoffice-core-nogui, libreoffice-dev, libreoffice-dev-common, libreoffice-dev-doc, libreoffice-dev-gui, libreoffice-draw, libreoffice-draw-nogui, libreoffice-evolution, libreoffice-gnome, libreoffice-gtk3, libreoffice-gtk4, libreoffice-help-ca, libreoffice-help-common, libreoffice-help-cs, libreoffice-help-da, libreoffice-help-de, libreoffice-help-dz, libreoffice-help-el, libreoffice-help-en-gb, libreoffice-help-en-us, libreoffice-help-es, libreoffice-help-et, libreoffice-help-eu, libreoffice-help-fi, libreoffice-help-fr, libreoffice-help-gl, libreoffice-help-hi, libreoffice-help-hu, libreoffice-help-id, libreoffice-help-it, libreoffice-help-ja, libreoffice-help-km,
+    libreoffice-help-ko, libreoffice-help-nl, libreoffice-help-om, libreoffice-help-pl, libreoffice-help-pt, libreoffice-help-pt-br, libreoffice-help-ru, libreoffice-help-sk, libreoffice-help-sl, libreoffice-help-sv, libreoffice-help-tr, libreoffice-help-vi, libreoffice-help-zh-cn, libreoffice-help-zh-tw, libreoffice-impress, libreoffice-impress-nogui, libreoffice-java-common, libreoffice-jsuno, libreoffice-kf6, libreoffice-l10n-af, libreoffice-l10n-am, libreoffice-l10n-ar, libreoffice-l10n-as, libreoffice-l10n-ast, libreoffice-l10n-be, libreoffice-l10n-bg, libreoffice-l10n-bn, libreoffice-l10n-br, libreoffice-l10n-bs, libreoffice-l10n-ca, libreoffice-l10n-cs, libreoffice-l10n-cy, libreoffice-l10n-da, libreoffice-l10n-de, libreoffice-l10n-dz, libreoffice-l10n-el, libreoffice-l10n-en-gb, libreoffice-l10n-en-za, libreoffice-l10n-eo, libreoffice-l10n-es, libreoffice-l10n-et, libreoffice-l10n-eu, libreoffice-l10n-fa, libreoffice-l10n-fi, libreoffice-l10n-fr, libreoffice-l10n-ga, libreoffice-l10n-gd,
+    libreoffice-l10n-gl, libreoffice-l10n-gu, libreoffice-l10n-gug, libreoffice-l10n-he, libreoffice-l10n-hi, libreoffice-l10n-hr, libreoffice-l10n-hu, libreoffice-l10n-hy, libreoffice-l10n-id, libreoffice-l10n-in, libreoffice-l10n-is, libreoffice-l10n-it, libreoffice-l10n-ja, libreoffice-l10n-ka, libreoffice-l10n-kk, libreoffice-l10n-km, libreoffice-l10n-kmr, libreoffice-l10n-kn, libreoffice-l10n-ko, libreoffice-l10n-lt, libreoffice-l10n-lv, libreoffice-l10n-mk, libreoffice-l10n-ml, libreoffice-l10n-mn, libreoffice-l10n-mr, libreoffice-l10n-nb, libreoffice-l10n-ne, libreoffice-l10n-nl, libreoffice-l10n-nn, libreoffice-l10n-nr, libreoffice-l10n-nso, libreoffice-l10n-oc, libreoffice-l10n-om, libreoffice-l10n-or, libreoffice-l10n-pa-in, libreoffice-l10n-pl, libreoffice-l10n-pt, libreoffice-l10n-pt-br, libreoffice-l10n-ro, libreoffice-l10n-ru, libreoffice-l10n-rw, libreoffice-l10n-si, libreoffice-l10n-sk, libreoffice-l10n-sl, libreoffice-l10n-sr, libreoffice-l10n-ss, libreoffice-l10n-st, libreoffice-l10n-sv,
+    libreoffice-l10n-szl, libreoffice-l10n-ta, libreoffice-l10n-te, libreoffice-l10n-tg, libreoffice-l10n-th, libreoffice-l10n-tl, libreoffice-l10n-tn, libreoffice-l10n-tr, libreoffice-l10n-ts, libreoffice-l10n-ug, libreoffice-l10n-uk, libreoffice-l10n-uz, libreoffice-l10n-ve, libreoffice-l10n-vi, libreoffice-l10n-xh, libreoffice-l10n-za, libreoffice-l10n-zh-cn, libreoffice-l10n-zh-tw, libreoffice-l10n-zu, libreoffice-librelogo, libreoffice-math, libreoffice-math-nogui, libreoffice-nlpsolver, libreoffice-nogui, libreoffice-officebean, libreoffice-plasma, libreoffice-qt6, libreoffice-report-builder, libreoffice-report-builder-bin, libreoffice-report-builder-bin-nogui, libreoffice-rust-uno-example, libreoffice-script-provider-bsh, libreoffice-script-provider-js, libreoffice-script-provider-python, libreoffice-sdbc-firebird, libreoffice-sdbc-hsqldb, libreoffice-sdbc-mysql, libreoffice-sdbc-postgresql, libreoffice-smoketest-data, libreoffice-style-breeze, libreoffice-style-colibre, libreoffice-style-elementary,
+    libreoffice-style-karasa-jaga, libreoffice-style-sifr, libreoffice-style-sukapura, libreoffice-style-tango, libreoffice-style-yaru, libreoffice-subsequentcheckbase, libreoffice-uiconfig-base, libreoffice-uiconfig-calc, libreoffice-uiconfig-common, libreoffice-uiconfig-draw, libreoffice-uiconfig-impress, libreoffice-uiconfig-math, libreoffice-uiconfig-report-builder, libreoffice-uiconfig-writer, libreoffice-wiki-publisher, libreoffice-writer, libreoffice-writer-nogui, libreofficekit-data, libreofficekit-dev, libreofficekit-dev-gtk, libridl-java, librust-rust-uno-dev, libuno-cppu3t64, libuno-cppuhelpergcc3-3t64, libuno-purpenvhelpergcc3-3t64, libuno-sal3t64, libuno-salhelpergcc3-3t64, libunoil-java, libunoloader-java, python3-access2base, python3-scriptforge, python3-uno, uno-libs-private, ure, ure-java (from <a href="https://launchpad.net/ubuntu/+source/libreoffice/4%3A26.8.0.3-0ubuntu1/+latestbuild/amd64" target="_blank">4:26.8.0.3-0ubuntu1</a>)'
+  - 'old binaries on riscv64: gir1.2-lokdocview-0.1, liblibreofficekitgtk, libofficebean-java, libreoffice, libreoffice-base, libreoffice-base-core, libreoffice-base-drivers, libreoffice-calc, libreoffice-core, libreoffice-dev, libreoffice-dev-gui, libreoffice-draw, libreoffice-evolution, libreoffice-gnome, libreoffice-gtk3, libreoffice-gtk4, libreoffice-impress, libreoffice-jsuno, libreoffice-kf6, libreoffice-math, libreoffice-officebean, libreoffice-qt6, libreoffice-report-builder-bin, libreoffice-script-provider-js, libreoffice-sdbc-firebird, libreoffice-sdbc-hsqldb, libreoffice-sdbc-mysql, libreoffice-sdbc-postgresql, libreoffice-writer, libreofficekit-dev-gtk, librust-rust-uno-dev, libuno-cppu3t64, libuno-cppuhelpergcc3-3t64, libuno-purpenvhelpergcc3-3t64, libuno-sal3t64, libuno-salhelpergcc3-3t64, python3-uno, uno-libs-private, ure, ure-java (from <a href="https://launchpad.net/ubuntu/+source/libreoffice/4%3A26.8.0.3-0ubuntu1/+latestbuild/riscv64" target="_blank">4:26.8.0.3-0ubuntu1</a>)'
+  excuses:
+  - 'Migration status for libreoffice (4:26.8.0.3-0ubuntu1 to 4:26.8.1.1-0ubuntu1): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - libreoffice-base/amd64v3 has unsatisfiable dependency
+  hints:
+  - hint-from: freeze
+    hint-type: block
+  is-candidate: false
+  item-name: libreoffice
+  maintainer: Ubuntu Developers
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  missing-builds:
+    on-architectures:
+    - amd64
+    - riscv64
+    on-unimportant-architectures: []
+  new-version: 4:26.8.1.1-0ubuntu1
+  old-binaries:
+    4:26.8.0.3-0ubuntu1:
+    - fonts-opensymbol
+    - gir1.2-lokdocview-0.1
+    - libjuh-java
+    - libjurt-java
+    - liblibreoffice-java
+    - liblibreofficekitgtk
+    - libofficebean-java
+    - libreoffice
+    - libreoffice-base
+    - libreoffice-base-core
+    - libreoffice-base-drivers
+    - libreoffice-base-nogui
+    - libreoffice-calc
+    - libreoffice-calc-nogui
+    - libreoffice-common
+    - libreoffice-core
+    - libreoffice-core-nogui
+    - libreoffice-dev
+    - libreoffice-dev-common
+    - libreoffice-dev-doc
+    - libreoffice-dev-gui
+    - libreoffice-draw
+    - libreoffice-draw-nogui
+    - libreoffice-evolution
+    - libreoffice-gnome
+    - libreoffice-gtk3
+    - libreoffice-gtk4
+    - libreoffice-help-ca
+    - libreoffice-help-common
+    - libreoffice-help-cs
+    - libreoffice-help-da
+    - libreoffice-help-de
+    - libreoffice-help-dz
+    - libreoffice-help-el
+    - libreoffice-help-en-gb
+    - libreoffice-help-en-us
+    - libreoffice-help-es
+    - libreoffice-help-et
+    - libreoffice-help-eu
+    - libreoffice-help-fi
+    - libreoffice-help-fr
+    - libreoffice-help-gl
+    - libreoffice-help-hi
+    - libreoffice-help-hu
+    - libreoffice-help-id
+    - libreoffice-help-it
+    - libreoffice-help-ja
+    - libreoffice-help-km
+    - libreoffice-help-ko
+    - libreoffice-help-nl
+    - libreoffice-help-om
+    - libreoffice-help-pl
+    - libreoffice-help-pt
+    - libreoffice-help-pt-br
+    - libreoffice-help-ru
+    - libreoffice-help-sk
+    - libreoffice-help-sl
+    - libreoffice-help-sv
+    - libreoffice-help-tr
+    - libreoffice-help-vi
+    - libreoffice-help-zh-cn
+    - libreoffice-help-zh-tw
+    - libreoffice-impress
+    - libreoffice-impress-nogui
+    - libreoffice-java-common
+    - libreoffice-jsuno
+    - libreoffice-kf6
+    - libreoffice-l10n-af
+    - libreoffice-l10n-am
+    - libreoffice-l10n-ar
+    - libreoffice-l10n-as
+    - libreoffice-l10n-ast
+    - libreoffice-l10n-be
+    - libreoffice-l10n-bg
+    - libreoffice-l10n-bn
+    - libreoffice-l10n-br
+    - libreoffice-l10n-bs
+    - libreoffice-l10n-ca
+    - libreoffice-l10n-cs
+    - libreoffice-l10n-cy
+    - libreoffice-l10n-da
+    - libreoffice-l10n-de
+    - libreoffice-l10n-dz
+    - libreoffice-l10n-el
+    - libreoffice-l10n-en-gb
+    - libreoffice-l10n-en-za
+    - libreoffice-l10n-eo
+    - libreoffice-l10n-es
+    - libreoffice-l10n-et
+    - libreoffice-l10n-eu
+    - libreoffice-l10n-fa
+    - libreoffice-l10n-fi
+    - libreoffice-l10n-fr
+    - libreoffice-l10n-ga
+    - libreoffice-l10n-gd
+    - libreoffice-l10n-gl
+    - libreoffice-l10n-gu
+    - libreoffice-l10n-gug
+    - libreoffice-l10n-he
+    - libreoffice-l10n-hi
+    - libreoffice-l10n-hr
+    - libreoffice-l10n-hu
+    - libreoffice-l10n-hy
+    - libreoffice-l10n-id
+    - libreoffice-l10n-in
+    - libreoffice-l10n-is
+    - libreoffice-l10n-it
+    - libreoffice-l10n-ja
+    - libreoffice-l10n-ka
+    - libreoffice-l10n-kk
+    - libreoffice-l10n-km
+    - libreoffice-l10n-kmr
+    - libreoffice-l10n-kn
+    - libreoffice-l10n-ko
+    - libreoffice-l10n-lt
+    - libreoffice-l10n-lv
+    - libreoffice-l10n-mk
+    - libreoffice-l10n-ml
+    - libreoffice-l10n-mn
+    - libreoffice-l10n-mr
+    - libreoffice-l10n-nb
+    - libreoffice-l10n-ne
+    - libreoffice-l10n-nl
+    - libreoffice-l10n-nn
+    - libreoffice-l10n-nr
+    - libreoffice-l10n-nso
+    - libreoffice-l10n-oc
+    - libreoffice-l10n-om
+    - libreoffice-l10n-or
+    - libreoffice-l10n-pa-in
+    - libreoffice-l10n-pl
+    - libreoffice-l10n-pt
+    - libreoffice-l10n-pt-br
+    - libreoffice-l10n-ro
+    - libreoffice-l10n-ru
+    - libreoffice-l10n-rw
+    - libreoffice-l10n-si
+    - libreoffice-l10n-sk
+    - libreoffice-l10n-sl
+    - libreoffice-l10n-sr
+    - libreoffice-l10n-ss
+    - libreoffice-l10n-st
+    - libreoffice-l10n-sv
+    - libreoffice-l10n-szl
+    - libreoffice-l10n-ta
+    - libreoffice-l10n-te
+    - libreoffice-l10n-tg
+    - libreoffice-l10n-th
+    - libreoffice-l10n-tl
+    - libreoffice-l10n-tn
+    - libreoffice-l10n-tr
+    - libreoffice-l10n-ts
+    - libreoffice-l10n-ug
+    - libreoffice-l10n-uk
+    - libreoffice-l10n-uz
+    - libreoffice-l10n-ve
+    - libreoffice-l10n-vi
+    - libreoffice-l10n-xh
+    - libreoffice-l10n-za
+    - libreoffice-l10n-zh-cn
+    - libreoffice-l10n-zh-tw
+    - libreoffice-l10n-zu
+    - libreoffice-librelogo
+    - libreoffice-math
+    - libreoffice-math-nogui
+    - libreoffice-nlpsolver
+    - libreoffice-nogui
+    - libreoffice-officebean
+    - libreoffice-plasma
+    - libreoffice-qt6
+    - libreoffice-report-builder
+    - libreoffice-report-builder-bin
+    - libreoffice-report-builder-bin-nogui
+    - libreoffice-rust-uno-example
+    - libreoffice-script-provider-bsh
+    - libreoffice-script-provider-js
+    - libreoffice-script-provider-python
+    - libreoffice-sdbc-firebird
+    - libreoffice-sdbc-hsqldb
+    - libreoffice-sdbc-mysql
+    - libreoffice-sdbc-postgresql
+    - libreoffice-smoketest-data
+    - libreoffice-style-breeze
+    - libreoffice-style-colibre
+    - libreoffice-style-elementary
+    - libreoffice-style-karasa-jaga
+    - libreoffice-style-sifr
+    - libreoffice-style-sukapura
+    - libreoffice-style-tango
+    - libreoffice-style-yaru
+    - libreoffice-subsequentcheckbase
+    - libreoffice-uiconfig-base
+    - libreoffice-uiconfig-calc
+    - libreoffice-uiconfig-common
+    - libreoffice-uiconfig-draw
+    - libreoffice-uiconfig-impress
+    - libreoffice-uiconfig-math
+    - libreoffice-uiconfig-report-builder
+    - libreoffice-uiconfig-writer
+    - libreoffice-wiki-publisher
+    - libreoffice-writer
+    - libreoffice-writer-nogui
+    - libreofficekit-data
+    - libreofficekit-dev
+    - libreofficekit-dev-gtk
+    - libridl-java
+    - librust-rust-uno-dev
+    - libuno-cppu3t64
+    - libuno-cppuhelpergcc3-3t64
+    - libuno-purpenvhelpergcc3-3t64
+    - libuno-sal3t64
+    - libuno-salhelpergcc3-3t64
+    - libunoil-java
+    - libunoloader-java
+    - python3-access2base
+    - python3-scriptforge
+    - python3-uno
+    - uno-libs-private
+    - ure
+    - ure-java
+  old-version: 4:26.8.0.3-0ubuntu1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 0.40880787037037036
+      verdict: PASS
+    autopkgtest:
+      verdict: REJECTED_TEMPORARILY
+    block:
+      verdict: REJECTED_NEEDS_APPROVAL
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: REJECTED_PERMANENTLY
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - block
+  - depends
+  - missingbuild
+  source: libreoffice
+- component: universe
+  excuses:
+  - 'Migration status for golang-github-charlievieth-strcase (0.0.5-4 to 0.0.6-1): Waiting for test results, another package or too young (no action required now - check later)'
+  - 'Issues preventing migration:'
+  - 'autopkgtest for golang-github-charlievieth-strcase/0.0.6-1: <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/amd64">amd64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/g/golang-github-charlievieth-strcase/20261001_043400_78d86@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/amd64v3">amd64v3</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/g/golang-github-charlievieth-strcase/20261001_043259_185fb@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/arm64">arm64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/g/golang-github-charlievieth-strcase/20261001_043428_a03c5@/log.gz"><span style="background:#87d96c">Pass</span></a>,
+    <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/armhf">armhf</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/g/golang-github-charlievieth-strcase/20261001_043257_cf87b@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/ppc64el">ppc64el</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/g/golang-github-charlievieth-strcase/20261001_043354_79614@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/s390x">s390x</a>: <a href="https://autopkgtest.ubuntu.com/running"><span style="background:#99ddff">Test in progress</span></a>'
+  is-candidate: false
+  item-name: golang-github-charlievieth-strcase
+  maintainer: Debian Go Packaging Team
+  migration-policy-verdict: REJECTED_TEMPORARILY
+  new-version: 0.0.6-1
+  old-version: 0.0.5-4
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 0.26489583333333333
+      verdict: PASS
+    autopkgtest:
+      golang-github-charlievieth-strcase/0.0.6-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/g/golang-github-charlievieth-strcase/20261001_043400_78d86@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/g/golang-github-charlievieth-strcase/20261001_043259_185fb@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/g/golang-github-charlievieth-strcase/20261001_043428_a03c5@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/g/golang-github-charlievieth-strcase/20261001_043257_cf87b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/g/golang-github-charlievieth-strcase/20261001_043354_79614@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/g/golang-github-charlievieth-strcase/stonking/s390x
+        - null
+        - null
+      verdict: REJECTED_TEMPORARILY
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  source: golang-github-charlievieth-strcase
+- excuses:
+  - 'Migration status for ubuntu-insights (1.0.0ubuntu to 1.0.1ubuntu): BLOCKED: Needs an approval (either due to a freeze, the source suite or a manual hint)'
+  - 'Issues preventing migration:'
+  - Not touching package due to block request by freeze (please contact ubuntu-release if update is needed)
+  hints:
+  - hint-from: freeze
+    hint-type: block
+  is-candidate: false
+  item-name: ubuntu-insights
+  maintainer: Ubuntu Developers
+  migration-policy-verdict: REJECTED_NEEDS_APPROVAL
+  new-version: 1.0.1ubuntu
+  old-version: 1.0.0ubuntu
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 0.44442129629629634
+      verdict: PASS
+    autopkgtest:
+      ubuntu-insights/1.0.1ubuntu:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64/u/ubuntu-insights/20260930_203407_b7939@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubuntu-insights/stonking/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/amd64v3/u/ubuntu-insights/20260930_203336_24269@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubuntu-insights/stonking/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/arm64/u/ubuntu-insights/20261001_040155_6c73a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubuntu-insights/stonking/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/armhf/u/ubuntu-insights/20260930_203406_9e754@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubuntu-insights/stonking/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/stonking/ppc64el/u/ubuntu-insights/20260930_203502_313aa@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/u/ubuntu-insights/stonking/ppc64el
+        - null
+        - null
+        s390x:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/u/ubuntu-insights/stonking/s390x
+        - null
+        - null
+      verdict: REJECTED_TEMPORARILY
+    block:
+      verdict: REJECTED_NEEDS_APPROVAL
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      '2164597': 1790148719
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - block
+  source: ubuntu-insights

@@ -1,0 +1,34 @@
+{# Shared by every board that routes work to owners. Ownership comes from a
+   separate snapshot that a failed refresh leaves in place, so a board must
+   say when it is old or missing rather than route on it silently. Only
+   surfaced when something is wrong. #}
+  {% if metadata_age is not none and metadata_age > 1 %}
+  <div class="row">
+    <div class="col-12">
+      <div class="p-notification--caution">
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">Ownership data is {{ metadata_age }} days old</h5>
+          <p class="p-notification__message">
+            Uploader, team, package set and Debian upload dates are collected
+            together, so all of them are from the last complete snapshot.
+            Package versions come from the archive and are current.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% elif metadata_age is none %}
+  <div class="row">
+    <div class="col-12">
+      <div class="p-notification--caution">
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">No ownership data</h5>
+          <p class="p-notification__message">
+            Uploader, team and package set have never been collected.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
