@@ -200,7 +200,8 @@ class TestCheckEndToEnd:
         fetcher = EndToEndFetcher()
         check(fetcher, series="stonking", components=("main", "universe"))
         ubuntu = [u for u in fetcher.urls if "archive.ubuntu.com" in u]
-        assert all("/stonking/" in u for u in ubuntu)
+        suites = {u.split("/dists/")[1].split("/")[0] for u in ubuntu}
+        assert suites == {"stonking", "stonking-proposed"}
         assert {"main", "universe"} == {u.split("/")[-3] for u in ubuntu}
 
     def test_queries_the_oracle_per_component(self):

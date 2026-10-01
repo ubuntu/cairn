@@ -27,6 +27,8 @@ class SourcePackage:
     version: str
     binaries: tuple[str, ...] = ()
     component: str | None = None
+    # The suite the stanza was read from, e.g. "stonking-proposed".
+    suite: str | None = None
 
 
 def decompress(raw: bytes, url: str) -> bytes:
@@ -40,7 +42,7 @@ def decompress(raw: bytes, url: str) -> bytes:
 
 
 def parse_sources(
-    data: bytes, *, component: str | None = None
+    data: bytes, *, component: str | None = None, suite: str | None = None
 ) -> Iterator[SourcePackage]:
     for stanza in Sources.iter_paragraphs(data, use_apt_pkg=False):
         name = stanza.get("Package")
@@ -51,12 +53,20 @@ def parse_sources(
             b.strip() for b in (stanza.get("Binary") or "").split(",") if b.strip()
         )
         yield SourcePackage(
-            name=name, version=version, binaries=binaries, component=component
+            name=name,
+            version=version,
+            binaries=binaries,
+            component=component,
+            suite=suite,
         )
 
 
 def newest(packages: Iterable[SourcePackage]) -> dict[str, SourcePackage]:
-    """Collapse to one entry per source name, keeping the highest version."""
+    """Collapse to one entry per source name, keeping the highest version.
+
+    On a tie the first one seen is kept, so callers control which suite wins
+    by the order they pass them in.
+    """
     best: dict[str, SourcePackage] = {}
     for package in packages:
         current = best.get(package.name)

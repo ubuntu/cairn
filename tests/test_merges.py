@@ -251,6 +251,118 @@ class TestMergesIngester:
         assert first.payload != second.payload
 
 
+def stanza(name, version):
+    return f"Package: {name}\nVersion: {version}\n\n".encode()
+
+
+class PocketFetcher:
+    """Serves a different Ubuntu Sources per suite; unlisted suites are empty."""
+
+    def __init__(self, ubuntu: dict[str, bytes], debian: bytes):
+        self.ubuntu = ubuntu
+        self.debian = debian
+        self.urls: list[str] = []
+
+    def get(self, url: str) -> bytes:
+        self.urls.append(url)
+        if "archive.ubuntu.com" not in url:
+            return lzma.compress(self.debian)
+        suite = url.split("/dists/")[1].split("/")[0]
+        component = url.split("/dists/")[1].split("/")[1]
+        body = self.ubuntu.get(suite, b"") if component == "main" else b""
+        return gzip.compress(body)
+
+
+class TestProposedPocket:
+    """Issue #10. Every development upload lands in -proposed first, so
+    release alone shows the version before the last upload."""
+
+    def signals(self, release=b"", proposed=b"", debian=b""):
+        fetcher = PocketFetcher(
+            {"stonking": release, "stonking-proposed": proposed}, debian
+        )
+        ing = MergesIngester(fetcher, series="stonking")
+        return {s.source_package: s for s in ing.run()}
+
+    def test_reads_both_pockets(self):
+        ing = ingester()
+        ing.fetch()
+        suites = {u.split("/dists/")[1].split("/")[0] for u in ing.fetcher.urls}
+        assert {"stonking", "stonking-proposed"} <= suites
+
+    def test_a_newer_proposed_version_is_what_ubuntu_has(self):
+        """The shadow case from the issue, using its real versions."""
+        found = self.signals(
+            release=stanza("shadow", "1:4.19.3-2ubuntu1"),
+            proposed=stanza("shadow", "1:4.19.3-2ubuntu2"),
+            debian=stanza("shadow", "1:4.20.2-2"),
+        )
+        payload = found["shadow"].payload
+        assert payload["ubuntu_version"] == "1:4.19.3-2ubuntu2"
+        assert payload["base_version"] == "1:4.19.3-2"
+        assert payload["in_proposed"] is True
+
+    def test_a_merge_waiting_in_proposed_is_not_outstanding(self):
+        found = self.signals(
+            release=stanza("x", "1.0-1ubuntu1"),
+            proposed=stanza("x", "1.0-2ubuntu1"),
+            debian=stanza("x", "1.0-2"),
+        )
+        assert "x" not in found
+
+    def test_a_sync_waiting_in_proposed_is_not_outstanding(self):
+        found = self.signals(
+            release=stanza("x", "1.0-1ubuntu1"),
+            proposed=stanza("x", "1.0-2"),
+            debian=stanza("x", "1.0-2"),
+        )
+        assert "x" not in found
+
+    def test_a_release_version_carries_no_flag(self):
+        """Absent rather than False, so existing payloads stay byte-identical
+        and the log gains no UPDATED event per signal."""
+        found = self.signals(
+            release=stanza("x", "1.0-1ubuntu1"), debian=stanza("x", "1.0-2")
+        )
+        assert "in_proposed" not in found["x"].payload
+
+    def test_an_older_proposed_version_does_not_win(self):
+        found = self.signals(
+            release=stanza("x", "1.0-1ubuntu2"),
+            proposed=stanza("x", "1.0-1ubuntu1"),
+            debian=stanza("x", "1.0-2"),
+        )
+        assert found["x"].payload["ubuntu_version"] == "1.0-1ubuntu2"
+        assert "in_proposed" not in found["x"].payload
+
+    def test_release_wins_a_tie(self):
+        found = self.signals(
+            release=stanza("x", "1.0-1ubuntu1"),
+            proposed=stanza("x", "1.0-1ubuntu1"),
+            debian=stanza("x", "1.0-2"),
+        )
+        assert "in_proposed" not in found["x"].payload
+
+    def test_a_package_only_in_proposed_is_seen(self):
+        found = self.signals(
+            proposed=stanza("x", "1.0-1ubuntu1"), debian=stanza("x", "1.0-2")
+        )
+        assert found["x"].payload["in_proposed"] is True
+
+    def test_identity_survives_migration(self):
+        """Moving from -proposed to release is the same signal, updated."""
+        before = self.signals(
+            release=stanza("x", "1.0-1ubuntu1"),
+            proposed=stanza("x", "1.0-1ubuntu2"),
+            debian=stanza("x", "1.0-2"),
+        )["x"]
+        after = self.signals(
+            release=stanza("x", "1.0-1ubuntu2"), debian=stanza("x", "1.0-2")
+        )["x"]
+        assert before.signal_id == after.signal_id
+        assert before.payload != after.payload
+
+
 class TestRegistry:
     def test_merges_is_registered(self):
         assert "merges" in registry.available()
