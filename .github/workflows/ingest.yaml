@@ -5,9 +5,13 @@ name: Ingest
 # forever. The schedule therefore belongs to the repository, not to a laptop.
 on:
   schedule:
+    # Twice a day, twelve hours apart. Scheduled runs are best effort: the
+    # first one ran 5h41m late on 30 Sep 2026, so a second run each day
+    # keeps one late or dropped run from leaving a full day's gap. A run with
+    # nothing new appends no events, so the extra run costs runner time only.
     # Deliberately not on the hour. GitHub documents that scheduled workflows
     # are most likely to be delayed or dropped at the top of the hour.
-    - cron: "37 5 * * *"
+    - cron: "37 5,17 * * *"
   workflow_dispatch:
     inputs:
       series:
@@ -66,7 +70,7 @@ jobs:
 
       # Measured: ~31 MiB of indexes per run. Both archives send ETag and
       # Last-Modified, but the development series republishes hourly, so on a
-      # daily schedule expect mostly 200s. Kept because it is free and helps
+      # twice-daily schedule expect mostly 200s. Kept because it is free and helps
       # re-runs within one publishing window. A miss just means a full fetch.
       - name: Restore HTTP cache
         uses: actions/cache@v6

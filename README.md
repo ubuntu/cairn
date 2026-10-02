@@ -19,7 +19,5 @@ attention, instead of a long list of everything that they have to filter in
 their head. Where two problems concern the same package, such as a merge
 waiting on an upload that is stuck in proposed, Cairn links one to the other.
 
-## More
-
 [HACKING.md](HACKING.md) covers running Cairn locally and how it is deployed.
 [AGENTS.md](AGENTS.md) explains why it is built the way it is.

@@ -94,7 +94,7 @@ There is no server. Three workflows do the work.
 
 `tests.yaml` runs ruff and pytest on every push and pull request.
 
-`ingest.yaml` runs daily at 05:37 UTC, calls `cairn ingest`, and commits
+`ingest.yaml` runs twice a day, at 05:37 and 17:37 UTC, calls `cairn ingest`, and commits
 `data/` back to `main`. The odd minute is deliberate, since GitHub is most
 likely to delay or drop scheduled jobs on the hour. History cannot be
 backfilled, so a run that does not happen is a permanent gap, which is why
