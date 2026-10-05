@@ -228,21 +228,19 @@
         {% endfor %}
       </td>
       <td data-heading="Upload" class="cairn-upload">
-        {# Stacked, old over new, so neither version wraps mid-string. Each
-           links to its Launchpad upload page. #}
-        <div>
-          {% if row.is_new_package %}<span class="u-text--muted">none</span>
-          {% else %}<a href="{{ row.old_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.old_version }}</code></a>{% endif %}
-        </div>
-        <div>
-          <span aria-label="to">&rarr;</span>
-          <a href="{{ row.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.new_version }}</code></a>
-          {% if row.is_new_package %}
-          <span class="p-chip--positive is-readonly is-inline is-dense" title="Not in {{ series }} before this upload">
-            <span class="p-chip__value">new</span>
-          </span>
-          {% endif %}
-        </div>
+        {# One line, old → new. Each version is kept whole, so a pair too
+           long for the column breaks only after the arrow, never inside a
+           version string. Each links to its Launchpad upload page. #}
+        <span class="cairn-version">
+          {%- if row.is_new_package %}<span class="u-text--muted">none</span>
+          {%- else %}<a href="{{ row.old_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.old_version }}</code></a>{% endif -%}
+        </span>
+        <span class="cairn-version"><span aria-label="to">&rarr;</span>&nbsp;<a href="{{ row.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.new_version }}</code></a></span>
+        {% if row.is_new_package %}
+        <span class="p-chip--positive is-readonly is-inline is-dense" title="Not in {{ series }} before this upload">
+          <span class="p-chip__value">new</span>
+        </span>
+        {% endif %}
       </td>
       <td data-heading="Component" class="cairn-component">
         {% if row.component %}{{ row.component }}

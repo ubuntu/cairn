@@ -1462,3 +1462,23 @@ def test_settling_says_what_it_means():
     html = render_migration(replay([opened(stuck())]), healthy(), now=NOW)
     assert "uploader's hands" not in html
     assert "uploaded to -proposed less than" in " ".join(html.split())
+
+
+def test_old_and_new_version_share_one_line(tmp_path):
+    """No block element between them: old → new reads on one line, and each
+    version is kept whole so a long pair can only break after the arrow."""
+    build(
+        replay([opened(stuck(old_version="1:1.0-1", new_version="1:1.0-2"))]),
+        healthy(),
+        meta(libssh2=PackageMetadata(teams=("t",))),
+        out=tmp_path,
+        now=NOW,
+        series="stonking",
+    )
+    page = (tmp_path / "migration/teams/t.html").read_text()
+    cell = page.split('data-heading="Upload"')[1].split("</td>")[0]
+    assert "<div" not in cell
+    assert cell.count('class="cairn-version"') == 2
+    old, new = cell.split('class="cairn-version"')[1:]
+    assert "1:1.0-1" in old and "&rarr;" not in old
+    assert "&rarr;</span>&nbsp;<a" in new and "1:1.0-2" in new
