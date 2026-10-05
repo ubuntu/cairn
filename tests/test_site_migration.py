@@ -1482,3 +1482,32 @@ def test_old_and_new_version_share_one_line(tmp_path):
     old, new = cell.split('class="cairn-version"')[1:]
     assert "1:1.0-1" in old and "&rarr;" not in old
     assert "&rarr;</span>&nbsp;<a" in new and "1:1.0-2" in new
+
+
+class TestPlusOneLink:
+    def index(self, tmp_path, signer):
+        owner = PackageMetadata(
+            publications=(pub("1.0-2", uploader="sanvila", signer=signer),)
+        )
+        build(
+            replay([opened(stuck())]),
+            healthy(),
+            meta(libssh2=owner),
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        index = (tmp_path / "migration/index.html").read_text()
+        return index.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
+
+    def test_the_board_links_to_plus_one_maintenance(self, tmp_path):
+        nav = self.index(tmp_path, signer=None)
+        assert (
+            '<a href="../migration/uploaders/plus-one-maintenance.html">'
+            "+1 maintenance</a>"
+        ) in nav
+        target = tmp_path / "migration/uploaders/plus-one-maintenance.html"
+        assert target.exists()
+
+    def test_no_link_when_nothing_is_routed_there(self, tmp_path):
+        assert "+1 maintenance" not in self.index(tmp_path, signer="seb128")

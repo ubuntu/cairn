@@ -53,6 +53,11 @@
       {% if migration_teams %}{% set _ = contents.append(("#by-team", "By subscribed team")) %}{% endif %}
       {% if migration_package_sets %}{% set _ = contents.append(("#by-package-set", "By package set")) %}{% endif %}
       {% if migration_uploaders %}{% set _ = contents.append(("#by-uploader", "By uploader")) %}{% endif %}
+      {# +1 maintenance picks up what has no Ubuntu uploader to route to, so
+         its page is a destination of its own, not just one uploader among
+         many further down. #}
+      {% set plus_one = migration_uploaders | selectattr("name", "equalto", "plus-one-maintenance") | first %}
+      {% if plus_one %}{% set _ = contents.append((root ~ plus_one.migration_href, "+1 maintenance")) %}{% endif %}
       {% if contents %}
       <nav aria-label="Contents">
         <ul class="p-inline-list--middot">
