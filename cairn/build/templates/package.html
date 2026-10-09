@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_merges.html" as t with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | {{ package.name }}{% endblock %}
+
+{% macro owner_link(kind, name, label=None) -%}
+{% set group = owner_lookup.get((kind, name)) %}
+{% if group %}<a href="{{ root }}{{ group.primary_href }}">{{ label or group.title }}</a>{% else %}{{ label or name }}{% endif %}
+{%- endmacro %}
+
+{% macro days(n) %}{{ n }} day{{ '' if n == 1 else 's' }}{% endmacro %}
+
+{% block content %}
+{% set merge = package.merge %}
+{% set stuck = package.stuck %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p class="p-text--small-caps u-text--muted">
+        <a href="{{ root }}packages/index.html">Packages</a> / source package
+      </p>
+      {# Tags sit beside the name: the component needs no "component:"
+         label, since main, universe and the rest name themselves. #}
+      <div class="cairn-title">
+        <h1 class="p-heading--2 u-no-margin--bottom">{{ package.name }}</h1>
+        {% if package.component %}<span class="p-chip is-readonly is-inline"><span class="p-chip__value">{{ package.component }}</span></span>{% endif %}
+        {% if package.up_for_grabs %}
+        <a class="p-chip--positive is-inline cairn-chip-link" href="{{ root }}work/index.html?q={{ package.name | urlencode }}"{{ g.tip("up_for_grabs") }}>
+          <span class="p-chip__value">up for grabs</span><span class="cairn-chip-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        {% endif %}
+      </div>
+      <ul class="p-inline-list--middot">
+        <li class="p-inline-list__item"><a class="cairn-external" href="{{ package.launchpad_url }}" target="_blank" rel="noopener noreferrer">Launchpad<i class="p-icon--external-link"></i></a></li>
+        <li class="p-inline-list__item"><a class="cairn-external" href="{{ package.debian_url }}" target="_blank" rel="noopener noreferrer">Debian tracker<i class="p-icon--external-link"></i></a></li>
+        <li class="p-inline-list__item"><a class="cairn-external" href="{{ autopkgtest_url(package.name) }}" target="_blank" rel="noopener noreferrer">autopkgtest history<i class="p-icon--external-link"></i></a></li>
+      </ul>
+    </div>
+  </div>
+  {% include "_ownership.html" %}
+  {% include "_stale.html" %}
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Status in {{ series }}</h2>
+      {# One line per question, always present: a "no" is an answer too,
+         and the reader learns what Cairn checked. #}
+      <div class="cairn-status-list">
+
+        <div class="cairn-status-item">
+          {% if merge %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong>Needs a merge from Debian</strong></p>
+          <p>
+            Ubuntu has <a href="{{ merge.ubuntu_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ merge.ubuntu_version }}</code></a>,
+            Debian has <a href="{{ merge.debian_url }}" target="_blank" rel="noopener noreferrer"><code>{{ merge.debian_version }}</code></a>{% if merge.new_upstream %}, a new upstream release{% endif %}.
+            {% set behind = merge.behind_days(now) %}
+            {% if behind is not none %}Debian has been ahead since {{ merge.debian_uploaded | iso_date }} ({{ days(behind) }}).{% endif %}
+            {% if merge.returning %}Cairn has seen this merged and come back {{ merge.occurrences - 1 }} time{{ '' if merge.occurrences == 2 else 's' }}.{% endif %}
+          </p>
+          <p><a href="{{ root }}{{ merge.page }}#{{ merge.anchor }}">See it on the merges board</a></p>
+          {% else %}
+          <p class="cairn-status-item__head"><i class="p-icon--success"></i> <strong>No merge needed</strong></p>
+          <p class="u-text--muted">Debian is not ahead of an Ubuntu delta, as far as the archive indexes show.</p>
+          {% endif %}
+        </div>
+
+        <div class="cairn-status-item">
+          {% if stuck %}
+          {% set d = stuck.days(now) %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong>Stuck in proposed{% if d is not none %} for {{ days(d) }}{% endif %}</strong>
+            {% if stuck.settling(now) %}<span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("settling") }}><span class="p-chip__value">still settling</span></span>{% endif %}
+          </p>
+          <p>
+            {% if stuck.is_new_package %}New package{% else %}<a href="{{ stuck.old_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ stuck.old_version }}</code></a>{% endif %}
+            <span aria-label="to">&rarr;</span>
+            <a href="{{ stuck.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ stuck.new_version }}</code></a>,
+            uploaded by
+            {% if stuck.synced -%}
+            {{ owner_link("uploaders", "plus-one-maintenance", "+1 maintenance") }} (synced from Debian{% if stuck.uploader %}, {{ stuck.uploader }}{% endif %})
+            {%- elif stuck.uploader -%}
+            {{ owner_link("uploaders", stuck.uploader) }}
+            {%- else -%}
+            someone Launchpad does not name
+            {%- endif %}.
+          </p>
+          {% if stuck.uploads > 1 %}
+          <p>
+            <strong>Cairn has seen it stuck through {{ stuck.uploads }} different uploads</strong>{% if package.stuck_since %},
+            since {{ package.stuck_since | iso_date }} ({{ days((now - package.stuck_since).days) }}){% endif %}.
+            Britney only dates the latest upload, so its own page says {{ days(d) if d is not none else "less" }}.
+          </p>
+          {% endif %}
+          <h3 class="p-heading--5 u-no-margin--bottom">Why britney holds it</h3>
+          {{ m.why(stuck) }}
+          <p><a href="{{ root }}{{ stuck.page }}#{{ stuck.anchor }}">See it on the stuck in proposed board</a></p>
+          {% else %}
+          <p class="cairn-status-item__head"><i class="p-icon--success"></i> <strong>Not stuck in proposed</strong></p>
+          <p class="u-text--muted">Britney is not holding an upload of it.</p>
+          {% endif %}
+        </div>
+
+        <div class="cairn-status-item">
+          {% if package.blocking or package.waiting %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong>Holding up other uploads</strong></p>
+          <ul class="cairn-tests">
+            {% for b in package.blocking %}
+            <li>
+              Its tests regress on <a href="{{ root }}{{ b.holding.page }}#{{ b.holding.anchor }}">{{ b.holding.package }}</a>
+              <code>{{ b.holding.new_version }}</code>:
+              {{ m.results_line(b, b.holding) }}
+            </li>
+            {% endfor %}
+            {% for w in package.waiting %}
+            <li>
+              <a href="{{ root }}{{ w.page }}#{{ w.anchor }}">{{ w.package }}</a>
+              <code>{{ w.new_version }}</code> waits for it to migrate first.
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p class="cairn-status-item__head"><i class="p-icon--success"></i> <strong>Not holding anything up</strong></p>
+          <p class="u-text--muted">Its tests are not failing on anyone else's upload, and no stuck upload is waiting for it.</p>
+          {% endif %}
+        </div>
+      </div>
+      {{ g.glossary(g.HOLDING_TERMS + ["settling", "up_for_grabs"]) }}
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Who looks after it</h2>
+      <table class="p-table--mobile-card cairn-owners-table">
+        <caption class="u-hide">Who looks after {{ package.name }}, on each ownership axis</caption>
+        <tbody>
+          <tr>
+            <th scope="row">Uploader</th>
+            <td>
+              {% set names = [] %}
+              {% if merge and merge.uploader %}{% set _ = names.append(merge.uploader) %}{% endif %}
+              {% if stuck and stuck.uploader and not stuck.synced and stuck.uploader not in names %}{% set _ = names.append(stuck.uploader) %}{% endif %}
+              {% for name in names %}{{ owner_link("uploaders", name) }}{% if not loop.last %}, {% endif %}{% endfor %}
+              {% if stuck and stuck.synced %}{% if names %}, {% endif %}{{ owner_link("uploaders", "plus-one-maintenance", "+1 maintenance") }}{% endif %}
+              {% if not names and not (stuck and stuck.synced) %}<span class="u-text--muted">no open upload to name</span>{% endif %}
+              <div class="p-text--small u-text--muted">The person in the changelog of the version above, who normally deals with it.</div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Subscribed teams</th>
+            <td>
+              {% for name in package.owners.teams %}{{ owner_link("teams", name) }}{% if not loop.last %}, {% endif %}
+              {% else %}<span class="u-text--muted">none</span>{% endfor %}
+              <div class="p-text--small u-text--muted">Who gets its bug mail.</div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Package sets</th>
+            <td>
+              {% for name in package.owners.package_sets %}{{ owner_link("sets", name) }}{% if not loop.last %}, {% endif %}
+              {% else %}<span class="u-text--muted">none</span>{% endfor %}
+              <div class="p-text--small u-text--muted">Who may upload it, besides core developers{% if package.component == "universe" or package.component == "multiverse" %} and MOTU{% endif %}.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">History</h2>
+      <p class="u-text--muted">
+        What Cairn has seen happen to {{ package.name }}, newest first.
+        The sites Cairn collects from only show the present; this is kept
+        from every run.
+        {% set since_merges = watching_since.get("needs_merge") %}
+        {% set since_migration = watching_since.get("migration_blocked") %}
+        {% if since_merges or since_migration %}
+        Cairn has watched
+        {% if since_merges %}merges since {{ since_merges | iso_date }}{% endif %}
+        {%- if since_merges and since_migration %} and {% endif %}
+        {% if since_migration %}proposed migration since {{ since_migration | iso_date }}{% endif %},
+        so anything already open then may have been open for longer.
+        {% endif %}
+      </p>
+      {% if package.history %}
+      <table class="p-table--mobile-card cairn-history">
+        <caption class="u-hide">History of {{ package.name }}</caption>
+        <thead><tr><th class="cairn-history__when">When</th><th>Board</th><th>What happened</th></tr></thead>
+        <tbody>
+          {% for moment in package.history %}
+          {% set p = moment.payload %}
+          <tr>
+            <td data-heading="When" class="cairn-history__when">{{ moment.ts | iso_time }}</td>
+            <td data-heading="Board">{{ "Merges" if moment.kind == "needs_merge" else "Proposed migration" }}</td>
+            <td data-heading="What happened">
+              {% if moment.kind == "needs_merge" %}
+                {% if moment.event == "opened" %}
+                Became a merge candidate: Ubuntu <code>{{ p.ubuntu_version }}</code>, Debian <code>{{ p.debian_version }}</code>.
+                {% elif moment.event == "resolved" %}
+                No longer a merge candidate: merged, synced or removed.
+                {% else %}
+                {% for field, before, after in moment.changes %}
+                  {% if field == "ubuntu_version" %}Ubuntu uploaded <code>{{ after }}</code>.
+                  {% elif field == "debian_version" %}Debian moved to <code>{{ after }}</code>.
+                  {% elif field == "in_proposed" %}{{ "The Ubuntu version entered -proposed." if after else "The Ubuntu version left -proposed." }}
+                  {% endif %}
+                {% endfor %}
+                {% endif %}
+              {% else %}
+                {% if moment.event == "opened" %}
+                Upload <code>{{ p.new_version }}</code> stuck in proposed:
+                {% for r in p.reasons or () %}{{ m.label(r) | lower }}{% if not loop.last %}, {% endif %}{% endfor %}.
+                {% elif moment.event == "resolved" %}
+                No longer stuck: migrated, superseded or removed. Britney does not say which.
+                {% else %}
+                {% for field, before, after in moment.changes %}
+                  {% if field == "new_version" %}New upload <code>{{ after }}</code>, still stuck.
+                  {% elif field == "reasons" %}Now held by: {% for r in after or () %}{{ m.label(r) | lower }}{% if not loop.last %}, {% endif %}{% endfor %}.
+                  {% endif %}
+                {% endfor %}
+                {% endif %}
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>Nothing recorded yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

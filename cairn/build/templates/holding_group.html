@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | Holding others up: {{ group.title }}{% endblock %}
+
+{# What an owner is holding up. Both halves invert britney: she lists
+   under each held upload what holds it, never under the holder what it
+   holds, so the person who can fix it never sees it on her page. #}
+{% block content %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p class="p-text--small-caps u-text--muted">
+        <a href="{{ root }}migration/index.html">Stuck in proposed</a> / {{ group.subtitle }}
+      </p>
+      <h1 class="p-heading--3">{{ group.title }}</h1>
+      {% if group.note %}
+      <p class="u-text--muted">{{ group.note }}</p>
+      {% endif %}
+      <p>
+        Uploads by other people that cannot migrate because of something
+        {{ group.title }} looks after. Britney lists these under each held
+        upload, never under the package holding it, so this page is the
+        only place you would find out.
+      </p>
+      {{ ui.owner_tabs(group, "holding") }}
+      {{ g.glossary(g.HOLDING_TERMS) }}
+    </div>
+  </div>
+</section>
+
+{% if group.blocking %}
+<section class="p-strip is-shallow u-no-padding--top" id="blocking">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Tests holding back other uploads ({{ group.blocking_count }})</h2>
+      <p class="u-text--muted">
+        These packages' own tests regress against someone else's upload, so
+        that upload cannot migrate. Fixing or explaining the test is usually
+        the way out.
+        {{ m.ext(m.guide("regression"), "Handling autopkgtest regressions", icon=True) }}.
+      </p>
+      {{ m.blocking_table(group.blocking, group) }}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if group.waiting %}
+<section class="p-strip is-shallow u-no-padding--top" id="waiting-on-yours">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Uploads waiting for yours ({{ group.waiting | length }})</h2>
+      <p class="u-text--muted">
+        Britney will not migrate these until an upload of yours migrates
+        first. Getting yours unstuck unblocks them too.
+      </p>
+      {{ m.waiting_table(group.waiting, group) }}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

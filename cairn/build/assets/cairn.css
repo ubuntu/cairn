@@ -1,0 +1,736 @@
+/* cairn's own styles, on top of Vanilla.
+ *
+ * One file rather than a <style> block per page: there are well over a
+ * thousand pages, and a block repeated in each made up most of their size.
+ */
+
+/* Vanilla caps the grid at 80rem, which is narrow for a seven-column
+   table of versions. 108rem is a width Vanilla already uses for its own
+   wide layouts, so this widens without inventing a new measurement. */
+.row,
+.p-navigation__row--25-75 {
+  max-width: 108rem;
+}
+
+/* A p-button inside the navigation bar: centre it vertically and drop
+   the bottom margin it carries when used in body copy. */
+.cairn-nav-cta {
+  align-items: center;
+  display: flex;
+}
+
+.cairn-nav-cta .p-button--brand {
+  margin-bottom: 0;
+}
+
+/* Measured 1 Oct 2026, 90th percentile: package names 20 characters,
+   Ubuntu versions 19, a stuck upload's old + new versions 36. Versions
+   get the room on the merges table; on the stuck table they are
+   stacked old over new, which frees width for the reason column, the
+   one that actually varies: up to ten failing tests on one upload. */
+.cairn-package {
+  width: 16%;
+}
+
+.cairn-test {
+  width: 18%;
+}
+
+/* The stuck table, with every column (the all-packages page). Sums to
+   100%, so no column is left with whatever remains: earlier the
+   ownership columns shared 5% and vanished. Owner pages drop their own
+   column and the rest scale up.
+   Package names: 10 characters at the median, 20 at the 90th
+   percentile; uploader names 11 and 27 (1 Oct 2026). */
+.cairn-stuck .cairn-package {
+  width: 12%;
+}
+
+/* Sortable headers need room for their label and its sort arrow on one
+   line: at 1440px "Component" needs 8% and "In proposed" 8%, taken from
+   the upload and reason columns, which wrap gracefully. */
+
+/* Old and new on one line: 36 characters together at the 90th
+   percentile, so the column takes some of the reason column's room. */
+.cairn-stuck .cairn-upload {
+  width: 18%;
+}
+
+.cairn-version {
+  white-space: nowrap;
+}
+
+.cairn-stuck .cairn-component {
+  width: 8%;
+}
+
+.cairn-stuck .cairn-why {
+  width: 22%;
+}
+
+.cairn-stuck .cairn-days {
+  width: 8%;
+}
+
+.cairn-stuck .cairn-uploader,
+.cairn-stuck .cairn-team,
+.cairn-stuck .cairn-set {
+  width: 10.66%;
+}
+
+.cairn-upload {
+  width: 17%;
+}
+
+.cairn-days {
+  width: 7%;
+}
+
+.cairn-component {
+  width: 9%;
+}
+
+/* Ubuntu versions carry an ubuntuN suffix that Debian's do not, so they
+   are reliably longer: measured over the current archive, 19 characters
+   against 12 at the 90th percentile. These widths follow that 1.6 ratio
+   instead of splitting the space evenly and wrapping one side. */
+.cairn-version--ubuntu {
+  width: 26%;
+}
+
+.cairn-version--debian {
+  width: 17%;
+}
+
+/* A secondary link on every row: grey so it does not compete with the
+   package name, and the icon keeps it recognisable as a link rather
+   than relying on colour alone. */
+.cairn-external,
+.cairn-external:visited {
+  color: var(--vf-color-text-muted);
+  text-decoration-color: var(--vf-color-text-muted);
+}
+
+/* The icon is a black SVG, so 0.6 alpha lands on exactly the same
+   value as --vf-color-text-muted rather than merely near it. */
+.cairn-external .p-icon--external-link {
+  margin-left: 0.25rem;
+  margin-right: 0;
+  opacity: 0.6;
+  vertical-align: middle;
+}
+
+/* Why it is held: each reason in plain bold text, then one line per
+   test beneath it, as britney lists them. */
+.cairn-reason + .cairn-reason {
+  margin-top: 0.5rem;
+}
+
+.cairn-tests {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cairn-tests li {
+  margin: 0;
+  padding: 0;
+}
+
+.cairn-test-version {
+  color: var(--vf-color-text-muted);
+}
+
+/* An architecture and its rerun never split; the list of them may
+   wrap. Making the whole line nowrap let one long list force the
+   reason column wide and squeeze the owner columns off the page. */
+.cairn-arch {
+  white-space: nowrap;
+}
+
+/* The result tag ends its group of architectures. Vanilla's readonly
+   chip gives the tint; this only spaces it from the last arch. */
+.cairn-status {
+  margin-left: 0.25rem;
+}
+
+.cairn-retry {
+  margin-left: 0.2rem;
+}
+
+.cairn-more summary {
+  font-size: 0.875rem;
+}
+
+.cairn-why {
+  width: 40%;
+}
+
+/* "rerun" beside a regressed architecture: the request britney's
+   excuses page links as ♻. Small and kept on one line, so it reads as
+   belonging to the architecture before it. */
+.cairn-retry,
+.cairn-retry:visited {
+  font-size: 0.875rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cairn-retry:hover {
+  text-decoration: underline;
+}
+
+.cairn-retry__icon {
+  margin-right: 0.2rem;
+  vertical-align: -0.1em;
+}
+
+/* A chip that links somewhere. Vanilla styles a.p-chip, hover and focus
+   included; these only drop the underline Vanilla gives links in table
+   cells and space the arrow, which carries "goes somewhere" without
+   relying on colour. */
+/* A chip that links is still a chip: neutral like the others, in the
+   default text colour whether visited or not, never link blue or
+   purple. The arrow says it goes somewhere. */
+a.cairn-chip-link,
+a.cairn-chip-link:hover,
+a.cairn-chip-link:visited,
+a.cairn-chip-link .p-chip__value,
+a.cairn-chip-link .cairn-chip-arrow {
+  color: var(--vf-color-text-default);
+  text-decoration: none;
+}
+
+.cairn-chip-arrow {
+  margin-left: 0.25rem;
+}
+
+.cairn-chip-link .p-icon--external-link {
+  margin-left: 0.25rem;
+  margin-right: 0;
+}
+
+/* Where else to look, under a package name: Launchpad, Debian. */
+.cairn-elsewhere a + a {
+  margin-left: 0.75rem;
+}
+
+/* A headline number that opens the list behind it. The arrow and
+   the underline on hover say it is a link, not colour alone. */
+/* The link itself is never underlined, hover and focus included: Vanilla's
+   a:hover would otherwise draw a line under the big number, which reads as
+   a rendering fault at that size. Only the words underline. */
+.cairn-stat__link,
+.cairn-stat__link:visited,
+.cairn-stat__link:hover,
+.cairn-stat__link:focus {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}
+
+.cairn-stat__link:hover .cairn-stat__label,
+.cairn-stat__link:focus .cairn-stat__label {
+  text-decoration: underline;
+}
+
+.cairn-stat__value {
+  display: block;
+}
+
+.cairn-stat__label {
+  color: var(--vf-color-link-default, #06c);
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+/* The filter bar: one row of fields that wraps on narrow screens. */
+.cairn-filters {
+  background: var(--vf-color-background-alt, #f7f7f7);
+  margin-bottom: 1.5rem;
+  padding: 1rem 1rem 0.25rem;
+}
+
+.cairn-filters__row {
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+
+.cairn-filters__field {
+  flex: 1 1 10rem;
+  max-width: 18rem;
+}
+
+.cairn-filters__field--wide {
+  max-width: 32rem;
+}
+
+.cairn-filters__field input,
+.cairn-filters__field select {
+  margin-bottom: 0.75rem;
+}
+
+/* Clear, then how many rows the filters leave, on one line under the
+   fields. */
+.cairn-filters__actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0.25rem 0 0.75rem;
+}
+
+/* Sort buttons fill their header cell and look like the header. */
+.cairn-sort {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  text-transform: inherit;
+  width: 100%;
+}
+
+.cairn-sort__tail::after {
+  content: " \2195";
+  opacity: 0.4;
+}
+
+th[aria-sort="ascending"] .cairn-sort__tail::after {
+  content: " \2191";
+  opacity: 1;
+}
+
+th[aria-sort="descending"] .cairn-sort__tail::after {
+  content: " \2193";
+  opacity: 1;
+}
+
+/* Jump forms: the input and its button on one line. */
+.cairn-jump__row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cairn-jump__row input {
+  margin-bottom: 0;
+}
+
+.cairn-hero .cairn-jump {
+  margin-bottom: 1.5rem;
+}
+
+.cairn-lede {
+  max-width: 48rem;
+}
+
+.cairn-question {
+  height: calc(100% - 1.5rem);
+}
+
+/* Trend: a step line over a light fill, the scale at the left and dates
+   along the bottom. Labels are HTML over the SVG; see the trend macro. */
+.cairn-trend {
+  margin: 0 0 1rem;
+}
+
+.cairn-trend__plot {
+  display: grid;
+  gap: 0 0.5rem;
+  grid-template-columns: auto 1fr;
+}
+
+/* The scale: the highest count level with the dashed line at the top,
+   0 level with the baseline. The bottom padding is the date row's height,
+   so 0 stops at the chart rather than at the dates. */
+.cairn-trend__y {
+  color: var(--vf-color-text-muted);
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  justify-content: space-between;
+  line-height: 1;
+  padding-bottom: 1.5rem;
+  text-align: right;
+}
+
+.cairn-trend__y-bottom {
+  transform: translateY(0.25rem);
+}
+
+.cairn-trend__chart {
+  min-width: 0;
+}
+
+.cairn-trend__chart svg {
+  display: block;
+  height: 7.5rem;
+  width: 100%;
+}
+
+.cairn-trend--compact .cairn-trend__chart svg {
+  height: 3rem;
+}
+
+.cairn-trend__x {
+  color: var(--vf-color-text-muted);
+  font-size: 0.75rem;
+  height: 1.5rem;
+  position: relative;
+}
+
+.cairn-trend__x span {
+  position: absolute;
+  top: 0.25rem;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.cairn-trend__x span.is-start {
+  transform: none;
+}
+
+.cairn-trend__x span.is-end {
+  transform: translateX(-100%);
+}
+
+.cairn-trend__line {
+  fill: none;
+  stroke: #0e8420;
+  stroke-width: 2;
+}
+
+.cairn-trend__area {
+  fill: #0e8420;
+  opacity: 0.12;
+}
+
+.cairn-trend__grid {
+  stroke: var(--vf-color-border-low-contrast, #e5e5e5);
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+
+.cairn-trend__base {
+  stroke: var(--vf-color-border-default, #d9d9d9);
+  stroke-width: 1;
+}
+
+/* Share of a known whole: a bar with the numbers written beside it. */
+.cairn-share {
+  margin-bottom: 1rem;
+  max-width: 32rem;
+}
+
+.cairn-share__bar {
+  background: var(--vf-color-background-alt, #f2f2f2);
+  border: 1px solid var(--vf-color-border-default, #ccc);
+  height: 0.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.cairn-share__bar span {
+  background: #0e8420;
+  display: block;
+  height: 100%;
+}
+
+.cairn-tab--empty {
+  color: var(--vf-color-text-muted);
+  cursor: default;
+}
+
+/* A package page's status: one block per question, "no" included. */
+.cairn-status-item {
+  border-top: 1px solid var(--vf-color-border-default, #d9d9d9);
+  padding-top: 1rem;
+}
+
+.cairn-status-item__head {
+  margin-bottom: 0.5rem;
+}
+
+.cairn-history__when {
+  white-space: nowrap;
+  width: 13rem;
+}
+
+.cairn-owners-table th {
+  width: 12rem;
+}
+
+/* The packages and owners indexes: a grid of names, each followed only by
+   chips for what is open. Narrow cells, so several columns fit on a wide
+   screen. */
+.cairn-pkgs {
+  display: grid;
+  gap: 0 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.cairn-pkg {
+  border-top: 1px solid var(--vf-color-border-low-contrast, #e5e5e5);
+  margin: 0;
+  padding: 0.5rem 0 0.25rem;
+}
+
+/* The grid item sets display, which would otherwise beat [hidden]. */
+.cairn-pkg[hidden] {
+  display: none;
+}
+
+.cairn-pkg__name {
+  font-weight: 550;
+}
+
+.cairn-pkg__component {
+  color: var(--vf-color-text-muted);
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+}
+
+/* Spaced by the container, not by whitespace between chips: the link-chip
+   macro trims it, which left linked chips touching. */
+.cairn-pkg__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.375rem;
+  min-height: 1.5rem;
+}
+
+.cairn-pkg__chips > * {
+  margin-right: 0;
+}
+
+.cairn-pkg__chips .p-chip,
+.cairn-pkg__chips [class*="p-chip--"] {
+  margin-bottom: 0.25rem;
+}
+
+.cairn-pkgs-closed summary {
+  margin-bottom: 1rem;
+}
+
+/* A board's breakdown: label, a bar, then the count written out. */
+.cairn-bars {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+}
+
+.cairn-bars__item {
+  align-items: center;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(9rem, 14rem) 1fr 3rem;
+  margin: 0;
+  padding: 0.2rem 0;
+}
+
+.cairn-bars__note {
+  font-size: 0.875rem;
+}
+
+.cairn-bars__bar {
+  background: var(--vf-color-background-alt, #f2f2f2);
+  display: block;
+  height: 0.6rem;
+}
+
+.cairn-bars__bar span {
+  background: #0e8420;
+  display: block;
+  height: 100%;
+}
+
+.cairn-bars__count {
+  text-align: right;
+}
+
+/* "Who has the most": one card per ownership axis. The cards are narrow,
+   so the name column gives up width to the bar rather than wrapping, and
+   a long Launchpad name breaks instead of pushing the count out. */
+.cairn-top {
+  height: calc(100% - 1.5rem);
+}
+
+.cairn-top .cairn-bars__item {
+  grid-template-columns: minmax(0, 11rem) 1fr 2.5rem;
+}
+
+.cairn-top .cairn-bars__label {
+  overflow-wrap: anywhere;
+}
+
+.cairn-terms {
+  margin-bottom: 1rem;
+}
+
+.cairn-bars__note a,
+.cairn-bars__note a:visited {
+  color: var(--vf-color-text-muted);
+}
+
+/* Navigation menus (Vanilla's dropdown). Vanilla opens one only when a
+   script adds .is-active; these open it on hover and keyboard focus too,
+   so the sub-pages are reachable without JavaScript. */
+@media (min-width: 1036px) {
+  .cairn-nav-menu:hover > .p-navigation__dropdown,
+  .cairn-nav-menu:focus-within > .p-navigation__dropdown {
+    display: block;
+  }
+
+  .cairn-nav-menu:hover::after,
+  .cairn-nav-menu:focus-within::after {
+    transform: rotate(180deg);
+  }
+}
+
+/* On a small screen the menu is a list already: show every sub-page under
+   its heading rather than a second level to open. */
+@media (width < 1036px) {
+  .cairn-nav-menu > .p-navigation__dropdown {
+    display: block;
+  }
+
+  .cairn-nav-menu::after {
+    content: none;
+  }
+
+  /* One step in from the heading, which Vanilla pads by about 2.6rem. */
+  .cairn-nav-menu .p-navigation__dropdown-item {
+    padding-left: 4rem;
+  }
+}
+
+/* The page you are on, inside a menu. */
+.p-navigation__dropdown-item[aria-current="page"] {
+  background-color: var(--vf-color-background-active);
+}
+
+/* A label with a definition: a help cursor says there is more to read. */
+.cairn-term {
+  cursor: help;
+}
+
+a.cairn-term,
+a.cairn-chip-link[aria-describedby] {
+  cursor: pointer;
+}
+
+/* The tooltip cairn.js shows for a label, styled like Vanilla's. */
+.cairn-tip {
+  background: #111;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  max-width: 22rem;
+  padding: 0.375rem 0.625rem;
+  position: fixed;
+  z-index: 100;
+}
+
+.cairn-tip[hidden] {
+  display: none;
+}
+
+/* "What the labels mean": the same definitions, on the page. */
+.cairn-terms__list {
+  display: grid;
+  gap: 0.25rem 1.5rem;
+  grid-template-columns: max-content 1fr;
+  margin: 0.5rem 0 1rem;
+  max-width: 60rem;
+}
+
+.cairn-terms__list dt {
+  font-weight: 550;
+}
+
+.cairn-terms__list dd {
+  color: var(--vf-color-text-muted);
+  margin: 0;
+}
+
+@media (width < 620px) {
+  .cairn-terms__list {
+    grid-template-columns: 1fr;
+  }
+
+  .cairn-terms__list dd {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* A package page's name with its tags beside it, on the text's baseline. */
+.cairn-title {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.cairn-title .p-chip,
+.cairn-title [class*="p-chip--"] {
+  margin-bottom: 0;
+}
+
+/* The external-link sign after a documentation or reference link. */
+.cairn-ext .p-icon--external-link {
+  height: 0.75rem;
+  margin-left: 0.2rem;
+  margin-right: 0;
+  vertical-align: baseline;
+  width: 0.75rem;
+}
+
+/* Grey like the "guide" text beside a breakdown bar. */
+.cairn-bars__note .p-icon--external-link {
+  opacity: 0.6;
+}
+
+/* The merges table, every column sized so each sortable header fits on
+   one line with its arrow at 1440px. Versions are 19 characters at the
+   90th percentile (Ubuntu) and 12 (Debian); the owner columns and
+   "Debian uploaded" need about 150px. Owner pages drop their own column
+   and the rest scale up. */
+.cairn-merges .cairn-package {
+  width: 14%;
+}
+
+.cairn-merges .cairn-version--ubuntu {
+  width: 20%;
+}
+
+.cairn-merges .cairn-version--debian {
+  width: 13%;
+}
+
+.cairn-merges .cairn-component {
+  width: 8%;
+}
+
+.cairn-merges .cairn-date {
+  width: 11%;
+}
+
+.cairn-merges .cairn-uploader,
+.cairn-merges .cairn-team,
+.cairn-merges .cairn-set {
+  width: 11.33%;
+}
+
+/* The arrow travels with the header's last word, so on a narrow screen
+   it wraps along with it rather than sitting alone on a line. */
+.cairn-sort__tail {
+  white-space: nowrap;
+}

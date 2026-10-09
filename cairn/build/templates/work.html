@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_merges.html" as t with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | Up for grabs{% endblock %}
+
+{% block content %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="p-heading--2">Up for grabs</h1>
+      <p class="p-text--small-caps u-text--muted">{{ series }}</p>
+      <p>
+        Work in {{ series }} that nobody in Ubuntu is clearly on, and that
+        Ubuntu's own process lets anyone take: the kind of thing a
+        <strong>+1 maintenance</strong> shift picks up, or a good first
+        contribution. You do not need upload rights to start. Prepare the
+        fix and ask a sponsor to upload it.
+      </p>
+      <p>
+        On a +1 maintenance shift? <a href="{{ root }}work/plus-one.html">The
+        +1 maintenance page</a> orders the same work by the +1 guide's
+        priorities.
+      </p>
+      <div class="p-notification--information">
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">Check before you start</h5>
+          <p class="p-notification__message">
+            Cairn cannot see merge proposals or work someone has started
+            locally. Look at the package's Launchpad page for an open merge
+            proposal or bug first, and for a merge, ask the uploader named
+            on the row if they touched it recently. An update-excuse bug
+            on a row (<em>LP: #N</em>) does not mean someone is on it:
+            open it and see whether it is assigned.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {{ ui.stat(grabs.syncs | length, "Debian syncs stuck in proposed", "#syncs", "col-4 col-medium-2 col-small-2") }}
+    {{ ui.stat(grabs.abandoned | length, "Ubuntu uploads stuck over " ~ abandoned_days ~ " days", "#abandoned", "col-4 col-medium-2 col-small-2") }}
+    {{ ui.stat(grabs.merges | length, "merges without a new upstream release", "#merges", "col-4 col-medium-2 col-small-2") }}
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <p class="u-text--muted">
+        Filter to what you can upload: <strong>universe</strong> if you are
+        a MOTU, or your package set's name if you hold upload rights to one.
+      </p>
+      {{ ui.filters("work") }}
+      {{ g.glossary((g.STUCK_TERMS + g.MERGE_TERMS) | unique | list) }}
+    </div>
+  </div>
+  {% include "_stale.html" %}
+</section>
+
+{% if grabs.syncs %}
+<section class="p-strip is-shallow u-no-padding--top" id="syncs">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Debian syncs stuck in proposed</h2>
+      <p class="u-text--muted">
+        Synced from Debian with no Ubuntu uploader to route to. Ubuntu's
+        proposed-migration process gives these to +1 maintenance, which is
+        to say to anyone. A missing build or an uninstallable binary is
+        often a small, self-contained fix.
+        {{ m.ext(m.guide("missing_build"), "Fixing a failure to build from source", icon=True) }}.
+      </p>
+      {{ m.stuck_table(grabs.syncs, None, "Debian syncs stuck in proposed past settling", ids=False) }}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if grabs.abandoned %}
+<section class="p-strip is-shallow u-no-padding--top" id="abandoned">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Ubuntu uploads stuck over {{ abandoned_days }} days</h2>
+      <p class="u-text--muted">
+        Uploaded by an Ubuntu developer and stuck for more than
+        {{ abandoned_days }} days. The uploader is still responsible, but past this point +1 maintenance
+        treats the upload as fair game. A note to the uploader before you
+        start avoids doing the work twice.
+      </p>
+      {{ m.stuck_table(grabs.abandoned, None, "Ubuntu uploads stuck over " ~ abandoned_days ~ " days", ids=False) }}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if grabs.merges %}
+<section class="p-strip is-shallow u-no-padding--top" id="merges">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Merges without a new upstream release</h2>
+      <p class="u-text--muted">
+        Debian has moved ahead by a revision rather than a new upstream
+        release, so these are usually the smaller merges. Merges belong to
+        +1 maintenance too, but the uploader on the row normally does them:
+        check with them first.
+      </p>
+      {{ t.merge_table(grabs.merges, None, "Merge candidates without a new upstream release", ids=False) }}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if not grabs.total %}
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <p>Nothing is up for grabs right now.</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

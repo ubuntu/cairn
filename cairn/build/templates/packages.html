@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | Packages{% endblock %}
+
+{# One chip per thing that is open, and nothing for what is not: a "no" in
+   every row of a table carried no information and took most of the page. #}
+{% macro chips(view) -%}
+{% if view.merge %}
+<span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("needs_merge") }}><span class="p-chip__value">needs merge</span></span>
+{% if view.merge.new_upstream %}<span class="p-chip--information is-readonly is-inline is-dense cairn-term"{{ g.tip("new_upstream") }}><span class="p-chip__value">new upstream</span></span>{% endif %}
+{% endif %}
+{% if view.stuck %}
+{% set d = view.stuck.days(now) %}
+<span class="p-chip--caution is-readonly is-inline is-dense cairn-term"{{ g.tip("stuck_days") }}><span class="p-chip__value">stuck{% if d is not none %} {{ d }} day{{ '' if d == 1 else 's' }}{% endif %}</span></span>
+{% endif %}
+{% if view.holding_count %}
+<span class="p-chip--negative is-readonly is-inline is-dense cairn-term"{{ g.tip("holds_up") }}><span class="p-chip__value">holds up {{ view.holding_count }}</span></span>
+{% endif %}
+{% if view.up_for_grabs %}
+<span class="p-chip--positive is-readonly is-inline is-dense cairn-term"{{ g.tip("up_for_grabs") }}><span class="p-chip__value">up for grabs</span></span>
+{% endif %}
+{%- endmacro %}
+
+{% macro item(view) %}
+<li class="cairn-pkg" data-filter
+    data-f-q="{{ view.name }} {{ view.merge.uploader if view.merge and view.merge.uploader }} {{ view.stuck.uploader if view.stuck and view.stuck.uploader }} {{ view.owners.teams | join(' ') }} {{ view.owners.package_sets | join(' ') }}"
+    data-f-component="{{ view.component or 'unknown' }}"
+    data-f-has="{{ 'merge' if view.merge }} {{ 'stuck' if view.stuck }} {{ 'holding' if view.holding_count }} {{ 'grabs' if view.up_for_grabs }}">
+  <a class="cairn-pkg__name" href="{{ root }}{{ view.href }}">{{ view.name }}</a>
+  {% if view.component %}<span class="cairn-pkg__component">{{ view.component }}</span>{% endif %}
+  <div class="cairn-pkg__chips">
+    {% if view.is_open %}{{ chips(view) }}
+    {% elif view.last_change %}<span class="p-text--small u-text--muted">nothing open since {{ view.last_change | iso_date }}</span>
+    {% endif %}
+  </div>
+</li>
+{% endmacro %}
+
+{% block content %}
+{% set all = packages.values() | list %}
+{% set open = all | selectattr("is_open") | list %}
+{% set closed = all | rejectattr("is_open") | list %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="p-heading--2">Packages</h1>
+      {# The second sentence up front: someone searching for a package that
+         is not here needs to know its absence is an answer, before
+         scrolling a list of over a thousand names. #}
+      <p>
+        Every source package with something open in {{ series }}, and those
+        Cairn has a history for. A package not listed has never had
+        anything open on a board Cairn follows since it started watching.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    {{ ui.stat(open | length, "with something open") }}
+    {{ ui.stat(open | selectattr("merge") | list | length, "need a merge", "?has=merge") }}
+    {{ ui.stat(open | selectattr("stuck") | list | length, "stuck in proposed", "?has=stuck") }}
+    {{ ui.stat(open | selectattr("holding_count") | list | length, "holding others up", "?has=holding", term="holds_up") }}
+    {{ ui.stat(open | selectattr("up_for_grabs") | list | length, "up for grabs", "?has=grabs", term="up_for_grabs") }}
+  </div>
+  <div class="row">
+    <div class="col-12">
+      {{ ui.filters("packages") }}
+      {{ g.glossary(["needs_merge", "new_upstream", "stuck_days", "holds_up", "up_for_grabs"]) }}
+    </div>
+  </div>
+  {% include "_stale.html" %}
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="u-off-screen">Packages with something open</h2>
+      <ul class="cairn-pkgs">
+        {% for view in open %}{{ item(view) }}{% endfor %}
+      </ul>
+      {% if closed %}
+      <details class="cairn-pkgs-closed" data-filter-group data-filter-open>
+        <summary>Nothing open now (<span data-filter-group-count>{{ closed | length }}</span>)</summary>
+        <p class="u-text--muted">
+          Packages Cairn has seen on a board that have since been merged,
+          migrated or removed. Their pages keep the history.
+        </p>
+        <ul class="cairn-pkgs">
+          {% for view in closed %}{{ item(view) }}{% endfor %}
+        </ul>
+      </details>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{# all.html listed every row of a board until Oct 2026; the board's front
+   page does now. A static redirect: no server to answer with a 301. #}
+{% block title %}Cairn | Moved{% endblock %}
+{% block head %}<meta http-equiv="refresh" content="0; url=index.html" />{% endblock %}
+{% block content %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p>This list is now on the <a href="index.html">board's front page</a>.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

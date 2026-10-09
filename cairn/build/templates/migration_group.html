@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% import "_migration.html" as m with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
 {% block title %}Cairn | {% if group.is_everything %}All uploads stuck in proposed{% else %}Stuck in proposed for {{ group.title }}{% endif %}{% endblock %}
 
+{# An owner's stuck uploads. What the owner is holding up has its own tab,
+   holding_group.html. #}
 {% block content %}
 {% set settled = group.settled(now) %}
 {% set settling = group.settling(now) %}
@@ -21,10 +25,9 @@
            would only jump to where the reader already is. #}
         <li class="p-inline-list__item">{{ group.stuck_count }} stuck in proposed{% if settling %}, {{ settling | length }} still settling{% endif %}</li>
         {% endif %}
-        {% if group.blocking %}
-        <li class="p-inline-list__item"><a href="#blocking">{{ group.blocking_count }} test regression{{ '' if group.blocking_count == 1 else 's' }} holding back others</a></li>
-        {% endif %}
       </ul>
+      {% if group.kind == "sets" %}{{ ui.share(group.stuck_count, set_sizes.get(group.name, 0), "packages in this set are stuck in proposed") }}{% endif %}
+      {{ ui.owner_tabs(group, "migration") }}
     </div>
   </div>
 </section>
@@ -37,18 +40,18 @@
       <p class="u-text--muted">
         Uploads britney will not migrate yet, longest-held first. Tests are
         mostly reverse dependencies' tests that the upload triggered; passes
-        and failures britney does not count are left out. "Rechecking
-        baseline" means the test fails now and britney is re-testing the old
-        version to decide whether the failure is new.
+        and failures britney does not count are left out.
       </p>
+      {{ g.glossary(g.STUCK_TERMS) }}
+      {{ ui.filters("migration", reasons=migration.reasons | map(attribute=0) | list) }}
       {% if settled %}
       {{ m.stuck_table(settled, group, "Uploads stuck in proposed for " ~ group.title) }}
       {% else %}
       <p>Nothing has been stuck for more than {{ settling_days }} days.</p>
       {% endif %}
       {% if settling %}
-      <details>
-        <summary>Still settling ({{ settling | length }})</summary>
+      <details data-filter-group>
+        <summary>Still settling (<span data-filter-group-count>{{ settling | length }}</span>)</summary>
         <p class="u-text--muted">
           Uploaded to -proposed less than {{ settling_days }} days ago. The
           uploader is usually still dealing with it, so it is not flagged as
@@ -57,23 +60,6 @@
         {{ m.stuck_table(settling, group, "Uploads still settling for " ~ group.title) }}
       </details>
       {% endif %}
-    </div>
-  </div>
-</section>
-{% endif %}
-
-{% if group.blocking %}
-<section class="p-strip is-shallow u-no-padding--top" id="blocking">
-  <div class="row">
-    <div class="col-12">
-      <h2 class="p-heading--4">Tests holding back other uploads</h2>
-      <p class="u-text--muted">
-        These packages' own tests regress against someone else's upload, so
-        that upload cannot migrate. Fixing or explaining the test is usually
-        the way out.
-        {{ m.ext(m.guide("regression"), "Handling autopkgtest regressions") }}.
-      </p>
-      {{ m.blocking_table(group.blocking, group) }}
     </div>
   </div>
 </section>

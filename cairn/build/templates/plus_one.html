@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_merges.html" as t with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | +1 maintenance{% endblock %}
+
+{% set PLUS_ONE_GUIDE = "https://documentation.ubuntu.com/project/contributors/advanced/plus-one-maintenance/" %}
+
+{# A +1 shift's queue, in the order Ubuntu's +1 maintenance guide gives.
+   The rules deciding what goes in each section live in build/work.py. #}
+{% block content %}
+{% set q = plus_one %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p class="p-text--small-caps u-text--muted">
+        <a href="{{ root }}work/index.html">Up for grabs</a> / for a shift
+      </p>
+      <h1 class="p-heading--2">+1 maintenance</h1>
+      <p class="p-text--small-caps u-text--muted">{{ series }}</p>
+      <p>
+        Work on the health of {{ series }} as a whole rather than on one
+        team's packages: what a +1 maintenance shift looks at, in the order
+        {{ m.ext(PLUS_ONE_GUIDE, "the +1 maintenance guide", icon=True) }} gives.
+        Before starting on a package, check Launchpad for an open bug: a
+        bug on a row (<em>LP: #N</em>) is only taken if it is assigned.
+        Assign it to yourself, or file one tagged
+        <code>update-excuse</code> (<code>pm-helper</code> from
+        ubuntu-dev-tools), so the next person sees it is taken.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    {{ ui.stat(q.high_impact | length, "fixes that unblock several uploads", "#high-impact" if q.high_impact else None, term="unblocks") }}
+    {{ ui.stat(q.missing_builds | length, "missing builds", "#missing-builds" if q.missing_builds else None) }}
+    {{ ui.stat(q.stuck | length, "other stuck uploads", "#stuck" if q.stuck else None) }}
+    {{ ui.stat(q.merges | length, "universe merges", "#merges" if q.merges else None) }}
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="p-notification--information">
+        <div class="p-notification__content">
+          <h5 class="p-notification__title">Also on a shift, not covered here</h5>
+          <p class="p-notification__message">
+            The previous shift's
+            {{ m.ext("https://discourse.ubuntu.com/c/project/pre-release-discussion/plusone-maintenance/415", "report on Discourse", icon=True) }},
+            which comes first; transitions and NBS
+            ({{ m.ext("https://transitions.ubuntu.com/", "transition tracker", icon=True) }},
+            {{ m.ext("https://static-reports.ubuntu.com/nbs/nbs.html", "NBS report", icon=True) }});
+            and build failures outside -proposed. Cairn does not collect
+            these yet.
+          </p>
+        </div>
+      </div>
+      {{ ui.filters("work") }}
+      {{ g.glossary(((g.STUCK_TERMS + g.MERGE_TERMS) | unique | list) + ["unblocks"]) }}
+    </div>
+  </div>
+  {% include "_stale.html" %}
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top" id="high-impact">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">1. Fixes that unblock several uploads</h2>
+      <p class="u-text--muted">
+        The guide's first stop on update-excuses: one fix here lets
+        {{ high_impact_min }} or more other uploads migrate. Either the
+        package's tests regress on those uploads, or they are waiting for
+        its own upload to migrate first.
+      </p>
+      {% if q.high_impact %}
+      <table class="p-table--mobile-card cairn-sortable">
+        <caption class="u-hide">Packages whose fix would let several other uploads migrate</caption>
+        <thead>
+          <tr>
+            <th>Package</th>
+            <th class="u-align--right">Unblocks</th>
+            <th data-nosort>What it holds up</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in q.high_impact %}
+          <tr data-filter data-f-q="{{ item.package }} {% for r in item.regressed %}{{ r.package }} {% endfor %}{% for r in item.waited_by %}{{ r.package }} {% endfor %}" data-f-component="{{ item.upload.component if item.upload else '' }}">
+            <td data-heading="Package" data-sort="{{ item.package }}">
+              <a href="{{ root }}{{ package_href(item.package) }}">{{ item.package }}</a>
+              {% if item.upload and item.upload.bugs %}
+              {% for bug in item.upload.bugs %}<div><a class="p-text--small cairn-external" href="https://bugs.launchpad.net/bugs/{{ bug }}" target="_blank" rel="noopener noreferrer" title="Someone is investigating">LP: #{{ bug }}<i class="p-icon--external-link"></i></a></div>{% endfor %}
+              {% endif %}
+            </td>
+            <td data-heading="Unblocks" class="u-align--right" data-sort="{{ item.unblocks }}">{{ item.unblocks }} upload{{ '' if item.unblocks == 1 else 's' }}</td>
+            <td data-heading="What it holds up">
+              {% if item.regressed %}
+              <div>Its tests regress on
+                {% for r in item.regressed %}<a href="{{ root }}{{ r.page }}#{{ r.anchor }}">{{ r.package }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+              </div>
+              {% endif %}
+              {% if item.waited_by %}
+              <div>Its upload is awaited by
+                {% for r in item.waited_by %}<a href="{{ root }}{{ r.page }}#{{ r.anchor }}">{{ r.package }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+              </div>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No single fix unblocks {{ high_impact_min }} or more uploads right now.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top" id="missing-builds">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">2. Missing builds in -proposed</h2>
+      <p class="u-text--muted">
+        Build failures keeping an upload out of {{ series }}. The guide
+        notes these are usually isolated, so they can be worked on without
+        getting in anyone's way. Listed are Debian syncs past the first
+        {{ settling_days }} days, and Ubuntu uploads stuck over
+        {{ abandoned_days }} days.
+        {{ m.ext(m.guide("missing_build"), "Fixing a failure to build from source", icon=True) }}.
+      </p>
+      {% if q.missing_builds %}
+      {{ m.stuck_table(q.missing_builds, None, "Uploads held by a missing build", ids=False) }}
+      {% else %}<p>None right now.</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top" id="stuck">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">3. Other stuck uploads</h2>
+      <p class="u-text--muted">
+        The rest of update-excuses chosen by the same rule: test
+        regressions, uninstallable binaries and the like.
+      </p>
+      {% if q.stuck %}
+      {{ m.stuck_table(q.stuck, None, "Other stuck uploads", ids=False) }}
+      {% else %}<p>None right now.</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top" id="merges">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">4. Universe merges</h2>
+      <p class="u-text--muted">
+        Merging is normally the job of whoever last touched the package. The
+        guide lets a shift help when that person is not around, especially
+        between archive opening and Feature Freeze, so ask them first.
+      </p>
+      {% if q.merges %}
+      {{ t.merge_table(q.merges, None, "Universe merge candidates", ids=False) }}
+      {% else %}<p>None right now.</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

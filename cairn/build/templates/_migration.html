@@ -3,6 +3,7 @@
    Human labels for reason codes live here and nowhere else (AGENTS.md
    section 5): the ingester emits codes, never prose. #}
 
+{% import "_glossary.html" as g with context %}
 {% set DOCS = "https://documentation.ubuntu.com/project/" %}
 {% set LABELS = {
   "regression": "Test regression",
@@ -43,16 +44,21 @@
 } %}
 {% macro guide_title(reason) %}{{ GUIDE_TITLES.get(reason, "Issues preventing migration") }}{% endmacro %}
 
-{% macro ext(href, text) -%}
-<a href="{{ href }}" target="_blank" rel="noopener noreferrer">{{ text }}</a>
+{# A link off the site. icon=True for documentation and reference links in
+   prose, which leave for another site to read: the sign says so before the
+   click. Versions and architectures in tables leave it off, or every row
+   would carry several. #}
+{% macro ext(href, text, icon=False) -%}
+<a href="{{ href }}" target="_blank" rel="noopener noreferrer"{% if icon %} class="cairn-ext"{% endif %}>{{ text }}
+{%- if icon %}<i class="p-icon--external-link"></i><span class="u-off-screen"> (opens in a new tab)</span>{% endif %}</a>
 {%- endmacro %}
 
 {# A tag that is also a link. Vanilla styles a.p-chip itself, hover and focus
    included, so it reads as a tag rather than as underlined text. The arrow
-   says it goes somewhere: → stays in cairn, the external-link icon leaves. #}
-{% macro link_chip(href, text, variant="", title="", external=False) -%}
+   says it goes somewhere: → stays in Cairn, the external-link icon leaves. #}
+{% macro link_chip(href, text, variant="", term="", external=False) -%}
 <a class="p-chip{{ variant }} is-inline is-dense cairn-chip-link" href="{{ href }}"
-  {%- if title %} title="{{ title }}"{% endif %}
+  {%- if term %}{{ g.tip(term) }}{% endif %}
   {%- if external %} target="_blank" rel="noopener noreferrer"{% endif %}>
   <span class="p-chip__value">{{ text }}</span>
   {%- if external %}<i class="p-icon--external-link"></i><span class="u-off-screen"> (opens in a new tab)</span>
@@ -71,12 +77,11 @@
 {% set held = stuck_by_package.get(row.package) %}
 {% if held and held.new_version == row.ubuntu_version %}
 {% set page = group.migration_href if row.package in group.stuck_names else held.page %}
-{{ link_chip(root ~ page ~ "#" ~ held.anchor, "stuck in proposed",
-   title="In -proposed, and britney is holding it: see why") }}
+{{ link_chip(root ~ page ~ "#" ~ held.anchor, "stuck in proposed", term="stuck_link") }}
 {% else %}
 {# Nothing more to show locally, and the version beside it already links to
    the upload on Launchpad: a plain tag, so the row has no duplicate link. #}
-<span class="p-chip is-readonly is-inline is-dense" title="In -proposed and not blocked by britney">
+<span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("proposed") }}>
   <span class="p-chip__value">proposed</span>
 </span>
 {% endif %}
@@ -87,14 +92,13 @@
 {% set merge = merge_for_stuck.get(row.package) %}
 {% if merge %}
 {% set page = group.href if group and row.package in group.merge_names else merge.page %}
-{{ link_chip(root ~ page ~ "#" ~ merge.anchor, "needs merge",
-   title="Debian is still ahead of this upload: see the merge") }}
+{{ link_chip(root ~ page ~ "#" ~ merge.anchor, "needs merge", term="needs_merge_link") }}
 {% endif %}
 {%- endmacro %}
 
 {# The request britney's excuses page links as ♻ beside each failing test:
    one trigger, the held upload. autopkgtest.ubuntu.com asks for a login and
-   checks upload rights; cairn only links to it. #}
+   checks upload rights; Cairn only links to it. #}
 {% macro retry(test, arch, row) -%}
 <a class="cairn-retry" href="{{ retry_url(test, arch, series, row.package, row.new_version) }}" target="_blank" rel="noopener noreferrer" title="Re-run {{ test }} on {{ arch }} against {{ row.package }} {{ row.new_version }}">
   {#- Vanilla 4.59 has no restart icon. This is a circular arrow drawn in
@@ -129,7 +133,7 @@
   {%- if r.failed %} {{ retry(test, r.arch, row) }}{% endif %}
   {%- if not loop.last %},{% endif %}</span>
   {%- endfor %}
-  <span class="p-chip--{{ RESULT_TAGS.get(status, 'information') }} is-readonly is-inline is-dense cairn-status"><span class="p-chip__value">{{ RESULT_WORDS.get(status, status) }}</span></span>
+  <span class="p-chip--{{ RESULT_TAGS.get(status, 'information') }} is-readonly is-inline is-dense cairn-status cairn-term"{% if status in RESULT_WORDS %}{{ g.tip(status) }}{% endif %}><span class="p-chip__value">{{ RESULT_WORDS.get(status, status) }}</span></span>
 </span>
 {%- endmacro %}
 
@@ -190,15 +194,20 @@
 </div>
 {% endmacro %}
 
-{% macro stuck_table(rows, group=None, caption="Uploads stuck in proposed") %}
-<table class="p-table--mobile-card cairn-stuck">
+{# ids=False on pages that list a package in more than one table (up for
+   grabs, +1 maintenance): row ids are package names and must be unique.
+   Links to a row always point at its owner's page, which keeps them. #}
+{% macro stuck_table(rows, group=None, caption="Uploads stuck in proposed", ids=True) %}
+<table class="p-table--mobile-card cairn-stuck cairn-sortable">
   <caption class="u-hide">{{ caption }}. Package, version, test and build links open in a new tab.</caption>
   <thead>
     <tr>
       <th class="cairn-package">Package</th>
-      <th class="cairn-upload">Upload</th>
+      {# Not sortable: a browser compares versions as text, which gets
+         Debian ordering wrong (AGENTS.md section 3). #}
+      <th class="cairn-upload" data-nosort>Upload</th>
       <th class="cairn-component">Component</th>
-      <th class="cairn-why">Why it is held</th>
+      <th class="cairn-why" data-nosort>Why it is held</th>
       <th class="cairn-days u-align--right">In proposed</th>
       {% if not group or group.kind != 'uploaders' %}<th class="cairn-uploader">Uploader</th>{% endif %}
       {% if not group or group.kind != 'teams' %}<th class="cairn-team">Subscribed team</th>{% endif %}
@@ -207,25 +216,33 @@
   </thead>
   <tbody>
     {% for row in rows %}
-    <tr id="{{ row.anchor }}">
-      <td data-heading="Package" class="cairn-package">
-        {{ ext(row.url, row.package) }}
+    <tr{% if ids %} id="{{ row.anchor }}"{% endif %} data-filter
+        data-f-component="{{ row.component or 'unknown' }}"
+        data-f-reason="{{ row.reasons | join(' ') }}"
+        data-f-origin="{{ 'sync' if row.synced else 'ubuntu' }}"
+        data-f-history="{{ 'recent' if row.package in recent_stuck }} {{ 'reuploaded' if row.uploads > 1 }} {{ 'returning' if row.occurrences > 1 }}"
+        data-f-q="{{ row.package }} {{ row.uploader or '' }} {{ '+1 maintenance' if row.synced }} {{ row.teams | join(' ') }} {{ row.package_sets | join(' ') }}">
+      <td data-heading="Package" class="cairn-package" data-sort="{{ row.package }}">
+        <a href="{{ root }}{{ package_href(row.package) }}">{{ row.package }}</a>
         {{ merge_chip(row, group) }}
         {% if row.uploads > 1 %}
-        <span class="p-chip--caution is-readonly is-inline is-dense" title="cairn has seen this package stuck through {{ row.uploads }} different uploads">
+        <span class="p-chip--caution is-readonly is-inline is-dense cairn-term"{{ g.tip("uploads") }}>
           <span class="p-chip__value">{{ row.uploads }} uploads</span>
         </span>
         {% elif row.occurrences > 1 %}
-        <span class="p-chip--caution is-readonly is-inline is-dense">
+        <span class="p-chip--caution is-readonly is-inline is-dense cairn-term"{{ g.tip("seen") }}>
           <span class="p-chip__lead">seen</span>
           <span class="p-chip__value">{{ row.occurrences }} times</span>
         </span>
         {% endif %}
         {% for bug in row.bugs %}
         <div>
-          <a class="p-text--small cairn-external" href="https://bugs.launchpad.net/bugs/{{ bug }}" target="_blank" rel="noopener noreferrer" title="An update-excuse bug: someone is investigating">LP: #{{ bug }}<i class="p-icon--external-link"></i></a>
+          <a class="p-text--small cairn-external" href="https://bugs.launchpad.net/bugs/{{ bug }}" target="_blank" rel="noopener noreferrer"{{ g.tip("excuse_bug") }}>LP: #{{ bug }}<i class="p-icon--external-link"></i></a>
         </div>
         {% endfor %}
+        <div class="p-text--small cairn-elsewhere">
+          <a class="cairn-external" href="{{ row.url }}" target="_blank" rel="noopener noreferrer">Launchpad<i class="p-icon--external-link"></i></a>
+        </div>
       </td>
       <td data-heading="Upload" class="cairn-upload">
         {# One line, old → new. Each version is kept whole, so a pair too
@@ -237,7 +254,7 @@
         </span>
         <span class="cairn-version"><span aria-label="to">&rarr;</span>&nbsp;<a href="{{ row.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.new_version }}</code></a></span>
         {% if row.is_new_package %}
-        <span class="p-chip--positive is-readonly is-inline is-dense" title="Not in {{ series }} before this upload">
+        <span class="p-chip--positive is-readonly is-inline is-dense cairn-term"{{ g.tip("new_package") }}>
           <span class="p-chip__value">new</span>
         </span>
         {% endif %}
@@ -247,13 +264,13 @@
         {% else %}<span class="u-text--muted">unknown</span>{% endif %}
       </td>
       <td data-heading="Why it is held" class="cairn-why">{{ why(row) }}</td>
-      <td data-heading="In proposed" class="cairn-days u-align--right">
-        {% set days = row.days(now) %}
+      {% set days = row.days(now) %}
+      <td data-heading="In proposed" class="cairn-days u-align--right" data-sort="{{ '' if days is none else days }}">
         {% if days is none %}<span class="u-text--muted">unknown</span>
         {% else %}{{ days }} day{{ '' if days == 1 else 's' }}{% endif %}
       </td>
       {% if not group or group.kind != 'uploaders' %}
-      <td data-heading="Uploader" class="cairn-uploader">
+      <td data-heading="Uploader" class="cairn-uploader" data-sort="{{ '+1 maintenance' if row.synced else (row.uploader or '') }}">
         {% if row.synced %}
         <a href="{{ root }}migration/uploaders/plus-one-maintenance.html">+1 maintenance</a>
         <div class="p-text--small u-text--muted">synced{% if row.uploader %} from {{ row.uploader }}{% endif %}</div>
@@ -263,13 +280,13 @@
       </td>
       {% endif %}
       {% if not group or group.kind != 'teams' %}
-      <td data-heading="Subscribed team">
+      <td data-heading="Subscribed team" data-sort="{{ row.teams | join(' ') }}">
         {% for name in row.teams %}<a href="{{ root }}migration/teams/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
         {% else %}<span class="u-text--muted">none</span>{% endfor %}
       </td>
       {% endif %}
       {% if not group or group.kind != 'sets' %}
-      <td data-heading="Package set">
+      <td data-heading="Package set" data-sort="{{ row.package_sets | join(' ') }}">
         {% for name in row.package_sets %}<a href="{{ root }}migration/sets/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
         {% else %}<span class="u-text--muted">none</span>{% endfor %}
       </td>
@@ -295,14 +312,15 @@
     {% for row in rows %}
     <tr>
       <td data-heading="Test" class="cairn-test">
-        {{ ext(autopkgtest_url(row.test), row.test) }}
+        <a href="{{ root }}{{ package_href(row.test) }}">{{ row.test }}</a>
+        <div class="p-text--small"><a class="cairn-external" href="{{ autopkgtest_url(row.test) }}" target="_blank" rel="noopener noreferrer">autopkgtest history<i class="p-icon--external-link"></i></a></div>
         {% if row.version and row.version != "unknown" %}<div class="p-text--small u-text--muted">{{ row.version }}</div>{% endif %}
       </td>
       <td data-heading="Fails on" class="cairn-why">
         {{ results_line(row, row.holding) }}
       </td>
       <td data-heading="Holding back">
-        {# The held upload's row on cairn, which says everything holding it:
+        {# The held upload's row on Cairn, which says everything holding it:
            on this page when the owner also has it, else on its uploader's
            page, which always does. #}
         {% set held = row.holding %}
@@ -312,6 +330,41 @@
       </td>
       <td data-heading="Held for" class="cairn-days u-align--right">
         {% set days = row.holding.days(now) %}
+        {% if days is none %}<span class="u-text--muted">unknown</span>
+        {% else %}{{ days }} day{{ '' if days == 1 else 's' }}{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endmacro %}
+
+{# Stuck uploads waiting for one of these uploads. Britney names only what
+   an upload waits for, so without this its owner never learns that they
+   are holding anyone up. #}
+{% macro waiting_table(pairs, group) %}
+<table class="p-table--mobile-card">
+  <caption class="u-hide">Stuck uploads that wait for one of these uploads to migrate first.</caption>
+  <thead>
+    <tr>
+      <th>Waiting upload</th>
+      <th>Waits for</th>
+      <th class="cairn-days u-align--right">Waiting for</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row, held in pairs %}
+    <tr>
+      <td data-heading="Waiting upload">
+        <a href="{{ root }}{{ row.page }}#{{ row.anchor }}">{{ row.package }}</a>
+        <div><a href="{{ row.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.new_version }}</code></a></div>
+      </td>
+      <td data-heading="Waits for">
+        <a href="{{ root }}{{ group.migration_href }}#{{ held.anchor }}">{{ held.package }}</a>
+        <div><a href="{{ held.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ held.new_version }}</code></a></div>
+      </td>
+      <td data-heading="Waiting for" class="cairn-days u-align--right">
+        {% set days = row.days(now) %}
         {% if days is none %}<span class="u-text--muted">unknown</span>
         {% else %}{{ days }} day{{ '' if days == 1 else 's' }}{% endif %}
       </td>

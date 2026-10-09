@@ -1,0 +1,88 @@
+{# What Cairn's labels mean, written once.
+
+   Every label that needs explaining (a chip, a result tag, a headline
+   number) points at its definition with aria-describedby="term_<key>".
+   The definitions are rendered on the page by glossary(), folded under
+   "What the labels mean", so they exist without JavaScript and screen
+   readers announce them with the label. cairn.js shows the same text as a
+   tooltip on hover and focus. Ids contain "_", which no Debian source
+   name can, so they never clash with a row's id (a package name).
+
+   A test checks that every aria-describedby on every page resolves, so a
+   page that uses a term must list it in its glossary() call. #}
+
+{% set TERMS = {
+  "new_upstream": ("new upstream",
+    "Debian carries a newer upstream release than Ubuntu, so the merge is real work rather than a packaging revision."),
+  "no_new_upstream": ("no new upstream",
+    "Debian has only a newer packaging revision, occasionally an epoch bump over an older upstream: usually the smaller merges."),
+  "merged_back": ("merged, then back",
+    "Cairn has seen this package stop being a merge candidate and become one again. Only a record kept over time can show this."),
+  "proposed": ("proposed",
+    "This Ubuntu version is waiting in -proposed, and britney is not holding it."),
+  "stuck_link": ("stuck in proposed",
+    "This Ubuntu version is in -proposed and britney is holding it. Click to view."),
+  "needs_merge_link": ("needs merge",
+    "Debian is still ahead of this upload, which carries an Ubuntu delta. Click to view."),
+  "needs_merge": ("needs merge",
+    "Ubuntu carries a delta and Debian has moved ahead: someone needs to merge Debian's changes."),
+  "settling": ("still settling",
+    "Uploaded to -proposed less than " ~ settling_days ~ " days ago. The uploader is usually still on it, so it is not counted as stuck yet."),
+  "stuck_days": ("stuck N days",
+    "Days since britney first saw this upload in -proposed. A newer upload restarts britney's count."),
+  "uploads": ("N uploads",
+    "Cairn has seen this package stuck through this many different uploads in a row. Britney only knows the current one."),
+  "seen": ("seen N times",
+    "Cairn has seen this resolve and come back this many times."),
+  "new_package": ("new",
+    "Not in " ~ series ~ " before this upload."),
+  "regression": ("Regression",
+    "The test passes against the version in " ~ series ~ " and fails with this upload."),
+  "reference_running": ("Regression, rechecking baseline",
+    "The test fails with this upload, and britney is re-running it against the version in " ~ series ~ " to decide whether the failure is new."),
+  "running": ("Test in progress",
+    "Britney is waiting for this test to finish before deciding."),
+  "excuse_bug": ("LP: #N",
+    "An update-excuse bug is filed for this upload. It does not mean anyone is working on it: open it to see whether it is assigned."),
+  "holds_up": ("holds up N",
+    "Other uploads that cannot migrate because of this package: its tests regress on them, or they wait for its upload to migrate first."),
+  "owner_merges": ("N merges",
+    "Merge candidates whose version this owner uploaded, or in their package set or team subscription. Click to view."),
+  "owner_stuck": ("N stuck",
+    "Uploads of theirs that britney will not migrate from -proposed. Click to view."),
+  "owner_holding": ("holding up N",
+    "Other people's uploads that cannot migrate because of this owner's packages: their tests regress on them, or they wait for an upload of theirs. Click to view."),
+  "up_for_grabs": ("up for grabs",
+    "Nobody in Ubuntu is clearly on it, and Ubuntu's process lets anyone pick it up."),
+  "past_settling": ("past the first " ~ settling_days ~ " days",
+    "Stuck uploads that are no longer still settling: long enough that the uploader has probably moved on."),
+  "left_list": ("left the list",
+    "Uploads that stopped being stuck: migrated, superseded by a newer upload or removed. Britney does not say which."),
+  "reuploaded": ("stuck through several uploads",
+    "Packages Cairn has seen stuck through more than one upload in a row, which britney cannot show: it only knows the current one."),
+  "blocking": ("tests that block others",
+    "Packages whose own tests regress on someone else's upload, so that upload cannot migrate."),
+  "unblocks": ("fixes that unblock several uploads",
+    "One fix here lets several other uploads migrate. The +1 maintenance guide asks shifts to start with these."),
+} %}
+
+{# The attribute that ties a label to its definition. #}
+{% macro tip(key) %} aria-describedby="term_{{ key }}"{% endmacro %}
+
+{% macro glossary(keys) %}
+<details class="cairn-terms">
+  <summary>What the labels mean</summary>
+  <dl class="cairn-terms__list">
+    {% for key in keys %}
+    {% set label, text = TERMS[key] %}
+    <dt>{{ label }}</dt>
+    <dd id="term_{{ key }}">{{ text }}</dd>
+    {% endfor %}
+  </dl>
+</details>
+{% endmacro %}
+
+{# Which terms each kind of table can use, so a page lists what it shows. #}
+{% set MERGE_TERMS = ["new_upstream", "seen", "proposed", "stuck_link"] %}
+{% set STUCK_TERMS = ["needs_merge_link", "uploads", "seen", "excuse_bug", "new_package", "regression", "reference_running", "running", "settling"] %}
+{% set HOLDING_TERMS = ["regression", "reference_running", "running"] %}

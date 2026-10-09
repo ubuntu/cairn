@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from datetime import UTC, datetime, timedelta
 
 from cairn.build.site import (
@@ -307,10 +308,11 @@ class TestPages:
         html = render_migration(
             replay([opened(stuck())]), healthy(), self.owners(), now=NOW
         )
-        why = html.split('id="why"')[1].split("</section>")[0]
+        why = html.split('id="why_stuck"')[1].split("</ul>")[0]
         assert "Test regression" in why
         assert "autopkgtest-regressions" in why
-        assert '"Reason">regression<' not in why  # the code never reaches the page
+        assert ">regression<" not in why  # the code never reaches the page
+        assert 'href="?reason=regression#the_list"' in why
 
     def test_a_freeze_banner_appears_only_when_frozen(self):
         quiet = render_migration(replay([opened(stuck())]), healthy(), now=NOW)
@@ -339,8 +341,9 @@ class TestPages:
         assert "update_excuses" not in row
 
     def test_the_tests_team_page_says_what_it_holds_back(self, tmp_path):
+        """On its own tab: below a long stuck table nobody scrolled to it."""
         out = self.built(tmp_path, [opened(stuck())], self.owners())
-        page = (out / "migration/teams/foundations-bugs.html").read_text()
+        page = (out / "holding/teams/foundations-bugs.html").read_text()
         blocking = page.split('id="blocking"')[1]
         assert "curl" in blocking
         assert "libssh2" in blocking
@@ -353,10 +356,11 @@ class TestPages:
         page = (
             self.built(tmp_path, events, owners) / "migration/teams/t.html"
         ).read_text()
-        before, folded = page.split("<details>")
+        before, folded = page.split("<details data-filter-group>")
         assert 'id="old"' in before
         assert 'id="new"' in folded
-        assert "Still settling (1)" in folded
+        # The count sits in a span the filter script keeps up to date.
+        assert "Still settling (1)" in re.sub(r"<[^>]+>", "", folded)
 
     def test_reuploads_are_counted(self, tmp_path):
         events = [
@@ -369,12 +373,22 @@ class TestPages:
         ).read_text()
         assert "2 uploads" in page
 
-    def test_ships_no_javascript(self, tmp_path):
+    def test_javascript_is_one_external_enhancement(self, tmp_path):
+        """Sorting and filtering came from user feedback; the pages stay
+        complete without them. One shared file, no inline code, and filter
+        controls hidden until the script can make them work."""
         out = self.built(
             tmp_path, [opened(stuck()), opened(merge("libssh2"))], self.owners()
         )
+        assert (out / "assets/cairn.js").exists()
         for page in out.rglob("*.html"):
-            assert "<script" not in page.read_text().lower(), page
+            html = page.read_text()
+            scripts = re.findall(r"<script\b[^>]*>(.*?)</script>", html, flags=re.S)
+            assert len(scripts) == 1, page
+            assert scripts[0].strip() == "", page
+            assert re.search(r'assets/cairn\.js\?v=\w+" defer', html), page
+            for form in re.findall(r'<form class="cairn-filters"[^>]*>', html):
+                assert "hidden" in form, page
 
 
 class TestSeparatePages:
@@ -617,8 +631,12 @@ class TestYoungHistory:
 
 def test_guide_links_name_their_target():
     html = render_migration(replay([opened(stuck())]), healthy(), now=NOW)
-    why = html.split('id="why"')[1].split("</section>")[0]
-    assert ">Autopkgtest regressions<" in why
+    why = html.split('id="why_stuck"')[1].split("</ul>")[0]
+    # "guide" on screen; the link's full name says which guide.
+    link = why.split(">guide<")[1].split("</a>")[0]
+    assert "Autopkgtest regressions" in link
+    # Marked as leaving the site before the click.
+    assert "p-icon--external-link" in link
     assert "Ubuntu project docs" not in why
 
 
@@ -673,6 +691,8 @@ class TestUploaderIsTheChangelogPersonNotTheSponsor:
         assert (tmp_path / "merges/uploaders/nadzeya.html").exists()
         assert not list(tmp_path.rglob("seb128.html"))
         everything = "".join(p.read_text() for p in tmp_path.rglob("*.html"))
+        # Search boxes use seb128 as an example name; only data counts here.
+        everything = re.sub(r'placeholder="[^"]*"', "", everything)
         assert "seb128" not in everything
 
     def test_launchpad_creator_is_read_as_the_uploader(self):
@@ -750,7 +770,7 @@ class TestRetryLinks:
         assert "&#9851;" not in link and "♻" not in link
 
     def test_the_tests_owner_can_retry_too(self, tmp_path):
-        page = self.page(tmp_path)
+        page = self.page(tmp_path, path="holding/teams/t.html")
         blocking = page.split('id="blocking"')[1]
         assert "package=curl&amp;trigger=libssh2%2F1.0-2" in blocking
 
@@ -855,7 +875,7 @@ class TestWhyColumn:
             < line.index(">Regression<")
         )
         assert (
-            'class="p-chip--negative is-readonly is-inline is-dense cairn-status"'
+            'class="p-chip--negative is-readonly is-inline is-dense cairn-status'
             in line
         )
 
@@ -1134,15 +1154,6 @@ class TestOwnershipWarningOnTheMigrationBoard:
         assert "No ownership data" not in html
 
 
-def test_contents_list_only_the_groupings():
-    owners = meta(libssh2=PackageMetadata(teams=("t",)))
-    html = render_migration(replay([opened(stuck())]), healthy(), owners, now=NOW)
-    nav = html.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
-    assert "#why" not in nav
-    assert "#by-team" in nav
-    assert 'id="why"' in html  # the section itself stays
-
-
 class TestThirdReview:
     """Copilot's third review on #13."""
 
@@ -1222,7 +1233,7 @@ class TestThirdReview:
             series="stonking",
         )
         page = (tmp_path / "migration/teams/t.html").read_text()
-        caption = page.split('<table class="p-table--mobile-card cairn-stuck">')[1]
+        caption = page.split('<table class="p-table--mobile-card cairn-stuck')[1]
         caption = caption.split("</caption>")[0]
         assert "Links open in a new tab" not in caption
         assert "Package, version, test and build links open in a new tab" in caption
@@ -1292,7 +1303,13 @@ def test_page_section_ids_cannot_be_mistaken_for_a_package():
     ids = set()
     for name in owner_pages:
         ids |= set(re.findall(r'id="([a-z-]+)"', (templates / name).read_text()))
-    assert ids <= {"navigation", "stuck", "blocking", "merges"}
+    assert ids <= {"navigation", "stuck", "blocking", "merges", "waiting-on-yours"}
+    # The board front pages list every row, so their own sections use ids
+    # with "_", which no Debian source name can contain. "age", the old
+    # section id there, is a real package.
+    for name in ("merges.html", "migration.html"):
+        found = re.findall(r'id="([^"{]+)"', (templates / name).read_text())
+        assert found and all("_" in i for i in found), (name, found)
 
 
 class TestFourthReview:
@@ -1352,8 +1369,8 @@ class TestFourthReview:
         assert "No data collected yet." in pages["migration"].split("<footer")[1]
 
 
-class TestAllPackages:
-    """Every row of a board on one page, reached from the board's total."""
+class TestEveryPackageOnTheBoard:
+    """Every row of a board on its front page, below the summary."""
 
     def built(self, tmp_path):
         events = [
@@ -1374,43 +1391,44 @@ class TestAllPackages:
 
     def test_each_board_lists_every_package(self, tmp_path):
         out = self.built(tmp_path)
-        merges = (out / "merges/all.html").read_text()
-        stuck_page = (out / "migration/all.html").read_text()
+        merges = (out / "merges/index.html").read_text()
+        stuck_page = (out / "migration/index.html").read_text()
         assert 'id="cron"' in merges and 'id="grub2"' in merges
         assert 'id="libssh2"' in stuck_page and 'id="sudo"' in stuck_page
-        assert "<title>Cairn | All merge candidates</title>" in merges
-        assert "<title>Cairn | All uploads stuck in proposed</title>" in stuck_page
 
     def test_every_ownership_column_is_shown(self, tmp_path):
-        page = (self.built(tmp_path) / "migration/all.html").read_text()
+        page = (self.built(tmp_path) / "migration/index.html").read_text()
         for heading in ("Uploader", "Subscribed team", "Package set"):
             assert f">{heading}</th>" in page
 
-    def test_all_leads_the_contents_row(self, tmp_path):
-        """A peer of the groupings, first in the row; not a button and not a
-        link on a statistic."""
+    def test_the_old_address_redirects(self, tmp_path):
+        """all.html held the list until Oct 2026; links to it still work."""
         out = self.built(tmp_path)
-        for board, label in (
-            ("merges", "All candidates"),
-            ("migration", "All packages"),
-        ):
-            index = (out / f"{board}/index.html").read_text()
-            nav = index.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
-            assert nav.index(f'<a href="all.html">{label}</a>') < nav.index("#by-")
-            assert index.count('href="all.html"') == 1
-            assert "p-button" not in index.split("<main>")[1]
+        for board in ("merges", "migration"):
+            moved = (out / f"{board}/all.html").read_text()
+            assert '<meta http-equiv="refresh" content="0; url=index.html" />' in moved
+            assert 'href="index.html"' in moved
 
-    def test_links_from_the_all_page_resolve(self, tmp_path):
+    def test_the_total_shows_the_whole_list(self, tmp_path):
+        """User feedback: people expected the count to open the list. An
+        empty query clears any filter set before."""
+        out = self.built(tmp_path)
+        for board in ("merges", "migration"):
+            index = (out / f"{board}/index.html").read_text()
+            stats = index.split('class="col-2 col-medium-2 col-small-2 cairn-stat"')[1]
+            assert 'href="?#the_list"' in stats.split("</div>")[0]
+
+    def test_links_from_the_board_resolve(self, tmp_path):
         import re
 
         out = self.built(tmp_path)
-        for page in (out / "merges/all.html", out / "migration/all.html"):
-            for href in re.findall(r'href="([^"#]+)', page.read_text()):
+        for page in (out / "merges/index.html", out / "migration/index.html"):
+            for href in re.findall(r'href="([^"#?]+)', page.read_text()):
                 if href.startswith("http"):
                     continue
                 assert (page.parent / href).resolve().exists(), (page, href)
 
-    def test_an_empty_board_does_not_link_to_an_empty_page(self, tmp_path):
+    def test_an_empty_board_has_no_list(self, tmp_path):
         build(
             replay([opened(merge("cron", in_proposed=False))]),
             healthy(),
@@ -1420,8 +1438,8 @@ class TestAllPackages:
             series="stonking",
         )
         index = (tmp_path / "migration/index.html").read_text()
-        assert 'href="all.html"' not in index
-        assert not (tmp_path / "migration/all.html").exists()
+        assert 'id="the_list"' not in index
+        assert "Nothing is stuck in proposed" in index
 
 
 class TestHoldingBackLinksToCairn:
@@ -1434,7 +1452,7 @@ class TestHoldingBackLinksToCairn:
             now=NOW,
             series="stonking",
         )
-        page = (tmp_path / "migration/teams/tests.html").read_text()
+        page = (tmp_path / "holding/teams/tests.html").read_text()
         return page.split('id="blocking"')[1].split("</table>")[0]
 
     def test_links_to_the_uploaders_page_row(self, tmp_path):
@@ -1461,7 +1479,7 @@ class TestHoldingBackLinksToCairn:
 def test_settling_says_what_it_means():
     html = render_migration(replay([opened(stuck())]), healthy(), now=NOW)
     assert "uploader's hands" not in html
-    assert "uploaded to -proposed less than" in " ".join(html.split())
+    assert "uploaded to -proposed less than" in " ".join(html.split()).lower()
 
 
 def test_old_and_new_version_share_one_line(tmp_path):
@@ -1485,29 +1503,25 @@ def test_old_and_new_version_share_one_line(tmp_path):
 
 
 class TestPlusOneLink:
-    def index(self, tmp_path, signer):
-        owner = PackageMetadata(
-            publications=(pub("1.0-2", uploader="sanvila", signer=signer),)
-        )
+    def intro(self, tmp_path, events):
         build(
-            replay([opened(stuck())]),
+            replay(events),
             healthy(),
-            meta(libssh2=owner),
+            meta(),
             out=tmp_path,
             now=NOW,
             series="stonking",
         )
         index = (tmp_path / "migration/index.html").read_text()
-        return index.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
+        return index.split("<h1")[1].split("</section>")[0]
 
-    def test_the_board_links_to_plus_one_maintenance(self, tmp_path):
-        nav = self.index(tmp_path, signer=None)
-        assert (
-            '<a href="../migration/uploaders/plus-one-maintenance.html">'
-            "+1 maintenance</a>"
-        ) in nav
-        target = tmp_path / "migration/uploaders/plus-one-maintenance.html"
-        assert target.exists()
+    def test_the_board_links_to_the_plus_one_queue(self, tmp_path):
+        """The shift's queue, not the uploader page for Debian syncs: +1
+        looks after the whole archive, syncs being one part of it."""
+        intro = self.intro(tmp_path, [opened(stuck())])
+        assert 'href="../work/plus-one.html"' in intro
+        assert (tmp_path / "work/plus-one.html").exists()
 
-    def test_no_link_when_nothing_is_routed_there(self, tmp_path):
-        assert "+1 maintenance" not in self.index(tmp_path, signer="seb128")
+    def test_no_link_on_an_empty_board(self, tmp_path):
+        intro = self.intro(tmp_path, [opened(merge("cron", in_proposed=False))])
+        assert "+1" not in intro

@@ -10,10 +10,12 @@ swapping the provider later touches this module only.
 
 from __future__ import annotations
 
+import hashlib
 import shutil
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 from datetime import UTC, date, datetime, timedelta
+from functools import cache
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlencode
@@ -21,6 +23,14 @@ from urllib.parse import quote, urlencode
 from debian.debian_support import version_compare
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from cairn.build.trends import Trends, trends
+from cairn.build.work import (
+    ABANDONED_DAYS,
+    HIGH_IMPACT_MIN,
+    UpForGrabs,
+    plus_one,
+    up_for_grabs,
+)
 from cairn.core.health import SourceHealth
 from cairn.core.log import Event, EventType, SignalState
 from cairn.core.rules import severity
@@ -39,6 +49,13 @@ GENERATED = (
     "index.html",
     "merges",
     "migration",
+    "holding",
+    # Where the +1 maintenance page lived before it became a tab of
+    # Up for grabs; listed so a rebuild clears it.
+    "plus-one",
+    "packages",
+    "owners",
+    "work",
     "uploaders",
     "sets",
     "teams",
@@ -86,9 +103,10 @@ REASON_ORDER = (
 # rather than under a Debian developer who will never read this page.
 PLUS_ONE = "plus-one-maintenance"
 
-# Not an owner: every row of a board, at merges/all.html and
-# migration/all.html, in the same table as an owner page with every
-# ownership column shown.
+# Not an owner: every row of a board, listed on the board's own front page
+# (merges/index.html, migration/index.html) with every ownership column
+# shown. Until Oct 2026 it had a page of its own, all.html, behind a small
+# link that people did not find; that address now redirects.
 EVERYTHING = "all"
 NO_UPLOADER = "no-uploader-recorded"
 
@@ -391,10 +409,11 @@ class Group:
     """One owner — a team, a package set or an uploader — and their work.
 
     Each kind of work gets its own page: merges at href, stuck uploads at
-    migration_href. One page holding both grew as long as britney's own
-    excuses page, which is the problem the board exists to fix. The two
-    pages link to each other, so an owner is never more than one click from
-    the rest of their work.
+    migration_href, and what the owner is holding up at holding_href. One
+    page holding everything grew as long as britney's own excuses page,
+    which is the problem the board exists to fix. The pages carry tabs to
+    each other, so an owner is never more than one click from the rest of
+    their work.
     """
 
     kind: str
@@ -405,6 +424,9 @@ class Group:
     blocking: list[BlockingRow] = field(default_factory=list)
     note: str = ""
     label: str | None = None
+    # (waiting upload, this owner's stuck upload it waits for). Filled in
+    # _context once every stuck row is known.
+    waiting: list[tuple[StuckRow, StuckRow]] = field(default_factory=list)
 
     @property
     def title(self) -> str:
@@ -423,15 +445,23 @@ class Group:
         """The owner's merges page, relative to the site root. Under merges/,
         like the stuck page under migration/: neither board is the default."""
         if self.is_everything:
-            return "merges/all.html"
+            return "merges/index.html"
         return f"merges/{self.kind}/{self.slug}.html"
 
     @property
     def migration_href(self) -> str:
         """The owner's stuck-in-proposed page, relative to the site root."""
         if self.is_everything:
-            return "migration/all.html"
+            return "migration/index.html"
         return f"migration/{self.kind}/{self.slug}.html"
+
+    @property
+    def holding_href(self) -> str:
+        """What the owner is holding up: their tests regressing other
+        uploads, and stuck uploads waiting for theirs. Its own page because
+        it answers a different question from "what of mine is stuck", and
+        below a long stuck table nobody scrolled to it."""
+        return f"holding/{self.kind}/{self.slug}.html"
 
     @property
     def has_merges(self) -> bool:
@@ -439,7 +469,25 @@ class Group:
 
     @property
     def has_migration(self) -> bool:
-        return bool(self.stuck or self.blocking)
+        return bool(self.stuck)
+
+    @property
+    def has_holding(self) -> bool:
+        return not self.is_everything and bool(self.blocking or self.waiting)
+
+    @property
+    def holding_count(self) -> int:
+        return len(self.blocking) + len(self.waiting)
+
+    @property
+    def primary_href(self) -> str:
+        """Where "find your page" lands: the first of the owner's pages
+        that has anything on it. Each links to the others."""
+        if self.has_merges:
+            return self.href
+        if self.has_migration:
+            return self.migration_href
+        return self.holding_href
 
     @property
     def count(self) -> int:
@@ -622,6 +670,15 @@ class History:
     # Per kind, (signal_id, when) for every opened or resolved event.
     opened: Mapping[Kind, list[tuple[str, datetime]]] = field(default_factory=dict)
     resolved: Mapping[Kind, list[tuple[str, datetime]]] = field(default_factory=dict)
+    # Per kind, (source package, when) for every opened event: what the
+    # "new this week" filter selects rows by.
+    opened_packages: Mapping[Kind, list[tuple[str, datetime]]] = field(
+        default_factory=dict
+    )
+    # Every event, per source package, in log order: a package page's
+    # timeline. Empty when built from replayed state alone.
+    by_package: Mapping[str, tuple[Event, ...]] = field(default_factory=dict)
+    trends: Trends = field(default_factory=Trends)
 
     @staticmethod
     def _since(found: Iterable[tuple[str, datetime]], cutoff: datetime) -> int:
@@ -634,12 +691,24 @@ class History:
     def resolved_since(self, kind: Kind, cutoff: datetime) -> int:
         return self._since(self.resolved.get(kind, ()), cutoff)
 
+    def opened_packages_since(self, kind: Kind, cutoff: datetime) -> set[str]:
+        return {
+            name for name, when in self.opened_packages.get(kind, ()) if when >= cutoff
+        }
+
     @classmethod
     def of(cls, events: Iterable[Event]) -> History:
         events = list(events)
         opened: dict[Kind, list[tuple[str, datetime]]] = {}
         resolved: dict[Kind, list[tuple[str, datetime]]] = {}
+        opened_packages: dict[Kind, list[tuple[str, datetime]]] = {}
+        by_package: dict[str, list[Event]] = {}
         for event in events:
+            by_package.setdefault(event.source_package, []).append(event)
+            if event.event is EventType.OPENED:
+                opened_packages.setdefault(event.kind, []).append(
+                    (event.source_package, event.ts)
+                )
             target = {EventType.OPENED: opened, EventType.RESOLVED: resolved}.get(
                 event.event
             )
@@ -647,7 +716,14 @@ class History:
                 target.setdefault(event.kind, []).append(
                     (event.to_signal().signal_id, event.ts)
                 )
-        return cls(uploads=uploads_seen(events), opened=opened, resolved=resolved)
+        return cls(
+            uploads=uploads_seen(events),
+            opened=opened,
+            resolved=resolved,
+            opened_packages=opened_packages,
+            by_package={name: tuple(found) for name, found in by_package.items()},
+            trends=trends(events),
+        )
 
     @classmethod
     def approximate(cls, state: Mapping[str, SignalState]) -> History:
@@ -655,11 +731,15 @@ class History:
         resolution at resolved_at. Misses reopenings, as replay does."""
         opened: dict[Kind, list[tuple[str, datetime]]] = {}
         resolved: dict[Kind, list[tuple[str, datetime]]] = {}
+        opened_packages: dict[Kind, list[tuple[str, datetime]]] = {}
         for sid, st in state.items():
             opened.setdefault(st.signal.kind, []).append((sid, st.first_seen))
+            opened_packages.setdefault(st.signal.kind, []).append(
+                (st.signal.source_package, st.first_seen)
+            )
             if st.resolved_at is not None:
                 resolved.setdefault(st.signal.kind, []).append((sid, st.resolved_at))
-        return cls(opened=opened, resolved=resolved)
+        return cls(opened=opened, resolved=resolved, opened_packages=opened_packages)
 
 
 def _since(value: Any) -> date | None:
@@ -859,6 +939,14 @@ def _groups(
     return found
 
 
+def _alphabetical(groups: Iterable[Group]) -> list[Group]:
+    """By name, ignoring case, with the two catch-all uploader groups
+    (+1 maintenance, no uploader recorded) last: they are not people, and
+    "+1" would otherwise sort ahead of everyone."""
+    catchall = {PLUS_ONE, NO_UPLOADER}
+    return sorted(groups, key=lambda g: (g.name in catchall, g.title.casefold()))
+
+
 def _ordered(groups: Iterable[Group]) -> list[Group]:
     return sorted(groups, key=lambda g: (-g.size, g.title))
 
@@ -965,7 +1053,27 @@ def _iso_time(when: datetime | None) -> str:
     return when.strftime("%Y-%m-%d %H:%M UTC")
 
 
+@cache
+def asset(name: str) -> str:
+    """An asset's URL, relative to the site root, versioned by its content.
+
+    Every page asks for the same stylesheet and script, so without a version
+    a browser keeps the copy it fetched first and shows new markup with old
+    styles until its cache expires. The hash changes only when the file
+    does, so an unchanged asset stays cached across rebuilds.
+    """
+    path = ASSETS / name
+    if not path.is_file():
+        return f"assets/{name}"
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()[:10]
+    return f"assets/{name}?v={digest}"
+
+
+@cache
 def _environment() -> Environment:
+    """One environment per process. Templates import shared macro files,
+    and a fresh environment recompiles all of them for every page: with a
+    page per package that was most of the build time."""
     env = Environment(
         loader=FileSystemLoader(TEMPLATES),
         autoescape=select_autoescape(["html"]),
@@ -977,6 +1085,9 @@ def _environment() -> Environment:
     env.filters["iso_time"] = _iso_time
     env.globals["autopkgtest_url"] = autopkgtest_url
     env.globals["retry_url"] = retry_url
+    env.globals["age_bucket"] = age_bucket
+    env.globals["package_href"] = package_href
+    env.globals["asset"] = asset
     return env
 
 
@@ -1074,6 +1185,222 @@ def merges_for_stuck(rows: Iterable[Row], stuck: Iterable[StuckRow]) -> dict[str
     return found
 
 
+def waiting_for(stuck: Iterable[StuckRow]) -> dict[str, list[StuckRow]]:
+    """Turn "this upload waits for those" around: awaited package -> the
+    stuck uploads waiting on it.
+
+    Britney names what an upload waits for, never what waits for it, so the
+    owner of the awaited upload cannot see from britney's page that they are
+    holding anyone up. Measured 5 Oct 2026: 22 stuck uploads waiting on 23
+    packages.
+    """
+    found: dict[str, list[StuckRow]] = {}
+    for row in stuck:
+        for name in row.waits_for:
+            if name != row.package:
+                found.setdefault(name, []).append(row)
+    return found
+
+
+# The payload fields whose change is worth a line in a package's history.
+# Others, such as which architectures a test is still running on, change on
+# most runs and would drown the moments that matter.
+TIMELINE_FIELDS: dict[Kind, tuple[str, ...]] = {
+    Kind.NEEDS_MERGE: ("ubuntu_version", "debian_version", "in_proposed"),
+    Kind.MIGRATION_BLOCKED: ("new_version", "reasons"),
+}
+
+
+@dataclass(frozen=True, slots=True)
+class Moment:
+    """One line of a package's history. Codes and values only; the template
+    says what each means."""
+
+    ts: datetime
+    kind: Kind
+    event: EventType
+    payload: Mapping[str, Any]
+    # (field, before, after) for each tracked field an update changed.
+    changes: tuple[tuple[str, Any, Any], ...] = ()
+
+
+def timeline(events: Iterable[Event]) -> list[Moment]:
+    """What happened to one package, newest first.
+
+    Openings and resolutions always; an update only when it changed a field
+    in TIMELINE_FIELDS. Diffed per signal, so a merge update is never
+    compared against a migration payload.
+    """
+    last: dict[str, Mapping[str, Any]] = {}
+    moments = []
+    for event in events:
+        sid = event.to_signal().signal_id
+        before = last.get(sid, {})
+        last[sid] = event.payload
+        if event.event is EventType.UPDATED:
+            changes = tuple(
+                (name, before.get(name), event.payload.get(name))
+                for name in TIMELINE_FIELDS.get(event.kind, ())
+                if before.get(name) != event.payload.get(name)
+            )
+            if not changes:
+                continue
+            moments.append(
+                Moment(event.ts, event.kind, event.event, event.payload, changes)
+            )
+        else:
+            moments.append(Moment(event.ts, event.kind, event.event, event.payload))
+    moments.reverse()
+    return moments
+
+
+@dataclass(frozen=True, slots=True)
+class PackageView:
+    """Everything cairn knows about one source package, on one page.
+
+    The answer to "what is the status of this package?", which no single
+    upstream page gives: whether it needs a merge, whether its upload is
+    stuck and why, whom it is holding up, who owns it, and what has happened
+    to it since cairn started watching.
+    """
+
+    name: str
+    merge: Row | None
+    stuck: StuckRow | None
+    # This package's tests regressing someone else's upload.
+    blocking: tuple[BlockingRow, ...]
+    # Stuck uploads that name this package among what they wait for.
+    waiting: tuple[StuckRow, ...]
+    owners: PackageMetadata
+    history: tuple[Moment, ...]
+    up_for_grabs: bool = False
+
+    @property
+    def href(self) -> str:
+        return package_href(self.name)
+
+    @property
+    def is_open(self) -> bool:
+        return bool(self.merge or self.stuck or self.blocking or self.waiting)
+
+    @property
+    def holding_count(self) -> int:
+        """Other uploads this package is holding up, counted once each."""
+        return len(
+            {b.holding.package for b in self.blocking}
+            | {w.package for w in self.waiting}
+        )
+
+    @property
+    def last_change(self) -> datetime | None:
+        return self.history[0].ts if self.history else None
+
+    @property
+    def component(self) -> str | None:
+        if self.merge and self.merge.component:
+            return self.merge.component
+        return self.stuck.component if self.stuck else None
+
+    @property
+    def launchpad_url(self) -> str:
+        return LAUNCHPAD_SOURCE.format(source=self.name)
+
+    @property
+    def debian_url(self) -> str:
+        return DEBIAN_TRACKER.format(source=self.name)
+
+    @property
+    def watched_since(self) -> datetime | None:
+        return self.history[-1].ts if self.history else None
+
+    @property
+    def stuck_since(self) -> datetime | None:
+        """When the current stuck episode began, across re-uploads.
+
+        Britney dates only the current upload, so a package re-uploaded
+        three times reads as stuck for a day. The latest opening in the
+        log is when it last went from migrating to stuck.
+        """
+        if self.stuck is None:
+            return None
+        return next(
+            (
+                m.ts
+                for m in self.history
+                if m.kind is Kind.MIGRATION_BLOCKED and m.event is EventType.OPENED
+            ),
+            None,
+        )
+
+
+def package_href(name: str) -> str:
+    """A package's own page, relative to the site root. Debian source names
+    are [a-z0-9][a-z0-9+.-]*, all safe in a path."""
+    return f"packages/{name}.html"
+
+
+def package_views(
+    rows: Iterable[Row],
+    stuck: Iterable[StuckRow],
+    blocking: Iterable[BlockingRow],
+    metadata: Snapshot,
+    history: History,
+    grabs: UpForGrabs | None = None,
+) -> dict[str, PackageView]:
+    """A page for every package cairn has ever had something to say about:
+    every package in the log, open or resolved, plus every package holding
+    another up, whose owners need to find it by name."""
+    stuck = list(stuck)
+    merges = {r.package: r for r in rows}
+    stucks = {r.package: r for r in stuck}
+    blocked: dict[str, list[BlockingRow]] = {}
+    for row in blocking:
+        blocked.setdefault(row.test, []).append(row)
+    waiting = waiting_for(stuck)
+    taken = {r.package for r in grabs.merges} | grabs.stuck_names if grabs else set()
+    names = set(history.by_package) | set(merges) | set(stucks)
+    names |= set(blocked) | set(waiting)
+    return {
+        name: PackageView(
+            name=name,
+            merge=merges.get(name),
+            stuck=stucks.get(name),
+            blocking=tuple(blocked.get(name, ())),
+            waiting=tuple(waiting.get(name, ())),
+            owners=metadata.get(name),
+            history=tuple(timeline(history.by_package.get(name, ()))),
+            up_for_grabs=name in taken,
+        )
+        for name in sorted(names)
+    }
+
+
+def set_sizes(metadata: Snapshot) -> dict[str, int]:
+    """Packages per package set, for "N of M need attention".
+
+    Package sets only. The snapshot holds every member of every set, but
+    team subscriptions are collected only for packages cairn already has a
+    signal for, so a team's total would be an undercount presented as a
+    denominator.
+    """
+    sizes: dict[str, int] = {}
+    for owner in metadata.packages.values():
+        for name in owner.package_sets:
+            sizes[name] = sizes.get(name, 0) + 1
+    return sizes
+
+
+def age_bucket(row: Row, now: datetime) -> str:
+    """The AGE_BUCKETS slug a merge row falls in, for the age filter."""
+    days = row.behind_days(now)
+    if days is None:
+        return "unknown"
+    for label, ceiling in AGE_BUCKETS:
+        if ceiling is None or days < ceiling:
+            return _slug(label)
+    return "unknown"
+
+
 def _context(
     state: Mapping[str, SignalState],
     health: Mapping[str, SourceHealth],
@@ -1094,6 +1421,16 @@ def _context(
     uploaders = group_by_uploader(rows, stuck)
     package_sets = group_by_package_set(rows, stuck, blocking)
     teams = group_by_team(rows, stuck, blocking)
+    grabs = up_for_grabs(rows, stuck, now=now)
+    waiting = waiting_for(stuck)
+    packages = package_views(rows, stuck, blocking, metadata, history, grabs)
+    collected = collected_for(health)
+    cutoff = now - RECENT
+
+    for group in [*uploaders, *package_sets, *teams]:
+        group.waiting.extend(
+            (row, held) for held in group.stuck for row in waiting.get(held.package, ())
+        )
 
     def merging(groups: list[Group]) -> list[Group]:
         """The merges index lists only owners with merges, largest first,
@@ -1104,7 +1441,7 @@ def _context(
 
     def stuck_in(groups: list[Group]) -> list[Group]:
         catchall = {PLUS_ONE, NO_UPLOADER}
-        found = [g for g in groups if g.stuck or g.blocking]
+        found = [g for g in groups if g.stuck or g.has_holding]
         return sorted(
             found,
             key=lambda g: (
@@ -1142,10 +1479,41 @@ def _context(
         # Cross-links between the boards: a lookup by package, no more.
         "stuck_by_package": {r.package: r for r in stuck},
         "merge_for_stuck": merges_for_stuck(rows, stuck),
+        "waiting_for": waiting,
+        "packages": packages,
+        "grabs": grabs,
+        "plus_one": plus_one(rows, stuck, blocking, waiting, now=now),
+        "high_impact_min": HIGH_IMPACT_MIN,
+        "merges_trend": history.trends.of(Kind.NEEDS_MERGE).until(
+            collected.get("merges")
+        ),
+        "migration_trend": history.trends.of(Kind.MIGRATION_BLOCKED).until(
+            collected.get("migration")
+        ),
+        "recent_merges": history.opened_packages_since(Kind.NEEDS_MERGE, cutoff),
+        "recent_stuck": history.opened_packages_since(Kind.MIGRATION_BLOCKED, cutoff),
+        # The directory is for finding a name, so it is alphabetical; the
+        # boards' "who has the most" panels rank by size instead.
+        "owners": {
+            "teams": _alphabetical(teams),
+            "sets": _alphabetical(package_sets),
+            "uploaders": _alphabetical(uploaders),
+        },
+        "set_sizes": set_sizes(metadata),
+        "owner_lookup": {
+            (g.kind, g.name): g for g in [*uploaders, *package_sets, *teams]
+        },
+        # When cairn's record of each board begins: an opening on that date
+        # means "already open", not "opened then".
+        "watching_since": {
+            str(kind): first.ts
+            for kind, trend in history.trends.by_kind.items()
+            if (first := trend.first) is not None
+        },
         "series": series,
         "now": now,
         # The latest successful collection by any source, for the footer.
-        "collected_for": collected_for(health),
+        "collected_for": collected,
         "health": sorted(health.values(), key=lambda h: h.source),
         "stale_for": stale_for(health, now=now),
         "vanilla_css": VANILLA_CSS,
@@ -1154,6 +1522,7 @@ def _context(
         "root": "",
         "section": "merges",
         "settling_days": SETTLING_DAYS,
+        "abandoned_days": ABANDONED_DAYS,
     }
 
 
@@ -1258,6 +1627,34 @@ def render_migration_group(group: Group, context: Mapping[str, Any]) -> str:
     )
 
 
+def render_holding_group(group: Group, context: Mapping[str, Any]) -> str:
+    """What an owner is holding up."""
+    return _render_page(
+        "holding_group.html",
+        group.holding_href,
+        context,
+        group=group,
+        section="migration",
+    )
+
+
+def _render_page(
+    template: str, href: str, context: Mapping[str, Any], **extra: Any
+) -> str:
+    """Any other page, at `href` relative to the site root."""
+    return (
+        _environment()
+        .get_template(template)
+        .render(**{**context, "root": _depth(href), "current_href": href, **extra})
+    )
+
+
+def render_package(view: PackageView, context: Mapping[str, Any]) -> str:
+    return _render_page(
+        "package.html", view.href, context, package=view, section="packages"
+    )
+
+
 class NotASiteDirectory(RuntimeError):
     """The output directory holds something cairn did not generate."""
 
@@ -1317,16 +1714,41 @@ def build(
         _render_migration(context), encoding="utf-8"
     )
 
-    for group in [context["everything"], *context["all_groups"]]:
+    # The board front pages above list every row; all.html only redirects
+    # there, for links made before the move.
+    for board in ("merges", "migration"):
+        (out / board / "all.html").write_text(
+            _render_page("moved.html", f"{board}/all.html", context, section=board),
+            encoding="utf-8",
+        )
+
+    for group in context["all_groups"]:
         pages = []
         if group.has_merges:
             pages.append((group.href, render_group))
         if group.has_migration:
             pages.append((group.migration_href, render_migration_group))
+        if group.has_holding:
+            pages.append((group.holding_href, render_holding_group))
         for href, render_page in pages:
             page = out / href
             page.parent.mkdir(parents=True, exist_ok=True)
             page.write_text(render_page(group, context), encoding="utf-8")
+
+    (out / "packages").mkdir(exist_ok=True)
+    for view in context["packages"].values():
+        (out / view.href).write_text(render_package(view, context), encoding="utf-8")
+    for href, template, section in (
+        ("packages/index.html", "packages.html", "packages"),
+        ("owners/index.html", "owners.html", "owners"),
+        ("work/index.html", "work.html", "work"),
+        ("work/plus-one.html", "plus_one.html", "work"),
+    ):
+        page = out / href
+        page.parent.mkdir(parents=True, exist_ok=True)
+        page.write_text(
+            _render_page(template, href, context, section=section), encoding="utf-8"
+        )
 
     if ASSETS.is_dir():
         shutil.copytree(ASSETS, out / "assets", dirs_exist_ok=True)

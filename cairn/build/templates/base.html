@@ -4,210 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}Cairn{% endblock %}</title>
+    {% block head %}{% endblock %}
     <link rel="stylesheet" href="{{ vanilla_css }}" />
-    <style>
-      /* Vanilla caps the grid at 80rem, which is narrow for a seven-column
-         table of versions. 108rem is a width Vanilla already uses for its own
-         wide layouts, so this widens without inventing a new measurement. */
-      .row,
-      .p-navigation__row--25-75 {
-        max-width: 108rem;
-      }
-
-      /* A p-button inside the navigation bar: centre it vertically and drop
-         the bottom margin it carries when used in body copy. */
-      .cairn-nav-cta {
-        align-items: center;
-        display: flex;
-      }
-
-      .cairn-nav-cta .p-button--brand {
-        margin-bottom: 0;
-      }
-
-      /* Measured 1 Oct 2026, 90th percentile: package names 20 characters,
-         Ubuntu versions 19, a stuck upload's old + new versions 36. Versions
-         get the room on the merges table; on the stuck table they are
-         stacked old over new, which frees width for the reason column, the
-         one that actually varies: up to ten failing tests on one upload. */
-      .cairn-package {
-        width: 16%;
-      }
-
-      .cairn-test {
-        width: 18%;
-      }
-
-      /* The stuck table, with every column (the all-packages page). Sums to
-         100%, so no column is left with whatever remains: earlier the
-         ownership columns shared 5% and vanished. Owner pages drop their own
-         column and the rest scale up.
-         Package names: 10 characters at the median, 20 at the 90th
-         percentile; uploader names 11 and 27 (1 Oct 2026). */
-      .cairn-stuck .cairn-package {
-        width: 12%;
-      }
-
-      /* Old and new on one line: 36 characters together at the 90th
-         percentile, so the column takes some of the reason column's room. */
-      .cairn-stuck .cairn-upload {
-        width: 19%;
-      }
-
-      .cairn-version {
-        white-space: nowrap;
-      }
-
-      .cairn-stuck .cairn-component {
-        width: 7%;
-      }
-
-      .cairn-stuck .cairn-why {
-        width: 24%;
-      }
-
-      .cairn-stuck .cairn-days {
-        width: 6%;
-      }
-
-      .cairn-stuck .cairn-uploader,
-      .cairn-stuck .cairn-team,
-      .cairn-stuck .cairn-set {
-        width: 10.66%;
-      }
-
-      .cairn-upload {
-        width: 17%;
-      }
-
-      .cairn-days {
-        width: 7%;
-      }
-
-      .cairn-component {
-        width: 9%;
-      }
-
-      /* Ubuntu versions carry an ubuntuN suffix that Debian's do not, so they
-         are reliably longer: measured over the current archive, 19 characters
-         against 12 at the 90th percentile. These widths follow that 1.6 ratio
-         instead of splitting the space evenly and wrapping one side. */
-      .cairn-version--ubuntu {
-        width: 26%;
-      }
-
-      .cairn-version--debian {
-        width: 17%;
-      }
-
-      /* A secondary link on every row: grey so it does not compete with the
-         package name, and the icon keeps it recognisable as a link rather
-         than relying on colour alone. */
-      .cairn-external,
-      .cairn-external:visited {
-        color: var(--vf-color-text-muted);
-        text-decoration-color: var(--vf-color-text-muted);
-      }
-
-      /* The icon is a black SVG, so 0.6 alpha lands on exactly the same
-         value as --vf-color-text-muted rather than merely near it. */
-      .cairn-external .p-icon--external-link {
-        margin-left: 0.25rem;
-        margin-right: 0;
-        opacity: 0.6;
-        vertical-align: middle;
-      }
-
-      /* Why it is held: each reason in plain bold text, then one line per
-         test beneath it, as britney lists them. */
-      .cairn-reason + .cairn-reason {
-        margin-top: 0.5rem;
-      }
-
-      .cairn-tests {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .cairn-tests li {
-        margin: 0;
-        padding: 0;
-      }
-
-      .cairn-test-version {
-        color: var(--vf-color-text-muted);
-      }
-
-      /* An architecture and its rerun never split; the list of them may
-         wrap. Making the whole line nowrap let one long list force the
-         reason column wide and squeeze the owner columns off the page. */
-      .cairn-arch {
-        white-space: nowrap;
-      }
-
-      /* The result tag ends its group of architectures. Vanilla's readonly
-         chip gives the tint; this only spaces it from the last arch. */
-      .cairn-status {
-        margin-left: 0.25rem;
-      }
-
-      .cairn-retry {
-        margin-left: 0.2rem;
-      }
-
-      .cairn-more summary {
-        font-size: 0.875rem;
-      }
-
-      .cairn-why {
-        width: 40%;
-      }
-
-      /* "rerun" beside a regressed architecture: the request britney's
-         excuses page links as ♻. Small and kept on one line, so it reads as
-         belonging to the architecture before it. */
-      .cairn-retry,
-      .cairn-retry:visited {
-        font-size: 0.875rem;
-        text-decoration: none;
-        white-space: nowrap;
-      }
-
-      .cairn-retry:hover {
-        text-decoration: underline;
-      }
-
-      .cairn-retry__icon {
-        margin-right: 0.2rem;
-        vertical-align: -0.1em;
-      }
-
-      /* A chip that links somewhere. Vanilla styles a.p-chip, hover and focus
-         included; these only drop the underline Vanilla gives links in table
-         cells and space the arrow, which carries "goes somewhere" without
-         relying on colour. */
-      /* A chip that links is still a chip: neutral like the others, in the
-         default text colour whether visited or not, never link blue or
-         purple. The arrow says it goes somewhere. */
-      a.cairn-chip-link,
-      a.cairn-chip-link:hover,
-      a.cairn-chip-link:visited,
-      a.cairn-chip-link .p-chip__value,
-      a.cairn-chip-link .cairn-chip-arrow {
-        color: var(--vf-color-text-default);
-        text-decoration: none;
-      }
-
-      .cairn-chip-arrow {
-        margin-left: 0.25rem;
-      }
-
-      .cairn-chip-link .p-icon--external-link {
-        margin-left: 0.25rem;
-        margin-right: 0;
-      }
-    </style>
+    <link rel="stylesheet" href="{{ root }}{{ asset('cairn.css') }}" />
   </head>
   <body>
     <header id="navigation" class="p-navigation is-dark">
@@ -229,15 +28,48 @@
               <span class="p-navigation__logo-title">Ubuntu Cairn</span>
             </a>
           </div>
+          {# Vanilla's menu toggle without JavaScript: the open link targets
+             the header's id and Vanilla shows the items on :target. Without
+             it, small screens had no navigation at all. #}
+          <a href="#navigation" class="p-navigation__toggle--open" title="Menu">Menu</a>
+          <a href="#navigation-closed" class="p-navigation__toggle--close" title="Close menu">Close menu</a>
         </div>
         <nav class="p-navigation__nav" aria-label="Main">
           <ul class="p-navigation__items">
-            <li class="p-navigation__item{% if section == 'merges' %} is-selected{% endif %}">
-              <a class="p-navigation__link" href="{{ root }}merges/index.html"{% if section == 'merges' %} aria-current="page"{% endif %}>Merges</a>
+            {# Four entries: two menus for finding your way in, then the
+               two boards. A menu's sub-pages open on hover or focus with
+               CSS alone, cairn.js adds click-to-open, and on a small
+               screen the open menu lists every sub-page. "Selected" marks
+               the section a page belongs to; aria-current the page. #}
+            {% set current = current_href | default(none) %}
+            {% for key, label, href, children in (
+              ("browse", "Browse", "packages/index.html", (
+                ("packages/index.html", "Packages"),
+                ("owners/index.html", "Teams and people"),
+              )),
+              ("work", "Up for grabs", "work/index.html", (
+                ("work/index.html", "Anyone can pick up"),
+                ("work/plus-one.html", "+1 maintenance shift"),
+              )),
+              ("merges", "Merges", "merges/index.html", ()),
+              ("migration", "Stuck in proposed", "migration/index.html", ()),
+            ) %}
+            {% set selected = section == key or (key == "browse" and section in ("packages", "owners")) %}
+            {% if children %}
+            <li class="p-navigation__item--dropdown-toggle cairn-nav-menu{% if selected %} is-selected{% endif %}">
+              <a class="p-navigation__link" href="{{ root }}{{ href }}" aria-controls="nav-{{ key }}" aria-expanded="false">{{ label }}</a>
+              <ul class="p-navigation__dropdown" id="nav-{{ key }}">
+                {% for child_href, child_label in children %}
+                <li><a class="p-navigation__dropdown-item" href="{{ root }}{{ child_href }}"{% if current == child_href %} aria-current="page"{% endif %}>{{ child_label }}</a></li>
+                {% endfor %}
+              </ul>
             </li>
-            <li class="p-navigation__item{% if section == 'migration' %} is-selected{% endif %}">
-              <a class="p-navigation__link" href="{{ root }}migration/index.html"{% if section == 'migration' %} aria-current="page"{% endif %}>Stuck in proposed</a>
+            {% else %}
+            <li class="p-navigation__item{% if selected %} is-selected{% endif %}">
+              <a class="p-navigation__link" href="{{ root }}{{ href }}"{% if selected and section == key %} aria-current="page"{% endif %}>{{ label }}</a>
             </li>
+            {% endif %}
+            {% endfor %}
           </ul>
           <ul class="p-navigation__items">
             <li class="p-navigation__item cairn-nav-cta">
@@ -264,10 +96,12 @@
       <div class="row">
         <div class="col-12">
           <p class="u-text--muted u-no-margin--bottom">
-            {# When cairn last collected, on every page, so no page needs a
+            {# When Cairn last collected, on every page, so no page needs a
                tile for it. Absolute rather than "N h ago": the page is
                static, so a relative time would freeze at build time. #}
-            {% set collected = collected_for.get(section) %}
+            {# A page that is not one board's draws on all of them, so it
+               takes the root's date: the oldest board's. #}
+            {% set collected = collected_for.get(section) if section in ("merges", "migration") else collected_for.get(None) %}
             {% if collected %}Data collected {{ collected | iso_time }}.
             {% else %}No data collected yet.
             {% endif %}
@@ -286,5 +120,7 @@
         </div>
       </div>
     </footer>
+    {# Sorting, filtering and jumping. Every page works without it. #}
+    <script src="{{ root }}{{ asset('cairn.js') }}" defer></script>
   </body>
 </html>

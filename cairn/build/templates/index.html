@@ -1,61 +1,141 @@
 {% extends "base.html" %}
+{% import "_ui.html" as ui with context %}
 {% block title %}Cairn{% endblock %}
 
-{# The site root. Every board sits in its own directory and none is the
-   default: this page only says what each one holds and links to it. #}
+{# The site root. It favours no board: it starts from the questions people
+   arrive with and routes each to the page that answers it. #}
 {% block content %}
-<section class="p-strip is-shallow">
+<section class="p-strip is-shallow cairn-hero">
   <div class="row">
     <div class="col-12">
-      <h1 class="p-heading--2">Ubuntu archive health</h1>
+      <h1 class="p-heading--2 u-no-margin--bottom">Ubuntu archive health, in one place</h1>
       <p class="p-text--small-caps u-text--muted">{{ series }}</p>
+      {# The idea, not an inventory: a list of boards or sources here would
+         go stale with every page added. #}
+      <p class="p-heading--5 cairn-lede">
+        What needs attention in the Ubuntu archive is public, but spread
+        over many sites. Cairn gathers it in one place, sorts it by who it
+        belongs to, and remembers it from day to day.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 col-medium-3">
+      {{ ui.jump(root ~ "packages/index.html", "package-names", "Find a package", "Source package name, e.g. glibc") }}
+      {{ ui.package_options("package-names") }}
+    </div>
+    <div class="col-6 col-medium-3">
+      {{ ui.jump(root ~ "owners/index.html", "owner-names", "Find your team, package set or yourself", "e.g. ubuntu-server, core, seb128") }}
+      {{ ui.owner_options("owner-names") }}
     </div>
   </div>
 
-  {% set stale = stale_for.get(section, []) %}
-  {% if stale %}
-  <div class="row">
-    <div class="col-12">
-      <div class="p-notification--caution">
-        <div class="p-notification__content">
-          <h5 class="p-notification__title">Data may be out of date</h5>
-          <p class="p-notification__message">
-            cairn last collected
-            {% for h in stale %}
-            <strong>{{ h.source }}</strong> {{ h.last_success | iso_time or "never" }}{% if not loop.last %}, {% endif %}
-            {% endfor %}.
-            This is about cairn's own pipeline, not about the packages.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endif %}
+  {% include "_stale.html" %}
 </section>
 
 <section class="p-strip is-shallow u-no-padding--top">
   <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">Where to start</h2>
+    </div>
+  </div>
+  <div class="row cairn-questions">
+    <div class="col-3 col-medium-3">
+      <div class="p-card cairn-question">
+        <h3 class="p-heading--5">What is the status of my package?</h3>
+        <p>One page per package: its merge, why britney holds its upload, what it is holding up, who owns it, and its history.</p>
+        <p class="u-no-margin--bottom"><a href="{{ root }}packages/index.html">Browse recorded packages</a></p>
+      </div>
+    </div>
+    <div class="col-3 col-medium-3">
+      <div class="p-card cairn-question">
+        <h3 class="p-heading--5">What needs my attention?</h3>
+        <p>Every team, package set and uploader has a page of their merges and stuck uploads, with tabs between the two.</p>
+        <p class="u-no-margin--bottom"><a href="{{ root }}owners/index.html">Teams and people</a></p>
+      </div>
+    </div>
+    <div class="col-3 col-medium-3">
+      <div class="p-card cairn-question">
+        <h3 class="p-heading--5">Is my work holding others up?</h3>
+        <p>
+          {{ migration.blocking }} package{{ '' if migration.blocking == 1 else 's' }}' tests are failing on someone else's upload,
+          and {{ waiting_for | length }} package{{ '' if waiting_for | length == 1 else 's' }} {{ 'has' if waiting_for | length == 1 else 'have' }} stuck uploads waiting on {{ 'it' if waiting_for | length == 1 else 'them' }}.
+          Your page and each package page say which.
+        </p>
+        <p class="u-no-margin--bottom"><a href="{{ root }}owners/index.html">Find your page</a></p>
+      </div>
+    </div>
+    <div class="col-3 col-medium-3">
+      <div class="p-card cairn-question">
+        <h3 class="p-heading--5">What can I work on?</h3>
+        <p>{{ grabs.total }} items nobody is clearly on that anyone may pick up: stuck Debian syncs, abandoned uploads and smaller merges.</p>
+        <p><a href="{{ root }}work/index.html">Up for grabs</a></p>
+        <p class="u-no-margin--bottom">On a +1 shift? <a href="{{ root }}work/plus-one.html">The +1 maintenance queue</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">The boards</h2>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-6 col-medium-3">
       <div class="p-card">
-        <h2 class="p-heading--4"><a href="{{ root }}merges/index.html">Merges</a></h2>
-        <p class="p-heading--2 u-no-margin--bottom">{{ overview.total }}</p>
+        <h3 class="p-heading--4"><a href="{{ root }}merges/index.html">Merges</a></h3>
+        <p class="p-heading--2 u-no-margin--bottom">{% if overview.total %}<a class="cairn-stat__link" href="{{ root }}merges/index.html#the_list">{{ overview.total }}</a>{% else %}0{% endif %}</p>
         <p class="u-text--muted">
           merge candidate{{ '' if overview.total == 1 else 's' }}:
           packages with an Ubuntu delta where Debian has moved ahead,
           {{ overview.new_upstream }} with a new upstream release.
         </p>
+        {{ ui.trend(merges_trend, "candidates", compact=True) }}
       </div>
     </div>
     <div class="col-6 col-medium-3">
       <div class="p-card">
-        <h2 class="p-heading--4"><a href="{{ root }}migration/index.html">Stuck in proposed</a></h2>
-        <p class="p-heading--2 u-no-margin--bottom">{{ migration.total }}</p>
+        <h3 class="p-heading--4"><a href="{{ root }}migration/index.html">Stuck in proposed</a></h3>
+        <p class="p-heading--2 u-no-margin--bottom">{% if migration.total %}<a class="cairn-stat__link" href="{{ root }}migration/index.html#the_list">{{ migration.total }}</a>{% else %}0{% endif %}</p>
         <p class="u-text--muted">
           upload{{ '' if migration.total == 1 else 's' }} britney will not
           migrate, {{ migration.total - migration.settling }} past the first
           {{ settling_days }} days.
         </p>
+        {{ ui.trend(migration_trend, "stuck", compact=True) }}
       </div>
+    </div>
+  </div>
+</section>
+
+{# What Cairn adds over the pages it reads. Stated, not illustrated with a
+   package of the day: picking one singled out somebody's upload and, with
+   small tied counts, came down to alphabetical order. #}
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="p-heading--4">What only Cairn shows</h2>
+      <ul class="p-list--divided">
+        <li class="p-list__item">
+          <strong>It remembers.</strong> The sites Cairn collects from show
+          only the present. Cairn keeps a record from every run, so it can tell a
+          package stuck through several uploads, or merged and back again,
+          and whether each board is shrinking.
+        </li>
+        <li class="p-list__item">
+          <strong>It joins the boards.</strong> When a package is stuck in
+          proposed and also needs a merge, each board links to the other's
+          row, so you never look it up twice.
+        </li>
+        <li class="p-list__item">
+          <strong>It shows what you are holding up.</strong> Britney lists
+          a problem under the upload it blocks: a test failing on it, or
+          another upload it has to wait for. Cairn also lists it under the
+          package causing it, so the people who can fix it find out.
+        </li>
+      </ul>
     </div>
   </div>
 </section>

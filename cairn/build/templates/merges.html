@@ -1,173 +1,92 @@
 {% extends "base.html" %}
+{% import "_merges.html" as t with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
 {% block title %}Cairn | Merges{% endblock %}
 
-{% macro grouptable(groups, anchor, heading, what, note) %}
-{% if groups %}
-<section class="p-strip is-shallow u-no-padding--top" id="{{ anchor }}">
-  <div class="row">
-    <div class="col-12">
-      <h2 class="p-heading--4">{{ heading }}</h2>
-      <p class="u-text--muted">{{ note }}</p>
-      <table class="p-table--mobile-card">
-        <caption class="u-hide">Merge candidates grouped by {{ what }}</caption>
-        <thead>
-          <tr>
-            <th>{{ what }}</th>
-            <th class="u-align--right">Candidates</th>
-            <th class="u-align--right">New upstream</th>
-            <th class="u-align--right">No new upstream</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for group in groups %}
-          <tr>
-            <td data-heading="{{ what }}"><a href="{{ root }}{{ group.href }}">{{ group.title }}</a></td>
-            <td data-heading="Candidates" class="u-align--right">{{ group.count }}</td>
-            <td data-heading="New upstream" class="u-align--right">{{ group.new_upstream }}</td>
-            <td data-heading="No new upstream" class="u-align--right">{{ group.count - group.new_upstream }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-{% endif %}
-{% endmacro %}
-
+{# The merges board: a summary of the whole board, then every candidate in
+   one filterable list. Owners get a short "who has the most" panel; the
+   full directory is the Teams and people page. Section ids contain "_":
+   row ids are package names, which never do (AGENTS.md section 5). #}
 {% block content %}
 <section class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
       <h1 class="p-heading--2">Merge candidates</h1>
       <p class="p-text--small-caps u-text--muted">{{ series }}</p>
-      {# Mirrors the section order below; a link only for a section that renders. #}
-      {# "All" leads the row: the whole list is one more way to view the same
-         board, a peer of the groupings, though it opens its own page. #}
-      {% set contents = [("all.html", "All candidates")] if rows else [] %}
-      {% if teams %}{% set _ = contents.append(("#by-team", "By subscribed team")) %}{% endif %}
-      {% if package_sets %}{% set _ = contents.append(("#by-package-set", "By package set")) %}{% endif %}
-      {% if uploaders %}{% set _ = contents.append(("#by-uploader", "By uploader")) %}{% endif %}
-      {% if contents %}
-      <nav aria-label="Contents">
-        <ul class="p-inline-list--middot">
-          {% for anchor, label in contents %}
-          <li class="p-inline-list__item"><a href="{{ anchor }}">{{ label }}</a></li>
-          {% endfor %}
-        </ul>
-      </nav>
-      {% endif %}
+      <p>
+        Packages carrying an Ubuntu delta where Debian has since moved
+        ahead, worked out from the Ubuntu and Debian archives. Each needs
+        someone to merge Debian's changes into Ubuntu's.
+      </p>
     </div>
   </div>
-
   {% include "_ownership.html" %}
-
-  {% set stale = stale_for.get(section, []) %}
-  {% if stale %}
-  <div class="row">
-    <div class="col-12">
-      <div class="p-notification--caution">
-        <div class="p-notification__content">
-          <h5 class="p-notification__title">Data may be out of date</h5>
-          <p class="p-notification__message">
-            cairn last collected
-            {% for h in stale %}
-            <strong>{{ h.source }}</strong> {{ h.last_success | iso_time or "never" }}{% if not loop.last %}, {% endif %}
-            {% endfor %}.
-            This is about cairn's own pipeline, not about the packages below.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endif %}
+  {% include "_stale.html" %}
 </section>
 
+{% if rows %}
 <section class="p-strip is-shallow u-no-padding--top">
   <div class="row">
-    <div class="col-2 col-medium-2 col-small-2">
-      <p class="p-heading--2 u-no-margin--bottom">{{ overview.total }}</p>
-      <p class="u-text--muted">open candidates</p>
-    </div>
-    <div class="col-2 col-medium-2 col-small-2">
-      <p class="p-heading--2 u-no-margin--bottom">{{ overview.new_upstream }}</p>
-      <p class="u-text--muted">new upstream</p>
-    </div>
-    <div class="col-2 col-medium-2 col-small-2">
-      <p class="p-heading--2 u-no-margin--bottom">{{ overview.revision_only }}</p>
-      <p class="u-text--muted">no new upstream</p>
-    </div>
-    <div class="col-2 col-medium-2 col-small-2">
-      <p class="p-heading--2 u-no-margin--bottom">{{ overview.opened_recently }}</p>
-      <p class="u-text--muted">new this week</p>
-    </div>
-    <div class="col-2 col-medium-2 col-small-2">
-      <p class="p-heading--2 u-no-margin--bottom">{{ overview.resolved_recently }}</p>
-      <p class="u-text--muted">merged this week</p>
-    </div>
+    {{ ui.stat(overview.total, "open candidates", "?#the_list") }}
+    {{ ui.stat(overview.new_upstream, "new upstream", "?upstream=new#the_list" if overview.new_upstream else None, term="new_upstream") }}
+    {{ ui.stat(overview.revision_only, "no new upstream", "?upstream=no#the_list" if overview.revision_only else None, term="no_new_upstream") }}
+    {{ ui.stat(overview.opened_recently, "new this week", "?history=recent#the_list" if overview.opened_recently else None) }}
+    {{ ui.stat(overview.resolved_recently, "merged this week") }}
+    {{ ui.stat(overview.returning, "merged, then back", "?history=returning#the_list" if overview.returning else None, term="merged_back") }}
   </div>
+
   <div class="row">
-    <div class="col-12">
-      <p class="u-text--muted">
-        <strong>New upstream</strong> means Debian carries a newer upstream
-        release, so the merge is real work. <strong>No new upstream</strong>
-        covers the rest: usually just a Debian revision, occasionally an epoch
-        bump over an older upstream.
-        <strong>Merged, then back</strong> ({{ overview.returning }}) counts
-        packages cairn has seen resolve and become a candidate again, which
-        only a record kept over time can show.
+    <div class="col-7 col-medium-6">
+      <h2 class="p-heading--5">Open candidates over time</h2>
+      {{ ui.trend(merges_trend, "open candidates") }}
+    </div>
+    {% if overview.buckets %}
+    <div class="col-5 col-medium-6" id="debian_ahead">
+      <h2 class="p-heading--5">How long Debian has been ahead</h2>
+      {% set widest = overview.buckets | map(attribute="count") | max %}
+      <ul class="cairn-bars">
+        {% for bucket in overview.buckets %}
+        {{ ui.bar(bucket.label, bucket.count, widest, "?age=" ~ (bucket.label | slug) ~ "#the_list") }}
+        {% endfor %}
+      </ul>
+      <p class="p-text--small u-text--muted">
+        From Debian's own upload record, so it does not reset when Ubuntu
+        opens a new series.
+        {% if overview.undated %}{{ overview.undated }} without a Debian
+        upload date {{ 'is' if overview.undated == 1 else 'are' }} not counted.{% endif %}
       </p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="row" id="top_owners">
+    <div class="col-12">
+      <h2 class="p-heading--5">Who has the most</h2>
+    </div>
+    <div class="col-4 col-medium-2">
+      {{ ui.top_owners(teams, "Subscribed teams", "count", "href", root ~ "owners/index.html#teams") }}
+    </div>
+    <div class="col-4 col-medium-2">
+      {{ ui.top_owners(package_sets, "Package sets", "count", "href", root ~ "owners/index.html#sets") }}
+    </div>
+    <div class="col-4 col-medium-2">
+      {{ ui.top_owners(uploaders | rejectattr("name", "in", ["plus-one-maintenance", "no-uploader-recorded"]) | list, "Uploaders", "count", "href", root ~ "owners/index.html#uploaders") }}
     </div>
   </div>
 </section>
 
-{% if overview.buckets %}
-<section class="p-strip is-shallow u-no-padding--top" id="age">
+<section class="p-strip is-shallow u-no-padding--top" id="the_list">
   <div class="row">
     <div class="col-12">
-      <h2 class="p-heading--4">How long Debian has been ahead</h2>
-      <table class="p-table--mobile-card">
-        <caption class="u-hide">Distribution of candidates by how long Debian has been ahead</caption>
-        <thead>
-          <tr><th>Age</th><th class="u-align--right">Packages</th><th>Share</th></tr>
-        </thead>
-        <tbody>
-          {% for bucket in overview.buckets %}
-          <tr>
-            <td data-heading="Age">{{ bucket.label }}</td>
-            <td data-heading="Packages" class="u-align--right">{{ bucket.count }}</td>
-            <td data-heading="Share">
-              {# A bar, not colour alone: the count sits in the cell beside it. #}
-              <span style="display:inline-block;height:0.6rem;width:{{ '%.1f' % bucket.share }}%;background:#0e8420;vertical-align:middle"></span>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <p class="u-text--muted">
-        Measured from Debian's own upload record, so it does not reset when
-        Ubuntu opens a new series.
-        {% if overview.undated %}
-        {{ overview.undated }}
-        package{{ '' if overview.undated == 1 else 's' }} had no Debian upload
-        date and {{ 'is' if overview.undated == 1 else 'are' }} not counted.
-        {% endif %}
-      </p>
+      <h2 class="p-heading--4">Every merge candidate</h2>
+      {{ g.glossary(["new_upstream", "no_new_upstream", "merged_back", "seen", "proposed", "stuck_link"]) }}
+      {{ ui.filters("merges", buckets=overview.buckets) }}
+      {{ t.merge_table(rows, everything, "Every merge candidate") }}
     </div>
   </div>
 </section>
-{% endif %}
-
-{{ grouptable(teams, "by-team", "By subscribed team", "Team",
-   "Who gets the bug mail. A different axis from package sets, which are upload rights, and a name can appear on both while covering different packages.") }}
-
-{{ grouptable(package_sets, "by-package-set", "By package set", "Package set",
-   "Upload rights, keyed by name and series.") }}
-
-{{ grouptable(uploaders, "by-uploader", "By uploader", "Uploader",
-   "Who uploaded the Ubuntu version on the row, the person in its changelog: normally the one who merges it. Debian syncs go to +1 maintenance.") }}
-
-{% if not rows %}
+{% else %}
 <section class="p-strip is-shallow u-no-padding--top">
   <div class="row">
     <div class="col-12">

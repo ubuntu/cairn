@@ -1,0 +1,108 @@
+{# The merges table, shared by owner pages, the all-candidates page and the
+   up-for-grabs page. #}
+{% import "_migration.html" as m with context %}
+{% import "_glossary.html" as g with context %}
+
+{# Under the package name: where else to look. Muted and marked external,
+   so they do not compete with the name, which stays inside Cairn. #}
+{% macro elsewhere(package, debian=True) -%}
+<div class="p-text--small cairn-elsewhere">
+  <a class="cairn-external" href="https://launchpad.net/ubuntu/+source/{{ package }}" target="_blank" rel="noopener noreferrer">Launchpad<i class="p-icon--external-link"></i></a>
+  {%- if debian %}
+  <a class="cairn-external" href="https://tracker.debian.org/pkg/{{ package }}" target="_blank" rel="noopener noreferrer">Debian tracker<i class="p-icon--external-link"></i></a>
+  {%- endif %}
+</div>
+{%- endmacro %}
+
+{% macro merge_table(rows, group=None, caption="Merge candidates", ids=True) %}
+{% set kind = group.kind if group else None %}
+<table class="p-table--mobile-card cairn-sortable cairn-merges">
+  <caption class="u-hide">
+    {{ caption }}. Version and tracker links open in a new tab; package
+    names open the package's page on Cairn.
+  </caption>
+  <thead>
+    <tr>
+      <th class="cairn-package">Package</th>
+      {# Versions are not sortable: a browser can only compare them as
+         text, which gets Debian ordering wrong (AGENTS.md section 3). #}
+      <th class="cairn-version--ubuntu" data-nosort>Ubuntu</th>
+      <th class="cairn-version--debian" data-nosort>Debian</th>
+      <th class="cairn-component">Component</th>
+      <th class="cairn-date u-align--right">Debian uploaded</th>
+      {# Ownership trails the versions: it is context, not the work.
+         This page's own axis is omitted, being one repeated value. #}
+      {% if kind != 'uploaders' %}<th class="cairn-uploader">Uploader</th>{% endif %}
+      {% if kind != 'teams' %}<th class="cairn-team">Subscribed team</th>{% endif %}
+      {% if kind != 'sets' %}<th class="cairn-set">Package set</th>{% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr{% if ids %} id="{{ row.anchor }}"{% endif %} data-filter
+        data-f-component="{{ row.component or 'unknown' }}"
+        data-f-upstream="{{ 'new' if row.new_upstream else 'no' }}"
+        data-f-age="{{ age_bucket(row, now) }}"
+        data-f-history="{{ 'recent' if row.package in recent_merges }} {{ 'returning' if row.returning }}"
+        data-f-q="{{ row.package }} {{ row.uploader or '' }} {{ row.teams | join(' ') }} {{ row.package_sets | join(' ') }}">
+      <td data-heading="Package" class="cairn-package" data-sort="{{ row.package }}">
+        <a href="{{ root }}{{ package_href(row.package) }}">{{ row.package }}</a>
+        {% if row.new_upstream %}
+        <span class="p-chip--information is-readonly is-inline is-dense cairn-term"{{ g.tip("new_upstream") }}>
+          <span class="p-chip__value">new upstream</span>
+        </span>
+        {% endif %}
+        {% if row.returning %}
+        <span class="p-chip--caution is-readonly is-inline is-dense cairn-term"{{ g.tip("seen") }}>
+          <span class="p-chip__lead">seen</span>
+          <span class="p-chip__value">{{ row.occurrences }} times</span>
+        </span>
+        {% endif %}
+        {{ elsewhere(row.package) }}
+      </td>
+      <td data-heading="Ubuntu" class="cairn-version--ubuntu">
+        <a href="{{ row.ubuntu_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.ubuntu_version }}</code></a>
+        {% if row.in_proposed %}{{ m.proposed_chip(row, group or everything) }}{% endif %}
+      </td>
+      <td data-heading="Debian" class="cairn-version--debian">
+        <a href="{{ row.debian_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.debian_version }}</code></a>
+      </td>
+      <td data-heading="Component" class="cairn-component">
+        {% if row.component %}{{ row.component }}
+        {% else %}<span class="u-text--muted">unknown</span>{% endif %}
+      </td>
+      <td data-heading="Debian uploaded" class="u-align--right" data-sort="{{ row.debian_uploaded | iso_date }}">
+        {{ row.debian_uploaded | iso_date or "unknown" }}
+      </td>
+      {% if kind != 'uploaders' %}
+      <td data-heading="Uploader" data-sort="{{ row.uploader or '' }}">
+        {% if row.uploader %}
+        <a href="{{ root }}merges/uploaders/{{ row.uploader | slug }}.html">{{ row.uploader }}</a>
+        {% else %}
+        <span class="u-text--muted">unknown</span>
+        {% endif %}
+      </td>
+      {% endif %}
+      {% if kind != 'teams' %}
+      <td data-heading="Subscribed team" data-sort="{{ row.teams | join(' ') }}">
+        {% for name in row.teams %}
+        <a href="{{ root }}merges/teams/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
+        {% else %}
+        <span class="u-text--muted">none</span>
+        {% endfor %}
+      </td>
+      {% endif %}
+      {% if kind != 'sets' %}
+      <td data-heading="Package set" data-sort="{{ row.package_sets | join(' ') }}">
+        {% for name in row.package_sets %}
+        <a href="{{ root }}merges/sets/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
+        {% else %}
+        <span class="u-text--muted">none</span>
+        {% endfor %}
+      </td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endmacro %}

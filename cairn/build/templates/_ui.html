@@ -1,0 +1,308 @@
+{% import "_migration.html" as m with context %}
+{% import "_glossary.html" as g with context %}
+{# Pieces shared across pages. Human words live here and in the page
+   templates, never in Python (AGENTS.md section 5). #}
+
+{# A headline number. Linked when there is a list behind it: a number you
+   cannot click is a dead end, and users asked to reach the packages by
+   clicking the count. #}
+{% macro stat(value, label, href=None, col="col-2 col-medium-2 col-small-2", term=None) %}
+<div class="{{ col }} cairn-stat">
+  {% if href %}
+  <a class="cairn-stat__link{% if term %} cairn-term{% endif %}" href="{{ href }}"{% if term %}{{ g.tip(term) }}{% endif %}>
+    <span class="p-heading--2 u-no-margin--bottom cairn-stat__value">{{ value }}</span>
+    <span class="cairn-stat__label">{{ label }}</span>
+  </a>
+  {% else %}
+  {# Not a link, so focusable only when there is a definition to show. #}
+  <div{% if term %} class="cairn-term" tabindex="0"{{ g.tip(term) }}{% endif %}>
+    <p class="p-heading--2 u-no-margin--bottom">{{ value }}</p>
+    <p class="u-text--muted">{{ label }}</p>
+  </div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% set COMPONENTS = ("main", "restricted", "universe", "multiverse") %}
+
+{# The filter bar. Hidden until cairn.js unhides it, so a reader without
+   JavaScript never sees controls that do nothing. Field names are the
+   query-string keys stat links use, so they must not change lightly. #}
+{% macro filters(board, reasons=(), buckets=()) %}
+<form class="cairn-filters" hidden aria-label="Filter the list">
+  <div class="cairn-filters__row">
+    {% if board == "owners" %}
+    <label class="cairn-filters__field cairn-filters__field--wide">
+      <span class="p-form__label">Name</span>
+      <input type="search" name="q" placeholder="e.g. ubuntu-server, core, seb128" autocomplete="off" />
+    </label>
+    {% else %}
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Package or owner</span>
+      <input type="search" name="q" placeholder="e.g. glibc, seb128, desktop" autocomplete="off" />
+    </label>
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Component</span>
+      <select name="component">
+        <option value="">Any</option>
+        {% for c in COMPONENTS %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+      </select>
+    </label>
+    {% endif %}
+    {% if board == "merges" %}
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Upstream</span>
+      <select name="upstream">
+        <option value="">Any</option>
+        <option value="new">New upstream release</option>
+        <option value="no">No new upstream</option>
+      </select>
+    </label>
+    {% if buckets %}
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Debian ahead for</span>
+      <select name="age">
+        <option value="">Any time</option>
+        {% for bucket in buckets %}<option value="{{ bucket.label | slug }}">{{ bucket.label }}</option>{% endfor %}
+      </select>
+    </label>
+    {% endif %}
+    <label class="cairn-filters__field">
+      <span class="p-form__label">History</span>
+      <select name="history">
+        <option value="">Any</option>
+        <option value="recent">New this week</option>
+        <option value="returning">Merged, then back</option>
+      </select>
+    </label>
+    {% elif board == "packages" %}
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Show</span>
+      <select name="has">
+        <option value="">Every package</option>
+        <option value="merge">Needs a merge</option>
+        <option value="stuck">Stuck in proposed</option>
+        <option value="holding">Holding others up</option>
+        <option value="grabs">Up for grabs</option>
+      </select>
+    </label>
+    {% elif board == "owners" %}
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Show</span>
+      <select name="has">
+        <option value="">Everyone</option>
+        <option value="merges">With merges</option>
+        <option value="stuck">With stuck uploads</option>
+        <option value="holding">Holding others up</option>
+      </select>
+    </label>
+    {% elif board == "migration" %}
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Why it is held</span>
+      <select name="reason">
+        <option value="">Any reason</option>
+        {% for reason in reasons %}<option value="{{ reason }}">{{ m.label(reason) }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="cairn-filters__field">
+      <span class="p-form__label">Uploaded by</span>
+      <select name="origin">
+        <option value="">Anyone</option>
+        <option value="ubuntu">An Ubuntu developer</option>
+        <option value="sync">Synced from Debian</option>
+      </select>
+    </label>
+    <label class="cairn-filters__field">
+      <span class="p-form__label">History</span>
+      <select name="history">
+        <option value="">Any</option>
+        <option value="recent">Stuck this week</option>
+        <option value="reuploaded">Stuck through several uploads</option>
+        <option value="returning">Stuck before</option>
+      </select>
+    </label>
+    {% endif %}
+  </div>
+  {# Below the fields rather than beside them: squeezed into the row it
+     read as a sixth field, and had to shrink to fit. #}
+  <div class="cairn-filters__actions">
+    <button type="reset" class="p-button u-no-margin--bottom">Clear filters</button>
+    <p class="cairn-filter-count u-text--muted u-no-margin--bottom" aria-live="polite"></p>
+  </div>
+</form>
+{% endmacro %}
+
+
+
+{# A filter bar holding only the text box, for directory pages. #}
+{% macro text_filter(placeholder) %}
+<form class="cairn-filters" hidden aria-label="Filter the list">
+  <div class="cairn-filters__row">
+    <label class="cairn-filters__field cairn-filters__field--wide">
+      <span class="p-form__label">Filter</span>
+      <input type="search" name="q" placeholder="{{ placeholder }}" autocomplete="off" />
+    </label>
+  </div>
+  <p class="cairn-filter-count p-text--small u-text--muted" aria-live="polite"></p>
+</form>
+{% endmacro %}
+
+{# Open signals over time, drawn as a step line from the log, with dates
+   along the bottom and the scale at the side. The labels are HTML placed
+   over the SVG, not SVG text: the SVG stretches to its box and would
+   distort letters. A compact chart labels only where it starts and ends.
+   The caption says the same in words, for screen readers. #}
+{% macro trend(t, what, width=600, height=120, compact=False) %}
+{% if t.drawable %}
+<figure class="cairn-trend{% if compact %} cairn-trend--compact{% endif %}">
+  <div class="cairn-trend__plot" aria-hidden="true">
+    <div class="cairn-trend__y">
+      <span class="cairn-trend__y-top">{{ t.peak }}</span>
+      <span class="cairn-trend__y-bottom">0</span>
+    </div>
+    <div class="cairn-trend__chart">
+      <svg viewBox="0 0 {{ width }} {{ height }}" preserveAspectRatio="none" focusable="false">
+        <line x1="0" x2="{{ width }}" y1="2" y2="2" class="cairn-trend__grid" vector-effect="non-scaling-stroke" />
+        <line x1="0" x2="{{ width }}" y1="{{ height - 2 }}" y2="{{ height - 2 }}" class="cairn-trend__base" vector-effect="non-scaling-stroke" />
+        <path d="{{ t.area(width, height) }}" class="cairn-trend__area" />
+        <path d="{{ t.path(width, height) }}" class="cairn-trend__line" vector-effect="non-scaling-stroke" />
+      </svg>
+      <div class="cairn-trend__x">
+        {% if compact %}
+        <span style="left: 0%" class="is-start">{{ t.first.ts | iso_date }}</span>
+        <span style="left: 100%" class="is-end">{{ t.last.ts | iso_date }}</span>
+        {% else %}
+        {% for at, day in t.x_ticks(6) %}
+        <span style="left: {{ '%.1f' % (at * 100) }}%"{% if at < 0.08 %} class="is-start"{% elif at > 0.92 %} class="is-end"{% endif %}>{{ day | iso_date }}</span>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <figcaption class="u-off-screen">
+    {{ t.first.count }} {{ what }} on {{ t.first.ts | iso_date }},
+    {{ t.last.count }} on {{ t.last.ts | iso_date }}
+    {%- if t.change < 0 %} ({{ -t.change }} fewer)
+    {%- elif t.change > 0 %} ({{ t.change }} more)
+    {%- else %} (no change){% endif %}.
+    Lowest {{ t.low }}, highest {{ t.peak }}.
+  </figcaption>
+</figure>
+{% endif %}
+{% endmacro %}
+
+{# Tabs between an owner's pages, one per question: what to merge, what
+   is stuck, what they are holding up. Vanilla's tab styling on plain links: each
+   is its own page, so no JavaScript decides what shows. A board the owner
+   has nothing on is named with a zero rather than dropped, so the reader
+   learns it was checked. #}
+{% macro owner_tabs(group, active) %}
+{% if not group.is_everything %}
+<nav class="p-tabs" aria-label="{{ group.title }}'s work">
+  <ul class="p-tabs__list">
+    <li class="p-tabs__item">
+      {% if group.has_merges %}
+      <a class="p-tabs__link" href="{{ root }}{{ group.href }}"{% if active == "merges" %} aria-current="page" aria-selected="true"{% endif %}>Merges ({{ group.count }})</a>
+      {% else %}
+      <span class="p-tabs__link cairn-tab--empty">Merges (0)</span>
+      {% endif %}
+    </li>
+    <li class="p-tabs__item">
+      {% if group.has_migration %}
+      <a class="p-tabs__link" href="{{ root }}{{ group.migration_href }}"{% if active == "migration" %} aria-current="page" aria-selected="true"{% endif %}>Stuck in proposed ({{ group.stuck_count }})</a>
+      {% else %}
+      <span class="p-tabs__link cairn-tab--empty">Stuck in proposed (0)</span>
+      {% endif %}
+    </li>
+    <li class="p-tabs__item">
+      {% if group.has_holding %}
+      <a class="p-tabs__link" href="{{ root }}{{ group.holding_href }}"{% if active == "holding" %} aria-current="page" aria-selected="true"{% endif %}>Holding others up ({{ group.holding_count }})</a>
+      {% else %}
+      <span class="p-tabs__link cairn-tab--empty">Holding others up (0)</span>
+      {% endif %}
+    </li>
+  </ul>
+</nav>
+{% endif %}
+{% endmacro %}
+
+{# "N of M": a share of a known whole, as a bar with the numbers written
+   beside it. Users asked for a pie chart; a single proportion reads better
+   as a bar, and a bar needs no colour key. #}
+{% macro share(part, whole, what) %}
+{% if whole %}
+{% set pct = (part / whole * 100) %}
+<div class="cairn-share">
+  <div class="cairn-share__bar" aria-hidden="true"><span style="width: {{ '%.1f' % ([pct, 100] | min) }}%"></span></div>
+  <p class="p-text--small u-text--muted u-no-margin--bottom">{{ part }} of {{ whole }} {{ what }} ({{ '%.0f' % pct if pct >= 1 or part == 0 else '<1' }}%)</p>
+</div>
+{% endif %}
+{% endmacro %}
+
+{# Type a name, go to its page. With JavaScript an exact match jumps
+   straight there; without, the form submits to an index page that lists
+   every name. #}
+{% macro jump(action, list_id, label, placeholder, button="Go") %}
+<form class="cairn-jump" action="{{ action }}" method="get" data-jump role="search">
+  <label class="p-form__label" for="{{ list_id }}-input">{{ label }}</label>
+  <div class="cairn-jump__row">
+    <input id="{{ list_id }}-input" type="search" name="q" list="{{ list_id }}" placeholder="{{ placeholder }}" autocomplete="off" />
+    <button type="submit" class="p-button--positive u-no-margin--bottom">{{ button }}</button>
+  </div>
+</form>
+{% endmacro %}
+
+{% macro package_options(list_id) %}
+<datalist id="{{ list_id }}">
+  {% for view in packages.values() %}<option value="{{ view.name }}" data-href="{{ root }}{{ view.href }}"></option>
+  {% endfor %}
+</datalist>
+{% endmacro %}
+
+{# Team and package set can share a name (ubuntu-desktop is both, covering
+   different packages), so every option names its axis. #}
+{% set AXIS = {"teams": "team", "sets": "package set", "uploaders": "uploader"} %}
+{% macro owner_label(group) %}{{ group.title }} ({{ AXIS.get(group.kind, group.kind) }}){% endmacro %}
+
+{% macro owner_options(list_id) %}
+<datalist id="{{ list_id }}">
+  {% for kind in ("teams", "sets", "uploaders") %}
+  {% for group in owners[kind] %}<option value="{{ owner_label(group) }}" data-href="{{ root }}{{ group.primary_href }}"></option>
+  {% endfor %}
+  {% endfor %}
+</datalist>
+{% endmacro %}
+
+{# One bar of a breakdown: the label links to the list filtered to it, the
+   count is written beside the bar, so neither length nor colour carries
+   the number alone. #}
+{% macro bar(label, count, widest, href=None, note="") %}
+<li class="cairn-bars__item">
+  <span class="cairn-bars__label">{% if href and count %}<a href="{{ href }}">{{ label }}</a>{% else %}{{ label }}{% endif %}{% if note %} <span class="cairn-bars__note">{{ note }}</span>{% endif %}</span>
+  <span class="cairn-bars__bar" aria-hidden="true"><span style="width: {{ '%.1f' % (count / widest * 100 if widest else 0) }}%"></span></span>
+  <span class="cairn-bars__count">{{ count }}</span>
+</li>
+{% endmacro %}
+
+{# The owners with the most of one board's work: a short answer to "who
+   has the most", with the full directory one click away. Replaces three
+   tables that listed every owner on the board's front page. #}
+{% macro top_owners(groups, title, count, href, more, n=5) %}
+{# A card per ownership axis, ranked with the same bars as the board's
+   breakdown, so the three lists read as part of the board. #}
+<div class="p-card cairn-top">
+  <h3 class="p-heading--5">{{ title }}</h3>
+  {% set shown = groups | selectattr(count) | list %}
+  {% if shown %}
+  {% set widest = shown[0][count] %}
+  <ol class="cairn-bars">
+    {% for group in shown[:n] %}
+    {{ bar(group.title, group[count], widest, root ~ group[href]) }}
+    {% endfor %}
+  </ol>
+  {% if shown | length > n %}<p class="p-text--small u-no-margin--bottom"><a href="{{ more }}">All {{ shown | length }}</a></p>{% endif %}
+  {% else %}
+  <p class="u-text--muted u-no-margin--bottom">None.</p>
+  {% endif %}
+</div>
+{% endmacro %}
