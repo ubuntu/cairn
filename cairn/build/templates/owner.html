@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | {{ group.title }}{% endblock %}
+
+{# An owner's overview, laid out like a package page: one block per kind of
+   work on the left, what this owner is on the right. A kind with nothing
+   open is one line; only open work takes room. The full lists are the
+   other tabs. #}
+{% macro days(n) %}{{ n }} day{{ '' if n == 1 else 's' }}{% endmacro %}
+{% set AXIS_NOTE = {
+  "teams": "A subscribed team: it gets the bug mail for these packages.",
+  "sets": "A package set: its members may upload these packages in " ~ series ~ ".",
+  "uploaders": "An uploader: the person in the changelog of the version on each row, who normally deals with it.",
+} %}
+
+{% block content %}
+{% set settling = group.settling(now) %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p class="p-text--small-caps u-text--muted">
+        <a href="{{ root }}owners/index.html">Teams and people</a> / {{ group.subtitle }}
+      </p>
+      {# No kind chip beside the name: the breadcrumb above already says
+         "subscribed team", "package set" or "uploader". The name sits
+         tight against its Launchpad link when there is one, and keeps its
+         usual margin before the tabs when there is not. #}
+      {% set on_launchpad = group.kind in ("teams", "uploaders") and group.name not in ("plus-one-maintenance", "no-uploader-recorded") %}
+      <h1 class="p-heading--2{% if on_launchpad %} u-no-margin--bottom{% endif %}">{{ group.title }}</h1>
+      {% if on_launchpad %}
+      <ul class="p-inline-list--middot cairn-title__links">
+        <li class="p-inline-list__item">{{ m.ext("https://launchpad.net/~" ~ group.name, "Launchpad", icon=True) }}</li>
+      </ul>
+      {% endif %}
+      {{ ui.owner_tabs(group, "overview") }}
+    </div>
+  </div>
+</section>
+
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-8 col-medium-4">
+      <h2 class="p-heading--4">Status in {{ series }}</h2>
+      <div class="cairn-status-list">
+
+        <div class="cairn-status-item">
+          {% if group.has_merges %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong>{{ group.count }} merge{{ '' if group.count == 1 else 's' }} from Debian</strong></p>
+          <p>
+            {{ group.new_upstream }} with a new upstream release.
+            {% set oldest = group.rows[0] %}
+            {% set behind = oldest.behind_days(now) %}
+            {% if behind is not none %}Debian has been ahead longest on
+            <a href="{{ root }}{{ package_href(oldest.package) }}">{{ oldest.package }}</a>, for {{ days(behind) }}.{% endif %}
+          </p>
+          <p class="cairn-status-item__more"><a href="{{ root }}{{ group.href }}">View the merges</a></p>
+          {% else %}
+          <p class="cairn-status-item__head is-ok"><i class="p-icon--success"></i> No merges waiting</p>
+          {% endif %}
+        </div>
+
+        <div class="cairn-status-item">
+          {% if group.has_migration %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong>{{ group.stuck_count }} upload{{ '' if group.stuck_count == 1 else 's' }} stuck in proposed</strong></p>
+          <p>
+            {% for reason, count in group.reason_counts %}{{ m.label(reason) }} {{ count }}{% if not loop.last %} · {% endif %}{% endfor %}.
+            {% set oldest = group.stuck[0] %}
+            {% set d = oldest.days(now) %}
+            {% if d is not none %}Longest:
+            <a href="{{ root }}{{ package_href(oldest.package) }}">{{ oldest.package }}</a>, {{ days(d) }}.{% endif %}
+            {% if settling %}{{ settling | length }} of them still settling.{% endif %}
+          </p>
+          <p class="cairn-status-item__more"><a href="{{ root }}{{ group.migration_href }}">View the stuck uploads</a></p>
+          {% else %}
+          <p class="cairn-status-item__head is-ok"><i class="p-icon--success"></i> Nothing stuck in proposed</p>
+          {% endif %}
+        </div>
+
+        <div class="cairn-status-item">
+          {% if group.has_holding %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong>Holding back {{ group.holding_count }} other upload{{ '' if group.holding_count == 1 else 's' }}</strong></p>
+          <p>
+            {% if group.blocking %}Tests regressing on other uploads:
+            {% for name in group.blocking_tests %}<a href="{{ root }}{{ package_href(name) }}">{{ name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}.{% endif %}
+            {% if group.waiting %}{{ group.waiting_count }} upload{{ '' if group.waiting_count == 1 else 's' }} waiting for one of theirs.{% endif %}
+          </p>
+          <p class="cairn-status-item__more"><a href="{{ root }}{{ group.holding_href }}">View what they hold back</a></p>
+          {% else %}
+          <p class="cairn-status-item__head is-ok"><i class="p-icon--success"></i> Not holding anything back</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <aside class="col-4 col-medium-2 cairn-side">
+      <h2 class="p-heading--5">About</h2>
+      <p>{{ AXIS_NOTE.get(group.kind, "") }}</p>
+      {% if group.note %}<p class="u-text--muted">{{ group.note }}</p>{% endif %}
+      {% if group.kind == "sets" and set_sizes.get(group.name) %}
+      <p class="u-no-margin--bottom">{{ set_sizes[group.name] }} packages in the set.</p>
+      {{ ui.share(group.count, set_sizes[group.name], "need a merge") }}
+      {{ ui.share(group.stuck_count, set_sizes[group.name], "are stuck in proposed") }}
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

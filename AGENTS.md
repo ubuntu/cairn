@@ -329,7 +329,11 @@ rewriting the log. Lines written before `DEVELOPMENT_KINDS` existed store ids
 that hashed in the series; they still fold onto the right signal.
 
 The board names its series from the latest successful run in `health.jsonl`,
-never from the log, which outlives every series it has seen.
+never from the log, which outlives every series it has seen. The run also
+records Launchpad's status for the series (`series_status`, such as
+"Pre-release Freeze"), shown beside its name. It replaced a "series is
+frozen" banner that inferred the freeze from britney's hints: Launchpad is
+the system of record for the series, britney only for migration.
 
 ### Vocabulary discipline
 
@@ -340,6 +344,7 @@ never from the log, which outlives every series it has seen.
   Deciding that `verification-failed` means `HIGH` is a product judgement — it
   belongs in one reviewable place.
 - **Human labels** live only in templates. Ingesters produce data, not prose.
+  Definitions of labels live in `templates/_glossary.html` (section 7).
 - Preserve the source's own wording in `payload` for display and debugging, but
   never branch on it outside its own ingester.
 
@@ -403,9 +408,96 @@ uploader has a merges page (`merges/teams/x.html`) and a stuck-in-proposed page
 every kind grew as long as britney's excuses page, which is the problem the
 board exists to fix. Rows that concern the same package on both boards link
 straight to each other's row with a chip, so splitting the pages does not
-split the information. A page is only written for an owner with work of that
-kind. Each board has its own directory (`merges/`, `migration/`) and
-none is the default: the site root only lists the boards.
+split the information. A third page, `holding/teams/x.html`, holds what the
+owner is holding back: their tests regressing other uploads, and stuck uploads
+waiting for theirs. It was a section under the stuck table until Oct 2026,
+where on busy pages nobody scrolled to it, and an owner with only blocking
+tests got a page titled "Stuck in proposed". The three pages carry tabs to
+each other with their counts, one per question (what to merge, what is
+stuck, what am I holding back), so an owner is one click from the rest of
+their work. A page is only written for an owner with work of that kind.
+Every owner also has an overview, `owners/teams/x.html`, the first tab and
+where searching for an owner lands: laid out like a package page, one line
+per kind of work with nothing open and a short block per kind with work,
+beside what the owner is.
+Each board has its own directory (`merges/`, `migration/`) and none is the
+default.
+
+**A board's front page opens on its list.** Tabs: the list (for stuck in
+proposed, two: *Stuck* and *Still settling*) and *Statistics*, with the
+headline numbers, the trend, one breakdown (how long Debian has been ahead;
+why uploads are stuck) and a five-line "who has the most" per ownership
+axis. The numbers and the breakdown's bars filter the list and switch to
+its tab. Users found the numbers less useful than the list, so they are
+not above it. Until Oct 2026 the page showed three tables of every
+owner and kept the packages on `all.html`, behind a link people did not
+find; then the summary sat above the list, two screens of it before the
+first package, and settling uploads were folded under the table, where
+people did not see them. The full owner directory is `owners/index.html`.
+`all.html` remains as a redirect. Section and panel ids on these pages
+contain `_`, because the rows' ids are package names and no Debian source
+name can contain one (`age`, an old section id, is a real package).
+
+**The site is entered by question, not by source.** User feedback (Oct 2026)
+was that people could not tell where to look: the boards answer "what does
+this source say", while people arrive asking something else. Each question
+has its own entry point, and the site root routes to them rather than
+listing boards:
+
+| Question | Page |
+| --- | --- |
+| What is the status of package X? | `packages/<name>.html`: merge, why britney holds it, what it holds back, owners, and its history from the log. One per package ever in the log, plus any package holding another back. |
+| What needs my attention? | `owners/index.html`, then the owner's tabbed pages |
+| Is my work holding others back? | The "Holding others back" tab of owner pages; "Holding back other uploads" on package pages |
+| What can I work on? | `work/index.html` ("Up for grabs") |
+| I am on a +1 maintenance shift: where do I start? | `work/plus-one.html`, a tab of Up for grabs, in the order the +1 maintenance guide gives |
+| Is it getting better? | Trend lines on the root and each board, replayed from the log |
+
+"Waiting for yours" inverts britney's `waits_for`, as "Tests holding back
+other uploads" inverts its test results: britney names what an upload waits
+for, never what waits for it, so without the inversion the person holding
+others back never finds out.
+
+**Up for grabs and the +1 queue are product judgements, made in
+`build/work.py` only**, for the same reason severity lives in
+`core/rules.py`. They need ownership and time, which a `Signal` does not
+carry, so they are build-time rules, and one module keeps the two pages from
+disagreeing. Up for grabs: stuck Debian syncs past settling (+1 maintenance
+by Ubuntu's process), Ubuntu uploads stuck past `ABANDONED_DAYS`, and
+packaging-only merges. A merge compares upstream releases three ways
+(`Row.upstream`): newer in Debian, the same (packaging only), or older in
+Debian, whose version sorts higher only through an epoch or `+really`
+(compiz, procmail, llama.cpp on 12 Oct 2026). Until then "no new upstream"
+lumped the last two together and offered the older-upstream ones as small
+jobs; they are the uploader's call, so neither queue lists them. Derived at
+build time from the versions, not stored, so the log does not change.
+Syncs of unknown age wait, like any upload, until britney dates them.
+An upload waiting on a package that is not itself stuck goes to that
+package's teams and package sets, as a failing test does; ingest collects
+ownership for awaited packages for that reason. "Not a sync" is not "an Ubuntu
+upload": a stuck upload Launchpad has no publication for has no known
+uploader at all, and is listed apart rather than attributed to an Ubuntu
+developer (`StuckRow.origin`). Holding-back counts are of uploads, each
+once, however many of the owner's packages hold it. An update-excuse bug does not take
+an upload off these pages: anyone can file one and it may sit unassigned,
+and the assignee, which would say who is on it, is not collected. The row
+links the bug for the reader to check. cairn cannot see merge proposals or
+local work either, and the page says so rather than guessing.
+
+The +1 maintenance page is for people on shift, and follows the order of
+Ubuntu's +1 maintenance guide: fixes that unblock `HIGH_IMPACT_MIN` or more
+uploads, then missing builds, then the rest of update-excuses, then
+universe merges, the stuck uploads chosen by the Up for grabs rule. What
+the guide lists that cairn does not collect (the last
+shift's report, transitions and NBS, FTBFS outside -proposed) is named on
+the page with a link, not left out silently.
+
+**Share bars use package sets only.** "N of M packages in this set" takes M
+from the snapshot, which holds every set member. Team subscriptions are
+collected only for packages cairn already tracks, so a team total would be
+an undercount presented as a denominator. A pie chart was requested and
+declined: one proportion reads better as a bar, and a bar needs no colour
+key.
 
 **Pagination.** Launchpad collections paginate. Follow `next_collection_link`
 rather than trusting the first page — reading one page of `/package-sets` and
@@ -479,6 +571,54 @@ the repository: history cannot be backfilled, so a run that does not happen is
 a permanent gap.
 
 **Frontend.** Canonical [Vanilla](https://vanillaframework.io/) for CSS,
-server-rendered Jinja templates. Avoid JavaScript; there is no build step and no
-framework. Colour must never be the sole carrier of meaning — pair it with text
-or an icon, and check contrast.
+server-rendered Jinja templates, no build step and no framework. Colour must
+never be the sole carrier of meaning — pair it with text or an icon, and
+check contrast. Charts are inline SVG drawn from coordinates Python computes.
+Their labels (dates along the bottom, the scale at the side) are HTML
+placed over the SVG, which stretches to its box and would distort text;
+a caption off-screen gives screen readers the same numbers in words.
+
+**JavaScript enhances; pages never depend on it.** Users asked to sort and
+filter (Oct 2026), which static pages cannot do for combined filters
+without pre-rendering every combination. One hand-written file,
+`build/assets/cairn.js`, no dependencies, no network requests, reads only
+what the page already holds. Without it every page is still complete:
+tables arrive in a useful order, filter forms stay `hidden`, search
+fields fall back to the browser's own datalist suggestions (with
+JavaScript, `cairn.js` draws them in Vanilla's style instead), and jump forms
+submit to an index page. No inline scripts. This is also why "filters
+chosen by the reader" in section 3 has not yet triggered FastAPI: the
+filtering happens on data already in the page. Versions are never sortable
+in the browser, which could only compare them as text (section 3).
+
+Stat links carry their filter in the query string (`?upstream=new#the_list`),
+so the filter's field names and option values are a URL contract: a test
+checks that every link names an option the filter offers. With JavaScript
+such a link filters in place; without, it reloads the page.
+
+**Navigation has four entries** (Oct 2026, after users found the bar
+overloaded for a site with two boards): *Browse* (Packages, Teams and
+people) and *Up for grabs* (Anyone can pick up, +1 maintenance shift) are
+Vanilla navigation menus, then the two boards. The menus open on hover and
+keyboard focus in CSS, so they need no script; `cairn.js` adds
+click-to-open. On a small screen the open menu lists every sub-page under
+its heading.
+
+**Labels are explained once, in `templates/_glossary.html`.** A chip, tag
+or headline number that needs explaining carries
+`aria-describedby="term_<key>"`, and each page that uses a term lists it in
+its "What the labels mean" glossary, where the definition is rendered.
+`cairn.js` shows the same text as a tooltip on hover and focus. The
+definition is on the page with or without JavaScript, and a test checks
+that every `aria-describedby` on every page resolves. A page short enough
+not to want the visible list (a package page) uses `definitions()`
+instead: the same text, hidden, still read by tooltips and screen
+readers. Do not use `title`
+attributes for this: keyboard and touch users never see them.
+
+A link needs no arrow: it already looks like a link. Link chips keep theirs,
+because a chip does not.
+
+Shared CSS lives in `build/assets/cairn.css`, not in a `<style>` block:
+with a page per package, the block repeated in every page made up most of
+the site's size.

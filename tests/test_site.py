@@ -39,9 +39,11 @@ def signal(
     kind=Kind.NEEDS_MERGE,
     in_proposed=False,
 ):
+    # The board reads new upstream from the versions themselves, so the
+    # versions must say what the flag says.
     payload = {
         "ubuntu_version": "1.0-1ubuntu1",
-        "debian_version": "1.0-2",
+        "debian_version": "1.1-1" if new_upstream else "1.0-2",
         "base_version": "1.0-1",
         "component": component,
         "new_upstream": new_upstream,
@@ -258,22 +260,45 @@ class TestGrouping:
 
 
 class TestRender:
-    def test_index_summarises_groups_rather_than_listing_packages(self):
-        """774 packages inline is unreadable; the index links to group pages."""
+    def test_the_board_opens_on_its_list_statistics_one_tab_away(self):
+        """User feedback (Oct 2026): the front page showed tables of owners
+        and hid the packages behind a link nobody found; later the summary
+        sat two screens above the list. The packages are the work: the list
+        comes first, numbers and owners are a tab beside it."""
         meta = owned(("cron", {"uploader": "alice"}), ("qemu", {"uploader": "alice"}))
         state = state_of(
             opened(signal("cron")),
             opened(signal("qemu")),
         )
         html = render(state, healthy(), meta, now=NOW)
-        assert "uploaders/alice.html" in html
-        assert "cron" not in html
+        assert 'id="cron"' in html and 'id="qemu"' in html
+        tabs = html.split('class="p-tabs"')[1].split("</nav>")[0]
+        assert tabs.index("all_candidates") < tabs.index("board_stats")
+        stats = html.split('id="board_stats"')[1]
+        assert stats.index('class="cairn-stat') < stats.index('id="top_owners"')
+        assert "uploaders/alice.html" in stats.split('id="top_owners"')[1]
 
-    def test_ships_no_javascript(self):
-        """AGENTS.md: server-rendered, no JS, no build step."""
+    def test_javascript_is_external_and_deferred(self):
+        """AGENTS.md: server-rendered, no build step. JavaScript only
+        enhances, from one shared file; nothing runs inline."""
         meta = just()
         html = render(state_of(opened(signal("cron"))), healthy(), meta, now=NOW)
-        assert "<script" not in html.lower()
+        assert re.search(
+            r'<script src="\.\./assets/cairn\.js\?v=\w+" defer></script>', html
+        )
+        assert html.lower().count("<script") == 1
+
+    def test_assets_are_versioned_by_their_content(self):
+        """A browser keeps the stylesheet it fetched first; a new URL per
+        change makes it fetch the new one."""
+        import hashlib
+
+        from cairn.build.site import ASSETS
+
+        html = render(state_of(opened(signal("cron"))), healthy(), just(), now=NOW)
+        for name in ("cairn.css", "cairn.js"):
+            digest = hashlib.sha256((ASSETS / name).read_bytes()).hexdigest()[:10]
+            assert f"../assets/{name}?v={digest}" in html
 
     def test_uses_the_pinned_vanilla_release(self):
         meta = just()
@@ -357,38 +382,31 @@ class TestRender:
         assert "<table" not in render({}, healthy(), Snapshot(), now=NOW)
 
 
-class TestIndexLayout:
+class TestBoardLayout:
     def everything(self):
         meta = just(
             "cron", uploader="doko", package_sets=("core",), teams=("foundations",)
         )
         return render(state_of(opened(signal("cron"))), healthy(), meta, now=NOW)
 
-    def test_sections_run_team_then_package_set_then_uploader(self):
+    def test_one_short_ranking_per_ownership_axis(self):
+        """Team and package set stay apart (AGENTS.md section 5)."""
+        top = self.everything().split('id="top_owners"')[1].split('id="the_list"')[0]
+        for heading in ("Subscribed teams", "Package sets", "Uploaders"):
+            assert heading in top
+        assert "merges/teams/foundations.html" in top
+        assert "merges/sets/core.html" in top
+        assert "owners/index.html#teams" not in top  # only when there are more
+
+    def test_no_owner_tables_and_no_contents_bar(self):
         html = self.everything()
-        positions = [
-            html.index(f'id="{anchor}"')
-            for anchor in ("by-team", "by-package-set", "by-uploader")
-        ]
-        assert positions == sorted(positions)
+        assert 'id="by-team"' not in html
+        assert '<nav aria-label="Contents">' not in html
 
-    def test_contents_link_to_every_section_in_page_order(self):
-        html = self.everything()
-        nav = html.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
-        anchors = re.findall(r'href="#([\w-]+)"', nav)
-        assert anchors == ["by-team", "by-package-set", "by-uploader"]
-        for anchor in anchors:
-            assert f'id="{anchor}"' in html
-
-    def test_contents_omit_sections_that_do_not_render(self):
-        """No team means no team table, so a link to it would go nowhere."""
-        html = render(state_of(opened(signal("cron"))), healthy(), just(), now=NOW)
-        nav = html.split('<nav aria-label="Contents">')[1].split("</nav>")[0]
-        assert "#by-team" not in nav
-        assert "#by-uploader" in nav
-
-    def test_an_empty_board_has_no_contents(self):
-        assert "Contents" not in render({}, healthy(), Snapshot(), now=NOW)
+    def test_an_empty_board_has_no_list(self):
+        html = render({}, healthy(), Snapshot(), now=NOW)
+        assert 'id="the_list"' not in html
+        assert "Nothing needs merging" in html
 
 
 class TestSeriesHeading:
@@ -431,7 +449,9 @@ class TestProposedFlag:
         assert ">proposed<" in cell
 
     def test_a_release_version_carries_no_mark(self, tmp_path):
-        assert ">proposed<" not in self.page(tmp_path)
+        # The table only: the glossary defines "proposed" on every page.
+        table = self.page(tmp_path).split("<tbody>")[1].split("</tbody>")[0]
+        assert ">proposed<" not in table
 
     def test_adds_no_column(self, tmp_path):
         with_flag = self.page(tmp_path / "a", in_proposed=True)
@@ -489,7 +509,7 @@ class TestBuild:
         assert 'href="https://launchpad.net/ubuntu/+source/cron/1.0-1ubuntu1"' in page
         assert (
             '<a href="https://tracker.debian.org/pkg/cron" target="_blank"'
-            ' rel="noopener noreferrer"><code>1.0-2</code></a>'
+            ' rel="noopener noreferrer"><code>1.1-1</code></a>'
         ) in page
 
     def test_version_links_quote_the_epoch_only(self):
@@ -550,7 +570,7 @@ class TestCrossReferences:
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
         assert (
-            "<th>Uploader</th>"
+            ">Uploader</th>"
             not in (tmp_path / "merges/uploaders/doko.html").read_text()
         )
         assert (
@@ -564,7 +584,7 @@ class TestCrossReferences:
         state = state_of(opened(signal("cron")))
         build(state, healthy(), meta, out=tmp_path, now=NOW)
         page = (tmp_path / "merges/teams/ubuntu-server.html").read_text()
-        assert "<th>Uploader</th>" in page and "Package set" in page
+        assert ">Uploader</th>" in page and "Package set" in page
         assert "../../merges/uploaders/doko.html" in page
 
     def test_a_package_set_page_names_the_uploader(self, tmp_path):

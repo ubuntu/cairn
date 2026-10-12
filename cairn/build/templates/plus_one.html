@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_merges.html" as t with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | +1 maintenance{% endblock %}
+
+{% set PLUS_ONE_GUIDE = "https://documentation.ubuntu.com/project/contributors/advanced/plus-one-maintenance/" %}
+
+{# A +1 shift's queue, in the order Ubuntu's +1 maintenance guide gives.
+   The rules deciding what goes in each section live in build/work.py. #}
+{% block content %}
+{% set q = plus_one %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p class="p-text--small-caps u-text--muted">
+        <a href="{{ root }}work/index.html">Up for grabs</a> / +1 Maintenance
+      </p>
+      <h1 class="p-heading--2">+1 Maintenance</h1>
+      {{ ui.series_line() }}
+      {# Short, so it is read: why the tabs are in this order, what a shift
+         also covers that Cairn does not, and how to claim work. #}
+      <p>
+        Work on {{ series }} as a whole, in the order
+        {{ m.ext(PLUS_ONE_GUIDE, "the +1 maintenance guide", icon=True) }}
+        gives for finding it: one tab per step, most impact first.
+        Start with the
+        {{ m.ext("https://discourse.ubuntu.com/c/project/pre-release-discussion/plusone-maintenance/415", "previous shift's report", icon=True) }};
+        {{ m.ext("https://transitions.ubuntu.com/", "transitions", icon=True) }} and
+        {{ m.ext("https://static-reports.ubuntu.com/nbs/nbs.html", "NBS", icon=True) }}
+        are part of a shift too, but Cairn does not track them yet.
+      </p>
+      <p>
+        Before you start on a package, assign its bug to yourself, or file
+        one tagged <code>update-excuse</code>: a bug is only taken if it is
+        assigned.
+      </p>
+    </div>
+  </div>
+  {% include "_stale.html" %}
+</section>
+
+{# The guide's order, one tab per step, one filter above the panels. Each
+   panel's first word (First, Next, Then, Last) says where it stands.
+   Without JavaScript the tabs are links to sections shown in turn. #}
+<section class="p-strip is-shallow u-no-padding--top cairn-tabbed" data-tabs>
+  <div class="row">
+    <div class="col-12">
+      <nav class="p-tabs" aria-label="Steps of a shift">
+        <ul class="p-tabs__list">
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#high-impact" data-tab="high-impact">Unblock several uploads</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#missing-builds" data-tab="missing-builds">Missing builds</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck" data-tab="stuck">Other stuck uploads</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#merges" data-tab="merges">Universe merges</a></li>
+        </ul>
+      </nav>
+      {{ ui.filters("work") }}
+      {{ g.glossary(((g.STUCK_TERMS + g.MERGE_TERMS) | unique | list) + ["unblocks"]) }}
+
+      <div class="cairn-tab-panel" id="high-impact" data-filter-group>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Unblock several uploads</h2>
+        <p class="u-text--muted">
+          First, because one fix here lets {{ high_impact_min }} or more
+          other uploads migrate: the package's tests regress on them, or
+          they wait for its upload.
+        </p>
+        {% if q.high_impact %}
+        <table class="p-table--mobile-card cairn-sortable">
+          <caption class="u-hide">Packages whose fix would let several other uploads migrate</caption>
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th class="u-align--right">Unblocks</th>
+              <th data-nosort>What it holds back</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in q.high_impact %}
+            <tr data-filter data-f-q="{{ item.package }} {% for r in item.regressed %}{{ r.package }} {% endfor %}{% for r in item.waited_by %}{{ r.package }} {% endfor %}" data-f-component="{{ item.upload.component if item.upload else '' }}">
+              <td data-heading="Package" data-sort="{{ item.package }}">
+                <a href="{{ root }}{{ package_href(item.package) }}">{{ item.package }}</a>
+                {% if item.upload and item.upload.bugs %}
+                {% for bug in item.upload.bugs %}<div><a class="p-text--small cairn-external" href="https://bugs.launchpad.net/bugs/{{ bug }}" target="_blank" rel="noopener noreferrer"{{ g.tip("excuse_bug") }}>LP: #{{ bug }}<i class="p-icon--external-link"></i></a></div>{% endfor %}
+                {% endif %}
+              </td>
+              <td data-heading="Unblocks" class="u-align--right" data-sort="{{ item.unblocks }}">{{ item.unblocks }} upload{{ '' if item.unblocks == 1 else 's' }}</td>
+              <td data-heading="What it holds back">
+                {% if item.regressed %}
+                <div>Its tests regress on
+                  {% for r in item.regressed %}<a href="{{ root }}{{ r.page }}#{{ r.anchor }}">{{ r.package }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                </div>
+                {% endif %}
+                {% if item.waited_by %}
+                <div>Its upload is awaited by
+                  {% for r in item.waited_by %}<a href="{{ root }}{{ r.page }}#{{ r.anchor }}">{{ r.package }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+                </div>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No single fix unblocks {{ high_impact_min }} or more uploads right now.</p>
+        {% endif %}
+        <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
+      </div>
+
+      <div class="cairn-tab-panel" id="missing-builds" data-filter-group>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Missing builds</h2>
+        <p class="u-text--muted">
+          Next: build failures are usually isolated, so they can be fixed
+          without getting in anyone's way. Debian syncs past the first
+          {{ settling_days }} days, and other uploads stuck over
+          {{ abandoned_days }} days.
+          {{ m.ext(m.guide("missing_build"), "Fixing a failure to build from source", icon=True) }}.
+        </p>
+        {% if q.missing_builds %}
+        {{ m.stuck_table(q.missing_builds, None, "Uploads held by a missing build", ids=False) }}
+        {% else %}<p>None right now.</p>{% endif %}
+        <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
+      </div>
+
+      <div class="cairn-tab-panel" id="stuck" data-filter-group>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Other stuck uploads</h2>
+        <p class="u-text--muted">
+          Then the rest of update-excuses, chosen by the same rule: test
+          regressions, uninstallable binaries and the like.
+        </p>
+        {% if q.stuck %}
+        {{ m.stuck_table(q.stuck, None, "Other stuck uploads", ids=False) }}
+        {% else %}<p>None right now.</p>{% endif %}
+        <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
+      </div>
+
+      <div class="cairn-tab-panel" id="merges" data-filter-group>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Universe merges</h2>
+        <p class="u-text--muted">
+          Last, because each belongs to whoever last uploaded the package. A
+          shift may help when they are not around, most of all before
+          Feature Freeze: ask them first.
+        </p>
+        {% if q.merges %}
+        {{ t.merge_table(q.merges, None, "Universe merge candidates", ids=False) }}
+        {% else %}<p>None right now.</p>{% endif %}
+        <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

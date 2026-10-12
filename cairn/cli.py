@@ -27,7 +27,7 @@ from cairn.ingest import metadata, migration, registry
 from cairn.ingest.base import Fetcher
 from cairn.ingest.http import Cache, FileCache, HttpFetcher, ReadOnlyCache
 from cairn.ingest.metadata import IncompleteRefresh
-from cairn.ingest.series import development_series
+from cairn.ingest.series import development_series_and_status
 
 EXIT_OK = 0
 EXIT_TOTAL_FAILURE = 1
@@ -125,7 +125,10 @@ def cmd_ingest(
     now = datetime.now(UTC)
 
     try:
-        series = args.series or development_series(fetcher)
+        if args.series:
+            series, series_status = args.series, None
+        else:
+            series, series_status = development_series_and_status(fetcher)
     except Exception as exc:  # noqa: BLE001 - no series means nothing to ingest
         print(f"cairn: cannot resolve the development series: {exc}", file=sys.stderr)
         print("cairn: pass --series to override", file=sys.stderr)
@@ -149,6 +152,7 @@ def cmd_ingest(
             None if args.allow_mass_resolve else DEFAULT_MAX_RESOLVE_FRACTION
         ),
         series=series,
+        series_status=series_status,
     )
 
     _record(report, args)
@@ -230,6 +234,11 @@ def cmd_build(
             # The series the last good ingest observed, so the page follows
             # the development series across a release without a redeploy.
             series=args.series or health.latest_series(health.read(args.health)),
+            series_status=(
+                None
+                if args.series
+                else health.latest_series_status(health.read(args.health))
+            ),
             history=site.History.of(events),
         )
     except NotASiteDirectory as exc:

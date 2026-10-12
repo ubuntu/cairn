@@ -1,0 +1,24 @@
+{# The out-of-date banner. A board warns about its own sources only; any
+   page that is not one board's (the root, packages, owners, up for grabs)
+   draws on every board, so it warns about every stale source. This is
+   about Cairn's pipeline, never about the packages: "out of date" and
+   "stale" must not share a word (AGENTS.md section 5). #}
+{% set stale = stale_for.get(section) if section in stale_for else stale_for.get(None, []) %}
+{% if stale %}
+<div class="row">
+  <div class="col-12">
+    <div class="p-notification--caution">
+      <div class="p-notification__content">
+        <h5 class="p-notification__title">Data may be out of date</h5>
+        <p class="p-notification__message">
+          Cairn last collected
+          {% for h in stale %}
+          <strong>{{ h.source }}</strong> {{ h.last_success | iso_time or "never" }}{% if not loop.last %}, {% endif %}
+          {% endfor %}.
+          This is about Cairn's own pipeline, not about the packages.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

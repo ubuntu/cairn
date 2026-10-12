@@ -176,6 +176,20 @@ class TestFirstRun:
         series = {e.series for e in logmod.read(logs[0])}
         assert series == {"stonking"}
 
+    def test_records_launchpads_status_for_the_series(self, logs):
+        """Shown beside the series name; Launchpad is its system of record."""
+        ingest(logs, "--source", "merges")
+        [run] = list(health.read(logs[1]))
+        assert run["series"] == "stonking"
+        assert run["series_status"] == "Active Development"
+        assert health.latest_series_status([run]) == "Active Development"
+
+    def test_an_explicit_series_records_no_status(self, logs):
+        ingest(logs, "--source", "merges", "--series", "noble")
+        [run] = list(health.read(logs[1]))
+        assert "series_status" not in run
+        assert health.latest_series_status([run]) is None
+
     def test_explicit_series_skips_series_detection(self, logs):
         """Enrichment still calls Launchpad; only the lookup should be skipped."""
         fetcher = StubFetcher()

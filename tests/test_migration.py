@@ -218,6 +218,16 @@ class TestReferencedPackages:
     def test_names_the_packages_whose_tests_regressed(self, found):
         assert referenced_packages(found["libssh2"]) == {"curl"}
 
+    def test_names_the_packages_an_upload_waits_for(self):
+        """Their owners hold the waiting upload back, even when the awaited
+        package is not stuck itself (britney's blocked-by)."""
+        sig = Signal(
+            kind=Kind.MIGRATION_BLOCKED,
+            source_package="app",
+            payload={"waits_for": ["lib", "app"]},
+        )
+        assert referenced_packages(sig) == {"lib"}
+
     def test_other_kinds_name_nothing(self):
         assert (
             referenced_packages(Signal(kind=Kind.NEEDS_MERGE, source_package="x"))
