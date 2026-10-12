@@ -45,6 +45,9 @@ class RunReport:
     # Which series this run observed. The board names the series from here,
     # not from the log, which still holds signals from every series it has seen.
     series: str | None = None
+    # Launchpad's status for that series ("Active Development", "Pre-release
+    # Freeze"). None when the series was given on the command line.
+    series_status: str | None = None
 
     @property
     def succeeded(self) -> tuple[Outcome, ...]:
@@ -73,6 +76,8 @@ class RunReport:
         }
         if self.series is not None:
             record["series"] = self.series
+        if self.series_status is not None:
+            record["series_status"] = self.series_status
         return record
 
 
@@ -83,6 +88,7 @@ def run(
     now: datetime,
     max_resolve_fraction: float | None = DEFAULT_MAX_RESOLVE_FRACTION,
     series: str | None = None,
+    series_status: str | None = None,
 ) -> RunReport:
     """Pass max_resolve_fraction=None to accept a legitimate mass resolution.
 
@@ -129,5 +135,9 @@ def run(
         )
 
     return RunReport(
-        started_at=now, outcomes=tuple(outcomes), events=tuple(events), series=series
+        started_at=now,
+        outcomes=tuple(outcomes),
+        events=tuple(events),
+        series=series,
+        series_status=series_status,
     )

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_merges.html" as t with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | Up for grabs{% endblock %}
+
+{% block content %}
+{# Each kind of work is a tab, with one filter for all of them above the
+   panels. The three main kinds always have a tab, so the page always
+   shows what it covers: one with nothing in it is greyed out with "(0)",
+   not a link, and has no panel. Tabs with work carry no count. Without
+   JavaScript the tabs are links to sections that all show in turn. #}
+{% set tabs = [
+  ("syncs", "Debian syncs", grabs.syncs, "stuck"),
+  ("abandoned", "Ubuntu uploads stuck " ~ abandoned_days ~ "+ days", grabs.abandoned, "stuck"),
+  ("merges", "Packaging-only merges", grabs.merges, "merge"),
+] %}
+{# Rare, and "How this list is made" says it appears only when there are
+   any, so it gets no greyed-out tab when empty. #}
+{% if grabs.unknown %}{% set _ = tabs.append(("unknown", "Uploader not known", grabs.unknown, "stuck")) %}{% endif %}
+
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="p-heading--2">Up for grabs</h1>
+      {{ ui.series_line() }}
+      <p>
+        Work that has waited. A row naming an uploader is theirs:
+        <strong>ask them before you start</strong>. On a +1 shift? Use
+        <a href="{{ root }}work/plus-one.html">the +1 maintenance queue</a>.
+      </p>
+      <details class="cairn-terms" id="how_listed">
+        <summary>How this list is made</summary>
+        {# The rules live in build/work.py; this says them in words, with
+           the thresholds read from the same constants. #}
+        <p>This page includes:</p>
+        <ul>
+          <li><strong>Debian syncs</strong> stuck more than {{ settling_days }}
+            days. Nobody's: Ubuntu's process gives them to +1 maintenance.
+            Before you start, file a bug assigned to you, unless one is.
+            Many are a missing build:
+            {{ m.ext(m.guide("missing_build"), "fixing a failure to build from source", icon=True) }}.</li>
+          <li><strong>Ubuntu uploads</strong> stuck {{ abandoned_days }} days
+            or more. Before you start, ask the uploader on the row.</li>
+          <li><strong>Packaging-only merges</strong>: the same upstream
+            release on both sides, with newer packaging in Debian. They
+            belong to the person who last uploaded the package; others may
+            help if they are away. Before you start, ask them and look for
+            an open merge proposal.</li>
+          <li><strong>Uploads with no known uploader</strong> (when there
+            are any), stuck {{ abandoned_days }} days or more with no
+            Launchpad record.
+            Before you start, check the package on Launchpad.</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+  {% include "_stale.html" %}
+</section>
+
+{% if grabs.total %}
+<section class="p-strip is-shallow u-no-padding--top cairn-tabbed" data-tabs>
+  <div class="row">
+    <div class="col-12">
+      <nav class="p-tabs" aria-label="Kinds of work">
+        <ul class="p-tabs__list">
+          {% for id, label, items, kind in tabs %}
+          <li class="p-tabs__item">
+            {% if items %}
+            <a class="p-tabs__link" href="#{{ id }}" data-tab="{{ id }}">{{ label }}</a>
+            {% else %}
+            <span class="p-tabs__link cairn-tab--empty" aria-disabled="true">{{ label }} (0)</span>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+      {{ ui.filters("work") }}
+      {{ g.glossary((g.STUCK_TERMS + g.MERGE_TERMS) | unique | list) }}
+      {% for id, label, items, kind in tabs if items %}
+      <div class="cairn-tab-panel" id="{{ id }}" data-filter-group>
+        <h2 class="p-heading--4 cairn-tab-panel__title">{{ label }}</h2>
+        {% if kind == "merge" %}
+        {{ t.merge_table(items, None, label, ids=False) }}
+        {% else %}
+        {{ m.stuck_table(items, None, label, ids=False) }}
+        {% endif %}
+        <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <p>Nothing is up for grabs right now.</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

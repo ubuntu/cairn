@@ -269,15 +269,20 @@ def referenced_packages(signal: Signal) -> set[str]:
     """Packages a migration signal names besides its own.
 
     Their owners are the people who can fix a regression in their own tests,
-    so ownership has to be collected for them too.
+    or get an awaited upload moving, so ownership has to be collected for
+    them too. An awaited package need not be stuck itself (britney's
+    blocked-by can name one that is not), and without its ownership the
+    upload waiting on it reaches nobody's page.
     """
     if signal.kind is not Kind.MIGRATION_BLOCKED:
         return set()
-    return {
+    tests = {
         r["test"]
         for r in payload_tests(signal.payload)
         if r.get("test") and FAILED & set((r.get("results") or {}).values())
     }
+    awaited = set(signal.payload.get("waits_for") or ())
+    return (tests | awaited) - {signal.source_package}
 
 
 def series_tested(entries: Iterable[Mapping[str, Any]]) -> set[str]:

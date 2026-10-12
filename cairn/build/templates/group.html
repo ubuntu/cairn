@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-{% import "_migration.html" as m with context %}
+{% import "_merges.html" as t with context %}
+{% import "_ui.html" as ui with context %}
+{% import "_glossary.html" as g with context %}
 {% block title %}Cairn | {% if group.is_everything %}All merge candidates{% else %}Merges for {{ group.title }}{% endif %}{% endblock %}
 
 {% block content %}
@@ -16,6 +18,8 @@
       <ul class="p-inline-list--middot">
         <li class="p-inline-list__item">{{ group.count }} merge candidate{{ '' if group.count == 1 else 's' }}, {{ group.new_upstream }} with a new upstream release</li>
       </ul>
+      {% if group.kind == "sets" %}{{ ui.share(group.count, set_sizes.get(group.name, 0), "packages in this set need a merge") }}{% endif %}
+      {{ ui.owner_tabs(group, "merges") }}
     </div>
   </div>
 </section>
@@ -24,102 +28,9 @@
 <section class="p-strip is-shallow u-no-padding--top" id="merges">
   <div class="row">
     <div class="col-12">
-      <table class="p-table--mobile-card">
-        <caption class="u-hide">
-          Merge candidates for {{ group.title }}. Package, version and tracker
-          links open in a new tab.
-        </caption>
-        <thead>
-          <tr>
-            <th class="cairn-package">Package</th>
-            <th class="cairn-version--ubuntu">Ubuntu</th>
-            <th class="cairn-version--debian">Debian</th>
-            <th class="cairn-component">Component</th>
-            <th class="u-align--right">Debian uploaded</th>
-            {# Ownership trails the versions: it is context, not the work.
-               This page's own axis is omitted, being one repeated value. #}
-            {% if group.kind != 'uploaders' %}<th>Uploader</th>{% endif %}
-            {% if group.kind != 'teams' %}<th>Subscribed team</th>{% endif %}
-            {% if group.kind != 'sets' %}<th>Package set</th>{% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in group.rows %}
-          <tr id="{{ row.anchor }}">
-            <td data-heading="Package" class="cairn-package">
-              {% if row.url %}<a
-                href="{{ row.url }}"
-                target="_blank"
-                rel="noopener noreferrer"
-                >{{ row.package }}</a
-              >
-              {% else %}{{ row.package }}{% endif %}
-              {% if row.new_upstream %}
-              <span class="p-chip--information is-readonly is-inline is-dense">
-                <span class="p-chip__value">new upstream</span>
-              </span>
-              {% endif %}
-              {% if row.returning %}
-              <span class="p-chip--caution is-readonly is-inline is-dense">
-                <span class="p-chip__lead">seen</span>
-                <span class="p-chip__value">{{ row.occurrences }} times</span>
-              </span>
-              {% endif %}
-              <div>
-                <a
-                  class="p-text--small u-text--muted cairn-external"
-                  href="{{ row.debian_url }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Debian tracker<i class="p-icon--external-link"></i
-                ></a>
-              </div>
-            </td>
-            <td data-heading="Ubuntu" class="cairn-version--ubuntu">
-              <a href="{{ row.ubuntu_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.ubuntu_version }}</code></a>
-              {% if row.in_proposed %}{{ m.proposed_chip(row, group) }}{% endif %}
-            </td>
-            <td data-heading="Debian" class="cairn-version--debian">
-              <a href="{{ row.debian_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.debian_version }}</code></a>
-            </td>
-            <td data-heading="Component" class="cairn-component">
-              {% if row.component %}{{ row.component }}
-              {% else %}<span class="u-text--muted">unknown</span>{% endif %}
-            </td>
-            <td data-heading="Debian uploaded" class="u-align--right">
-              {{ row.debian_uploaded | iso_date or "unknown" }}
-            </td>
-            {% if group.kind != 'uploaders' %}
-            <td data-heading="Uploader">
-              {% if row.uploader %}
-              <a href="{{ root }}merges/uploaders/{{ row.uploader | slug }}.html">{{ row.uploader }}</a>
-              {% else %}
-              <span class="u-text--muted">unknown</span>
-              {% endif %}
-            </td>
-            {% endif %}
-            {% if group.kind != 'teams' %}
-            <td data-heading="Subscribed team">
-              {% for name in row.teams %}
-              <a href="{{ root }}merges/teams/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
-              {% else %}
-              <span class="u-text--muted">none</span>
-              {% endfor %}
-            </td>
-            {% endif %}
-            {% if group.kind != 'sets' %}
-            <td data-heading="Package set">
-              {% for name in row.package_sets %}
-              <a href="{{ root }}merges/sets/{{ name | slug }}.html">{{ name }}</a>{% if not loop.last %}, {% endif %}
-              {% else %}
-              <span class="u-text--muted">none</span>
-              {% endfor %}
-            </td>
-            {% endif %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      {{ g.glossary(g.MERGE_TERMS) }}
+      {{ ui.filters("merges", buckets=overview.buckets) }}
+      {{ t.merge_table(group.rows, group, "Merge candidates for " ~ group.title) }}
     </div>
   </div>
 </section>

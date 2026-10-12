@@ -97,6 +97,17 @@ def load(path: Path) -> dict[str, SourceHealth]:
     return replay(read(path))
 
 
+def latest_series_status(runs: Iterable[dict[str, Any]]) -> str | None:
+    """Launchpad's status for the series the latest successful run observed,
+    such as "Pre-release Freeze". None when that run did not record one."""
+    found = None
+    for record in runs:
+        ok = any(o.get("ok") for o in record.get("outcomes", []))
+        if record.get("series") and ok:
+            found = record.get("series_status")
+    return found
+
+
 def latest_series(runs: Iterable[dict[str, Any]]) -> str | None:
     """The series the most recent successful run observed.
 
