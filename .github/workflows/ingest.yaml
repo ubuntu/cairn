@@ -112,7 +112,14 @@ jobs:
           # The pair must match or the commit shows up unattributed.
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
-          git commit -m "data: ingest $(date -u +%F)"
+          # Two runs a day share a date, so the subject carries the time,
+          # in the site's one format for a moment (YYYY-MM-DD HH:MM UTC).
+          # The run's own start, from the record it just wrote, not the
+          # clock now: that is the timestamp on every event this run
+          # appended, and the commit lands ~14 minutes after it.
+          started=$(tail -n 1 data/health.jsonl | jq -r '.started_at // empty' 2>/dev/null || true)
+          stamp=$(date -u -d "${started:-now}" '+%F %H:%M UTC' 2>/dev/null || date -u '+%F %H:%M UTC')
+          git commit -m "data: ingest $stamp"
           # A manual dispatch can land while the schedule is running.
           git pull --rebase --autostash origin "$LOG_BRANCH"
           git push origin "HEAD:$LOG_BRANCH"
