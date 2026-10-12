@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-11T21:23:45.907654+00:00",
+ "collected_at": "2026-10-12T16:56:32.439170+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -724,22 +724,6 @@
    "published": "2026-05-15T10:28:11.694902+00:00",
    "teams": [],
    "uploader": "bdale"
-  },
-  "alumet": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-08-16T17:10:25.447663+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.9.5+ds-4"
-    }
-   ],
-   "published": "2026-08-16T17:10:25.447663+00:00",
-   "teams": [],
-   "uploader": "dr"
   },
   "amanda": {
    "debian_uploaded": "2026-09-29T20:23:37+00:00",
@@ -1887,22 +1871,6 @@
    "teams": [],
    "uploader": null
   },
-  "austin": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-15T11:20:56.142568+00:00",
-     "signer": null,
-     "uploader": "team+python",
-     "version": "3.7.0-9"
-    }
-   ],
-   "published": "2026-05-15T11:20:56.142568+00:00",
-   "teams": [],
-   "uploader": "team+python"
-  },
   "authbind": {
    "debian_uploaded": null,
    "package_sets": [
@@ -1912,6 +1880,29 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "authd": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-10-12T09:32:19.084541+00:00",
+     "signer": "aleasto",
+     "uploader": "adombeck",
+     "version": "0.7.1"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-09-25T20:29:22.574120+00:00",
+     "signer": "aleasto",
+     "uploader": "adombeck",
+     "version": "0.7.0"
+    }
+   ],
+   "published": "2026-10-12T09:32:19.084541+00:00",
+   "teams": [],
+   "uploader": "adombeck"
   },
   "autoconf": {
    "debian_uploaded": null,
@@ -3030,10 +3021,10 @@
    "publications": [
     {
      "pocket": "Proposed",
-     "published": "2026-10-10T07:29:46.643683+00:00",
+     "published": "2026-10-12T13:28:18.516715+00:00",
      "signer": "seb128",
      "uploader": "seb128",
-     "version": "3.9+ds-4ubuntu1"
+     "version": "3.9+ds-4ubuntu2"
     },
     {
      "pocket": "Release",
@@ -3043,7 +3034,7 @@
      "version": "3.9+ds-2"
     }
    ],
-   "published": "2026-10-10T07:29:46.643683+00:00",
+   "published": "2026-10-12T13:28:18.516715+00:00",
    "teams": [],
    "uploader": "seb128"
   },
@@ -4815,27 +4806,10 @@
    "package_sets": [
     "ubuntu-server"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-07T06:22:02.984142+00:00",
-     "signer": "rr",
-     "uploader": "mruffell",
-     "version": "20.2.4+ds1-0ubuntu1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-04T07:10:24.346255+00:00",
-     "signer": "rr",
-     "uploader": "lmlogiudice",
-     "version": "20.2.4+ds-0ubuntu1"
-    }
-   ],
-   "published": "2026-10-07T06:22:02.984142+00:00",
-   "teams": [
-    "ubuntu-openstack"
-   ],
-   "uploader": "mruffell"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "cervisia": {
    "debian_uploaded": "2026-05-03T10:48:58+00:00",
@@ -4946,22 +4920,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "cherrypy-foundation": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-25T23:36:29.529757+00:00",
-     "signer": null,
-     "uploader": "ikus-soft",
-     "version": "1.3.0+dfsg-1"
-    }
-   ],
-   "published": "2026-05-25T23:36:29.529757+00:00",
-   "teams": [],
-   "uploader": "ikus-soft"
   },
   "chezmoi": {
    "debian_uploaded": null,
@@ -6188,22 +6146,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "cross-toolchain-base-mipsen": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-15T13:57:51.641303+00:00",
-     "signer": null,
-     "uploader": "cross-toolchain-base-devs",
-     "version": "34"
-    }
-   ],
-   "published": "2026-05-15T13:57:51.641303+00:00",
-   "teams": [],
-   "uploader": "cross-toolchain-base-devs"
   },
   "cross-toolchain-base-ports": {
    "debian_uploaded": "2026-08-20T03:35:38+00:00",
@@ -8710,7 +8652,7 @@
    "uploader": "peb"
   },
   "dolphin": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-11T15:19:03+00:00",
    "package_sets": [
     "kubuntu"
    ],
@@ -8730,7 +8672,7 @@
    "uploader": "rikmills"
   },
   "dolphin-plugins": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-11T15:35:24+00:00",
    "package_sets": [
     "kubuntu"
    ],
@@ -11230,29 +11172,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "fis-gtm": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-10T20:07:48.113565+00:00",
-     "signer": "seb128",
-     "uploader": "steelf",
-     "version": "7.2-000-2ubuntu1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-04-24T08:45:29.056843+00:00",
-     "signer": null,
-     "uploader": "debian-med",
-     "version": "7.0-005-2.1"
-    }
-   ],
-   "published": "2026-10-10T20:07:48.113565+00:00",
-   "teams": [],
-   "uploader": "steelf"
   },
   "five-or-more": {
    "debian_uploaded": null,
@@ -14707,22 +14626,6 @@
    "teams": [],
    "uploader": "tchavadar"
   },
-  "ggml-cuda": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-08-20T05:09:22.047280+00:00",
-     "signer": null,
-     "uploader": "debian-ai",
-     "version": "0.20.2-2"
-    }
-   ],
-   "published": "2026-08-20T05:09:22.047280+00:00",
-   "teams": [],
-   "uploader": "debian-ai"
-  },
   "ghex": {
    "debian_uploaded": null,
    "package_sets": [
@@ -14806,6 +14709,29 @@
    "teams": [],
    "uploader": null
   },
+  "gimagereader": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-10-12T03:56:18.815713+00:00",
+     "signer": null,
+     "uploader": "rinni",
+     "version": "3.4.3-2.1"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-04-24T08:45:29.056843+00:00",
+     "signer": null,
+     "uploader": "rinni",
+     "version": "3.4.3-2"
+    }
+   ],
+   "published": "2026-10-12T03:56:18.815713+00:00",
+   "teams": [],
+   "uploader": "rinni"
+  },
   "gimp": {
    "debian_uploaded": null,
    "package_sets": [
@@ -14856,29 +14782,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "gio-qt": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-11T19:46:43.034144+00:00",
-     "signer": null,
-     "uploader": "pkg-deepin-devel",
-     "version": "0.0.16-2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-04-24T08:45:29.056843+00:00",
-     "signer": null,
-     "uploader": "pkg-deepin-devel",
-     "version": "0.0.16-1"
-    }
-   ],
-   "published": "2026-10-11T19:46:43.034144+00:00",
-   "teams": [],
-   "uploader": "pkg-deepin-devel"
   },
   "gio-sharp": {
    "debian_uploaded": null,
@@ -16762,13 +16665,13 @@
    "publications": [
     {
      "pocket": "Proposed",
-     "published": "2026-06-16T17:13:25.469460+00:00",
+     "published": "2026-10-12T13:28:14.813240+00:00",
      "signer": null,
      "uploader": "team+pkg-go",
-     "version": "0.13.8-2"
+     "version": "0.13.8-3"
     }
    ],
-   "published": "2026-06-16T17:13:25.469460+00:00",
+   "published": "2026-10-12T13:28:14.813240+00:00",
    "teams": [],
    "uploader": "team+pkg-go"
   },
@@ -18561,22 +18464,6 @@
    "teams": [],
    "uploader": null
   },
-  "heudiconv": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-09-30T14:17:21.676359+00:00",
-     "signer": null,
-     "uploader": "debian-med",
-     "version": "1.4.0-2"
-    }
-   ],
-   "published": "2026-09-30T14:17:21.676359+00:00",
-   "teams": [],
-   "uploader": "debian-med"
-  },
   "hexchat": {
    "debian_uploaded": null,
    "package_sets": [
@@ -19595,38 +19482,6 @@
    "teams": [],
    "uploader": null
   },
-  "icann-rdap-cli": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-08-09T11:10:37.926909+00:00",
-     "signer": null,
-     "uploader": "daniel-debian-org",
-     "version": "0.0.31-1"
-    }
-   ],
-   "published": "2026-08-09T11:10:37.926909+00:00",
-   "teams": [],
-   "uploader": "daniel-debian-org"
-  },
-  "icann-rdap-srv": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-08-09T11:10:42.248311+00:00",
-     "signer": null,
-     "uploader": "daniel-debian-org",
-     "version": "0.0.31-1"
-    }
-   ],
-   "published": "2026-08-09T11:10:42.248311+00:00",
-   "teams": [],
-   "uploader": "daniel-debian-org"
-  },
   "icc-profiles-free": {
    "debian_uploaded": null,
    "package_sets": [
@@ -20305,22 +20160,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "intel-vc-intrinsics": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-26T05:50:16.477803+00:00",
-     "signer": null,
-     "uploader": "pkg-opencl-devel",
-     "version": "0.25.0-1"
-    }
-   ],
-   "published": "2026-05-26T05:50:16.477803+00:00",
-   "teams": [],
-   "uploader": "pkg-opencl-devel"
   },
   "intltool": {
    "debian_uploaded": null,
@@ -21401,10 +21240,25 @@
    "package_sets": [
     "kernel-dkms"
    ],
-   "publications": [],
-   "published": null,
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-10-11T20:48:30.244641+00:00",
+     "signer": "tjaalton",
+     "uploader": "tjaalton",
+     "version": "4.1.15-1ubuntu1"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-04-24T08:45:29.056843+00:00",
+     "signer": null,
+     "uploader": "ydahhrk",
+     "version": "4.1.15-1"
+    }
+   ],
+   "published": "2026-10-11T20:48:30.244641+00:00",
    "teams": [],
-   "uploader": null
+   "uploader": "tjaalton"
   },
   "jose": {
    "debian_uploaded": null,
@@ -26770,7 +26624,7 @@
    "uploader": null
   },
   "kwalletmanager": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-11T15:33:57+00:00",
    "package_sets": [
     "kubuntu"
    ],
@@ -35380,29 +35234,6 @@
    "teams": [],
    "uploader": null
   },
-  "libgda5": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-11T19:46:52.341242+00:00",
-     "signer": null,
-     "uploader": "pkg-gnome-extras-maintainers",
-     "version": "5.2.10-10"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-04-24T08:45:29.056843+00:00",
-     "signer": null,
-     "uploader": "pkg-gnome-maintainers",
-     "version": "5.2.10-7"
-    }
-   ],
-   "published": "2026-10-11T19:46:52.341242+00:00",
-   "teams": [],
-   "uploader": "pkg-gnome-extras-maintainers"
-  },
   "libgdata": {
    "debian_uploaded": null,
    "package_sets": [
@@ -39008,7 +38839,7 @@
    "uploader": null
   },
   "libp11": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-11T14:46:54+00:00",
    "package_sets": [
     "ubuntu-server"
    ],
@@ -39079,22 +38910,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "libpam-encfs": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-09-24T09:12:36.259811+00:00",
-     "signer": "seb128",
-     "uploader": "desktop-rebuild-bot",
-     "version": "0.1.4.4-17build1"
-    }
-   ],
-   "published": "2026-09-24T09:12:36.259811+00:00",
-   "teams": [],
-   "uploader": "desktop-rebuild-bot"
   },
   "libpam-krb5": {
    "debian_uploaded": null,
@@ -45457,7 +45272,7 @@
     },
     {
      "pocket": "Release",
-     "published": "2026-09-22T15:09:17.139827+00:00",
+     "published": "2026-10-12T13:02:09.512398+00:00",
      "signer": "enr0n",
      "uploader": "karljs",
      "version": "1:21.1.8-10ubuntu2"
@@ -51643,29 +51458,6 @@
    "teams": [],
    "uploader": null
   },
-  "nux": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-09-10T20:15:11.947727+00:00",
-     "signer": "ahasenack",
-     "uploader": "tomekdev",
-     "version": "4.0.8+18.10.20180623-0ubuntu15"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-04-30T17:49:12.523661+00:00",
-     "signer": "teward",
-     "uploader": "fuseteam",
-     "version": "4.0.8+18.10.20180623-0ubuntu13"
-    }
-   ],
-   "published": "2026-09-10T20:15:11.947727+00:00",
-   "teams": [],
-   "uploader": "tomekdev"
-  },
   "nv-codec-headers": {
    "debian_uploaded": null,
    "package_sets": [
@@ -52128,22 +51920,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "ocsinventory-server": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-06-08T11:23:11.020704+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "2.8.1+dfsg1+~2.11.1-3"
-    }
-   ],
-   "published": "2026-06-08T11:23:11.020704+00:00",
-   "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
   },
   "octave-linear-algebra": {
    "debian_uploaded": null,
@@ -57224,22 +57000,6 @@
    "teams": [],
    "uploader": "debian-med"
   },
-  "pgaudit-19": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-06-30T11:39:18.594968+00:00",
-     "signer": null,
-     "uploader": "team+postgresql",
-     "version": "19~beta1-2"
-    }
-   ],
-   "published": "2026-06-30T11:39:18.594968+00:00",
-   "teams": [],
-   "uploader": "team+postgresql"
-  },
   "pgbouncer": {
    "debian_uploaded": "2026-09-28T12:50:01+00:00",
    "package_sets": [],
@@ -57750,22 +57510,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "piuparts": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-04-24T08:45:29.056843+00:00",
-     "signer": "ginggs",
-     "uploader": "ginggs",
-     "version": "1.6.0build1"
-    }
-   ],
-   "published": "2026-04-24T08:45:29.056843+00:00",
-   "teams": [],
-   "uploader": "ginggs"
   },
   "pixman": {
    "debian_uploaded": null,
@@ -59118,22 +58862,6 @@
    "teams": [],
    "uploader": "team+pkg-go"
   },
-  "promod3": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-04-24T08:45:29.056843+00:00",
-     "signer": "doko",
-     "uploader": "doko",
-     "version": "3.6.0+ds-1build2"
-    }
-   ],
-   "published": "2026-04-24T08:45:29.056843+00:00",
-   "teams": [],
-   "uploader": "doko"
-  },
   "prompt-toolkit": {
    "debian_uploaded": null,
    "package_sets": [
@@ -59229,22 +58957,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "psortb": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-08-19T22:53:32.622202+00:00",
-     "signer": "ural",
-     "uploader": "ural",
-     "version": "3.0.6+dfsg-5build1"
-    }
-   ],
-   "published": "2026-08-19T22:53:32.622202+00:00",
-   "teams": [],
-   "uploader": "ural"
   },
   "pspp": {
    "debian_uploaded": null,
@@ -60226,22 +59938,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "pytango": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-08-17T11:34:09.725114+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "10.1.4-4"
-    }
-   ],
-   "published": "2026-08-17T11:34:09.725114+00:00",
-   "teams": [],
-   "uploader": "debian-science-maintainers-lists"
   },
   "pytest": {
    "debian_uploaded": null,
@@ -61422,22 +61118,6 @@
    "teams": [],
    "uploader": "cpete"
   },
-  "python-e3nn": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-26T05:53:55.480325+00:00",
-     "signer": null,
-     "uploader": "debian-ai",
-     "version": "0.6.0-1"
-    }
-   ],
-   "published": "2026-05-26T05:53:55.480325+00:00",
-   "teams": [],
-   "uploader": "debian-ai"
-  },
   "python-easygui": {
    "debian_uploaded": null,
    "package_sets": [
@@ -62503,13 +62183,13 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-04-24T08:45:29.056843+00:00",
+     "published": "2026-10-12T14:18:06.258642+00:00",
      "signer": "seb128",
      "uploader": "seb128",
      "version": "2.8.0-0ubuntu2"
     }
    ],
-   "published": "2026-04-24T08:45:29.056843+00:00",
+   "published": "2026-10-12T14:18:06.258642+00:00",
    "teams": [
     "ubuntu-openstack"
    ],
@@ -63659,6 +63339,29 @@
    ],
    "uploader": "rikmills"
   },
+  "python-pathable": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-05-31T23:12:45.917600+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "0.6.0-1"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-04-24T08:45:29.056843+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "0.4.4-1"
+    }
+   ],
+   "published": "2026-05-31T23:12:45.917600+00:00",
+   "teams": [],
+   "uploader": "team+python"
+  },
   "python-pathspec": {
    "debian_uploaded": null,
    "package_sets": [
@@ -63668,22 +63371,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "python-pbcore": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-06-24T17:14:57.550627+00:00",
-     "signer": null,
-     "uploader": "debian-med",
-     "version": "2.1.2+dfsg-14"
-    }
-   ],
-   "published": "2026-06-24T17:14:57.550627+00:00",
-   "teams": [],
-   "uploader": "debian-med"
   },
   "python-pbr": {
    "debian_uploaded": null,
@@ -63859,22 +63546,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "python-pymbar": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-23T17:29:44.107586+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "4.2.0-2"
-    }
-   ],
-   "published": "2026-05-23T17:29:44.107586+00:00",
-   "teams": [],
-   "uploader": "debian-science-maintainers-lists"
   },
   "python-pymysql": {
    "debian_uploaded": "2026-05-27T09:19:11+00:00",
@@ -64421,22 +64092,6 @@
    "teams": [],
    "uploader": null
   },
-  "python-thinc": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-04-24T08:45:29.056843+00:00",
-     "signer": "doko",
-     "uploader": "doko",
-     "version": "9.1.1-1build2"
-    }
-   ],
-   "published": "2026-04-24T08:45:29.056843+00:00",
-   "teams": [],
-   "uploader": "doko"
-  },
   "python-tinycss2": {
    "debian_uploaded": null,
    "package_sets": [
@@ -64665,13 +64320,13 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-04-24T08:45:29.056843+00:00",
+     "published": "2026-10-12T14:19:03.109065+00:00",
      "signer": "enr0n",
      "uploader": "mylesjp",
      "version": "5.3.0-0ubuntu1"
     }
    ],
-   "published": "2026-04-24T08:45:29.056843+00:00",
+   "published": "2026-10-12T14:19:03.109065+00:00",
    "teams": [
     "ubuntu-openstack"
    ],
@@ -64984,25 +64639,10 @@
    "package_sets": [
     "i386-whitelist"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-11T09:36:06.815628+00:00",
-     "signer": "doko",
-     "uploader": "doko",
-     "version": "3.15.0-1ubuntu1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-04T01:12:01.104266+00:00",
-     "signer": "doko",
-     "uploader": "doko",
-     "version": "3.15.0~rc3-2ubuntu1"
-    }
-   ],
-   "published": "2026-10-11T09:36:06.815628+00:00",
+   "publications": [],
+   "published": null,
    "teams": [],
-   "uploader": "doko"
+   "uploader": null
   },
   "python3.9": {
    "debian_uploaded": null,
@@ -66983,22 +66623,6 @@
    "teams": [],
    "uploader": null
   },
-  "remrun": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-07-15T11:56:14.410723+00:00",
-     "signer": null,
-     "uploader": "roam-9",
-     "version": "0.2.5-1"
-    }
-   ],
-   "published": "2026-07-15T11:56:14.410723+00:00",
-   "teams": [],
-   "uploader": "roam-9"
-  },
   "rename": {
    "debian_uploaded": null,
    "package_sets": [
@@ -68745,22 +68369,6 @@
    "teams": [],
    "uploader": null
   },
-  "rust-blosc2-rs": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-26T11:35:23.811749+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.4.0-1"
-    }
-   ],
-   "published": "2026-05-26T11:35:23.811749+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-bytecount": {
    "debian_uploaded": null,
    "package_sets": [
@@ -69137,26 +68745,88 @@
    "teams": [],
    "uploader": null
   },
-  "rust-glycin-core": {
+  "rust-glycin": {
    "debian_uploaded": null,
    "package_sets": [],
    "publications": [
     {
      "pocket": "Proposed",
-     "published": "2026-10-10T07:29:22.863095+00:00",
+     "published": "2026-10-12T13:29:14.945115+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "4.0.2-1"
     },
     {
      "pocket": "Release",
-     "published": "2026-09-28T01:26:40.522726+00:00",
+     "published": "2026-09-26T05:02:49.877951+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "4.0.0-1"
     }
    ],
-   "published": "2026-10-10T07:29:22.863095+00:00",
+   "published": "2026-10-12T13:29:14.945115+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-glycin-builtin": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-10-12T03:57:15.212381+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "4.0.2-1"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-09-28T01:26:44.740196+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "4.0.0-1"
+    }
+   ],
+   "published": "2026-10-12T03:57:15.212381+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-glycin-core": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-12T15:13:21.519631+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "4.0.2-1"
+    }
+   ],
+   "published": "2026-10-12T15:13:21.519631+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-glycin-external": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-10-12T03:57:18.483953+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "4.0.2-1"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-09-28T01:26:46.050174+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "4.0.0-1"
+    }
+   ],
+   "published": "2026-10-12T03:57:18.483953+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -69357,29 +69027,6 @@
    "teams": [],
    "uploader": null
   },
-  "rust-nutype": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-11T19:41:43.312467+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.8.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-09-01T04:40:18.030281+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.7.0-1"
-    }
-   ],
-   "published": "2026-10-11T19:41:43.312467+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-once-cell": {
    "debian_uploaded": null,
    "package_sets": [
@@ -69557,22 +69204,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "rust-profiling": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-24T23:33:36.526856+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.0.16-2"
-    }
-   ],
-   "published": "2026-05-24T23:33:36.526856+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-quick-xml": {
    "debian_uploaded": null,
@@ -70593,9 +70224,16 @@
    "uploader": null
   },
   "scotch": {
-   "debian_uploaded": "2026-10-10T13:19:30+00:00",
+   "debian_uploaded": "2026-10-10T16:49:50+00:00",
    "package_sets": [],
    "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-10-12T15:01:45.463749+00:00",
+     "signer": "costamagnagianfranco",
+     "uploader": "costamagnagianfranco",
+     "version": "7.0.15-4ubuntu1"
+    },
     {
      "pocket": "Release",
      "published": "2026-10-06T03:25:09.318249+00:00",
@@ -70604,7 +70242,7 @@
      "version": "7.0.15-3ubuntu1"
     }
    ],
-   "published": "2026-10-06T03:25:09.318249+00:00",
+   "published": "2026-10-12T15:01:45.463749+00:00",
    "teams": [],
    "uploader": "costamagnagianfranco"
   },
@@ -72844,22 +72482,6 @@
    "teams": [],
    "uploader": null
   },
-  "ssh-agent-filter": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-05-31T06:23:54.912122+00:00",
-     "signer": null,
-     "uploader": "timo-tiwe",
-     "version": "0.5.3-2"
-    }
-   ],
-   "published": "2026-05-31T06:23:54.912122+00:00",
-   "teams": [],
-   "uploader": "timo-tiwe"
-  },
   "ssh-import-id": {
    "debian_uploaded": null,
    "package_sets": [
@@ -72870,22 +72492,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "ssh-tools": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-07-25T10:12:23.934959+00:00",
-     "signer": null,
-     "uploader": "swick",
-     "version": "1.9-2"
-    }
-   ],
-   "published": "2026-07-25T10:12:23.934959+00:00",
-   "teams": [],
-   "uploader": "swick"
   },
   "sshfs-fuse": {
    "debian_uploaded": null,
@@ -73093,7 +72699,7 @@
    "uploader": "zineb"
   },
   "streamripper": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-11T13:22:01+00:00",
    "package_sets": [],
    "publications": [
     {
@@ -74113,29 +73719,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "tango": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-11T11:44:12.114055+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "10.3.3+dfsg1-3"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-08-16T08:54:07.583863+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "10.1.2+dfsg1-6"
-    }
-   ],
-   "published": "2026-10-11T11:44:12.114055+00:00",
-   "teams": [],
-   "uploader": "debian-science-maintainers-lists"
   },
   "tango-icon-theme": {
    "debian_uploaded": null,
@@ -75174,7 +74757,7 @@
    "uploader": null
   },
   "tokodon": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-11T15:35:44+00:00",
    "package_sets": [],
    "publications": [
     {
@@ -77664,6 +77247,22 @@
    "teams": [],
    "uploader": null
   },
+  "virtualenvwrapper": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-08-05T02:39:48.049662+00:00",
+     "signer": "waveform",
+     "uploader": "waveform",
+     "version": "4.8.4-4ubuntu3"
+    }
+   ],
+   "published": "2026-08-05T02:39:48.049662+00:00",
+   "teams": [],
+   "uploader": "waveform"
+  },
   "virtuoso-opensource": {
    "debian_uploaded": null,
    "package_sets": [
@@ -78137,22 +77736,6 @@
    "teams": [],
    "uploader": null
   },
-  "wcc": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-09-11T14:11:25.339698+00:00",
-     "signer": "ginggs",
-     "uploader": "simpoir",
-     "version": "0.0.7+dfsg-2build3"
-    }
-   ],
-   "published": "2026-09-11T14:11:25.339698+00:00",
-   "teams": [],
-   "uploader": "simpoir"
-  },
   "wcslib": {
    "debian_uploaded": null,
    "package_sets": [
@@ -78535,22 +78118,6 @@
     "debcrafters-packages"
    ],
    "uploader": "tsimonq2"
-  },
-  "wiremix": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-04-24T08:45:29.056843+00:00",
-     "signer": null,
-     "uploader": "federico-p",
-     "version": "0.7.0-1"
-    }
-   ],
-   "published": "2026-04-24T08:45:29.056843+00:00",
-   "teams": [],
-   "uploader": "federico-p"
   },
   "wireplumber": {
    "debian_uploaded": "2026-09-30T10:06:10+00:00",
@@ -81389,22 +80956,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "yosys-plugin-ghdl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-05-25T23:35:06.645881+00:00",
-     "signer": null,
-     "uploader": "pkg-electronics-devel",
-     "version": "0.0~git20230419.5b64ccf-6"
-    }
-   ],
-   "published": "2026-05-25T23:35:06.645881+00:00",
-   "teams": [],
-   "uploader": "pkg-electronics-devel"
   },
   "youker-assistant": {
    "debian_uploaded": null,
