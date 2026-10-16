@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-15T20:51:33.866884+00:00",
+ "collected_at": "2026-10-16T20:22:06.420557+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -11100,10 +11100,20 @@
    "package_sets": [
     "core"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "waveform",
+     "uploader": "waveform",
+     "version": "1.6.0-3ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "foundations-bugs"
+   ],
+   "uploader": "waveform"
   },
   "flask-sqlalchemy": {
    "debian_uploaded": "2025-04-06T17:04:27+00:00",
@@ -21322,6 +21332,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "junit5": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "vpa1977",
+     "uploader": "vpa1977",
+     "version": "5.14.2-0ubuntu2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "vpa1977"
   },
   "jupyter-notebook": {
    "debian_uploaded": "2026-03-25T21:04:03+00:00",
@@ -47444,10 +47470,20 @@
     "i386-whitelist",
     "xorg"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "tjaalton",
+     "uploader": "tjaalton",
+     "version": "26.2.4-1ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "tjaalton"
   },
   "mesa-compat": {
    "debian_uploaded": null,
@@ -47471,6 +47507,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "meshlab": {
+   "debian_uploaded": "2026-10-15T11:11:01+00:00",
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "rroessler",
+     "version": "2025.07~dfsg-2ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "rroessler"
   },
   "meson": {
    "debian_uploaded": "2026-03-15T14:50:57+00:00",
@@ -57773,15 +57825,25 @@
    "uploader": null
   },
   "policykit-1": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-15T16:49:27+00:00",
    "package_sets": [
     "core",
     "i386-whitelist"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "mdeslaur",
+     "uploader": "mdeslaur",
+     "version": "127-3ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "mdeslaur"
   },
   "policykit-1-gnome": {
    "debian_uploaded": null,
@@ -67770,6 +67832,22 @@
    "teams": [],
    "uploader": null
   },
+  "runit": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "costamagnagianfranco",
+     "uploader": "costamagnagianfranco",
+     "version": "2.3.1-5ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "costamagnagianfranco"
+  },
   "rust-arbitrary": {
    "debian_uploaded": null,
    "package_sets": [
@@ -70954,14 +71032,22 @@
    "uploader": null
   },
   "softhsm2": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-15T21:12:20+00:00",
    "package_sets": [
     "i386-whitelist"
    ],
-   "publications": [],
-   "published": null,
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ahasenack",
+     "uploader": "ravi-sharma",
+     "version": "2.6.1-3ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
-   "uploader": null
+   "uploader": "ravi-sharma"
   },
   "software-properties": {
    "debian_uploaded": null,
