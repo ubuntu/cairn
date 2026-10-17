@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-16T20:22:06.420557+00:00",
+ "collected_at": "2026-10-17T09:54:26.898887+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -5129,6 +5129,22 @@
    "teams": [],
    "uploader": null
   },
+  "clementine": {
+   "debian_uploaded": "2026-10-16T15:11:39+00:00",
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "rikmills",
+     "uploader": "rikmills",
+     "version": "1.4.1+git27-g658f34ec4+dfsg-4ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "rikmills"
+  },
   "cli-common": {
    "debian_uploaded": null,
    "package_sets": [
@@ -7076,16 +7092,26 @@
    "uploader": "gboutry"
   },
   "cyrus-sasl2": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-16T21:40:45+00:00",
    "package_sets": [
     "core",
     "i386-whitelist",
     "ubuntu-server"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ravi-sharma",
+     "version": "2.1.28+dfsg1-11ubuntu2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "ubuntu-server"
+   ],
+   "uploader": "ravi-sharma"
   },
   "cython": {
    "debian_uploaded": "2025-10-26T15:19:23+00:00",
@@ -11096,7 +11122,7 @@
    "uploader": null
   },
   "flashrom": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-16T10:20:39+00:00",
    "package_sets": [
     "core"
    ],
@@ -21334,7 +21360,7 @@
    "uploader": null
   },
   "junit5": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-16T08:34:53+00:00",
    "package_sets": [],
    "publications": [
     {
@@ -47464,7 +47490,7 @@
    "uploader": null
   },
   "mesa": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-16T10:38:08+00:00",
    "package_sets": [
     "core",
     "i386-whitelist",
@@ -58467,6 +58493,22 @@
    ],
    "uploader": "chawthorne"
   },
+  "procyon": {
+   "debian_uploaded": "2026-10-16T22:49:08+00:00",
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "vpa1977",
+     "uploader": "vpa1977",
+     "version": "0.6.0-3ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "vpa1977"
+  },
   "proj": {
    "debian_uploaded": null,
    "package_sets": [
@@ -63491,6 +63533,22 @@
    "teams": [],
    "uploader": "doko"
   },
+  "python-sigima": {
+   "debian_uploaded": "2026-10-16T15:10:49+00:00",
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.1.1-1ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ginggs"
+  },
   "python-snappy": {
    "debian_uploaded": null,
    "package_sets": [
@@ -67833,7 +67891,7 @@
    "uploader": null
   },
   "runit": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-16T07:12:56+00:00",
    "package_sets": [],
    "publications": [
     {
