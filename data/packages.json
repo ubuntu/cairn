@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-17T09:54:26.898887+00:00",
+ "collected_at": "2026-10-17T19:55:37.620930+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -77445,6 +77445,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "wildfly-common": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "vpa1977",
+     "uploader": "vpa1977",
+     "version": "1.7.0-1ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "vpa1977"
   },
   "wildmidi": {
    "debian_uploaded": null,
