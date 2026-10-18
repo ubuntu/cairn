@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-18T10:07:53.870455+00:00",
+ "collected_at": "2026-10-18T19:54:04.264466+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -22066,6 +22066,22 @@
    ],
    "uploader": "rikmills"
   },
+  "kclock": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "rikmills",
+     "uploader": "rikmills",
+     "version": "26.08.1-0ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "rikmills"
+  },
   "kcm-fcitx": {
    "debian_uploaded": null,
    "package_sets": [
@@ -22909,6 +22925,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "keysmith": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "rikmills",
+     "uploader": "rikmills",
+     "version": "26.08.1-0ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "rikmills"
   },
   "keystone": {
    "debian_uploaded": "2026-09-30T17:51:31+00:00",
@@ -56838,10 +56870,20 @@
     "ubuntu-desktop",
     "ubuntu-server"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "rr",
+     "uploader": "rr",
+     "version": "99ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "ubuntu-server"
+   ],
+   "uploader": "rr"
   },
   "php-masterminds-html5": {
    "debian_uploaded": null,
