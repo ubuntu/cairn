@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-17T19:55:37.620930+00:00",
+ "collected_at": "2026-10-18T10:07:53.870455+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -2145,6 +2145,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "aws-crt-python": {
+   "debian_uploaded": "2026-10-17T19:51:21+00:00",
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "skia",
+     "uploader": "ravi-sharma",
+     "version": "0.36.0+dfsg-1ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ravi-sharma"
   },
   "awstats": {
    "debian_uploaded": null,
@@ -11880,14 +11896,24 @@
    "uploader": null
   },
   "fonts-lao": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-17T18:10:56+00:00",
    "package_sets": [
     "desktop-core"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.0.20060226-10ubuntu3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "ginggs"
   },
   "fonts-larabie": {
    "debian_uploaded": null,
@@ -20848,14 +20874,22 @@
    "uploader": null
   },
   "java-gnome": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-17T18:07:06+00:00",
    "package_sets": [
     "desktop-extra"
    ],
-   "publications": [],
-   "published": null,
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "nteodosio",
+     "uploader": "nteodosio",
+     "version": "4.1.3-10ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
-   "uploader": null
+   "uploader": "nteodosio"
   },
   "java-wrappers": {
    "debian_uploaded": null,
@@ -50737,7 +50771,7 @@
    "uploader": "costamagnagianfranco"
   },
   "nodejs": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-17T16:20:51+00:00",
    "package_sets": [
     "kubuntu"
    ],
@@ -65942,6 +65976,22 @@
    "teams": [],
    "uploader": null
   },
+  "ray": {
+   "debian_uploaded": "2026-10-17T14:38:01+00:00",
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "seb128",
+     "uploader": "seb128",
+     "version": "2.3.1-9ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "seb128"
+  },
   "rccl": {
    "debian_uploaded": null,
    "package_sets": [
@@ -77447,7 +77497,7 @@
    "uploader": null
   },
   "wildfly-common": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-17T10:34:00+00:00",
    "package_sets": [],
    "publications": [
     {
