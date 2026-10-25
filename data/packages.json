@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-10-24T19:59:56.481416+00:00",
+ "collected_at": "2026-10-25T10:25:59.089167+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -14085,7 +14085,7 @@
    "uploader": null
   },
   "gcc-15": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-24T11:19:40+00:00",
    "package_sets": [
     "i386-whitelist"
    ],
@@ -25405,7 +25405,7 @@
    "uploader": null
   },
   "kio-extras": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-24T09:20:31+00:00",
    "package_sets": [
     "kubuntu"
    ],
@@ -25649,7 +25649,7 @@
    "uploader": "rikmills"
   },
   "klettres": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-24T08:36:21+00:00",
    "package_sets": [
     "kubuntu"
    ],
@@ -44002,14 +44002,24 @@
    "uploader": null
   },
   "lintian": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-10-24T18:56:03+00:00",
    "package_sets": [
     "core"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-23T06:25:43.160362+00:00",
+     "signer": "bdrung",
+     "uploader": "bdrung",
+     "version": "2.142.0ubuntu1"
+    }
+   ],
+   "published": "2026-10-23T06:25:43.160362+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "bdrung"
   },
   "linux": {
    "debian_uploaded": null,
