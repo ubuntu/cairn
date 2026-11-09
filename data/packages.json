@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-09T12:28:47.795456+00:00",
+ "collected_at": "2026-11-09T14:44:40.792908+00:00",
  "packages": {
   "2048-qt": {
    "debian_uploaded": null,
@@ -1764,6 +1764,13 @@
    ],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-09T12:55:12.399874+00:00",
+     "signer": "mdeslaur",
+     "uploader": "bruce-cable",
+     "version": "2.4.68-1ubuntu7"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "lvoytek",
@@ -1771,11 +1778,11 @@
      "version": "2.4.68-1ubuntu4"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-09T12:55:12.399874+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "mitchellaugustin"
+   "uploader": "bruce-cable"
   },
   "apg": {
    "debian_uploaded": null,
