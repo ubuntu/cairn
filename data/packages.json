@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-14T12:44:08.774999+00:00",
+ "collected_at": "2026-11-14T21:58:19.973024+00:00",
  "packages": {
   "0ad": {
    "debian_uploaded": null,
@@ -3827,10 +3827,10 @@
    "publications": [
     {
      "pocket": "Proposed",
-     "published": "2026-11-02T08:00:30.293426+00:00",
+     "published": "2026-11-14T13:38:45.265756+00:00",
      "signer": null,
      "uploader": "ncts-1",
-     "version": "18.24.1+ds-1"
+     "version": "18.24.2+ds-3"
     },
     {
      "pocket": "Release",
@@ -3840,7 +3840,7 @@
      "version": "18.19.0+ds-2"
     }
    ],
-   "published": "2026-11-02T08:00:30.293426+00:00",
+   "published": "2026-11-14T13:38:45.265756+00:00",
    "teams": [],
    "uploader": "ncts-1"
   },
@@ -5444,22 +5444,6 @@
    "teams": [],
    "uploader": "bdrung"
   },
-  "bazel-lib": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:52:04.860677+00:00",
-     "signer": null,
-     "uploader": "team+bazel",
-     "version": "3.7.2-2"
-    }
-   ],
-   "published": "2026-11-14T07:52:04.860677+00:00",
-   "teams": [],
-   "uploader": "team+bazel"
-  },
   "bazel-rules-proto-grpc": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -5700,6 +5684,22 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "team+python"
+  },
+  "beanstalkd": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "seb128",
+     "uploader": "desktop-rebuild-bot",
+     "version": "1.13-1build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "desktop-rebuild-bot"
   },
   "bear": {
    "debian_uploaded": null,
@@ -22789,6 +22789,38 @@
    "teams": [],
    "uploader": null
   },
+  "fenrir": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-02T20:36:17.544892+00:00",
+     "signer": null,
+     "uploader": "pkg-a11y-devel-m",
+     "version": "2026.0.9.12-1"
+    }
+   ],
+   "published": "2026-11-02T20:36:17.544892+00:00",
+   "teams": [],
+   "uploader": "pkg-a11y-devel-m"
+  },
+  "ferm": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-02T20:35:28.375835+00:00",
+     "signer": null,
+     "uploader": "ferm",
+     "version": "2.7-9"
+    }
+   ],
+   "published": "2026-11-02T20:35:28.375835+00:00",
+   "teams": [],
+   "uploader": "ferm"
+  },
   "ferret-vis": {
    "debian_uploaded": "2026-04-15T05:20:17+00:00",
    "package_sets": [],
@@ -25539,29 +25571,6 @@
    "teams": [],
    "uploader": null
   },
-  "fontship": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-10T05:33:00.525017+00:00",
-     "signer": null,
-     "uploader": "debian-fonts",
-     "version": "0.10.1+ds-4"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-fonts",
-     "version": "0.10.1+ds-3"
-    }
-   ],
-   "published": "2026-11-10T05:33:00.525017+00:00",
-   "teams": [],
-   "uploader": "debian-fonts"
-  },
   "fonttools": {
    "debian_uploaded": null,
    "package_sets": [
@@ -27207,6 +27216,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "gcc-arm-none-eabi": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-04T05:37:58.624347+00:00",
+     "signer": null,
+     "uploader": "keithp",
+     "version": "15:15.3.rel1-3"
+    }
+   ],
+   "published": "2026-11-04T05:37:58.624347+00:00",
+   "teams": [],
+   "uploader": "keithp"
   },
   "gcc-defaults": {
    "debian_uploaded": "2026-08-01T19:04:40+00:00",
@@ -40636,6 +40661,22 @@
    "teams": [],
    "uploader": null
   },
+  "igor2": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-06T23:27:50.983573+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "0.5.9-4"
+    }
+   ],
+   "published": "2026-11-06T23:27:50.983573+00:00",
+   "teams": [],
+   "uploader": "team+python"
+  },
   "igraph": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -43877,11 +43918,18 @@
    "uploader": "ebarretto"
   },
   "jpeg-xl": {
-   "debian_uploaded": "2026-11-13T07:50:13+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "i386-whitelist"
    ],
    "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-11-14T14:41:11.648517+00:00",
+     "signer": "costamagnagianfranco",
+     "uploader": "costamagnagianfranco",
+     "version": "0.13.0-1ubuntu1"
+    },
     {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
@@ -43890,7 +43938,7 @@
      "version": "0.11.2-5.1ubuntu1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-14T14:41:11.648517+00:00",
    "teams": [
     "debcrafters-packages"
    ],
@@ -44923,20 +44971,10 @@
    "package_sets": [
     "kubuntu"
    ],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:55:10.617065+00:00",
-     "signer": "rikmills",
-     "uploader": "rikmills",
-     "version": "4:26.08.3-0ubuntu1"
-    }
-   ],
-   "published": "2026-11-14T07:55:10.617065+00:00",
-   "teams": [
-    "kubuntu-bugs"
-   ],
-   "uploader": "rikmills"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "kaffeine": {
    "debian_uploaded": null,
@@ -63768,22 +63806,6 @@
    "teams": [],
    "uploader": null
   },
-  "libksieve": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:55:08.598775+00:00",
-     "signer": "rikmills",
-     "uploader": "rikmills",
-     "version": "4:26.08.3-0ubuntu1"
-    }
-   ],
-   "published": "2026-11-14T07:55:08.598775+00:00",
-   "teams": [],
-   "uploader": "rikmills"
-  },
   "libksysguard": {
    "debian_uploaded": null,
    "package_sets": [
@@ -69267,6 +69289,22 @@
    "teams": [],
    "uploader": null
   },
+  "libsvm": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "debian-science-maintainers-lists",
+     "version": "3.24+ds-6.1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "debian-science-maintainers-lists"
+  },
   "libsyntax-keyword-try-perl": {
    "debian_uploaded": null,
    "package_sets": [
@@ -71068,10 +71106,20 @@
     "i386-whitelist",
     "ubuntu-server"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-31T20:10:55.535205+00:00",
+     "signer": null,
+     "uploader": "debian-multimedia",
+     "version": "1.17.0-1"
+    }
+   ],
+   "published": "2026-10-31T20:10:55.535205+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "debian-multimedia"
   },
   "libwacom": {
    "debian_uploaded": null,
@@ -71744,22 +71792,6 @@
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
-  },
-  "libxml-fast-perl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:53:40.307718+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "0.17-1"
-    }
-   ],
-   "published": "2026-11-14T07:53:40.307718+00:00",
    "teams": [],
    "uploader": "pkg-perl-maintainers-lists-alioth"
   },
@@ -72822,10 +72854,20 @@
    "package_sets": [
     "core"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-06T03:56:54.688047+00:00",
+     "signer": "bdrung",
+     "uploader": "bdrung",
+     "version": "2.143.0ubuntu1"
+    }
+   ],
+   "published": "2026-11-06T03:56:54.688047+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "bdrung"
   },
   "linux": {
    "debian_uploaded": null,
@@ -75515,6 +75557,22 @@
    "teams": [],
    "uploader": "debian-science-maintainers-lists"
   },
+  "lmms": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-28T09:49:50.175600+00:00",
+     "signer": "seb128",
+     "uploader": "seb128",
+     "version": "1.2.2+dfsg1-6ubuntu1"
+    }
+   ],
+   "published": "2026-10-28T09:49:50.175600+00:00",
+   "teams": [],
+   "uploader": "seb128"
+  },
   "lmod": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -77321,22 +77379,6 @@
    "published": "2026-11-07T21:49:16.050431+00:00",
    "teams": [],
    "uploader": "roland"
-  },
-  "mailimporter": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:55:07.576248+00:00",
-     "signer": "rikmills",
-     "uploader": "rikmills",
-     "version": "4:26.08.3-0ubuntu1"
-    }
-   ],
-   "published": "2026-11-14T07:55:07.576248+00:00",
-   "teams": [],
-   "uploader": "rikmills"
   },
   "mailman3": {
    "debian_uploaded": "2025-03-12T13:06:53+00:00",
@@ -83316,6 +83358,24 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "natsort": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "8.4.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "ubuntu-openstack"
+   ],
+   "uploader": "team+python"
   },
   "naturaldocs": {
    "debian_uploaded": null,
@@ -94785,6 +94845,22 @@
    "teams": [],
    "uploader": "team+python"
   },
+  "ocserv": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:51:41.673307+00:00",
+     "signer": null,
+     "uploader": "happyaron",
+     "version": "1.6.0-3"
+    }
+   ],
+   "published": "2026-11-14T07:51:41.673307+00:00",
+   "teams": [],
+   "uploader": "happyaron"
+  },
   "ocsipersist": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -98556,10 +98632,18 @@
    "package_sets": [
     "kernel-dkms"
    ],
-   "publications": [],
-   "published": null,
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:52:56.572574+00:00",
+     "signer": null,
+     "uploader": "kaduk",
+     "version": "1.8.17~pre2-1"
+    }
+   ],
+   "published": "2026-11-14T07:52:56.572574+00:00",
    "teams": [],
-   "uploader": null
+   "uploader": "kaduk"
   },
   "openal-soft": {
    "debian_uploaded": null,
@@ -99110,6 +99194,22 @@
    "published": "2026-11-04T07:16:41.861551+00:00",
    "teams": [],
    "uploader": "openjdk-27"
+  },
+  "openjdk-28": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-06T15:53:24.289032+00:00",
+     "signer": null,
+     "uploader": "openjdk-28",
+     "version": "28~18ea-1"
+    }
+   ],
+   "published": "2026-11-06T15:53:24.289032+00:00",
+   "teams": [],
+   "uploader": "openjdk-28"
   },
   "openjdk-8": {
    "debian_uploaded": "2026-11-05T22:20:12+00:00",
@@ -101169,6 +101269,22 @@
    "published": "2026-11-09T01:35:30.946737+00:00",
    "teams": [],
    "uploader": "eriberto-j"
+  },
+  "padaos": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.1.10-3build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ginggs"
   },
   "padthv1": {
    "debian_uploaded": null,
@@ -107506,22 +107622,6 @@
    "teams": [],
    "uploader": null
   },
-  "pimcommon": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:55:04.688971+00:00",
-     "signer": "rikmills",
-     "uploader": "rikmills",
-     "version": "4:26.08.3-0ubuntu1"
-    }
-   ],
-   "published": "2026-11-14T07:55:04.688971+00:00",
-   "teams": [],
-   "uploader": "rikmills"
-  },
   "pims": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -109480,12 +109580,19 @@
    "uploader": null
   },
   "postgresql-common": {
-   "debian_uploaded": "2026-11-12T12:12:43+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "i386-whitelist",
     "ubuntu-server"
    ],
    "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-11-14T14:37:10.760137+00:00",
+     "signer": "costamagnagianfranco",
+     "uploader": "costamagnagianfranco",
+     "version": "295ubuntu1"
+    },
     {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
@@ -109494,7 +109601,7 @@
      "version": "293ubuntu1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-14T14:37:10.760137+00:00",
    "teams": [
     "ubuntu-server"
    ],
@@ -113338,6 +113445,22 @@
    "teams": [],
    "uploader": "debian-med"
   },
+  "pychromecast": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:52:59.983115+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "14.1.0-1"
+    }
+   ],
+   "published": "2026-11-14T07:52:59.983115+00:00",
+   "teams": [],
+   "uploader": "team+python"
+  },
   "pycifrw": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -113412,6 +113535,22 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "debian-science-maintainers-lists"
+  },
+  "pycontrol4": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:52:18.153281+00:00",
+     "signer": null,
+     "uploader": "team+homeassistant",
+     "version": "2.0.2-2"
+    }
+   ],
+   "published": "2026-11-14T07:52:18.153281+00:00",
+   "teams": [],
+   "uploader": "team+homeassistant"
   },
   "pycoolmasternet-async": {
    "debian_uploaded": null,
@@ -120849,29 +120988,6 @@
    "teams": [],
    "uploader": null
   },
-  "python-cdsapi": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:48:02.929465+00:00",
-     "signer": null,
-     "uploader": "gspreemann",
-     "version": "0.7.4-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "gspreemann",
-     "version": "0.7.3-1"
-    }
-   ],
-   "published": "2026-11-09T01:48:02.929465+00:00",
-   "teams": [],
-   "uploader": "gspreemann"
-  },
   "python-ceilometerclient": {
    "debian_uploaded": null,
    "package_sets": [
@@ -122428,22 +122544,6 @@
    "teams": [],
    "uploader": "doko"
   },
-  "python-cython-blis": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T05:59:04.795548+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "1.0.0-3"
-    }
-   ],
-   "published": "2026-11-09T05:59:04.795548+00:00",
-   "teams": [],
-   "uploader": "debian-science-maintainers-lists"
-  },
   "python-cytoolz": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -123469,21 +123569,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:49:52.110756+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:48:55.852634+00:00",
      "signer": null,
      "uploader": "team+python",
      "version": "0.3.3-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "team+python",
-     "version": "0.3.1-1"
     }
    ],
-   "published": "2026-11-09T01:49:52.110756+00:00",
+   "published": "2026-11-14T12:48:55.852634+00:00",
    "teams": [],
    "uploader": "team+python"
   },
@@ -124751,21 +124844,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:50:38.129728+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:48:17.563965+00:00",
      "signer": null,
      "uploader": "team+python",
      "version": "5.7.0-2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "team+python",
-     "version": "5.6.1-1"
     }
    ],
-   "published": "2026-11-09T01:50:38.129728+00:00",
+   "published": "2026-11-14T12:48:17.563965+00:00",
    "teams": [],
    "uploader": "team+python"
   },
@@ -125849,6 +125935,22 @@
    "published": "2026-11-09T01:45:54.236220+00:00",
    "teams": [],
    "uploader": "team+tryton-team"
+  },
+  "python-fedora": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:53:01.850017+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "1.1.1-8"
+    }
+   ],
+   "published": "2026-11-14T07:53:01.850017+00:00",
+   "teams": [],
+   "uploader": "team+python"
   },
   "python-ffmpeg-progress-yield": {
    "debian_uploaded": null,
@@ -129652,21 +129754,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:52:50.725654+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:47:57.999756+00:00",
      "signer": null,
      "uploader": "team+python",
      "version": "2.8+dfsg-2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "doko",
-     "uploader": "doko",
-     "version": "2.4+dfsg-1build3"
     }
    ],
-   "published": "2026-11-09T01:52:50.725654+00:00",
+   "published": "2026-11-14T12:47:57.999756+00:00",
    "teams": [],
    "uploader": "team+python"
   },
@@ -133621,22 +133716,6 @@
    ],
    "uploader": "himax16"
   },
-  "python-pbs-installer": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:55:43.193727+00:00",
-     "signer": null,
-     "uploader": "team+python",
-     "version": "2026.10.26-1"
-    }
-   ],
-   "published": "2026-11-14T07:55:43.193727+00:00",
-   "teams": [],
-   "uploader": "team+python"
-  },
   "python-pcre2": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -134909,6 +134988,22 @@
    "published": "2026-10-23T11:59:38.659781+00:00",
    "teams": [],
    "uploader": "seb128"
+  },
+  "python-pyface": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:53:30.116882+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "8.0.0-11"
+    }
+   ],
+   "published": "2026-11-14T07:53:30.116882+00:00",
+   "teams": [],
+   "uploader": "team+python"
   },
   "python-pyfaidx": {
    "debian_uploaded": null,
@@ -137612,38 +137707,6 @@
    "teams": [],
    "uploader": null
   },
-  "python-sercol": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:53:05.185238+00:00",
-     "signer": null,
-     "uploader": "debian-med",
-     "version": "1.0.5-1"
-    }
-   ],
-   "published": "2026-11-14T07:53:05.185238+00:00",
-   "teams": [],
-   "uploader": "debian-med"
-  },
-  "python-serializable": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:55:57.955791+00:00",
-     "signer": null,
-     "uploader": "team+python",
-     "version": "1.3.1-2"
-    }
-   ],
-   "published": "2026-11-14T07:55:57.955791+00:00",
-   "teams": [],
-   "uploader": "team+python"
-  },
   "python-serialx": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -139246,22 +139309,6 @@
     "foundations-bugs"
    ],
    "uploader": "team+openstack"
-  },
-  "python-thinc": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T06:01:05.921630+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "9.1.1-5"
-    }
-   ],
-   "published": "2026-11-09T06:01:05.921630+00:00",
-   "teams": [],
-   "uploader": "debian-science-maintainers-lists"
   },
   "python-threadloop": {
    "debian_uploaded": null,
@@ -142345,6 +142392,22 @@
    "teams": [],
    "uploader": "team+python"
   },
+  "qbe": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "seb128",
+     "uploader": "desktop-rebuild-bot",
+     "version": "1.2-3build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "desktop-rebuild-bot"
+  },
   "qbittorrent-cli": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -143899,22 +143962,6 @@
    "published": "2026-11-09T01:59:22.129922+00:00",
    "teams": [],
    "uploader": "pkg-javascript-devel-2"
-  },
-  "quicktree": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:51:55.177689+00:00",
-     "signer": null,
-     "uploader": "debian-med",
-     "version": "2.5-7"
-    }
-   ],
-   "published": "2026-11-14T07:51:55.177689+00:00",
-   "teams": [],
-   "uploader": "debian-med"
   },
   "quilt": {
    "debian_uploaded": null,
@@ -157783,29 +157830,6 @@
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
-  "ruby-asciidoctor-kroki": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:09:10.955358+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "2.0.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "1.0.1-1"
-    }
-   ],
-   "published": "2026-11-09T02:09:10.955358+00:00",
-   "teams": [],
-   "uploader": "pkg-ruby-extras-maintainers"
-  },
   "ruby-aws-eventstream": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -158003,29 +158027,6 @@
     }
    ],
    "published": "2026-11-02T21:41:03.783900+00:00",
-   "teams": [],
-   "uploader": "pkg-ruby-extras-maintainers"
-  },
-  "ruby-cool.io": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:09:14.347011+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "1.10.1-2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-03T05:52:58.212563+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "1.10.1-1"
-    }
-   ],
-   "published": "2026-11-09T02:09:14.347011+00:00",
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
@@ -158367,29 +158368,6 @@
    "teams": [],
    "uploader": null
   },
-  "ruby-doorkeeper-openid-connect": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:09:29.031225+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "2.1.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-03T04:07:03.371383+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "2.0.0-1"
-    }
-   ],
-   "published": "2026-11-09T02:09:29.031225+00:00",
-   "teams": [],
-   "uploader": "pkg-ruby-extras-maintainers"
-  },
   "ruby-em-websocket": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -158613,29 +158591,6 @@
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
-  "ruby-github-markup": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-02T21:45:06.923245+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "6.1.1+dfsg-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "6.0.0+dfsg-2"
-    }
-   ],
-   "published": "2026-11-02T21:45:06.923245+00:00",
-   "teams": [],
-   "uploader": "pkg-ruby-extras-maintainers"
-  },
   "ruby-gitlab-fog-azure-rm": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -158652,26 +158607,19 @@
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
-  "ruby-google-cloud-errors": {
+  "ruby-google-cloud-logging": {
    "debian_uploaded": null,
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:00:33.439549+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "1.7.1-1"
-    },
-    {
      "pocket": "Release",
-     "published": "2026-11-03T05:55:15.626481+00:00",
+     "published": "2026-11-14T07:55:45.646813+00:00",
      "signer": null,
      "uploader": "pkg-ruby-extras-maintainers",
-     "version": "1.7.0-1"
+     "version": "2.7.1-1"
     }
    ],
-   "published": "2026-11-09T02:00:33.439549+00:00",
+   "published": "2026-11-14T07:55:45.646813+00:00",
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
@@ -159510,29 +159458,6 @@
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
-  "ruby-oj": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:03:15.076095+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "3.17.8-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-03T23:56:48.316238+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "3.17.7-1"
-    }
-   ],
-   "published": "2026-11-09T02:03:15.076095+00:00",
-   "teams": [],
-   "uploader": "pkg-ruby-extras-maintainers"
-  },
   "ruby-omniauth": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -159616,21 +159541,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:03:39.594103+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:48:51.842899+00:00",
      "signer": null,
      "uploader": "pkg-ruby-extras-maintainers",
      "version": "0.2.2-4"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "0.2.2-3"
     }
    ],
-   "published": "2026-11-09T02:03:39.594103+00:00",
+   "published": "2026-11-14T12:48:51.842899+00:00",
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
@@ -160005,6 +159923,22 @@
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
+  "ruby-rack-livereload": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-ruby-extras-maintainers",
+     "version": "0.6.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-ruby-extras-maintainers"
+  },
   "ruby-rack-oauth2": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -160241,29 +160175,6 @@
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-ruby-extras-maintainers"
-  },
-  "ruby-rotp": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:05:09.019753+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "6.4.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "6.3.0-3"
-    }
-   ],
-   "published": "2026-11-09T02:05:09.019753+00:00",
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
@@ -160874,6 +160785,22 @@
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
+  "ruby-specinfra": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-03T11:11:30.991396+00:00",
+     "signer": null,
+     "uploader": "pkg-ruby-extras-maintainers",
+     "version": "2.95.2-1"
+    }
+   ],
+   "published": "2026-11-03T11:11:30.991396+00:00",
+   "teams": [],
+   "uploader": "pkg-ruby-extras-maintainers"
+  },
   "ruby-sprockets": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -160911,21 +160838,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:05:24.773525+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:49:06.448476+00:00",
      "signer": null,
      "uploader": "pkg-ruby-extras-maintainers",
      "version": "1.8.1-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-ruby-extras-maintainers",
-     "version": "1.8.0-1"
     }
    ],
-   "published": "2026-11-09T02:05:24.773525+00:00",
+   "published": "2026-11-14T12:49:06.448476+00:00",
    "teams": [],
    "uploader": "pkg-ruby-extras-maintainers"
   },
@@ -161747,6 +161667,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-actix-web-httpauth": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.8.2+dfsg-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-adblock": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -161951,6 +161887,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-alacritty-config": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.3-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-alacritty-terminal": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -162058,29 +162010,6 @@
     }
    ],
    "published": "2026-11-09T02:06:55.930280+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-amdgpu-sysfs": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:07:01.168104+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.22.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.21.0-1"
-    }
-   ],
-   "published": "2026-11-09T02:07:01.168104+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -162369,21 +162298,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:07:22.655432+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:48:15.574641+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.3.1-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.3.0-1"
     }
    ],
-   "published": "2026-11-09T02:07:22.655432+00:00",
+   "published": "2026-11-14T12:48:15.574641+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -162520,29 +162442,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-arcu": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:07:43.095237+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.3-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.2-2"
-    }
-   ],
-   "published": "2026-11-09T02:07:43.095237+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-arf-strings": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -162575,6 +162474,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-argfile": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-argminmax": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -162588,6 +162503,38 @@
     }
    ],
    "published": "2026-11-09T06:02:16.320556+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-argon2": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.6.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-argon2-0.5": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.5.3-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -162896,21 +162843,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:08:02.208889+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:48:09.908986+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "2.2.2-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.1.2-1"
     }
    ],
-   "published": "2026-11-09T02:08:02.208889+00:00",
+   "published": "2026-11-14T12:48:09.908986+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -162930,29 +162870,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-assert-fs": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:08:12.317835+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.1.4-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.1.3-1"
-    }
-   ],
-   "published": "2026-11-09T02:08:12.317835+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-assertables": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -162966,29 +162883,6 @@
     }
    ],
    "published": "2026-11-09T06:02:25.526883+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-associative-cache": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:08:17.612222+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "3.0.1-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.0.0-2"
-    }
-   ],
-   "published": "2026-11-09T02:08:17.612222+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -163267,6 +163161,38 @@
    "teams": [],
    "uploader": "dr"
   },
+  "rust-async-process": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "jbicha",
+     "uploader": "jbicha",
+     "version": "2.5.0-1build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "jbicha"
+  },
+  "rust-async-signal": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-10T07:22:59.311294+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.14-1"
+    }
+   ],
+   "published": "2026-11-10T07:22:59.311294+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-async-std": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -163359,21 +163285,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:08:51.049549+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:48:33.035998+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "2.2.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.1.0-1"
     }
    ],
-   "published": "2026-11-09T02:08:51.049549+00:00",
+   "published": "2026-11-14T12:48:33.035998+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -163671,21 +163590,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:09:24.172310+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T12:47:53.196297+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "1.0.17-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.0.16-1"
     }
    ],
-   "published": "2026-11-09T02:09:24.172310+00:00",
+   "published": "2026-11-14T12:47:53.196297+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -163741,6 +163653,22 @@
     }
    ],
    "published": "2026-11-09T02:09:32.611501+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-avif-parse": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.4.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -164037,6 +163965,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-bcrypt-pbkdf-0.10": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-04T19:05:26.445980+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.10.0-1"
+    }
+   ],
+   "published": "2026-11-04T19:05:26.445980+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-binary-install": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -164082,22 +164026,6 @@
     }
    ],
    "published": "2026-11-01T03:03:49.926243+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-binstring": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T06:02:48.089031+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.8-1"
-    }
-   ],
-   "published": "2026-11-09T06:02:48.089031+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -164301,29 +164229,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-blake2s-simd": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:09:56.238461+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.0.5-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.0.2-1"
-    }
-   ],
-   "published": "2026-11-09T02:09:56.238461+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-blake3": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -164464,29 +164369,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-bmap-rs": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:10:03.256387+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.2.3-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.2.2-1"
-    }
-   ],
-   "published": "2026-11-09T02:10:03.256387+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-bon": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -164576,29 +164458,6 @@
     }
    ],
    "published": "2026-11-09T02:10:10.036152+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-botan-sys": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:10:12.168443+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.20260811.1-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.20250506.0-2"
-    }
-   ],
-   "published": "2026-11-09T02:10:12.168443+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -165726,27 +165585,10 @@
    "package_sets": [
     "i386-whitelist"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:11:08.658164+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.7.7-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.7.4-1"
-    }
-   ],
-   "published": "2026-11-09T02:11:08.658164+00:00",
-   "teams": [
-    "foundations-bugs"
-   ],
-   "uploader": "pkg-rust-maintainers-h"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "rust-cargo-binutils": {
    "debian_uploaded": null,
@@ -166818,6 +166660,22 @@
    "teams": [],
    "uploader": "daniel-debian-org"
   },
+  "rust-clio": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "jbicha",
+     "uploader": "jbicha",
+     "version": "0.3.6-1build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "jbicha"
+  },
   "rust-clipper2c-sys": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -166999,6 +166857,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-codspeed-divan-compat-walltime": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "4.7.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-color": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -167041,6 +166915,22 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "4.6.6-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-comfy-table": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "7.2.2-1"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -167167,6 +167057,22 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.5.10-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-concurrent-arena": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.1.11-2"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -167736,6 +167642,38 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-cpp-demangle": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.5.1+dfsg-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-cpp-macros": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.5.11-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-cpufeatures": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -168109,6 +168047,22 @@
     }
    ],
    "published": "2026-11-07T06:23:46.560893+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-crosstermion": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.16.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -168534,6 +168488,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-curve25519-dalek-4": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "4.2.0+dfsg-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-cxx": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -168780,29 +168750,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-daachorse": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:11:51.957046+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "5.1.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "3.0.2-1"
-    }
-   ],
-   "published": "2026-11-09T02:11:51.957046+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-daemonize-me": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -168824,44 +168771,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:11:53.678839+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T19:14:15.605321+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.1.8-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.5-2"
     }
    ],
-   "published": "2026-11-09T02:11:53.678839+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-daft-derive": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:11:58.304111+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.8-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.5-1"
-    }
-   ],
-   "published": "2026-11-09T02:11:58.304111+00:00",
+   "published": "2026-11-14T19:14:15.605321+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -169228,29 +169145,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-debian-copyright": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-06T16:29:09.924637+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.56-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.53-1"
-    }
-   ],
-   "published": "2026-11-06T16:29:09.924637+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-debian-lsp": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -169401,6 +169295,22 @@
    "teams": [],
    "uploader": null
   },
+  "rust-defer-drop": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.3.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-defmt": {
    "debian_uploaded": null,
    "package_sets": [
@@ -169438,6 +169348,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "rust-dep3": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.4-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-der": {
    "debian_uploaded": null,
@@ -170061,6 +169987,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-directories-next": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "2.0.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-dirs-next": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -170190,6 +170132,22 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "1.0.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-dns-lookup": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.0.8-5"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -170719,29 +170677,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-ecow": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:13:24.328087+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.3.1+ds-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.3.0+dfsg-1"
-    }
-   ],
-   "published": "2026-11-09T02:13:24.328087+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-ed25519-compact": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -170762,22 +170697,6 @@
     }
    ],
    "published": "2026-11-09T02:13:25.700494+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-ed25519-dalek": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "3.0.0+ds-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -170925,6 +170844,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-elsa": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.11.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-email-encoding": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -171049,22 +170984,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-entropy": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T06:04:21.380062+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.4.3-1"
-    }
-   ],
-   "published": "2026-11-09T06:04:21.380062+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-enum-map": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -171175,6 +171094,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-enumset": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.1.14-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-enumset-derive": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -171273,22 +171208,6 @@
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-epoxy": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T06:04:23.039961+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.1.0-1"
-    }
-   ],
-   "published": "2026-11-09T06:04:23.039961+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -171499,6 +171418,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-eui48": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.1.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-evdev-rs": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -171554,7 +171489,7 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-expecting": {
+  "rust-expect-test": {
    "debian_uploaded": null,
    "package_sets": [],
    "publications": [
@@ -171562,13 +171497,13 @@
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": null,
-     "uploader": "dr",
-     "version": "0.6.0+ds-2"
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.5.1-1"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
-   "uploader": "dr"
+   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-expectorate": {
    "debian_uploaded": null,
@@ -172080,6 +172015,38 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "1.2.4-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-filetime": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.29-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-find-crate": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.7.1-2"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -173573,6 +173540,22 @@
     }
    ],
    "published": "2026-11-06T10:45:40.804594+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-getrandom": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.4.2-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -175481,29 +175464,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-glow": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:15:46.481806+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.18.0+ds-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.17.0+dfsg-1"
-    }
-   ],
-   "published": "2026-11-09T02:15:46.481806+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-glutin": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -175800,22 +175760,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-gpg-error": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.6.0-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-gpgme-sys": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -175836,29 +175780,6 @@
     }
    ],
    "published": "2026-11-07T06:13:25.275551+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-gping": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:57:43.620541+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.21.0-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.20.4-1"
-    }
-   ],
-   "published": "2026-11-09T01:57:43.620541+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -177347,6 +177268,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-handsome-logger": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.9.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-haphazard": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -177405,6 +177342,22 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.16.1-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-hashbrown-0.14": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.14.5-2"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -177759,6 +177712,22 @@
     }
    ],
    "published": "2026-11-08T12:17:25.195391+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-hidapi": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "2.6.3-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -178446,6 +178415,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-hyper-tls": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.6.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-hyper-util": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -178588,6 +178573,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-icu-datetime": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "2.2.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-icu-decimal": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -178614,22 +178615,6 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.5.0-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-icu-list": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.2.0-2"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -179069,6 +179054,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-in-toto": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.4.0-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-include-dir": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -179121,6 +179122,22 @@
     }
    ],
    "published": "2026-11-09T02:13:50.671593+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-indicatif": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.17.11-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -179271,6 +179288,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-ini-core": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-inotify": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -179327,6 +179360,22 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.10.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-input-linux": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.7.1-3"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -182695,6 +182744,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-lodepng": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "3.12.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-log": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -182715,6 +182780,22 @@
     }
    ],
    "published": "2026-11-09T02:18:21.731038+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-log-reroute": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.1.8-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -182947,29 +183028,6 @@
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-lsd": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:18:44.046780+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.2.0-5"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.2.0-3"
-    }
-   ],
-   "published": "2026-11-09T02:18:44.046780+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -183543,6 +183601,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-md-5": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.11.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-md-5-0.10": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -183777,6 +183851,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-migrations-internals": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "2.3.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-migrations-macros": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -183868,6 +183958,22 @@
     }
    ],
    "published": "2026-11-09T02:16:15.481115+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-mio-0.6": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.6.23-6"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -183966,6 +184072,22 @@
    "uploader": "pkg-rust-maintainers-h"
   },
   "rust-mockall": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.13.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-mockall-derive": {
    "debian_uploaded": null,
    "package_sets": [],
    "publications": [
@@ -184088,6 +184210,22 @@
     }
    ],
    "published": "2026-11-09T02:16:37.449752+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-motis-openapi-sdk": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "5.0.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -185089,6 +185227,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-npm-package-json": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.1.3-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-ntp-proto": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -185228,6 +185382,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "rust-num-format": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.4.4-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-num-iter": {
    "debian_uploaded": null,
@@ -186815,6 +186985,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-pbkdf2": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.13.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-pcap": {
    "debian_uploaded": null,
    "package_sets": [
@@ -187705,6 +187891,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-plist": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.8.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-plotters-bitmap": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -187970,6 +188172,22 @@
     }
    ],
    "published": "2026-11-09T02:20:58.051710+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-postgres-protocol": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.6.12-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -188509,22 +188727,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-prost-derive": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.14.4-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-prost-reflect": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -189009,6 +189211,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-pythonize": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.28.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-qmetaobject": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -189281,6 +189499,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-r-description": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.4.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-r2d2": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -189310,6 +189544,22 @@
     }
    ],
    "published": "2026-11-09T06:06:20.782345+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-radium": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.1.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -190297,6 +190547,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-reflink-copy": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.1.30-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-regalloc2": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -190494,7 +190760,7 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-reqsign-command-execute-tokio": {
+  "rust-reqsign-azure-storage": {
    "debian_uploaded": null,
    "package_sets": [],
    "publications": [
@@ -190818,29 +191084,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-riffdiff": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:23:44.308406+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "3.6.2-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "3.6.0-2"
-    }
-   ],
-   "published": "2026-11-09T02:23:44.308406+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-ringbuf": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -191068,22 +191311,6 @@
    "published": "2026-11-09T02:23:55.992627+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-roadmap": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.7.0+ds-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "dr"
   },
   "rust-roaring": {
    "debian_uploaded": null,
@@ -191363,6 +191590,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-rs-tracing": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.1.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-rsa-0.9": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -191399,6 +191642,22 @@
     }
    ],
    "published": "2026-11-09T02:24:18.093530+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-rspec": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.0.0-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -193593,22 +193852,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-sequoia-man": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.3.2-2"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
   "rust-sequoia-net": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -194334,6 +194577,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-sha-crypt": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "daniel-debian-org",
+     "version": "0.6.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "daniel-debian-org"
+  },
   "rust-sha1": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -194386,6 +194645,22 @@
     }
    ],
    "published": "2026-11-09T02:19:28.222573+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-sha2-0.10": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.10.9-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -194704,6 +194979,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-simple-logger": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "5.2.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-simsimd": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -194903,6 +195194,22 @@
    "published": "2026-11-07T06:28:31.261144+00:00",
    "teams": [],
    "uploader": "dr"
+  },
+  "rust-smol-macros": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.1.1-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-smol-str": {
    "debian_uploaded": null,
@@ -195629,6 +195936,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-ssh-encoding-0.2": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-06T03:57:09.304563+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.0-1"
+    }
+   ],
+   "published": "2026-11-06T03:57:09.304563+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-ssh-format": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -195740,6 +196063,22 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.2.1-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-starship-battery": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.11.1-1"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -196484,6 +196823,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-svp-client": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-swash": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -196771,6 +197126,38 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "seb128"
+  },
+  "rust-sync-wrapper": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.0.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-synchronoise": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.0.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-synstructure": {
    "debian_uploaded": null,
@@ -197256,10 +197643,18 @@
    "package_sets": [
     "i386-excludes"
    ],
-   "publications": [],
-   "published": null,
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "3.27.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
-   "uploader": null
+   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-tera": {
    "debian_uploaded": null,
@@ -197423,6 +197818,22 @@
     }
    ],
    "published": "2026-11-09T02:24:58.264516+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-tester": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.9.1-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -197652,6 +198063,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-threadfin": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "dr",
+     "version": "0.1.2-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "dr"
+  },
   "rust-threecpio": {
    "debian_uploaded": null,
    "package_sets": [
@@ -197724,6 +198151,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-time-fmt": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.3.8-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-timerfd": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -197755,6 +198198,22 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-tiny-keccak": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "seb128",
+     "uploader": "seb128",
+     "version": "2.0.2-1build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "seb128"
   },
   "rust-tiny-skia": {
    "debian_uploaded": null,
@@ -198655,6 +199114,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-tracing-subscriber": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.3.23-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-trait-variant": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -199093,6 +199568,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-tui-react": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.24.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-tui-term": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -199518,6 +200009,22 @@
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.10.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-unic-langid-impl": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.9.6-1"
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
@@ -200012,6 +200519,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-utoipa": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "5.5.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-utoipa-config": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -200032,6 +200555,22 @@
     }
    ],
    "published": "2026-11-09T02:27:15.111236+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
+  "rust-uu-grep": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.2.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -200670,6 +201209,22 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
+  "rust-voca-rs": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "1.15.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-rust-maintainers-h"
+  },
   "rust-vodozemac": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -201304,21 +201859,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:22:15.942083+00:00",
+     "pocket": "Release",
+     "published": "2026-11-14T19:14:40.696833+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.5.5-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.5.2-2"
     }
    ],
-   "published": "2026-11-09T02:22:15.942083+00:00",
+   "published": "2026-11-14T19:14:40.696833+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -201825,22 +202373,6 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-x509-parser": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.18.1+ds-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "dr"
   },
   "rust-xattr": {
    "debian_uploaded": null,
@@ -205325,29 +205857,6 @@
    "teams": [],
    "uploader": null
   },
-  "settle": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:29:40.788111+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.40.1-11"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.40.1-9"
-    }
-   ],
-   "published": "2026-11-09T02:29:40.788111+00:00",
-   "teams": [],
-   "uploader": "dr"
-  },
   "setuptools": {
    "debian_uploaded": null,
    "package_sets": [
@@ -205485,25 +205994,10 @@
    "package_sets": [
     "i386-whitelist"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:29:46.336633+00:00",
-     "signer": null,
-     "uploader": "phil-swart",
-     "version": "2026.4-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "phil-swart",
-     "version": "2026.3-1"
-    }
-   ],
-   "published": "2026-11-09T02:29:46.336633+00:00",
+   "publications": [],
+   "published": null,
    "teams": [],
-   "uploader": "phil-swart"
+   "uploader": null
   },
   "shadow": {
    "debian_uploaded": null,
@@ -210306,29 +210800,6 @@
    "teams": [],
    "uploader": "debian-science-maintainers-lists"
   },
-  "stdsyslog": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:32:52.790269+00:00",
-     "signer": null,
-     "uploader": "roam-9",
-     "version": "0.3.5-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "roam-9",
-     "version": "0.03.4-2"
-    }
-   ],
-   "published": "2026-11-09T02:32:52.790269+00:00",
-   "teams": [],
-   "uploader": "roam-9"
-  },
   "steam-installer": {
    "debian_uploaded": null,
    "package_sets": [
@@ -212457,29 +212928,6 @@
    "published": "2026-11-10T05:37:05.144019+00:00",
    "teams": [],
    "uploader": "merkys-a"
-  },
-  "tailspin": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-07T06:28:52.447557+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "7.0.0+dfsg-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "6.1.0+dfsg-1"
-    }
-   ],
-   "published": "2026-11-07T06:28:52.447557+00:00",
-   "teams": [],
-   "uploader": "dr"
   },
   "tali": {
    "debian_uploaded": null,
@@ -216559,6 +217007,22 @@
    "teams": [],
    "uploader": "team+tryton-team"
   },
+  "tryton-modules-account-invoice-correction": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "team+tryton-team",
+     "version": "7.0.0-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "team+tryton-team"
+  },
   "tryton-modules-account-invoice-defer": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -220540,20 +221004,10 @@
    "package_sets": [
     "core"
    ],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "seb128",
-     "uploader": "seb128",
-     "version": "3.12build1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [
-    "foundations-bugs"
-   ],
-   "uploader": "seb128"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "update-notifier": {
    "debian_uploaded": null,
@@ -222904,52 +223358,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "wasm-bindgen": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:40:51.117454+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.2.108+ds-3"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.2.108+ds-2"
-    }
-   ],
-   "published": "2026-11-09T02:40:51.117454+00:00",
-   "teams": [],
-   "uploader": "dr"
-  },
-  "wasm-pack": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:40:53.813760+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.15.1+ds-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "0.15.0+ds-2"
-    }
-   ],
-   "published": "2026-11-09T02:40:53.813760+00:00",
-   "teams": [],
-   "uploader": "dr"
-  },
   "wasm-tools": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -224411,6 +224819,22 @@
     "debcrafters-packages"
    ],
    "uploader": "antoinelassagne"
+  },
+  "writer2latex": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "debian-openoffice",
+     "version": "1.6.1-8"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "debian-openoffice"
   },
   "wsjtx-improved": {
    "debian_uploaded": null,
