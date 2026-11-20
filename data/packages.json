@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-20T21:23:54.867255+00:00",
+ "collected_at": "2026-11-20T23:33:22.725430+00:00",
  "packages": {
   "0c-ime": {
    "debian_uploaded": null,
@@ -3724,10 +3724,10 @@
    "publications": [
     {
      "pocket": "Proposed",
-     "published": "2026-10-15T14:40:17.721693+00:00",
+     "published": "2026-11-20T22:46:10.090470+00:00",
      "signer": "seb128",
-     "uploader": "desktop-rebuild-bot",
-     "version": "1.6.1ubuntu3"
+     "uploader": "mclemenceau",
+     "version": "1.6.1ubuntu4"
     },
     {
      "pocket": "Release",
@@ -3737,9 +3737,9 @@
      "version": "1.6.1ubuntu2"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:46:10.090470+00:00",
    "teams": [],
-   "uploader": "desktop-rebuild-bot"
+   "uploader": "mclemenceau"
   },
   "autopkgtest": {
    "debian_uploaded": null,
@@ -8874,24 +8874,14 @@
    "uploader": "debian-emacsen"
   },
   "cloud-init": {
-   "debian_uploaded": "2026-07-29T16:19:09+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "core"
    ],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "chad.smith",
-     "uploader": "chad.smith",
-     "version": "26.2-0ubuntu2"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [
-    "ubuntu-server"
-   ],
-   "uploader": "chad.smith"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "cloud-initramfs-tools": {
    "debian_uploaded": null,
@@ -9347,6 +9337,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:37:13.314544+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "5.12.0-27ubuntu4"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -9354,7 +9351,7 @@
      "version": "5.12.0-27ubuntu3"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:37:13.314544+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -11928,6 +11925,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:38:16.069185+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "3.12.4-1build1"
+    },
+    {
      "pocket": "Release",
      "published": "2026-11-09T18:47:20.964588+00:00",
      "signer": null,
@@ -11935,9 +11939,9 @@
      "version": "3.12.4-1"
     }
    ],
-   "published": "2026-11-09T18:47:20.964588+00:00",
+   "published": "2026-11-20T22:38:16.069185+00:00",
    "teams": [],
-   "uploader": "team+cyrus"
+   "uploader": "ginggs"
   },
   "cyrus-sasl2": {
    "debian_uploaded": "2026-10-16T21:40:45+00:00",
@@ -17252,6 +17256,13 @@
    ],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:38:19.553152+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "4.99.4-1ubuntu6"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "hectorcao",
@@ -17259,11 +17270,11 @@
      "version": "4.99.4-1ubuntu5"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:38:19.553152+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "hectorcao"
+   "uploader": "ginggs"
   },
   "eximdoc4": {
    "debian_uploaded": null,
@@ -18230,6 +18241,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:38:22.648815+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.505-1build3"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -18237,7 +18255,7 @@
      "version": "1.505-1build2"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:38:22.648815+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -21302,6 +21320,13 @@
    ],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:38:24.668586+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "3.2.10+dfsg-1ubuntu2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "rr",
@@ -21309,11 +21334,11 @@
      "version": "3.2.10+dfsg-1ubuntu1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:38:24.668586+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "gycsaba96"
+   "uploader": "ginggs"
   },
   "freerdp2": {
    "debian_uploaded": null,
@@ -46088,6 +46113,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:43:58.164525+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.005-2build6"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -46095,7 +46127,7 @@
      "version": "0.005-2build5"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:43:58.164525+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -51098,6 +51130,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:11.217181+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "6.570-5build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -51105,7 +51144,7 @@
      "version": "6.570-5build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:11.217181+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -51669,6 +51708,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:14.883879+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.99-1build1"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": null,
@@ -51676,9 +51722,9 @@
      "version": "1.99-1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:14.883879+00:00",
    "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
+   "uploader": "ginggs"
   },
   "libcrypt-openssl-random-perl": {
    "debian_uploaded": null,
@@ -52787,6 +52833,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:16.658398+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "2.42-2build4"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -52794,7 +52847,7 @@
      "version": "2.42-2build3"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:16.658398+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -53033,6 +53086,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:18.340277+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.006-1build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -53040,7 +53100,7 @@
      "version": "0.006-1build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:18.340277+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -54478,6 +54538,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:19.956407+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.006-1build1"
+    },
+    {
      "pocket": "Release",
      "published": "2026-11-01T05:13:50.528178+00:00",
      "signer": null,
@@ -54485,9 +54552,9 @@
      "version": "0.006-1"
     }
    ],
-   "published": "2026-11-01T05:13:50.528178+00:00",
+   "published": "2026-11-20T22:44:19.956407+00:00",
    "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
+   "uploader": "ginggs"
   },
   "libdevel-callsite-perl": {
    "debian_uploaded": null,
@@ -57526,6 +57593,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:24.254874+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "2.002006-1build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -57533,7 +57607,7 @@
      "version": "2.002006-1build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:24.254874+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -58107,6 +58181,13 @@
    ],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:26.363551+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.052-2build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -58114,7 +58195,7 @@
      "version": "0.052-2build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:26.363551+00:00",
    "teams": [
     "debcrafters-packages"
    ],
@@ -59834,6 +59915,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:28.463998+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "5-3build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -59841,7 +59929,7 @@
      "version": "5-3build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:28.463998+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -62996,6 +63084,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:30.500045+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.300004-1build6"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -63003,7 +63098,7 @@
      "version": "0.300004-1build5"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:30.500045+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -65867,6 +65962,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:41.710329+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.825-1build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -65874,7 +65976,7 @@
      "version": "0.825-1build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:41.710329+00:00",
    "teams": [
     "debcrafters-packages"
    ],
@@ -72569,6 +72671,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:49.242219+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.003002-6build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -72576,7 +72685,7 @@
      "version": "1.003002-6build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:49.242219+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
@@ -104725,6 +104834,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-19T18:14:36.909088+00:00",
+     "signer": "jbicha",
+     "uploader": "jbicha",
+     "version": "2.1.8-1build2"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "doko",
@@ -104732,9 +104848,9 @@
      "version": "2.1.8-1build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-19T18:14:36.909088+00:00",
    "teams": [],
-   "uploader": "doko"
+   "uploader": "jbicha"
   },
   "pyhamcrest": {
    "debian_uploaded": null,
@@ -155905,6 +156021,14 @@
    "package_sets": [],
    "publications": [
     {
+     "auto_synced": true,
+     "pocket": "Proposed",
+     "published": "2026-11-09T02:21:53.228580+00:00",
+     "signer": null,
+     "uploader": "pkg-rust-maintainers-h",
+     "version": "0.3.1-1"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "seb128",
@@ -155912,9 +156036,9 @@
      "version": "0.2.1-2build1"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-09T02:21:53.228580+00:00",
    "teams": [],
-   "uploader": "seb128"
+   "uploader": "pkg-rust-maintainers-h"
   },
   "rust-string-cache-codegen": {
    "debian_uploaded": null,
@@ -166899,10 +167023,10 @@
    "publications": [
     {
      "pocket": "Proposed",
-     "published": "2026-11-19T15:31:10.726177+00:00",
+     "published": "2026-11-20T22:23:10.059571+00:00",
      "signer": "seb128",
      "uploader": "maxgmr",
-     "version": "1:5.9.1-0ubuntu2"
+     "version": "1:5.9.1-0ubuntu3"
     },
     {
      "pocket": "Release",
@@ -166912,7 +167036,7 @@
      "version": "1:5.9.1-0ubuntu1"
     }
    ],
-   "published": "2026-11-19T15:31:10.726177+00:00",
+   "published": "2026-11-20T22:23:10.059571+00:00",
    "teams": [
     "ubuntu-openstack"
    ],
@@ -180542,6 +180666,13 @@
    ],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-20T22:44:57.654333+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "0.23.93-9ubuntu3"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -180549,7 +180680,7 @@
      "version": "0.23.93-9ubuntu2"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-20T22:44:57.654333+00:00",
    "teams": [],
    "uploader": "ginggs"
   },
