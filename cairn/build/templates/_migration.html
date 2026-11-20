@@ -277,7 +277,9 @@
       <th class="cairn-component">Component</th>
       <th class="cairn-why" data-nosort>Why it is held</th>
       <th class="cairn-days u-align--right">In proposed</th>
-      {% if not group or group.kind != 'uploaders' %}<th class="cairn-uploader">Uploader</th>{% endif %}
+      {# +1 maintenance's page keeps the column: it says who asked for a
+         sync, when someone did. #}
+      {% if not group or group.kind != 'uploaders' or group.name == 'plus-one-maintenance' %}<th class="cairn-uploader">Uploader</th>{% endif %}
       {% if not group or group.kind != 'teams' %}<th class="cairn-team">Subscribed team</th>{% endif %}
       {% if not group or group.kind != 'sets' %}<th class="cairn-set">Package set</th>{% endif %}
     </tr>
@@ -289,7 +291,7 @@
         data-f-reason="{{ row.reasons | join(' ') }}"
         data-f-origin="{{ row.origin }}"
         data-f-history="{{ 'recent' if row.package in recent_stuck }} {{ 'reuploaded' if row.uploads > 1 }} {{ 'returning' if row.occurrences > 1 }}"
-        data-f-q="{{ row.package }} {{ row.uploader or '' }} {{ '+1 maintenance' if row.synced }} {{ row.teams | join(' ') }} {{ row.package_sets | join(' ') }}">
+        data-f-q="{{ row.package }} {{ row.uploader or '' }} {{ row.requester or '' }} {{ '+1 maintenance' if row.synced }} {{ row.teams | join(' ') }} {{ row.package_sets | join(' ') }}">
       <td data-heading="Package" class="cairn-package" data-sort="{{ row.package }}">
         <a href="{{ root }}{{ package_href(row.package) }}">{{ row.package }}</a>
         {{ merge_chip(row, group) }}
@@ -331,6 +333,11 @@
         {% if row.architectures %}
         <div class="p-text--small u-text--muted">held on {{ row.architectures | join(", ") }} only</div>
         {% endif %}
+        {# On the requester's own page the Uploader column is hidden, so the
+           row says here that it is a sync, not their upload. #}
+        {% if row.requester and group and group.kind == 'uploaders' and group.name == row.requester %}
+        <div class="p-text--small u-text--muted">manually synced from Debian</div>
+        {% endif %}
       </td>
       <td data-heading="Component" class="cairn-component">
         {% if row.component %}{{ row.component }}
@@ -342,11 +349,14 @@
         {% if days is none %}<span class="u-text--muted">unknown</span>
         {% else %}{{ days }} day{{ '' if days == 1 else 's' }}{% endif %}
       </td>
-      {% if not group or group.kind != 'uploaders' %}
-      <td data-heading="Uploader" class="cairn-uploader" data-sort="{{ '+1 maintenance' if row.synced else (row.uploader or '') }}">
-        {% if row.synced %}
+      {% if not group or group.kind != 'uploaders' or group.name == 'plus-one-maintenance' %}
+      <td data-heading="Uploader" class="cairn-uploader" data-sort="{{ row.requester or ('+1 maintenance' if row.synced else (row.uploader or '')) }}">
+        {% if row.requester %}
+        <a href="{{ root }}migration/uploaders/{{ row.requester | slug }}.html">{{ row.requester }}</a>
+        <div class="p-text--small u-text--muted">manually synced; also with <a href="{{ root }}migration/uploaders/plus-one-maintenance.html">+1 maintenance</a></div>
+        {% elif row.synced %}
         <a href="{{ root }}migration/uploaders/plus-one-maintenance.html">+1 maintenance</a>
-        <div class="p-text--small u-text--muted">synced{% if row.uploader %} from {{ row.uploader }}{% endif %}</div>
+        <div class="p-text--small u-text--muted">{{ 'auto-synced' if row.auto_synced else 'synced' }}{% if row.uploader %} from {{ row.uploader }}{% endif %}</div>
         {% elif row.uploader %}
         <a href="{{ root }}migration/uploaders/{{ row.uploader | slug }}.html">{{ row.uploader }}</a>
         {% else %}<span class="u-text--muted">unknown</span>{% endif %}
@@ -458,6 +468,10 @@
    people did not find them. The caller supplies what sits between the
    tabs and the panels (the filter, the glossary), so one filter serves
    both. Panel ids contain "_", which no package name (a row id) can. #}
+{# Each tab names its count; with a filter on, cairn.js keeps it to the
+   rows that match, so the tab and its list never disagree. The label is
+   one span: Vanilla's tab link is a flex box with a gap, which would
+   otherwise space out "Stuck (", the number and ")". #}
 {% macro stuck_tabs(settled, settling, group, caption) %}
 <div class="cairn-tabbed" data-tabs>
   {# What sets the two tabs apart, before the reader picks one. #}
@@ -469,8 +483,8 @@
 </p>
   <nav class="p-tabs" aria-label="Stuck or still settling">
     <ul class="p-tabs__list">
-      <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck_list" data-tab="stuck_list">Stuck</a></li>
-      <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#still_settling" data-tab="still_settling"{{ g.tip("settling") }}>Still settling</a></li>
+      <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck_list" data-tab="stuck_list"><span>Stuck (<span data-tab-count="stuck_list">{{ settled | length }}</span>)</span></a></li>
+      <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#still_settling" data-tab="still_settling"{{ g.tip("settling") }}><span>Still settling (<span data-tab-count="still_settling">{{ settling | length }}</span>)</span></a></li>
     </ul>
   </nav>
   {{ caller() }}

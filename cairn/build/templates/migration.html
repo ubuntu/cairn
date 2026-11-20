@@ -47,8 +47,8 @@
       </p>
       <nav class="p-tabs" aria-label="Stuck in proposed board">
         <ul class="p-tabs__list">
-          <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck_list" data-tab="stuck_list">Stuck</a></li>
-          <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#still_settling" data-tab="still_settling"{{ g.tip("settling") }}>Still settling</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck_list" data-tab="stuck_list"><span>Stuck (<span data-tab-count="stuck_list">{{ settled | length }}</span>)</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#still_settling" data-tab="still_settling"{{ g.tip("settling") }}><span>Still settling (<span data-tab-count="still_settling">{{ settling | length }}</span>)</span></a></li>
           <li class="p-tabs__item"><a class="p-tabs__link" href="#board_stats" data-tab="board_stats">Statistics</a></li>
         </ul>
       </nav>

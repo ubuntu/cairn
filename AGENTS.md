@@ -410,9 +410,24 @@ signed the upload, which for a sponsored upload is the sponsor (measured:
 `shadow` 1:4.19.3-2ubuntu1, creator `nadzeya`, signer `seb128`). The person
 who made the change owns getting it to migrate, so the signer is never shown
 and never routed to. It is only checked for being absent. A publication with no
-signer is a copy, almost always an auto-sync from Debian: Launchpad names the
-*Debian* uploader as its creator (measured: `gettext` → `sanvila`). Those are
-routed to the "+1 maintenance" group, never to someone outside Ubuntu.
+signer is a copy, usually a sync from Debian: Launchpad names the
+*Debian* uploader as its `package_creator` (measured: `gettext` → `sanvila`).
+Those are routed to the "+1 maintenance" group, never to someone outside
+Ubuntu.
+
+**Who asked for a sync is a fourth fact, from the copy's `creator`** (not
+`package_creator`), on its `-proposed` publication (issue #14). Measured
+over tenacious-proposed, 20 Nov 2026, 2,299 copies: 1,577 by the auto-sync
+(creator `katie`, sponsor `ubuntu-archive-robot`), 651 requested by a
+developer (`distro-info` 1.19 → `bdrung`), 10 sponsored (creator the
+contributor who asked, sponsor the developer, routed to the contributor as a
+sponsored upload is), 53 with no creator (copied forward when the series
+opened). On the release publication `creator` is britney's migration copy,
+`katie` again, so only `-proposed` says who asked. A requested sync is
+listed on the requester's page **and** stays with +1 maintenance and Up for
+grabs: 534 of the 621 requested syncs then stuck were one developer's bulk
+syncs, 50 to 112 a day early in the cycle, which no one is on. The row names
+the requester so a +1 shift can ask first.
 
 **One page per owner per kind.** A team, package set or
 uploader has a merges page (`merges/teams/x.html`) and a stuck-in-proposed page

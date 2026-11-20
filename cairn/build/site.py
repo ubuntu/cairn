@@ -99,9 +99,13 @@ REASON_ORDER = (
     "other",
 )
 
-# Synced uploads have no Ubuntu uploader to route to. Ubuntu's proposed
-# migration docs give those to +1 maintenance, so they are grouped there
-# rather than under a Debian developer who will never read this page.
+# Syncs have no Ubuntu uploader to route to. Ubuntu's proposed migration
+# docs give those to +1 maintenance, so they are grouped there rather than
+# under a Debian developer who will never read this page. A sync someone
+# asked for is listed under them as well (issue #14), not instead: on
+# 20 Nov 2026, 534 of the 621 requested syncs stuck were one developer's
+# bulk syncs early in the cycle, which routing to them alone would have
+# taken away from +1 maintenance.
 PLUS_ONE = "plus-one-maintenance"
 
 # Not an owner: every row of a board, listed on the board's own front page
@@ -359,8 +363,11 @@ class StuckRow:
     bugs: tuple[int, ...]
     hints: tuple[str, ...]
     since: date | None
+    # The changelog person. For a sync, the Debian uploader: shown, never
+    # routed to.
     uploader: str | None
-    # No Ubuntu signer: a Debian sync. Routed to +1 maintenance.
+    # No Ubuntu signer: a sync. Routed to +1 maintenance, and to its
+    # requester as well when someone asked for it.
     synced: bool
     package_sets: tuple[str, ...]
     teams: tuple[str, ...]
@@ -383,19 +390,34 @@ class StuckRow:
     architectures: tuple[str, ...] = ()
     # The series britney tested this upload in, which test log URLs name.
     series: str = ""
+    # A sync: who asked for it, if a person did, and whether the auto-sync
+    # copied it. See publications.requester().
+    requester: str | None = None
+    auto_synced: bool = False
 
     @property
     def owner(self) -> str:
-        return PLUS_ONE if self.synced else (self.uploader or "")
+        """The uploader page this row is certain to be on. A requested sync
+        is on +1 maintenance's too: see owners."""
+        if self.synced:
+            return self.requester or PLUS_ONE
+        return self.uploader or ""
+
+    @property
+    def owners(self) -> list[str]:
+        """Every uploader page this row is on."""
+        return [self.owner, PLUS_ONE] if self.requester else [self.owner]
 
     @property
     def origin(self) -> str:
-        """Who made the upload: "sync" (no Ubuntu signer), "ubuntu" (an
-        Ubuntu uploader is known), or "unknown" (Launchpad returned no
-        publication for this version). Not synced is not the same as an
-        Ubuntu upload: an upload Launchpad does not describe is neither."""
+        """Who made the upload: "ubuntu" (an Ubuntu uploader is known),
+        "requested" (a sync someone asked for), "sync" (a sync no one did:
+        the auto-sync's, or a copy Launchpad names no one for), or "unknown"
+        (Launchpad returned no publication for this version). Not synced is
+        not the same as an Ubuntu upload: an upload Launchpad does not
+        describe is neither."""
         if self.synced:
-            return "sync"
+            return "requested" if self.requester else "sync"
         return "ubuntu" if self.uploader else "unknown"
 
     @property
@@ -896,6 +918,8 @@ def stuck_rows(
                 since=_since(payload.get("in_proposed_since")),
                 uploader=owner.uploader_of(new_version),
                 synced=bool(shown and shown.synced),
+                requester=shown.requester if shown and shown.synced else None,
+                auto_synced=bool(shown and shown.synced and shown.auto_synced),
                 package_sets=owner.package_sets,
                 teams=owner.teams,
                 first_seen=st.first_seen,
@@ -1121,7 +1145,7 @@ def group_by_uploader(
 
     def key(item: Any) -> list[str]:
         if isinstance(item, StuckRow):
-            return [item.owner]
+            return item.owners
         return [item.uploader or ""]
 
     found = _groups("uploaders", "uploader", rows, stuck, (), key)
@@ -1140,7 +1164,8 @@ def group_by_uploader(
                 stuck=plus_one.stuck,
                 note=(
                     "Synced from Debian with no Ubuntu uploader to route to. "
-                    "Ubuntu's migration process gives these to +1 maintenance."
+                    "Ubuntu's migration process gives these to +1 maintenance. "
+                    "A sync someone asked for is also listed under them."
                 ),
             )
         )

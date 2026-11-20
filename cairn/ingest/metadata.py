@@ -46,19 +46,29 @@ class PublishedVersion:
     # Debian sync or a copy; never displayed in place of the uploader.
     signer: str | None = None
     published: str | None = None
+    # A sync: who asked for it, or that the auto-sync copied it. See
+    # publications.requester(). Written only when set, so a snapshot from
+    # before they existed reads as "not known", never as "auto-synced".
+    requester: str | None = None
+    auto_synced: bool = False
 
     @property
     def synced(self) -> bool:
         return self.signer is None
 
     def as_dict(self) -> dict[str, Any]:
-        return {
+        found: dict[str, Any] = {
             "version": self.version,
             "pocket": self.pocket,
             "uploader": self.uploader,
             "signer": self.signer,
             "published": self.published,
         }
+        if self.requester:
+            found["requester"] = self.requester
+        if self.auto_synced:
+            found["auto_synced"] = True
+        return found
 
     @classmethod
     def from_dict(cls, raw: Mapping[str, Any]) -> PublishedVersion:
@@ -68,6 +78,8 @@ class PublishedVersion:
             uploader=raw.get("uploader"),
             signer=raw.get("signer"),
             published=raw.get("published"),
+            requester=raw.get("requester"),
+            auto_synced=bool(raw.get("auto_synced")),
         )
 
 
@@ -186,6 +198,8 @@ def collect(
                     uploader=p.uploader,
                     signer=p.signer,
                     published=p.uploaded.isoformat() if p.uploaded else None,
+                    requester=p.requester,
+                    auto_synced=p.auto_synced,
                 )
                 for p in sorted(every, key=lambda p: (p.pocket or "", p.version))
             ),

@@ -373,7 +373,34 @@ class TestPages:
         assert 'id="old"' in stuck_tab and 'id="new"' not in stuck_tab
         assert 'id="new"' in settling_tab
         tabs = page.split('aria-label="Stuck or still settling"')[1].split("</nav>")[0]
-        assert re.search(r'data-tab="still_settling"[^>]*>Still settling<', tabs)
+        assert re.search(
+            r'data-tab="still_settling"[^>]*><span>Still settling \(', tabs
+        )
+        # Each tab names its count, in a span cairn.js keeps to the filter.
+        assert '<span>Stuck (<span data-tab-count="stuck_list">1</span>)' in tabs
+        assert (
+            '<span>Still settling (<span data-tab-count="still_settling">1</span>)'
+            in tabs
+        )
+
+    def test_the_board_tabs_name_their_counts(self, tmp_path):
+        events = [
+            opened(stuck("old", days=20)),
+            opened(stuck("older", days=30)),
+            opened(stuck("new", days=1)),
+        ]
+        board = (
+            self.built(tmp_path, events, meta()) / "migration/index.html"
+        ).read_text()
+        tabs = board.split('aria-label="Stuck in proposed board"')[1].split("</nav>")[0]
+        assert '<span>Stuck (<span data-tab-count="stuck_list">2</span>)' in tabs
+        assert (
+            '<span>Still settling (<span data-tab-count="still_settling">1</span>)'
+            in tabs
+        )
+        # cairn.js finds the tab's count by the panel's id.
+        assert 'class="cairn-tab-panel" id="stuck_list" data-filter-group' in board
+        assert 'class="cairn-tab-panel" id="still_settling" data-filter-group' in board
 
     def test_reuploads_are_counted(self, tmp_path):
         events = [
@@ -1721,3 +1748,93 @@ def test_the_test_history_link_does_not_style_the_package_history(tmp_path):
     board = (tmp_path / "migration/index.html").read_text()
     assert 'class="cairn-test-history"' in board
     assert 'class="cairn-history"' not in board
+
+
+class TestSyncRequester:
+    """Issue #14: a manual sync is listed under whoever asked for it, and
+    stays with +1 maintenance."""
+
+    def owners(self, **kwargs):
+        return meta(
+            libssh2=PackageMetadata(
+                publications=(
+                    PublishedVersion(
+                        version="1.0-2",
+                        pocket="Proposed",
+                        uploader="sanvila",
+                        signer=None,
+                        **kwargs,
+                    ),
+                )
+            ),
+        )
+
+    def test_a_requested_sync_is_routed_to_its_requester(self):
+        [row] = stuck_rows(
+            replay([opened(stuck())]), self.owners(requester="bdrung"), now=NOW
+        )
+        assert row.synced
+        assert row.owner == "bdrung"
+        assert row.origin == "requested"
+        assert row.uploader == "sanvila"  # still the changelog person
+        assert row.page == "migration/uploaders/bdrung.html"
+
+    def test_an_auto_sync_stays_with_plus_one(self):
+        [row] = stuck_rows(
+            replay([opened(stuck())]), self.owners(auto_synced=True), now=NOW
+        )
+        assert row.owner == PLUS_ONE
+        assert row.origin == "sync"
+
+    def test_pages(self, tmp_path):
+        build(
+            replay([opened(stuck())]),
+            healthy(),
+            self.owners(requester="bdrung"),
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        mine = (tmp_path / "migration/uploaders/bdrung.html").read_text()
+        assert 'id="libssh2"' in mine
+        assert "manually synced from Debian" in mine
+        # Also +1 maintenance's: most requested syncs are bulk syncs.
+        plus_one = tmp_path / "migration/uploaders/plus-one-maintenance.html"
+        assert 'id="libssh2"' in plus_one.read_text()
+        assert "manually synced; also with" in plus_one.read_text()
+        board = (tmp_path / "migration/index.html").read_text()
+        assert "manually synced; also with" in board
+        assert 'data-f-origin="requested"' in board
+        assert '<option value="requested">' in board
+        page = (tmp_path / "packages/libssh2.html").read_text()
+        assert "manually synced from Debian by" in page
+        assert "Debian upload by sanvila" in page
+        # Who looks after it: the requester and +1 maintenance, each once.
+        owners = page.split("Who looks after it")[1].split("</table>")[0]
+        assert owners.count("uploaders/bdrung.html") == 1
+        assert owners.count("uploaders/plus-one-maintenance.html") == 1
+        assert "sanvila" not in owners
+        assert "for a manual sync, whoever asked for it" in owners
+
+    def test_an_auto_sync_says_so(self, tmp_path):
+        build(
+            replay([opened(stuck())]),
+            healthy(),
+            self.owners(auto_synced=True),
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        board = (tmp_path / "migration/index.html").read_text()
+        assert "auto-synced from sanvila" in board
+
+
+def test_sync_fields_are_written_only_when_set(tmp_path):
+    """So a snapshot from before them reads as "not known", not automatic."""
+    plain = PublishedVersion(version="1.0-2", signer=None)
+    assert "requester" not in plain.as_dict()
+    assert "auto_synced" not in plain.as_dict()
+    requested = PublishedVersion(version="1.0-2", signer=None, requester="bdrung")
+    assert PublishedVersion.from_dict(requested.as_dict()) == requested
+    auto = PublishedVersion(version="1.0-2", signer=None, auto_synced=True)
+    assert PublishedVersion.from_dict(auto.as_dict()) == auto
