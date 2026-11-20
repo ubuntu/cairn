@@ -1213,3 +1213,36 @@ def test_hidden_beats_any_display_a_stylesheet_sets():
     css = (ASSETS / "cairn.css").read_text()
     rule = _re.search(r"(?m)^\[hidden\]\s*\{([^}]*)\}", css)
     assert rule and "display: none !important" in rule[1]
+
+
+def test_a_requested_sync_is_up_for_grabs_like_any_sync():
+    """Issue #14: the requester's page lists it, but it stays with +1
+    maintenance: most requested syncs are bulk syncs no one is on."""
+    owners = meta(
+        young=PackageMetadata(
+            publications=(
+                PublishedVersion(version="1.0-2", signer=None, requester="bdrung"),
+            )
+        ),
+        old=PackageMetadata(
+            publications=(
+                PublishedVersion(version="1.0-2", signer=None, requester="bdrung"),
+            )
+        ),
+        auto=PackageMetadata(
+            publications=(
+                PublishedVersion(version="1.0-2", signer=None, auto_synced=True),
+            )
+        ),
+    )
+    state = replay(
+        [
+            ev(EventType.OPENED, stuck("young", days=ABANDONED_DAYS - 1)),
+            ev(EventType.OPENED, stuck("old", days=ABANDONED_DAYS)),
+            ev(EventType.OPENED, stuck("auto", days=ABANDONED_DAYS - 1)),
+        ]
+    )
+    found = up_for_grabs([], stuck_rows(state, owners, now=NOW), now=NOW)
+    assert sorted(r.package for r in found.syncs) == ["auto", "old", "young"]
+    assert not found.abandoned
+    assert not found.unknown

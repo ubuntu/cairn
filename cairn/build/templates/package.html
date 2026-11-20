@@ -78,13 +78,14 @@
             {% if stuck.is_new_package %}New package{% else %}<a href="{{ stuck.old_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ stuck.old_version }}</code></a>{% endif %}
             <span aria-label="to">&rarr;</span>
             <a href="{{ stuck.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ stuck.new_version }}</code></a>,
-            uploaded by
-            {% if stuck.synced -%}
-            {{ owner_link("uploaders", "plus-one-maintenance", "+1 maintenance") }} (synced from Debian{% if stuck.uploader %}, {{ stuck.uploader }}{% endif %})
+            {% if stuck.requester -%}
+            manually synced from Debian by {{ owner_link("uploaders", stuck.requester) }}{% if stuck.uploader %} (Debian upload by {{ stuck.uploader }}){% endif %}
+            {%- elif stuck.synced -%}
+            uploaded by {{ owner_link("uploaders", "plus-one-maintenance", "+1 maintenance") }} ({{ 'auto-synced' if stuck.auto_synced else 'synced' }} from Debian{% if stuck.uploader %}, {{ stuck.uploader }}{% endif %})
             {%- elif stuck.uploader -%}
-            {{ owner_link("uploaders", stuck.uploader) }}
+            uploaded by {{ owner_link("uploaders", stuck.uploader) }}
             {%- else -%}
-            someone Launchpad does not name
+            uploaded by someone Launchpad does not name
             {%- endif %}.
             {% if stuck.architectures %}Britney holds it on {{ stuck.architectures | join(", ") }} only.{% endif %}
           </p>
@@ -147,11 +148,14 @@
             <td>
               {% set names = [] %}
               {% if merge and merge.uploader %}{% set _ = names.append(merge.uploader) %}{% endif %}
-              {% if stuck and stuck.uploader and not stuck.synced and stuck.uploader not in names %}{% set _ = names.append(stuck.uploader) %}{% endif %}
+              {% set to_plus_one = stuck and stuck.synced %}
+              {# The owner is the requester for a manual sync, listed beside +1
+                 maintenance; only the catch-all itself is left to the line below. #}
+              {% if stuck and stuck.owner and stuck.owner != "plus-one-maintenance" and stuck.owner not in names %}{% set _ = names.append(stuck.owner) %}{% endif %}
               {% for name in names %}{{ owner_link("uploaders", name) }}{% if not loop.last %}, {% endif %}{% endfor %}
-              {% if stuck and stuck.synced %}{% if names %}, {% endif %}{{ owner_link("uploaders", "plus-one-maintenance", "+1 maintenance") }}{% endif %}
-              {% if not names and not (stuck and stuck.synced) %}<span class="u-text--muted">no open upload to name</span>{% endif %}
-              <div class="p-text--small u-text--muted">The person in the changelog of the version above, who normally deals with it.</div>
+              {% if to_plus_one %}{% if names %}, {% endif %}{{ owner_link("uploaders", "plus-one-maintenance", "+1 maintenance") }}{% endif %}
+              {% if not names and not to_plus_one %}<span class="u-text--muted">no open upload to name</span>{% endif %}
+              <div class="p-text--small u-text--muted">The person in the changelog of the version above, who normally deals with it{% if stuck and stuck.requester %}; for a manual sync, whoever asked for it{% endif %}.</div>
             </td>
           </tr>
           <tr>

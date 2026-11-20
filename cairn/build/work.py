@@ -13,7 +13,10 @@ Ubuntu's own process supplies the categories:
 
 - A Debian sync has no Ubuntu uploader to own getting it to migrate. Ubuntu's
   proposed-migration docs give those to +1 maintenance, which is to say to
-  anyone on the rota, and the +1 maintenance reports list them as such.
+  anyone on the rota, and the +1 maintenance reports list them as such. A
+  sync someone asked for stays here too (issue #14): most are bulk syncs
+  (534 of 621 stuck on 20 Nov 2026 were one developer's, synced 50 to 112
+  a day early in the cycle), which no one is on. The row names who asked.
 - An upload stuck long after its uploader could reasonably have dealt with it
   is treated as abandoned by the +1 maintenance process: britney's by-team
   report holds young items back as "not yet considered late", and older ones
@@ -56,6 +59,7 @@ ABANDONED_DAYS = 30
 class UpForGrabs:
     """The work anyone can take, by kind of work."""
 
+    # Syncs, requested or not, past settling.
     syncs: list[StuckRow]
     # Confirmed Ubuntu uploads, stuck past ABANDONED_DAYS.
     abandoned: list[StuckRow]
@@ -89,7 +93,7 @@ def up_for_grabs(
         days = row.days(now)
         if days is None or row.settling(now):
             continue
-        if row.origin == "sync":
+        if row.synced:
             syncs.append(row)
             continue
         if days < ABANDONED_DAYS:

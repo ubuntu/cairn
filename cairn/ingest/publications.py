@@ -14,9 +14,10 @@ from __future__ import annotations
 import json
 import logging
 import sys
-from collections.abc import Callable, Container, Iterable
+from collections.abc import Callable, Container, Iterable, Mapping
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any
 from urllib.parse import urlencode
 
 from debian.debian_support import version_compare
@@ -43,14 +44,58 @@ class Publication:
     # package_signer: whoever signed the upload, which is the sponsor when
     # there is one. Never shown, and never used as the uploader. cairn only
     # asks whether it is None: an upload Launchpad copied rather than one a
-    # developer signed, which is an auto-sync from Debian (measured on gettext
-    # and sphinx), whose creator is the *Debian* uploader.
+    # developer signed, usually a sync from Debian (measured on gettext and
+    # sphinx), whose package_creator is the *Debian* uploader.
     signer: str | None = None
     pocket: str | None = None
+    # Who asked for a copy: see requester(). None for signed uploads, for
+    # auto-syncs, and for copies Launchpad names no one for.
+    requester: str | None = None
+    # Copied from Debian by the auto-sync robot rather than on request.
+    auto_synced: bool = False
 
     @property
     def synced(self) -> bool:
         return self.signer is None
+
+
+# The account Launchpad names as creator of the auto-sync's copies, with
+# ubuntu-archive-robot as sponsor. Measured over tenacious-proposed on
+# 20 Nov 2026: 1,577 of 2,299 copies, every one copied from Debian. It is
+# also the creator of britney's copies from -proposed to release, so it never
+# names a person.
+AUTOMATION = frozenset({"katie"})
+
+
+def requester(entry: Mapping[str, Any]) -> str | None:
+    """Who asked for this publication to be copied, if a person did.
+
+    A copy has no signer, so package_creator names the Debian uploader and
+    says nothing about who brought it into Ubuntu. creator does: on a copy
+    it is the person the copy was made for. Measured on tenacious-proposed,
+    20 Nov 2026, 2,299 copies: 1,577 by the auto-sync (creator katie); 651
+    requested by an Ubuntu developer (distro-info 1.19, stonking: bdrung,
+    issue #14); 10 sponsored, where creator is the contributor who asked and
+    sponsor the developer who copied it (altos 1.9.22-4: willow-ch, sponsor
+    jbicha), routed to the contributor as a sponsored upload is; 53 with
+    no creator, copied forward when the series opened, which name no one.
+    On a release publication of a synced version, creator is britney's
+    migration copy (katie), never the requester: only the -proposed
+    publication of a sync says who asked for it.
+    """
+    if entry.get("package_signer_link"):
+        return None
+    creator = person_name(entry.get("creator_link"))
+    return None if creator in AUTOMATION else creator
+
+
+def auto_synced(entry: Mapping[str, Any]) -> bool:
+    copied_from = entry.get("copied_from_archive_link") or ""
+    return (
+        not entry.get("package_signer_link")
+        and person_name(entry.get("creator_link")) in AUTOMATION
+        and "/debian/" in copied_from
+    )
 
 
 def person_name(link: str | None) -> str | None:
@@ -88,6 +133,8 @@ def parse_page(raw: bytes) -> tuple[list[Publication], str | None]:
             component=entry.get("component_name"),
             signer=person_name(entry.get("package_signer_link")),
             pocket=entry.get("pocket"),
+            requester=requester(entry),
+            auto_synced=auto_synced(entry),
         )
         for entry in page.get("entries", [])
         if entry.get("source_package_name")

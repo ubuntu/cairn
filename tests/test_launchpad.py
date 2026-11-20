@@ -445,3 +445,63 @@ class TestProgressWithoutATerminal:
         assert "teams: ubuntu-security, 4 candidates" in [
             r.getMessage() for r in caplog.records
         ]
+
+
+class TestSyncRequester:
+    """Issue #14: a sync someone asked for is theirs. Fixture: real
+    publications, 20 Nov 2026, trimmed to the fields cairn reads, one of each
+    kind of copy measured over tenacious-proposed."""
+
+    found: ClassVar[dict[tuple[str, str, str | None], publications.Publication]] = {
+        (p.source, p.version, p.pocket): p
+        for p in publications.parse_page(
+            (FIXTURES / "lp_publications_syncs.json").read_bytes()
+        )[0]
+    }
+
+    def test_a_sync_someone_asked_for_names_them(self):
+        """distro-info 1.19 in stonking-proposed, the issue's own example."""
+        sync = self.found[("distro-info", "1.19", "Proposed")]
+        assert sync.synced
+        assert sync.requester == "bdrung"
+        assert not sync.auto_synced
+
+    def test_the_release_copy_of_a_sync_names_no_one(self):
+        """Copied into the new series when it opened: creator is empty, and
+        on a migrated sync it is britney's copy. Only -proposed says who
+        asked."""
+        sync = self.found[("distro-info", "1.19", "Release")]
+        assert sync.synced
+        assert sync.requester is None
+        assert not sync.auto_synced
+
+    def test_an_auto_sync_names_no_one(self):
+        for key in [
+            ("distro-info", "1.20", "Proposed"),
+            ("0c-ime", "0.2.8+ds-1", "Proposed"),
+        ]:
+            sync = self.found[key]
+            assert sync.synced
+            assert sync.requester is None
+            assert sync.auto_synced
+
+    def test_a_sponsored_sync_names_the_contributor_not_the_sponsor(self):
+        assert self.found[("altos", "1.9.22-4", "Proposed")].requester == "willow-ch"
+
+    def test_a_copy_between_ubuntu_series_names_who_copied_it(self):
+        sync = self.found[("rust-system-deps", "9.0.0+ds-1", "Proposed")]
+        assert sync.requester == "jbicha"
+        assert not sync.auto_synced
+
+    def test_a_copy_with_no_creator_names_no_one_and_is_not_called_automatic(self):
+        """Copied forward when the series opened: who asked is not known."""
+        sync = self.found[("apparmor-profiles-extra", "1.37", "Proposed")]
+        assert sync.synced
+        assert sync.requester is None
+        assert not sync.auto_synced
+
+    def test_a_signed_upload_has_no_requester(self):
+        upload = self.found[("abiword", "3.0.8+ds-2ubuntu1", "Proposed")]
+        assert not upload.synced
+        assert upload.requester is None
+        assert not upload.auto_synced

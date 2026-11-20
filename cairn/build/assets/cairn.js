@@ -195,6 +195,14 @@
         var visible = group.querySelectorAll("[data-filter]:not([hidden])").length;
         var label = group.querySelector("[data-filter-group-count]");
         if (label) label.textContent = String(visible);
+        // The tab naming this panel carries the same count.
+        if (group.id) {
+          document
+            .querySelectorAll('[data-tab-count="' + group.id + '"]')
+            .forEach(function (tab) {
+              tab.textContent = String(visible);
+            });
+        }
         // "Nothing matches the filter" only when a filter hid every row: a
         // panel that had none to begin with already says so itself.
         var none = group.querySelector(".cairn-tab-panel__none");
