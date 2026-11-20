@@ -1199,3 +1199,17 @@ class TestReviewOnPR17Second:
         js = (ASSETS / "cairn.js").read_text()
         assert "bare.length === 1" in js
         assert "exact.length === 1" in js
+
+
+def test_hidden_beats_any_display_a_stylesheet_sets():
+    """Issue #21: on a narrow screen Vanilla shows table rows as cards with
+    display: block, which undid the browser's own [hidden] rule, so rows
+    the filter hid were still shown. One rule, ahead of everything else,
+    keeps hidden hidden for every element cairn.js hides."""
+    import re as _re
+
+    from cairn.build.site import ASSETS
+
+    css = (ASSETS / "cairn.css").read_text()
+    rule = _re.search(r"(?m)^\[hidden\]\s*\{([^}]*)\}", css)
+    assert rule and "display: none !important" in rule[1]
