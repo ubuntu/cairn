@@ -247,6 +247,18 @@ britney's inputs without its judgement, and could disagree with the verdict
 beside it. The primary inputs above may *add* detail — a build log, a test's
 history — but must not replace or contradict what britney says held a package.
 
+**Every excuse britney gives is shown** (issue #18, checked against
+britney2-ubuntu's source and the 20 Nov 2026 report): tests, missing builds,
+old binaries, uninstallability and why, waiting, freeze blocks,
+block-proposed bugs, and sources held only per architecture. A few exist only
+as britney's text lines (why a package is uninstallable, which linux-meta a
+kernel waits for); `migration.py` reads those, the one place allowed to parse
+britney's wording, and stores codes the templates can branch on. A new
+payload field is written only when it has a value, so adding one appends
+updates for the signals it concerns, not for every signal. When britney
+gains a policy, add it here and to the fixture
+`tests/fixtures/update_excuses_2026-11-20.yaml`, trimmed from a real report.
+
 ### How each signal is derived
 
 This is the table an implementer needs. Every signal kind, what it is computed

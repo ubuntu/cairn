@@ -872,7 +872,8 @@ class TestWhyColumn:
             '<strong>curl</strong><span class="cairn-test-version">/8.0-1</span>:'
             in line
         )
-        assert 'packages/c/curl"' not in line  # no link on the name
+        # No link on the name: the test's history link comes after the results.
+        assert "href" not in line.split("<strong>curl</strong>")[0]
         assert (
             'href="https://autopkgtest.ubuntu.com/packages/c/curl/stonking/s390x"'
             in line
@@ -904,8 +905,12 @@ class TestWhyColumn:
         line = row.split('class="cairn-tests"')[1].split("</li>")[0]
         assert line.count(">Test in progress<") == 1
         assert "p-chip--information" in line
+        # Still running: no log yet, so each architecture opens its history.
         for arch in ("amd64", "arm64", "ppc64el"):
-            assert f">{arch}</a>" in line
+            assert (
+                f'stonking/{arch}" target="_blank" rel="noopener noreferrer">{arch}<'
+                in line
+            )
         assert "cairn-retry" not in line
 
     def test_mixed_failures_get_a_tag_each_regressions_first(self, tmp_path):
@@ -1541,3 +1546,178 @@ class TestPlusOneLink:
     def test_no_link_on_an_empty_board(self, tmp_path):
         intro = self.intro(tmp_path, [opened(merge("cron", in_proposed=False))])
         assert "+1" not in intro
+
+
+class TestEveryExcuseIsShown:
+    """Issue #18: what the ingester now carries reaches the page."""
+
+    def page(self, tmp_path, **payload):
+        build(
+            replay([opened(stuck(**payload))]),
+            healthy(),
+            meta(libssh2=PackageMetadata(teams=("t",))),
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        board = (tmp_path / "migration/index.html").read_text()
+        row = board.split('id="libssh2"')[1].split("</tr>")[0]
+        return row, (tmp_path / "packages/libssh2.html").read_text()
+
+    def test_a_block_bug_is_linked_beside_its_reason(self, tmp_path):
+        row, package = self.page(
+            tmp_path, reasons=["block_bug"], tests=[], block_bugs=[2170615]
+        )
+        why = row.split('data-heading="Why it is held"')[1]
+        assert "Blocked by a bug" in why
+        assert 'href="https://bugs.launchpad.net/bugs/2170615"' in why
+        assert "bugs/2170615" in package
+
+    def test_uninstallable_says_why_by_kind_with_its_guide(self, tmp_path):
+        issues = [
+            {
+                "kind": "component",
+                "text": "a in main cannot depend on b in universe",
+                "arches": ["amd64", "arm64"],
+            },
+            {
+                "kind": "impossible",
+                "text": "Impossible Depends: x -> c/1.0",
+                "arches": ["amd64"],
+            },
+        ]
+        row, _ = self.page(
+            tmp_path, reasons=["uninstallable"], tests=[], depends_issues=issues
+        )
+        assert "a in main cannot depend on b in universe" in row
+        assert "on amd64, arm64" in row
+        assert "Impossible Depends: x -&gt; c/1.0" in row
+        assert "#main-universe-binary-mismatch" in row
+        assert "#impossible-depends" in row
+        assert (
+            "#migrating-makes-something-uninstallable" not in row
+        )  # no such kind here
+
+    def test_old_binaries_name_the_binaries(self, tmp_path):
+        row, _ = self.page(
+            tmp_path,
+            reasons=["old_binaries"],
+            tests=[],
+            old_binaries={"0.8.1-1": ["libfoo1"]},
+        )
+        assert "Old binaries left" in row and "libfoo1" in row
+        # Its guide is in the board's breakdown, as every reason's is.
+        board = (tmp_path / "migration/index.html").read_text()
+        why = board.split('id="why_stuck"')[1].split("</ul>")[0]
+        assert "Old binaries left" in why
+        assert "aa-package-removal/#removals-of-binary-packages" in why
+
+    def test_a_source_held_per_architecture_says_where(self, tmp_path):
+        row, package = self.page(tmp_path, architectures=["arm64", "armhf"])
+        assert "held on arm64, armhf only" in row
+        assert "on arm64, armhf only" in package
+
+    def test_the_package_page_shows_update_excuse_bugs(self, tmp_path):
+        _, package = self.page(tmp_path, bugs=[2072750])
+        assert 'href="https://bugs.launchpad.net/bugs/2072750"' in package
+        assert 'aria-describedby="term_excuse_bug"' in package
+        assert 'id="term_excuse_bug"' in package
+
+    def test_a_block_bug_recorded_without_its_number_links_to_launchpad(self, tmp_path):
+        """Entries written before #18 have the reason and no bug number."""
+        row, package = self.page(tmp_path, reasons=["block_bug"], tests=[])
+        link = (
+            'href="https://bugs.launchpad.net/ubuntu/+source/libssh2/+bugs'
+            '?field.tag=block-proposed"'
+        )
+        why = row.split('data-heading="Why it is held"')[1]
+        # The label itself is the link, marked as leaving the site.
+        anchor = why.split(link)[1].split("</a>")[0]
+        assert '>Blocked by a bug<i class="p-icon--external-link">' in anchor
+        assert "its block-proposed bugs" not in why
+        assert link in package
+
+    def test_old_payloads_without_the_new_fields_still_render(self, tmp_path):
+        """The log is append-only: every earlier shape is read forever."""
+        row, _ = self.page(tmp_path, reasons=["block_bug", "uninstallable"], tests=[])
+        assert "Blocked by a bug" in row and "Uninstallable" in row
+
+
+class TestTestLogs:
+    """Britney's page opens a run's log from its architecture; so does
+    Cairn, with the test's history one link further along the line."""
+
+    def line(self, tmp_path, **result):
+        tests = [
+            {
+                "test": "curl",
+                "version": "8.0-1",
+                "results": {"amd64": "regression", "s390x": "regression"},
+            }
+            | result
+        ]
+        build(
+            replay([opened(stuck(tests=tests))]),
+            healthy(),
+            meta(libssh2=PackageMetadata(teams=("t",))),
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        page = (tmp_path / "migration/teams/t.html").read_text()
+        return page.split('class="cairn-tests"')[1].split("</li>")[0]
+
+    def test_an_architecture_opens_its_runs_log(self, tmp_path):
+        line = self.line(tmp_path, logs={"amd64": "20261119_123757_215f9@"})
+        assert (
+            'href="https://autopkgtest.ubuntu.com/results/autopkgtest-stonking/'
+            'stonking/amd64/c/curl/20261119_123757_215f9@/log.gz"'
+        ) in line
+        assert "log of curl" in line
+
+    def test_without_a_run_id_it_opens_the_history_as_before(self, tmp_path):
+        """Results recorded before ingest kept run ids."""
+        line = self.line(tmp_path, logs={"amd64": "20261119_123757_215f9@"})
+        assert (
+            'href="https://autopkgtest.ubuntu.com/packages/c/curl/stonking/s390x"'
+            in line
+        )
+
+    def test_the_history_is_one_link_after_the_results(self, tmp_path):
+        line = self.line(tmp_path)
+        history = line.split('class="cairn-test-history"')[1].split("</a>")[0]
+        assert (
+            # The package overview: a series alone is not a page there.
+            'href="https://autopkgtest.ubuntu.com/packages/c/curl"' in history
+        )
+        assert ">history<" in history
+
+    def test_the_log_url_matches_britneys(self):
+        from cairn.build.site import autopkgtest_log_url
+
+        assert autopkgtest_log_url(
+            "libfoo", "tenacious", "ppc64el", "20261118_184551_b4a6d@"
+        ) == (
+            "https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/"
+            "ppc64el/libf/libfoo/20261118_184551_b4a6d@/log.gz"
+        )
+
+
+def test_the_test_history_link_does_not_style_the_package_history(tmp_path):
+    """Review on #24: .cairn-history is the package page's history table."""
+    from cairn.build.site import ASSETS
+
+    css = (ASSETS / "cairn.css").read_text()
+    assert "\n.cairn-history,\n" not in css
+    assert ".cairn-test-history" in css
+    build(
+        replay([opened(stuck())]),
+        healthy(),
+        meta(libssh2=PackageMetadata(teams=("t",))),
+        out=tmp_path,
+        now=NOW,
+        series="stonking",
+    )
+    board = (tmp_path / "migration/index.html").read_text()
+    assert 'class="cairn-test-history"' in board
+    assert 'class="cairn-history"' not in board

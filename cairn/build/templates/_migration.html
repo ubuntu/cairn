@@ -10,6 +10,7 @@
   "missing_build": "Missing build",
   "uninstallable": "Uninstallable",
   "no_binaries": "No binaries",
+  "old_binaries": "Old binaries left",
   "waiting": "Waiting for another upload",
   "needs_approval": "Needs approval",
   "block_bug": "Blocked by a bug",
@@ -22,9 +23,10 @@
   "missing_build": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/failure-to-build-from-source-ftbfs/",
   "uninstallable": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/",
   "no_binaries": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/",
+  "old_binaries": DOCS ~ "maintainers/AA/aa-package-removal/#removals-of-binary-packages",
   "waiting": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/special-migration-cases/",
   "needs_approval": DOCS ~ "release-team/freeze-exceptions/",
-  "block_bug": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/",
+  "block_bug": DOCS ~ "contributors/bug-triage/bug-tags/#release-specific",
   "rc_bug": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/",
   "tests_running": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/",
   "other": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/",
@@ -41,6 +43,17 @@
   "needs_approval": "Freeze exceptions",
   "waiting": "Special migration cases",
   "tests_running": "Proposed migration",
+  "old_binaries": "Removals of binary packages",
+  "block_bug": "The block-proposed bug tag",
+} %}
+
+{# Why a package is uninstallable, by the kind the ingester recorded: a
+   heading per kind and the section of the guide that explains it. #}
+{% set ISSUES = "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/" %}
+{% set DEPENDS_KINDS = {
+  "component": ("main/universe mismatch", DOCS ~ ISSUES ~ "#main-universe-binary-mismatch"),
+  "unsatisfiable": ("Unsatisfiable dependency", DOCS ~ ISSUES ~ "#migrating-makes-something-uninstallable"),
+  "impossible": ("Impossible dependency", DOCS ~ ISSUES ~ "#impossible-depends"),
 } %}
 {% macro guide_title(reason) %}{{ GUIDE_TITLES.get(reason, "Issues preventing migration") }}{% endmacro %}
 
@@ -124,12 +137,22 @@
 
 {# The architectures, each linking to its autopkgtest history; a failed one
    is followed by its rerun. Then one tag for the group. #}
+{# An architecture opens that run's log, as on britney's page, when the run
+   has finished and ingest kept its id; otherwise (a test still running, or
+   a result recorded before the id was kept) its history there. The series
+   is the one britney tested the upload in, which the log's URL names. #}
 {% macro status_group(test, status, results, row) -%}
+{% set tested = row.series or series %}
 <span class="cairn-result">
   {#- Each architecture stays on one line with its rerun; the list may wrap
       between architectures, so a long one cannot widen the column. -#}
   {%- for r in results %}
-  <span class="cairn-arch"><a href="{{ autopkgtest_url(test, series, r.arch) }}" target="_blank" rel="noopener noreferrer" title="{{ test }} history on {{ r.arch }}">{{ r.arch }}</a>
+  <span class="cairn-arch">
+  {%- if r.run -%}
+  <a href="{{ autopkgtest_log_url(test, tested, r.arch, r.run) }}" target="_blank" rel="noopener noreferrer">{{ r.arch }}<span class="u-off-screen"> log of {{ test }} (opens in a new tab)</span></a>
+  {%- else -%}
+  <a href="{{ autopkgtest_url(test, tested, r.arch) }}" target="_blank" rel="noopener noreferrer">{{ r.arch }}<span class="u-off-screen"> history of {{ test }} (opens in a new tab)</span></a>
+  {%- endif %}
   {%- if r.failed %} {{ retry(test, r.arch, row) }}{% endif %}
   {%- if not loop.last %},{% endif %}</span>
   {%- endfor %}
@@ -150,6 +173,9 @@
 <li>
   <strong>{{ t.test }}</strong>{% if t.version and t.version != "unknown" %}<span class="cairn-test-version">/{{ t.version }}</span>{% endif %}:
   {{ results_line(t, row) }}
+  {# The test's history on autopkgtest.ubuntu.com, every series and
+     architecture; the site has no page for one series alone. #}
+  <a class="cairn-test-history" href="{{ autopkgtest_url(t.test) }}" target="_blank" rel="noopener noreferrer">history<span class="u-off-screen"> of {{ t.test }} (opens in a new tab)</span></a>
 </li>
 {% endfor %}
 {% endmacro %}
@@ -167,20 +193,62 @@
 {% endif %}
 {% endmacro %}
 
+{# Britney's own lines, grouped by kind, each kind once with its guide,
+   the architectures after each line. Long lists fold, as tests do. #}
+{% macro depends_line(issue) -%}
+{{ issue[1] }}{% if issue[2] %} <span class="cairn-test-version">on {{ issue[2] | join(", ") }}</span>{% endif %}
+{%- endmacro %}
+
+{% macro depends_list(issues) %}
+{% for kind, label_and_guide in DEPENDS_KINDS.items() %}
+{% set lines = issues | selectattr(0, "equalto", kind) | list %}
+{% if lines %}
+<div class="cairn-depends">
+  <span class="u-text--muted">{{ label_and_guide[0] }}</span>
+  {# "guide" on screen; its full name for screen readers, as on the board. #}
+  <a href="{{ label_and_guide[1] }}" target="_blank" rel="noopener noreferrer" class="cairn-ext">guide<i class="p-icon--external-link"></i><span class="u-off-screen">: {{ label_and_guide[0] }} (opens in a new tab)</span></a>
+  <ul class="cairn-tests">
+    {% for line in lines[:FOLD] %}<li>{{ depends_line(line) }}</li>{% endfor %}
+  </ul>
+  {% if lines | length > FOLD %}
+  <details class="cairn-more">
+    <summary>{{ lines | length - FOLD }} more</summary>
+    <ul class="cairn-tests">{% for line in lines[FOLD:] %}<li>{{ depends_line(line) }}</li>{% endfor %}</ul>
+  </details>
+  {% endif %}
+</div>
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
 {% macro why(row) %}
 <div class="cairn-reasons">
   {% for reason in row.reasons %}
   <div class="cairn-reason">
+    {# Entries recorded before the bug number was (issue #18) carry the
+       reason alone, and the log is never rewritten: the label itself
+       links to the package's block-proposed bugs on Launchpad, which is
+       where britney found it. #}
+    {% if reason == "block_bug" and not row.block_bugs %}
+    <strong>{{ ext("https://bugs.launchpad.net/ubuntu/+source/" ~ row.package ~ "/+bugs?field.tag=block-proposed", label(reason), icon=True) }}</strong>
+    {%- else %}
     <strong>{{ label(reason) }}</strong>
+    {%- endif %}
     {%- if reason == "missing_build" and row.missing_builds %}:
     {% for arch in row.missing_builds %}{{ ext(row.missing_build_url(arch), arch) }}{% if not loop.last %}, {% endif %}{% endfor %}
     {%- elif reason == "needs_approval" and row.hints %}:
     {{ row.hints | join(", ") }} block
+    {%- elif reason == "block_bug" and row.block_bugs %}:
+    {% for bug in row.block_bugs %}{{ ext("https://bugs.launchpad.net/bugs/" ~ bug, "LP: #" ~ bug) }}{% if not loop.last %}, {% endif %}{% endfor %}
+    {%- elif reason == "old_binaries" and row.old_binaries %}:
+    {% for version, names in row.old_binaries %}{{ names | join(", ") }} (from <code>{{ version }}</code>){% if not loop.last %}; {% endif %}{% endfor %}
     {%- endif %}
     {% if reason == "regression" and row.failing_tests %}
     {{ test_list(row.failing_tests, row, "failing tests") }}
     {% elif reason == "tests_running" and row.running_tests %}
     {{ test_list(row.running_tests, row, "tests in progress") }}
+    {% elif reason == "uninstallable" and row.depends_issues %}
+    {{ depends_list(row.depends_issues) }}
     {% elif reason == "waiting" and row.waits_for %}
     <ul class="cairn-tests">
       {% for name in row.waits_for %}
@@ -257,6 +325,11 @@
         <span class="p-chip--positive is-readonly is-inline is-dense cairn-term"{{ g.tip("new_package") }}>
           <span class="p-chip__value">new</span>
         </span>
+        {% endif %}
+        {# Britney holds only per-architecture items (a rebuild on some
+           architectures), not the upload as a whole. #}
+        {% if row.architectures %}
+        <div class="p-text--small u-text--muted">held on {{ row.architectures | join(", ") }} only</div>
         {% endif %}
       </td>
       <td data-heading="Component" class="cairn-component">

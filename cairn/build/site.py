@@ -90,6 +90,7 @@ REASON_ORDER = (
     "missing_build",
     "uninstallable",
     "no_binaries",
+    "old_binaries",
     "waiting",
     "needs_approval",
     "block_bug",
@@ -228,10 +229,33 @@ def autopkgtest_prefix(source: str) -> str:
 def autopkgtest_url(
     source: str, series: str | None = None, arch: str | None = None
 ) -> str:
+    """A test's history: every series and architecture, or one series and
+    architecture. autopkgtest.ubuntu.com has no page for a series alone:
+    /packages/c/curl/<series> reads as package c, release curl (review on
+    #24)."""
     url = AUTOPKGTEST_PACKAGE.format(prefix=autopkgtest_prefix(source), source=source)
     if series and arch:
         url += f"/{series}/{arch}"
     return url
+
+
+AUTOPKGTEST_LOG = (
+    "https://autopkgtest.ubuntu.com/results/autopkgtest-{series}/{series}/{arch}/"
+    "{prefix}/{source}/{run}/log.gz"
+)
+
+
+def autopkgtest_log_url(source: str, series: str, arch: str, run: str) -> str:
+    """One run's log, the link britney puts on an architecture. Built from
+    the run id ingest keeps (see migration._RUN_ID); measured to match
+    britney's own link for all 11,830 failed results on 20 Nov 2026."""
+    return AUTOPKGTEST_LOG.format(
+        series=series,
+        arch=arch,
+        prefix=autopkgtest_prefix(source),
+        source=source,
+        run=run,
+    )
 
 
 def retry_url(test: str, arch: str, series: str, source: str, version: str) -> str:
@@ -261,6 +285,9 @@ class TestResult:
     arch: str
     # See migration.TEST_RESULTS: regression, reference_running or running.
     status: str
+    # The finished run's id, for its log. None while a test runs, and for
+    # results recorded before ingest kept it.
+    run: str | None = None
 
     @property
     def failed(self) -> bool:
@@ -305,7 +332,9 @@ def _held_tests(payload: Mapping[str, Any]) -> tuple[HeldTest, ...]:
             test=t.get("test", ""),
             version=t.get("version", ""),
             results=tuple(
-                TestResult(arch=arch, status=status)
+                TestResult(
+                    arch=arch, status=status, run=(t.get("logs") or {}).get(arch)
+                )
                 for arch, status in (t.get("results") or {}).items()
             ),
         )
@@ -325,6 +354,8 @@ class StuckRow:
     tests: tuple[HeldTest, ...]
     missing_builds: tuple[str, ...]
     waits_for: tuple[str, ...]
+    # update-excuse bugs: someone filed a bug about this upload. They hold
+    # nothing; block_bugs (tag block-proposed) do.
     bugs: tuple[int, ...]
     hints: tuple[str, ...]
     since: date | None
@@ -339,6 +370,19 @@ class StuckRow:
     # only ever knows about the current one.
     uploads: int
     url: str | None
+    # Bugs tagged block-proposed, which britney will not migrate past.
+    block_bugs: tuple[int, ...] = ()
+    # Why it is uninstallable: (kind, britney's line without its
+    # architecture, architectures). Kinds are "component", "unsatisfiable"
+    # and "impossible".
+    depends_issues: tuple[tuple[str, str, tuple[str, ...]], ...] = ()
+    # Old binaries still in -proposed, as (from version, binaries).
+    old_binaries: tuple[tuple[str, tuple[str, ...]], ...] = ()
+    # Set when britney holds it only on these architectures (a rebuild on
+    # some, not the whole upload).
+    architectures: tuple[str, ...] = ()
+    # The series britney tested this upload in, which test log URLs name.
+    series: str = ""
 
     @property
     def owner(self) -> str:
@@ -860,6 +904,21 @@ def stuck_rows(
                 # Derived, not read from the log: the package's Launchpad
                 # page, whatever an older event stored.
                 url=LAUNCHPAD_SOURCE.format(source=name),
+                block_bugs=tuple(payload.get("block_bugs") or ()),
+                depends_issues=tuple(
+                    (
+                        str(d.get("kind", "")),
+                        str(d.get("text", "")),
+                        tuple(d.get("arches") or ()),
+                    )
+                    for d in payload.get("depends_issues") or ()
+                ),
+                old_binaries=tuple(
+                    (str(version), tuple(names))
+                    for version, names in (payload.get("old_binaries") or {}).items()
+                ),
+                architectures=tuple(payload.get("architectures") or ()),
+                series=st.signal.series or "",
             )
         )
     rows.sort(
@@ -1176,6 +1235,7 @@ def _environment() -> Environment:
     env.filters["iso_date"] = _iso_date
     env.filters["iso_time"] = _iso_time
     env.globals["autopkgtest_url"] = autopkgtest_url
+    env.globals["autopkgtest_log_url"] = autopkgtest_log_url
     env.globals["retry_url"] = retry_url
     env.globals["age_bucket"] = age_bucket
     env.globals["package_href"] = package_href

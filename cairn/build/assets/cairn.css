@@ -938,3 +938,19 @@ a.cairn-chip-link[aria-describedby] {
 h1 + .cairn-title__links {
   margin-top: calc(0.5rem + 9px);
 }
+
+/* Why a package is uninstallable: one small group per kind. */
+.cairn-depends + .cairn-depends {
+  margin-top: 0.25rem;
+}
+
+/* "history" after a test's results: secondary to the logs the
+   architectures open, so small and grey like the other muted links. */
+/* Not .cairn-history: that is the package page's history table. */
+.cairn-test-history,
+.cairn-test-history:visited {
+  color: var(--vf-color-text-muted);
+  font-size: 0.875rem;
+  margin-left: 0.25rem;
+  white-space: nowrap;
+}

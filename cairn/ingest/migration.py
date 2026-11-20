@@ -24,10 +24,21 @@ the opposite of needing attention.
 Britney's floating-point age is not stored: it changes every run, and storing
 it would append one meaningless update per signal per run. The date it implies
 is stored instead, which is constant for one upload.
+
+Every excuse britney can give in Ubuntu's configuration is carried, checked
+against britney2-ubuntu's source and the 20 Nov 2026 report (2,791 blocked
+items) for issue #18. Most come from structured fields. Three exist only as
+britney's text lines and are read from those here, the one place allowed to
+branch on britney's wording (AGENTS.md section 5): why a package is
+uninstallable (an unsatisfiable dependency, a main/universe mismatch, an
+impossible dependency), and which linux-meta a kernel waits for. Fields that
+are usually empty are written only when they are not, so adding one appends
+an update for the signals it concerns and no others.
 """
 
 from __future__ import annotations
 
+import html
 import logging
 import re
 from collections.abc import Callable, Iterable, Mapping
@@ -73,6 +84,9 @@ class Reason(StrEnum):
     WAITING = "waiting"
     BLOCK_BUG = "block_bug"
     RC_BUG = "rc_bug"
+    # Binaries the new version no longer builds are still in -proposed
+    # (britney's "cruft"): an archive admin has to remove them.
+    OLD_BINARIES = "old_binaries"
     OTHER = "other"
 
 
@@ -143,24 +157,58 @@ TEST_RESULTS = {
 FAILED = frozenset({"regression", "reference_running"})
 
 
+# A finished run's log ends in its run id: .../<series>/<arch>/<prefix>/<test>/
+# <run id>/log.gz. The rest of the URL follows from what is stored already,
+# so only the id is kept: 22 bytes rather than 123 (measured 20 Nov 2026,
+# all 11,830 failed results rebuilt exactly). A test still running points at
+# autopkgtest's generic /running page and has no log yet.
+_RUN_ID = re.compile(r"/([^/]+)/log\.gz$")
+
+
+def _results_with_logs(
+    entry: Mapping[str, Any],
+) -> Iterable[tuple[str, str, str, str | None]]:
+    """(test, arch, result, run id of its log) for every result."""
+    tests = (entry.get("policy_info") or {}).get("autopkgtest") or {}
+    for test, arches in tests.items():
+        if not isinstance(arches, dict):
+            continue
+        for arch, result in arches.items():
+            if isinstance(result, list) and result:
+                log = str(result[1]) if len(result) > 1 and result[1] else ""
+                match = _RUN_ID.search(log)
+                yield test, arch, str(result[0]), match.group(1) if match else None
+
+
 def tests(entry: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Tests holding the upload, one record per test package, status per arch.
 
     Britney keys results by "package/version". The version is sometimes the
     literal "unknown", and is kept as given. Most of these are reverse
-    dependencies' tests, triggered by this upload.
+    dependencies' tests, triggered by this upload. A failed result also
+    keeps its log's run id under "logs", written only when there is one.
     """
     found: dict[tuple[str, str], dict[str, str]] = {}
-    for test, arch, result in _results(entry):
+    logs: dict[tuple[str, str], dict[str, str]] = {}
+    for test, arch, result, run in _results_with_logs(entry):
         status = TEST_RESULTS.get(result)
         if status is None:
             continue
         name, _, version = test.partition("/")
         found.setdefault((name, version), {})[arch] = status
-    return [
-        {"test": name, "version": version, "results": dict(sorted(results.items()))}
-        for (name, version), results in sorted(found.items())
-    ]
+        if run and status in FAILED:
+            logs.setdefault((name, version), {})[arch] = run
+    records = []
+    for (name, version), results in sorted(found.items()):
+        record: dict[str, Any] = {
+            "test": name,
+            "version": version,
+            "results": dict(sorted(results.items())),
+        }
+        if logs.get((name, version)):
+            record["logs"] = dict(sorted(logs[(name, version)].items()))
+        records.append(record)
+    return records
 
 
 def payload_tests(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
@@ -180,6 +228,118 @@ def payload_tests(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
         }
         for r in payload.get("regressions") or ()
     ]
+
+
+_TAG = re.compile(r"<[^>]+>")
+
+
+def excuse_lines(entry: Mapping[str, Any]) -> list[str]:
+    """Britney's excuse lines as plain text: links and markup stripped."""
+    return [
+        html.unescape(_TAG.sub("", str(line))).strip()
+        for line in entry.get("excuses") or []
+    ]
+
+
+# Why a package is uninstallable, which the depends policy records only as a
+# verdict. Britney's wording, from britney2/policies/policy.py and
+# britney2/excuse.py; the kinds match the sections of Ubuntu's "Issues
+# preventing migration" guide. Britney repeats each line per architecture,
+# so the architecture is taken out of the line and listed beside it: one
+# line for libgweather on 20 Nov 2026 instead of seven. Measured that day:
+# 81 component lines on 9 packages, 70 unsatisfiable on 16, 67 impossible
+# on 8.
+_DEPENDS_ISSUES = (
+    (
+        "component",
+        re.compile(
+            r"^(?P<bin>\S+)/(?P<arch>[a-z0-9]+)"
+            r"(?P<rest> in \w+ cannot depend on \S+ in \w+)$"
+        ),
+    ),
+    (
+        "unsatisfiable",
+        re.compile(
+            r"^(?P<bin>\S+)/(?P<arch>[a-z0-9]+)"
+            r"(?P<rest> has unsatisfiable dependency)$"
+        ),
+    ),
+    (
+        "impossible",
+        re.compile(
+            r"^(?P<bin>Impossible .+?: \S+ -> \S+)/(?P<arch>[a-z0-9]+)(?P<rest>)$"
+        ),
+    ),
+)
+
+
+def depends_issues(entry: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """What makes the upload uninstallable: kind, britney's line without
+    the architecture, and the architectures it applies to."""
+    found: dict[tuple[str, str], set[str]] = {}
+    for line in excuse_lines(entry):
+        for kind, pattern in _DEPENDS_ISSUES:
+            match = pattern.match(line)
+            if match:
+                text = match.group("bin") + match.group("rest")
+                found.setdefault((kind, text), set()).add(match.group("arch"))
+                break
+    return [
+        {"kind": kind, "text": text, "arches": sorted(arches)}
+        for (kind, text), arches in found.items()
+    ]
+
+
+# The kernel waits for its linux-meta: "<linux-meta-x> is not a candidate".
+_NOT_A_CANDIDATE = re.compile(r"^(\S+) is not a candidate$")
+
+
+def awaited_meta(entry: Mapping[str, Any]) -> list[str]:
+    if "linux-meta-not-ready" not in (entry.get("reason") or []):
+        return []
+    return sorted(
+        {
+            m.group(1)
+            for line in excuse_lines(entry)
+            if (m := _NOT_A_CANDIDATE.match(line))
+        }
+    )
+
+
+def block_bugs(entry: Mapping[str, Any]) -> list[int]:
+    """Launchpad bugs holding the upload (tag block-proposed), from the
+    block-bugs policy. Not the update-excuse bugs, which only say someone
+    filed a bug about the upload and hold nothing."""
+    info = (entry.get("policy_info") or {}).get("block-bugs") or {}
+    return sorted(int(bug) for bug in info if str(bug).isdigit())
+
+
+# "old binaries left on riscv64: libec14 (from 20250627-1)", several versions
+# joined by "; ". From britney2/excusefinder.py.
+_OLD_BINARIES = re.compile(r"^old binaries left on [a-z0-9]+: (?P<rest>.+)$")
+_FROM_VERSION = re.compile(r"^(?P<names>.+?) \(from (?P<version>[^)]+)\)$")
+
+
+def old_binaries(entry: Mapping[str, Any]) -> dict[str, list[str]]:
+    """Binaries left from an older version, by that version.
+
+    Read from britney's "old binaries left" lines, not its old-binaries
+    field: that field also holds binaries waiting for a missing build on
+    another architecture, which go away when the build lands and must not
+    be offered for removal (review on #24: eclib on 20 Nov 2026 was cruft
+    on riscv64 only, with two more binaries waiting for builds elsewhere).
+    """
+    found: dict[str, set[str]] = {}
+    for line in excuse_lines(entry):
+        match = _OLD_BINARIES.match(line)
+        if not match:
+            continue
+        for part in match.group("rest").split("; "):
+            version = _FROM_VERSION.match(part.strip())
+            if version:
+                names = {n.strip() for n in version.group("names").split(",")}
+                found.setdefault(version.group("version"), set()).update(names)
+    return {version: sorted(names) for version, names in sorted(found.items())}
 
 
 def reasons(entry: Mapping[str, Any]) -> list[str]:
@@ -206,10 +366,14 @@ def reasons(entry: Mapping[str, Any]) -> list[str]:
         found.add(Reason.NEEDS_APPROVAL)
     if rejected("depends"):
         found.add(Reason.UNINSTALLABLE)
-    if entry.get("migration-policy-verdict") in _WAITING_VERDICTS or (
-        entry.get("dependencies") or {}
-    ).get("blocked-by"):
+    if (
+        entry.get("migration-policy-verdict") in _WAITING_VERDICTS
+        or (entry.get("dependencies") or {}).get("blocked-by")
+        or "linux-meta-not-ready" in (entry.get("reason") or [])
+    ):
         found.add(Reason.WAITING)
+    if "cruft" in (entry.get("reason") or []):
+        found.add(Reason.OLD_BINARIES)
     if rejected("block-bugs"):
         found.add(Reason.BLOCK_BUG)
     if rejected("rc-bugs"):
@@ -237,7 +401,7 @@ def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, A
     policy = entry.get("policy_info") or {}
     dependencies = entry.get("dependencies") or {}
     bugs = (policy.get("update-excuse") or {}).keys() - {"verdict"}
-    return {
+    found: dict[str, Any] = {
         "old_version": entry.get("old-version"),
         "new_version": entry.get("new-version"),
         # Britney leaves out the component for main.
@@ -252,6 +416,7 @@ def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, A
         "waits_for": sorted(
             set(dependencies.get("blocked-by") or [])
             | set(dependencies.get("migrate-after") or [])
+            | set(awaited_meta(entry))
         ),
         "bugs": sorted(int(bug) for bug in bugs if str(bug).isdigit()),
         "hints": sorted(
@@ -263,6 +428,83 @@ def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, A
         ),
         "in_proposed_since": in_proposed_since(entry, generated),
     }
+    # Usually empty, so written only when not (see the module docstring).
+    for key, value in (
+        ("block_bugs", block_bugs(entry)),
+        ("depends_issues", depends_issues(entry)),
+        ("old_binaries", old_binaries(entry)),
+    ):
+        if value:
+            found[key] = value
+    return found
+
+
+def arch_only_payload(
+    entries: Iterable[Mapping[str, Any]], generated: datetime | None
+) -> dict[str, Any]:
+    """One payload for a source held only through architecture items, with
+    the architectures it is held on.
+
+    Each field is merged by its own shape, not generically: a generic merge
+    tried to hash depends issues (dicts holding lists) and failed the whole
+    ingest when two architectures both had one (review on #24).
+    """
+    entries = list(entries)
+    found = [payload(entry, generated) for entry in entries]
+    merged = dict(found[0])
+    for more in found[1:]:
+        for key, value in more.items():
+            if key not in merged:
+                merged[key] = value
+            elif key == "tests":
+                merged[key] = _merge_tests(merged[key], value)
+            elif key == "depends_issues":
+                merged[key] = _merge_depends_issues(merged[key], value)
+            elif key == "old_binaries":
+                merged[key] = {
+                    version: sorted(
+                        {*merged[key].get(version, ()), *value.get(version, ())}
+                    )
+                    for version in sorted({*merged[key], *value})
+                }
+            elif isinstance(value, list):
+                # Lists of codes, names or bug numbers.
+                merged[key] = sorted({*merged[key], *value})
+    merged["architectures"] = sorted(
+        str(e.get("item-name")).split("/", 1)[1] for e in entries
+    )
+    return merged
+
+
+def _merge_tests(
+    first: list[dict[str, Any]], second: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    results: dict[tuple[str, str], dict[str, str]] = {}
+    logs: dict[tuple[str, str], dict[str, str]] = {}
+    for test in [*first, *second]:
+        key = (test["test"], test["version"])
+        results.setdefault(key, {}).update(test["results"])
+        logs.setdefault(key, {}).update(test.get("logs") or {})
+    return [
+        {"test": t, "version": v, "results": dict(sorted(r.items()))}
+        | ({"logs": dict(sorted(logs[(t, v)].items()))} if logs[(t, v)] else {})
+        for (t, v), r in sorted(results.items())
+    ]
+
+
+def _merge_depends_issues(
+    first: list[dict[str, Any]], second: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """The same message from two items is one issue on both items'
+    architectures."""
+    arches: dict[tuple[str, str], set[str]] = {}
+    for issue in [*first, *second]:
+        key = (issue["kind"], issue["text"])
+        arches.setdefault(key, set()).update(issue.get("arches") or ())
+    return [
+        {"kind": kind, "text": text, "arches": sorted(found)}
+        for (kind, text), found in arches.items()
+    ]
 
 
 def referenced_packages(signal: Signal) -> set[str]:
@@ -334,30 +576,44 @@ class MigrationIngester(Ingester[Excuses]):
         if self._now() - raw.generated > MAX_VERDICT_AGE:
             raise StaleVerdict(f"britney last ran {raw.generated.isoformat()}")
 
-        signals = []
+        # One signal per source keeps identity simple. A source usually has
+        # one item, the upload proper. An architecture item ("src/arm64", a
+        # rebuild on one architecture) is folded into it, and becomes the
+        # signal itself when it is all that is held: imagewmark on 20 Nov
+        # 2026 was held only on arm64, armhf and ppc64el, and was missing
+        # from the board. Removal items ("-src") are not uploads and stay out.
+        whole: dict[str, Mapping[str, Any]] = {}
+        by_arch: dict[str, list[Mapping[str, Any]]] = {}
         skipped = 0
         for entry in raw.entries:
             name = entry.get("source")
             if entry.get("is-candidate") or not name:
                 continue
-            # Architecture-specific and removal items share a source with the
-            # upload proper; one signal per source keeps identity simple.
-            if entry.get("item-name") != name:
+            item = str(entry.get("item-name") or "")
+            if item == name:
+                whole[name] = entry
+            elif item.startswith(f"{name}/"):
+                by_arch.setdefault(name, []).append(entry)
+            else:
                 skipped += 1
-                continue
+        if skipped:
+            log.info("migration: skipped %d removal item(s)", skipped)
+
+        signals = []
+        for name in [*whole, *(n for n in by_arch if n not in whole)]:
+            if name in whole:
+                found = payload(whole[name], raw.generated)
+            else:
+                found = arch_only_payload(by_arch[name], raw.generated)
             signals.append(
                 Signal(
                     kind=Kind.MIGRATION_BLOCKED,
                     source_package=name,
                     series=self.series,
-                    payload=payload(entry, raw.generated),
+                    payload=found,
                     # Launchpad, the system of record, not britney's page:
                     # cairn replaces that page rather than pointing at it.
                     url=f"https://launchpad.net/ubuntu/+source/{name}",
                 )
-            )
-        if skipped:
-            log.info(
-                "migration: skipped %d item(s) that are not a whole source", skipped
             )
         return signals
