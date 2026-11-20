@@ -99,9 +99,17 @@ class TestWhichEntriesBecomeSignals:
         replaces."""
         assert found["shadow"].url == "https://launchpad.net/ubuntu/+source/shadow"
 
-    def test_architecture_specific_items_are_skipped(self):
+    def test_an_architecture_item_adds_no_second_signal(self):
+        """The upload proper speaks for the source; an architecture item
+        becomes the signal only when it is all britney holds."""
         body = document(entry("x"), entry("x", **{"item-name": "x/riscv64"}))
-        assert [s.source_package for s in ingester(body).run()] == ["x"]
+        [signal] = ingester(body).run()
+        assert signal.source_package == "x"
+        assert "architectures" not in signal.payload
+
+    def test_removal_items_are_not_uploads(self):
+        body = document(entry("x", **{"item-name": "-x"}))
+        assert ingester(body).run() == []
 
 
 class TestPayload:
@@ -124,9 +132,17 @@ class TestPayload:
                 "test": "curl",
                 "version": "8.20.0-2ubuntu11",
                 "results": {"s390x": "regression"},
+                # The failed run's id, which the log's URL ends in.
+                "logs": {"s390x": "20261001_031800_3e724@"},
             }
         ]
         assert Reason.REGRESSION in found["libssh2"].payload["reasons"]
+
+    def test_a_running_test_keeps_no_log(self, every_excuse):
+        """Its "log" is autopkgtest's generic /running page."""
+        [running] = every_excuse["hwloc"].payload["tests"][:1]
+        assert set(running["results"].values()) == {"running"}
+        assert "logs" not in running
 
     def test_missing_builds(self, found):
         assert found["ceph"].payload["missing_builds"] == ["riscv64"]
@@ -312,3 +328,167 @@ def test_any_rejected_verdict_still_counts():
     }
     payload = ingester(document(entry(policy_info=policies))).run()[0].payload
     assert payload["reasons"] == [Reason.NEEDS_APPROVAL, Reason.UNINSTALLABLE]
+
+
+ISSUE_18 = (
+    Path(__file__).parent / "fixtures" / "update_excuses_2026-11-20.yaml"
+).read_bytes()
+ISSUE_18_NOW = datetime(2026, 11, 20, 7, tzinfo=UTC)
+
+
+@pytest.fixture(scope="module")
+def every_excuse() -> dict[str, Signal]:
+    found = ingester(ISSUE_18, series="tenacious", now=ISSUE_18_NOW).run()
+    return {s.source_package: s for s in found}
+
+
+class TestEveryExcuseIsCarried:
+    """Issue #18: every excuse britney gives in Ubuntu's configuration
+    reaches the payload, checked against britney2-ubuntu's source and the
+    20 Nov 2026 report. Real entries, trimmed."""
+
+    def test_a_block_proposed_bug_is_named(self, every_excuse):
+        p = every_excuse["netgen-lvs"].payload
+        assert Reason.BLOCK_BUG in p["reasons"]
+        assert p["block_bugs"] == [2170615]
+        # Not an update-excuse bug: those say someone looked, and hold nothing.
+        assert p["bugs"] == []
+
+    def test_update_excuse_bugs_stay_apart_from_blocking_ones(self, every_excuse):
+        p = every_excuse["hwloc"].payload
+        assert p["bugs"] == [2072750]
+        assert "block_bugs" not in p
+
+    def test_a_main_universe_mismatch_says_what_cannot_depend_on_what(
+        self, every_excuse
+    ):
+        p = every_excuse["dotnet10"].payload
+        assert p["reasons"] == [Reason.UNINSTALLABLE]
+        assert {d["kind"] for d in p["depends_issues"]} == {"component"}
+        # One line per message, the architectures beside it: britney
+        # repeats each line per architecture.
+        assert {
+            "kind": "component",
+            "text": "dotnet-hostfxr-10.0 in main cannot depend on dotnet-host-11.0 "
+            "in universe",
+            "arches": ["amd64", "amd64v3"],
+        } in p["depends_issues"]
+
+    def test_unsatisfiable_and_impossible_dependencies_are_kept(self, every_excuse):
+        kinds = {
+            name: {d["kind"] for d in every_excuse[name].payload["depends_issues"]}
+            for name in ("rust-forgejo-api", "libgweather")
+        }
+        assert kinds == {
+            "rust-forgejo-api": {"unsatisfiable"},
+            "libgweather": {"component", "impossible"},
+        }
+        texts = [
+            d["text"] for d in every_excuse["libgweather"].payload["depends_issues"]
+        ]
+        assert all("<" not in t for t in texts)  # britney's markup stripped
+
+    def test_old_binaries_have_a_reason_of_their_own(self, every_excuse):
+        """Britney's "cruft" read as Other before."""
+        p = every_excuse["ifcopenshell"].payload
+        assert p["reasons"] == [Reason.OLD_BINARIES]
+        assert p["old_binaries"] == {"0.8.1+dfsg1-10build1": ["libifcopenshell0.8.1"]}
+
+    def test_a_source_held_only_per_architecture_is_not_dropped(self, every_excuse):
+        p = every_excuse["imagewmark"].payload
+        assert p["architectures"] == ["arm64", "armhf", "ppc64el"]
+        assert p["reasons"] == [Reason.WAITING]
+        assert p["waits_for"] == ["openimageio"]
+
+    def test_usually_empty_fields_are_written_only_when_set(self, every_excuse):
+        """So adding them updates only the signals they concern."""
+        p = every_excuse["hwloc"].payload
+        for key in ("block_bugs", "depends_issues", "old_binaries", "architectures"):
+            assert key not in p, key
+
+
+def test_a_kernel_waits_for_its_meta():
+    """linux-meta-not-ready, which read as Other: no real entry has been
+    captured, so this one follows britney's wording in policy.py."""
+    body = document(
+        entry(
+            "linux-oem",
+            reason=["linux-meta-not-ready"],
+            excuses=['<a href="#linux-meta-oem">linux-meta-oem</a> is not a candidate'],
+        )
+    )
+    [signal] = ingester(body).run()
+    assert Reason.WAITING in signal.payload["reasons"]
+    assert signal.payload["waits_for"] == ["linux-meta-oem"]
+
+
+class TestArchitectureItemsMerge:
+    """Review on #24: a source held only per architecture merges each field
+    by its shape. A generic merge failed the whole ingest on two
+    architectures' depends issues."""
+
+    def item(self, arch, **overrides):
+        return entry(
+            "p",
+            **{
+                "item-name": f"p/{arch}",
+                "reason": ["depends", "cruft"],
+                "policy_info": {"depends": {"verdict": "REJECTED_PERMANENTLY"}},
+                "excuses": [
+                    f"libp/{arch} has unsatisfiable dependency",
+                    f"old binaries left on {arch}: libp-{arch} (from 1.0-1)",
+                ],
+                "old-binaries": {"1.0-1": [f"libp-{arch}"]},
+            }
+            | overrides,
+        )
+
+    def test_two_architectures_with_depends_issues_do_not_fail_the_ingest(self):
+        [signal] = ingester(document(self.item("arm64"), self.item("armhf"))).run()
+        assert signal.payload["depends_issues"] == [
+            {
+                "kind": "unsatisfiable",
+                "text": "libp has unsatisfiable dependency",
+                "arches": ["arm64", "armhf"],
+            }
+        ]
+        assert signal.payload["architectures"] == ["arm64", "armhf"]
+
+    def test_every_architectures_old_binaries_are_kept(self):
+        [signal] = ingester(document(self.item("arm64"), self.item("armhf"))).run()
+        assert signal.payload["old_binaries"] == {"1.0-1": ["libp-arm64", "libp-armhf"]}
+
+
+def test_binaries_waiting_for_a_build_are_not_old_binaries():
+    """Review on #24: britney's old-binaries field mixes cruft with binaries
+    waiting for a missing build. eclib, 20 Nov 2026, trimmed."""
+    body = document(
+        entry(
+            "eclib",
+            reason=["cruft", "missingbuild"],
+            **{
+                "old-binaries": {"20250627-1": ["eclib-tools", "libec-dev", "libec14"]},
+                "missing-builds": {"on-architectures": ["amd64"]},
+                "excuses": [
+                    "old binaries left on riscv64: libec14 (from 20250627-1)",
+                    "missing build on amd64: eclib-tools, libec-dev, libec14 "
+                    "(from 20250627-1)",
+                ],
+            },
+        )
+    )
+    [signal] = ingester(body).run()
+    assert signal.payload["old_binaries"] == {"20250627-1": ["libec14"]}
+    assert {"old_binaries", "missing_build"} <= set(signal.payload["reasons"])
+
+
+def test_a_test_history_url_never_names_a_series_alone():
+    """Review on #24: /packages/c/curl/<series> reads as package c."""
+    from cairn.build.site import autopkgtest_url
+
+    assert autopkgtest_url("curl", "tenacious") == (
+        "https://autopkgtest.ubuntu.com/packages/c/curl"
+    )
+    assert autopkgtest_url("curl", "tenacious", "amd64").endswith(
+        "/packages/c/curl/tenacious/amd64"
+    )

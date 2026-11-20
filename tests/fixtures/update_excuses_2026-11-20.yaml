@@ -1,0 +1,665 @@
+# Trimmed from update_excuses.yaml.xz, generated 2026-11-20 06:02:39.875219, for issue #18.
+# Real entries, one per excuse cairn did not show: a block-proposed bug
+# (netgen-lvs), main/universe mismatch (dotnet10), unsatisfiable
+# (rust-forgejo-api) and impossible (libgweather) dependencies, old
+# binaries (ifcopenshell), a source held only per architecture
+# (imagewmark), plus an update-excuse bug (hwloc). Autopkgtest results
+# cut to two tests per entry, detailed-info dropped. Nothing hand-written.
+generated-date: 2026-11-20 06:02:39.875219
+sources:
+- component: universe
+  excuses:
+  - 'Migration status for netgen-lvs (1.5.133-1.2 to 1.5.133-1.2build1): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - 'Additional info:'
+  - 336 days old
+  - Not touching package as requested in <a href="https://launchpad.net/bugs/2170615">bug 2170615</a> on Sat Oct 17 13:25:31 2026
+  - 'autopkgtest for netgen-lvs/1.5.133-1.2build1: <a href="https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/amd64">amd64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/n/netgen-lvs/20261023_143710_2b2dd@/log.gz"><span
+    style="background:#ff6666">Regression</span></a> <a href="https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=amd64&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1" style="text-decoration:
+    none;">♻ </a> , <a href="https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/amd64v3">amd64v3</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/n/netgen-lvs/20261116_151816_85ed7@/log.gz"><span
+    style="background:#ff6666">Regression</span></a> <a href="https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=amd64v3&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1" style="text-decoration:
+    none;">♻ </a> , <a href="https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/arm64">arm64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/n/netgen-lvs/20261023_141427_edb43@/log.gz"><span
+    style="background:#ff6666">Regression</span></a> <a href="https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=arm64&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1" style="text-decoration:
+    none;">♻ </a> , <a href="https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/armhf">armhf</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/n/netgen-lvs/20261113_171928_5b874@/log.gz"><span
+    style="background:#ff6666">Regression</span></a> <a href="https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=armhf&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1" style="text-decoration:
+    none;">♻ </a> , <a href="https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/ppc64el">ppc64el</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/n/netgen-lvs/20261023_141202_d7622@/log.gz"><span
+    style="background:#ff6666">Regression</span></a> <a href="https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=ppc64el&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1" style="text-decoration:
+    none;">♻ </a> , <a href="https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/s390x">s390x</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/n/netgen-lvs/20260919_011733_fa1d0@/log.gz"><span
+    style="background:#ff6666">Regression</span></a> <a href="https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=s390x&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1" style="text-decoration:
+    none;">♻ </a> '
+  is-candidate: false
+  item-name: netgen-lvs
+  maintainer: Debian Electronics Team
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 1.5.133-1.2build1
+  old-version: 1.5.133-1.2
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 336.899375
+      verdict: PASS
+    autopkgtest:
+      netgen-lvs/1.5.133-1.2build1:
+        amd64:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/n/netgen-lvs/20261023_143710_2b2dd@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/amd64
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=amd64&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1
+        amd64v3:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/n/netgen-lvs/20261116_151816_85ed7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/amd64v3
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=amd64v3&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1
+        arm64:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/n/netgen-lvs/20261023_141427_edb43@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/arm64
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=arm64&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1
+        armhf:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/n/netgen-lvs/20261113_171928_5b874@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/armhf
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=armhf&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1
+        ppc64el:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/n/netgen-lvs/20261023_141202_d7622@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/ppc64el
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=ppc64el&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1
+        s390x:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/n/netgen-lvs/20260919_011733_fa1d0@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/n/netgen-lvs/tenacious/s390x
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=s390x&package=netgen-lvs&trigger=netgen-lvs%2F1.5.133-1.2build1
+      verdict: REJECTED_PERMANENTLY
+    block:
+      verdict: PASS
+    block-bugs:
+      '2170615': 1792243531
+      verdict: REJECTED_PERMANENTLY
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - block
+  source: netgen-lvs
+- excuses:
+  - 'Migration status for dotnet10 (10.0.112-10.0.12-0ubuntu2 to 10.0.115-10.0.15-0ubuntu1): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - dotnet-hostfxr-10.0/amd64 in main cannot depend on dotnet-host-11.0 in universe
+  - dotnet-hostfxr-10.0/amd64 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-hostfxr-10.0/amd64 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-templates-10.0/amd64 in main cannot depend on dotnet-host-11.0 in universe
+  - dotnet-templates-10.0/amd64 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-templates-10.0/amd64 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-hostfxr-10.0/amd64v3 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-hostfxr-10.0/amd64v3 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-hostfxr-10.0/amd64v3 in main cannot depend on dotnet-host-11.0 in universe
+  - dotnet-templates-10.0/amd64v3 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-templates-10.0/amd64v3 in main cannot depend on dotnet-host-10.0 in universe
+  - dotnet-templates-10.0/amd64v3 in main cannot depend on dotnet-host-11.0 in universe
+  - aspnetcore-runtime-10.0/ppc64el in main cannot depend on dotnet-runtime-10.0 in universe
+  - aspnetcore-runtime-10.0/ppc64el in main cannot depend on dotnet-runtime-10.0 in universe
+  - 'Additional info:'
+  - 5 days old
+  is-candidate: false
+  item-name: dotnet10
+  maintainer: Ubuntu Developers
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 10.0.115-10.0.15-0ubuntu1
+  old-version: 10.0.112-10.0.12-0ubuntu2
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 5.682627314814815
+      verdict: PASS
+    autopkgtest:
+      dotnet10/10.0.115-10.0.15-0ubuntu1:
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/d/dotnet10/20261114_093515_e9c36@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dotnet10/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/d/dotnet10/20261114_090313_4562a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dotnet10/tenacious/arm64
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/d/dotnet10/20261115_105909_f6895@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dotnet10/tenacious/s390x
+        - null
+        - null
+      dotnet10/unknown:
+        amd64:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/d/dotnet10/20261116_031346_55d7e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dotnet10/tenacious/amd64
+        - null
+        - null
+        ppc64el:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/d/dotnet10/20261117_030138_c8a4a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/d/dotnet10/tenacious/ppc64el
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: REJECTED_PERMANENTLY
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: dotnet10
+- component: universe
+  excuses:
+  - 'Migration status for rust-forgejo-api (- to 0.12.0-1): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - librust-forgejo-api-dev/amd64 has unsatisfiable dependency
+  - librust-forgejo-api-dev/amd64v3 has unsatisfiable dependency
+  - librust-forgejo-api-dev/arm64 has unsatisfiable dependency
+  - librust-forgejo-api-dev/armhf has unsatisfiable dependency
+  - librust-forgejo-api-dev/ppc64el has unsatisfiable dependency
+  - librust-forgejo-api-dev/riscv64 has unsatisfiable dependency
+  - librust-forgejo-api-dev/s390x has unsatisfiable dependency
+  - 'Additional info:'
+  - uninstallable on arch amd64, not running autopkgtest there
+  - uninstallable on arch amd64v3, not running autopkgtest there
+  - uninstallable on arch arm64, not running autopkgtest there
+  - uninstallable on arch armhf, not running autopkgtest there
+  - uninstallable on arch ppc64el, not running autopkgtest there
+  - uninstallable on arch riscv64, not running autopkgtest there
+  - uninstallable on arch s390x, not running autopkgtest there
+  - 9 days old
+  is-candidate: false
+  item-name: rust-forgejo-api
+  maintainer: Daniel Baumann
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 0.12.0-1
+  old-version: '-'
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 9.49113425925926
+      verdict: PASS
+    autopkgtest:
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: REJECTED_PERMANENTLY
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - depends
+  source: rust-forgejo-api
+- component: universe
+  dependencies: {}
+  excuses:
+  - 'Migration status for libgweather (- to 4.6.0-5): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - libgweather-4-0t64/amd64 in main cannot depend on gweather-locations in universe
+  - libgweather-4-0t64/amd64v3 in main cannot depend on gweather-locations in universe
+  - libgweather-4-0t64/arm64 in main cannot depend on gweather-locations in universe
+  - libgweather-4-0t64/armhf in main cannot depend on gweather-locations in universe
+  - libgweather-4-0t64/ppc64el in main cannot depend on gweather-locations in universe
+  - libgweather-4-0t64/riscv64 in main cannot depend on gweather-locations in universe
+  - libgweather-4-0t64/s390x in main cannot depend on gweather-locations in universe
+  - 'Impossible Depends: libgweather -> gweather-locations/2026.2-2/amd64'
+  - 'Impossible Depends: libgweather -> gweather-locations/2026.2-2/amd64v3'
+  - 'Impossible Depends: libgweather -> gweather-locations/2026.2-2/arm64'
+  - 'Impossible Depends: libgweather -> gweather-locations/2026.2-2/armhf'
+  - 'Impossible Depends: libgweather -> gweather-locations/2026.2-2/ppc64el'
+  - 'Impossible Depends: libgweather -> gweather-locations/2026.2-2/riscv64'
+  - 'Impossible Depends: libgweather -> gweather-locations/2026.2-2/s390x'
+  - 'Additional info:'
+  - 7 days old
+  - 'autopkgtest for gnome-shell/51.0-2ubuntu3: <a href="https://autopkgtest.ubuntu.com/packages/g/gnome-shell/tenacious/amd64">amd64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/g/gnome-shell/20261115_125014_5a449@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gnome-shell/tenacious/amd64v3">amd64v3</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/g/gnome-shell/20261112_012132_019a0@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gnome-shell/tenacious/arm64">arm64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/g/gnome-shell/20261113_014611_9f239@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gnome-shell/tenacious/armhf">armhf</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/g/gnome-shell/20261113_132130_be96a@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gnome-shell/tenacious/ppc64el">ppc64el</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/g/gnome-shell/20261116_185644_b320c@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gnome-shell/tenacious/s390x">s390x</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/g/gnome-shell/20261112_011948_cca46@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>'
+  is-candidate: false
+  item-name: libgweather
+  maintainer: Debian GNOME Maintainers
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 4.6.0-5
+  old-version: '-'
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 7.907916666666666
+      verdict: PASS
+    autopkgtest:
+      evolution-data-server/3.62.1-2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/e/evolution-data-server/20261115_124710_55f8b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/evolution-data-server/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/e/evolution-data-server/20261112_011616_fa7f8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/evolution-data-server/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/e/evolution-data-server/20261113_040234_df03a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/evolution-data-server/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/e/evolution-data-server/20261112_174818_0f3f4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/evolution-data-server/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/e/evolution-data-server/20261116_185106_6ed6e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/evolution-data-server/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/e/evolution-data-server/20261112_011544_99bc3@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/evolution-data-server/tenacious/s390x
+        - null
+        - null
+      gnome-settings-daemon/51.0-1ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/g/gnome-settings-daemon/20261115_125426_31499@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gnome-settings-daemon/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/g/gnome-settings-daemon/20261112_012456_fa5db@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gnome-settings-daemon/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/g/gnome-settings-daemon/20261113_040926_071c0@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gnome-settings-daemon/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/g/gnome-settings-daemon/20261113_132359_0adff@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gnome-settings-daemon/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/g/gnome-settings-daemon/20261116_185958_b2c7a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gnome-settings-daemon/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/g/gnome-settings-daemon/20261112_012615_ac299@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gnome-settings-daemon/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: REJECTED_PERMANENTLY
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - depends
+  source: libgweather
+- component: universe
+  excuses:
+  - 'Migration status for ifcopenshell (0.8.1+dfsg1-10 to 0.9.0+dfsg2-1): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - 'old binaries left on <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.9.0%2Bdfsg2-1/+latestbuild/amd64" target="_blank">amd64</a>: libifcopenshell0.8.1 (from <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.8.1%2Bdfsg1-10build1/+latestbuild/amd64"
+    target="_blank">0.8.1+dfsg1-10build1</a>)'
+  - 'old binaries left on <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.9.0%2Bdfsg2-1/+latestbuild/amd64v3" target="_blank">amd64v3</a>: libifcopenshell0.8.1 (from <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.8.1%2Bdfsg1-10build1/+latestbuild/amd64v3"
+    target="_blank">0.8.1+dfsg1-10build1</a>)'
+  - 'old binaries left on <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.9.0%2Bdfsg2-1/+latestbuild/arm64" target="_blank">arm64</a>: libifcopenshell0.8.1 (from <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.8.1%2Bdfsg1-10build1/+latestbuild/arm64"
+    target="_blank">0.8.1+dfsg1-10build1</a>)'
+  - 'old binaries left on <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.9.0%2Bdfsg2-1/+latestbuild/ppc64el" target="_blank">ppc64el</a>: libifcopenshell0.8.1 (from <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.8.1%2Bdfsg1-10build1/+latestbuild/ppc64el"
+    target="_blank">0.8.1+dfsg1-10build1</a>)'
+  - 'old binaries left on <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.9.0%2Bdfsg2-1/+latestbuild/s390x" target="_blank">s390x</a>: libifcopenshell0.8.1 (from <a href="https://launchpad.net/ubuntu/+source/ifcopenshell/0.8.1%2Bdfsg1-10build1/+latestbuild/s390x"
+    target="_blank">0.8.1+dfsg1-10build1</a>)'
+  - 'Additional info:'
+  - 4 days old
+  is-candidate: false
+  item-name: ifcopenshell
+  maintainer: Debian Science Maintainers
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  new-version: 0.9.0+dfsg2-1
+  old-binaries:
+    0.8.1+dfsg1-10build1:
+    - libifcopenshell0.8.1
+  old-version: 0.8.1+dfsg1-10
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 4.792777777777778
+      verdict: PASS
+    autopkgtest:
+      ifcopenshell/0.9.0+dfsg2-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/i/ifcopenshell/20261119_101341_fbca8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/ifcopenshell/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/i/ifcopenshell/20261115_120047_765a1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/ifcopenshell/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/i/ifcopenshell/20261115_120119_664ed@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/ifcopenshell/tenacious/arm64
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/i/ifcopenshell/20261117_063710_0f439@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/ifcopenshell/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/i/ifcopenshell/20261115_123217_b1715@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/i/ifcopenshell/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - cruft
+  source: ifcopenshell
+- component: universe
+  dependencies:
+    blocked-by:
+    - openimageio
+  excuses:
+  - 'Migration status for imagewmark/arm64 (0.6.0-3 to 0.6.0-3): BLOCKED: Cannot migrate due to another item, which is blocked (please check which dependencies are stuck)'
+  - 'Issues preventing migration:'
+  - 'Depends: imagewmark/arm64 <a href="#openimageio">openimageio</a> (not considered)'
+  - Invalidated by dependency
+  invalidated-by-other-package: true
+  is-candidate: false
+  item-name: imagewmark/arm64
+  maintainer: Ying-Chun Liu (PaulLiu)
+  migration-policy-verdict: REJECTED_BLOCKED_BY_ANOTHER_ITEM
+  new-version: 0.6.0-3
+  old-version: 0.6.0-3
+  policy_info:
+    block:
+      verdict: PASS
+    depends:
+      verdict: PASS
+  reason:
+  - depends
+  source: imagewmark
+- component: universe
+  dependencies:
+    blocked-by:
+    - openimageio
+  excuses:
+  - 'Migration status for imagewmark/armhf (0.6.0-3 to 0.6.0-3): BLOCKED: Cannot migrate due to another item, which is blocked (please check which dependencies are stuck)'
+  - 'Issues preventing migration:'
+  - 'Depends: imagewmark/armhf <a href="#openimageio">openimageio</a> (not considered)'
+  - Invalidated by dependency
+  invalidated-by-other-package: true
+  is-candidate: false
+  item-name: imagewmark/armhf
+  maintainer: Ying-Chun Liu (PaulLiu)
+  migration-policy-verdict: REJECTED_BLOCKED_BY_ANOTHER_ITEM
+  new-version: 0.6.0-3
+  old-version: 0.6.0-3
+  policy_info:
+    block:
+      verdict: PASS
+    depends:
+      verdict: PASS
+  reason:
+  - depends
+  source: imagewmark
+- component: universe
+  dependencies:
+    blocked-by:
+    - openimageio
+  excuses:
+  - 'Migration status for imagewmark/ppc64el (0.6.0-3 to 0.6.0-3): BLOCKED: Cannot migrate due to another item, which is blocked (please check which dependencies are stuck)'
+  - 'Issues preventing migration:'
+  - 'Depends: imagewmark/ppc64el <a href="#openimageio">openimageio</a> (not considered)'
+  - Invalidated by dependency
+  invalidated-by-other-package: true
+  is-candidate: false
+  item-name: imagewmark/ppc64el
+  maintainer: Ying-Chun Liu (PaulLiu)
+  migration-policy-verdict: REJECTED_BLOCKED_BY_ANOTHER_ITEM
+  new-version: 0.6.0-3
+  old-version: 0.6.0-3
+  policy_info:
+    block:
+      verdict: PASS
+    depends:
+      verdict: PASS
+  reason:
+  - depends
+  source: imagewmark
+- component: universe
+  excuses:
+  - 'Migration status for hwloc (2.14.0-2 to 2.15.0-2ubuntu1): BLOCKED: Rejected/violates migration policy/introduces a regression'
+  - 'Issues preventing migration:'
+  - 'missing build on <a href="https://launchpad.net/ubuntu/+source/hwloc/2.15.0-2ubuntu1/+latestbuild/riscv64" target="_blank">riscv64</a>: hwloc, hwloc-nox, libhwloc-dev, libhwloc-plugins, libhwloc15
+    (from <a href="https://launchpad.net/ubuntu/+source/hwloc/2.15.0-2/+latestbuild/riscv64" target="_blank">2.15.0-2</a>)'
+  - arch:riscv64 not built yet, autopkgtest delayed there
+  - 'Additional info:'
+  - 0 days old
+  - Also see <a href="https://launchpad.net/bugs/2072750">bug 2072750</a> last updated on Thu Jul 11 10:07:12 2024
+  - 'autopkgtest for gromacs/2026.4-1ubuntu1: <a href="https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/amd64">amd64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/g/gromacs/20261119_162152_b52af@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/amd64v3">amd64v3</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/g/gromacs/20261119_031559_fa319@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/arm64">arm64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/g/gromacs/20261119_091324_f6fdc@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/ppc64el">ppc64el</a>: <a href="https://autopkgtest.ubuntu.com/running"><span style="background:#99ddff">Test
+    in progress</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/s390x">s390x</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/g/gromacs/20261119_073719_a657d@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>'
+  - 'autopkgtest for hwloc/2.15.0-2ubuntu1: <a href="https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/amd64v3">amd64v3</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/h/hwloc/20261119_030512_4c250@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/arm64">arm64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/h/hwloc/20261119_080500_d47da@/log.gz"><span
+    style="background:#ff6666">Regression</span></a> <a href="https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=arm64&package=hwloc&trigger=hwloc%2F2.15.0-2ubuntu1" style="text-decoration:
+    none;">♻ </a> , <a href="https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/armhf">armhf</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/h/hwloc/20261119_072713_5347b@/log.gz"><span
+    style="background:#e5c545">Not a regression</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/i386">i386</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/i386/h/hwloc/20261119_030707_8c49b@/log.gz"><span
+    style="background:#e5c545">Not a regression</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/ppc64el">ppc64el</a>: <a href="https://autopkgtest.ubuntu.com/running"><span
+    style="background:#99ddff">Test in progress</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/s390x">s390x</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/h/hwloc/20261119_072453_cdbb2@/log.gz"><span
+    style="background:#87d96c">Pass</span></a>'
+  is-candidate: false
+  item-name: hwloc
+  maintainer: Ubuntu Developers
+  migration-policy-verdict: REJECTED_PERMANENTLY
+  missing-builds:
+    on-architectures:
+    - riscv64
+    on-unimportant-architectures: []
+  new-version: 2.15.0-2ubuntu1
+  old-binaries:
+    2.15.0-2:
+    - hwloc
+    - hwloc-nox
+    - libhwloc-dev
+    - libhwloc-plugins
+    - libhwloc15
+  old-version: 2.14.0-2
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 0.9885763888888889
+      verdict: PASS
+    autopkgtest:
+      gromacs/2026.4-1ubuntu1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/g/gromacs/20261119_162152_b52af@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/g/gromacs/20261119_031559_fa319@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/g/gromacs/20261119_091324_f6fdc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/arm64
+        - null
+        - null
+        ppc64el:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/g/gromacs/20261119_073719_a657d@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/g/gromacs/tenacious/s390x
+        - null
+        - null
+      hwloc/2.15.0-2ubuntu1:
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/h/hwloc/20261119_030512_4c250@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - REGRESSION
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/h/hwloc/20261119_080500_d47da@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/arm64
+        - null
+        - https://autopkgtest.ubuntu.com/request.cgi?release=tenacious&arch=arm64&package=hwloc&trigger=hwloc%2F2.15.0-2ubuntu1
+        armhf:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/h/hwloc/20261119_072713_5347b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/armhf
+        - null
+        - null
+        i386:
+        - ALWAYSFAIL
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/i386/h/hwloc/20261119_030707_8c49b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/i386
+        - null
+        - null
+        ppc64el:
+        - RUNNING
+        - https://autopkgtest.ubuntu.com/running
+        - https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/h/hwloc/20261119_072453_cdbb2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/h/hwloc/tenacious/s390x
+        - null
+        - null
+      verdict: REJECTED_PERMANENTLY
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      '2072750': 1720692432
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - missingbuild
+  source: hwloc

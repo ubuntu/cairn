@@ -86,7 +86,17 @@
             {%- else -%}
             someone Launchpad does not name
             {%- endif %}.
+            {% if stuck.architectures %}Britney holds it on {{ stuck.architectures | join(", ") }} only.{% endif %}
           </p>
+          {# An update-excuse bug says someone filed one about this upload;
+             it does not hold it (a block-proposed bug does, under the
+             reasons below). #}
+          {% if stuck.bugs %}
+          <p>
+            Update-excuse bug{{ '' if stuck.bugs | length == 1 else 's' }}:
+            {% for bug in stuck.bugs %}<a class="cairn-ext cairn-term" href="https://bugs.launchpad.net/bugs/{{ bug }}" target="_blank" rel="noopener noreferrer"{{ g.tip("excuse_bug") }}>LP: #{{ bug }}<i class="p-icon--external-link"></i><span class="u-off-screen"> (opens in a new tab)</span></a>{% if not loop.last %}, {% endif %}{% endfor %}
+          </p>
+          {% endif %}
           {% if stuck.uploads > 1 %}
           <p>
             <strong>Cairn has seen it stuck through {{ stuck.uploads }} different uploads</strong>{% if package.stuck_since %},
@@ -125,7 +135,7 @@
           {% endif %}
         </div>
       </div>
-      {{ g.definitions(g.HOLDING_TERMS + ["settling", "up_for_grabs"]) }}
+      {{ g.definitions(g.HOLDING_TERMS + ["settling", "up_for_grabs", "excuse_bug"]) }}
     </div>
     <aside class="col-4 col-medium-2 cairn-side">
       <h2 class="p-heading--5">Who looks after it</h2>
