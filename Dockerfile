@@ -1,7 +1,7 @@
 # Dev convenience only. There is no cairn server to deploy: the pipeline
 # writes a log and renders static HTML. This image exists so contributors do
 # not need a matching Python on the host.
-FROM python:3.14-slim
+FROM python:3.15-slim
 
 ENV POETRY_VIRTUALENVS_CREATE=false \
     PIP_NO_CACHE_DIR=1 \
