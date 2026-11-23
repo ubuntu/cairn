@@ -13,6 +13,11 @@ from cairn.core.log import Event, EventType, SignalState
 from cairn.ingest.base import Signal
 
 DEFAULT_MAX_RESOLVE_FRACTION = 0.5
+# Below this many active signals the fraction says nothing: NBS has about
+# 20, and an archive admin removing a dozen binaries in one go is the very
+# change it tracks (review on #26). An empty result is still refused at any
+# size: that is the failed fetch the guard exists for.
+MIN_GUARDED = 50
 
 
 class MassResolve(RuntimeError):
@@ -58,7 +63,13 @@ def reconcile(
         max_resolve_fraction is not None
         and active
         and gone
-        and len(gone) / len(active) > max_resolve_fraction
+        and (
+            not seen
+            or (
+                len(active) >= MIN_GUARDED
+                and len(gone) / len(active) > max_resolve_fraction
+            )
+        )
     ):
         raise MassResolve(
             f"{source}: {len(gone)} of {len(active)} signals would resolve "

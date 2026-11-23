@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui with context %}
+{% import "_migration.html" as m with context %}
+{% import "_glossary.html" as g with context %}
+{% block title %}Cairn | NBS{% endblock %}
+
+{# The NBS board ("not built from source"): binaries still published that no current source builds.
+   Two lists, by who acts: while something still needs a binary, the
+   owners of those packages (a rebuild or a port); once nothing does, an
+   archive admin, who removes it. Section ids contain "_": row ids are
+   binary names, which never do (AGENTS.md section 5). #}
+
+{% macro needed_list(row) %}
+{% set groups = row.needs_by_source() %}
+{% set also = row.needed_by | selectattr("leaving") | list %}
+{% if groups %}
+<ul class="cairn-tests">
+  {% set shown = groups if groups | length <= 6 else groups[:5] %}
+  {% for source, needs in shown %}{{ need_line(row, source, needs) }}{% endfor %}
+</ul>
+{% if groups | length > 6 %}
+<details class="cairn-more">
+  <summary>{{ groups | length - 5 }} more</summary>
+  <ul class="cairn-tests">
+    {% for source, needs in groups[5:] %}{{ need_line(row, source, needs) }}{% endfor %}
+  </ul>
+</details>
+{% endif %}
+{% elif row.provided_by %}
+<span class="u-text--muted">nothing: {{ row.provided_by | join(", ") }} provide{{ 's' if row.provided_by | length == 1 }} its name</span>
+{% elif not also %}
+<span class="u-text--muted">nothing</span>
+{% endif %}
+{% if also %}
+<div>
+  <span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("nbs_also") }}><span class="p-chip__value">also NBS</span></span>
+  {% for need in also %}<a href="#{{ need.package }}">{{ need.package }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+</div>
+{% endif %}
+{% endmacro %}
+
+{# Six or fewer in full; more fold after five, so a fold never hides
+   just one. #}
+{# One source that needs the binary: its page, then which of its binaries
+   need it (or that it needs it to build), and where, when that is not
+   everywhere the binary is published. Binaries needing it in the same
+   places share one "on" or "not on". #}
+{% macro need_line(row, source, needs) %}
+<li>
+  <a href="{{ root }}{{ package_href(source) }}"><strong>{{ source }}</strong></a>:
+  {% for names, where in needs -%}
+  {% for name in names %}{% if name in row.still_needed_nbs %}<a href="#{{ name }}">{{ name }}</a> <span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("nbs_needed") }}><span class="p-chip__value">NBS</span></span>{% else %}{{ name }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
+  {%- if where %} <span class="u-text--muted">{{ where[0] }} {{ where[1] | join(", ") }}</span>{% endif %}
+  {%- if not loop.last %}; {% endif %}
+  {% endfor %}
+</li>
+{% endmacro %}
+
+{% macro nbs_table(rows, caption) %}
+<table class="p-table--mobile-card cairn-nbs">
+  <caption class="u-hide">{{ caption }}</caption>
+  <thead>
+    <tr>
+      <th>Binary</th>
+      <th>Built from</th>
+      <th>Still needed by</th>
+      <th class="cairn-days">Seen since</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr id="{{ row.anchor }}">
+      <td data-heading="Binary">
+        <strong>{{ row.binary }}</strong>
+        <div><code>{{ row.version }}</code></div>
+        <div class="p-text--small u-text--muted">{{ row.component }}{% if row.architectures == ("all",) %}, architecture-independent{% endif %}</div>
+      </td>
+      <td data-heading="Built from">
+        <a href="{{ root }}{{ package_href(row.source) }}">{{ row.source }}</a>
+        <div class="p-text--small u-text--muted">
+          {% if row.current_version %}now <code>{{ row.current_version }}</code>, which does not build it
+          {% else %}no longer in {{ series }}{% endif %}
+        </div>
+      </td>
+      <td data-heading="Still needed by">{{ needed_list(row) }}</td>
+      <td data-heading="Seen since" class="cairn-days">{{ row.first_seen | iso_date }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endmacro %}
+
+{% block content %}
+{% set needed = nbs_rows | rejectattr("removable") | list %}
+{% set removable = nbs_rows | selectattr("removable") | list %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="p-heading--2">NBS</h1>
+      {{ ui.series_line() }}
+      <p>
+        Binaries not built from source: binary packages still published in
+        {{ series }} that no current source builds, worked out from the archive's own indexes. An
+        archive admin removes one once nothing needs it, so while something
+        does, that package has to be rebuilt or ported first.
+      </p>
+    </div>
+  </div>
+  {% include "_stale.html" %}
+</section>
+
+{% if nbs_rows %}
+<section class="p-strip is-shallow u-no-padding--top cairn-tabbed" id="the_list" data-tabs>
+  <div class="row">
+    <div class="col-12">
+      <p class="cairn-tabs-intro u-text--muted">
+        <strong>Still needed</strong>: other packages depend on it, or
+        build-depend on it, so they need a rebuild or a port first.<br />
+        <strong>Can be removed</strong>: nothing needs it any more; an
+        archive admin can remove it.
+      </p>
+      <nav class="p-tabs" aria-label="NBS board">
+        <ul class="p-tabs__list">
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#still_needed" data-tab="still_needed"><span>Still needed ({{ needed | length }})</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#can_remove" data-tab="can_remove"{{ g.tip("removable") }}><span>Can be removed ({{ removable | length }})</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#board_stats" data-tab="board_stats">Statistics</a></li>
+        </ul>
+      </nav>
+      <div data-tab-shared>
+        {{ g.glossary(["nbs", "removable", "nbs_also", "nbs_needed"]) }}
+      </div>
+    </div>
+  </div>
+  <div class="cairn-tab-panel" id="still_needed">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="p-heading--4 cairn-tab-panel__title">Still needed</h2>
+        {% if needed %}{{ nbs_table(needed, "NBS binaries that something still needs") }}
+        {% else %}<p>Nothing needs an NBS binary.</p>{% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="cairn-tab-panel" id="can_remove">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="p-heading--4 cairn-tab-panel__title">Can be removed</h2>
+        {% if removable %}{{ nbs_table(removable, "NBS binaries that nothing needs") }}
+        {% else %}<p>None right now: every NBS binary is still needed.</p>{% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="cairn-tab-panel" id="board_stats" data-tab-without-shared>
+    <div class="row"><div class="col-12"><h2 class="p-heading--4 cairn-tab-panel__title">Statistics</h2></div></div>
+    <div class="row">
+      {{ ui.stat(nbs.total, "NBS binaries", term="nbs") }}
+      {{ ui.stat(nbs.removable, "can be removed", "?#can_remove" if nbs.removable else None, term="removable") }}
+      {{ ui.stat(nbs.sources_needing, "packages that still need one") }}
+      {{ ui.stat(nbs.opened_recently, "new this week") }}
+      {{ ui.stat(nbs.resolved_recently, "gone this week") }}
+    </div>
+    <div class="row">
+      <div class="col-7 col-medium-6">
+        <h2 class="p-heading--5">NBS binaries over time</h2>
+        {{ ui.trend(nbs_trend, "binaries") }}
+      </div>
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <p>Every published binary is built by a current source, or the log
+         has not been written yet.</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

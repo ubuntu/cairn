@@ -36,8 +36,7 @@
         </div>
         <nav class="p-navigation__nav" aria-label="Main">
           <ul class="p-navigation__items">
-            {# Four entries: two menus for finding your way in, then the
-               two boards. A menu's sub-pages open on hover or focus with
+            {# Two menus for finding your way in, then the boards. A menu's sub-pages open on hover or focus with
                CSS alone, cairn.js adds click-to-open, and on a small
                screen the open menu lists every sub-page. "Selected" marks
                the section a page belongs to; aria-current the page.
@@ -57,6 +56,7 @@
               )),
               ("merges", "Merges", "merges/index.html", ()),
               ("migration", "Stuck in proposed", "migration/index.html", ()),
+              ("nbs", "NBS", "nbs/index.html", ()),
             ) %}
             {% set selected = section == key or (key == "browse" and section in ("packages", "owners")) %}
             {% if children %}
@@ -105,7 +105,7 @@
                static, so a relative time would freeze at build time. #}
             {# A page that is not one board's draws on all of them, so it
                takes the root's date: the oldest board's. #}
-            {% set collected = collected_for.get(section) if section in ("merges", "migration") else collected_for.get(None) %}
+            {% set collected = collected_for.get(section) if section in ("merges", "migration", "nbs") else collected_for.get(None) %}
             {% if collected %}Data collected {{ collected | iso_time }}.
             {% else %}No data collected yet.
             {% endif %}

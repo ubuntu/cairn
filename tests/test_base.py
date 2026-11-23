@@ -40,9 +40,15 @@ class TestIdentity:
         assert sig().signal_id != sig(**{field: value}).signal_id
 
     def test_series_affects_identity_of_series_bound_kinds(self):
+        sru = Kind.SRU_PENDING
+        assert sru not in DEVELOPMENT_KINDS
+        assert sig(kind=sru, series="noble").signal_id != sig(kind=sru).signal_id
+
+    def test_nbs_is_a_development_kind(self):
+        """Review on #26: a release must not resolve every NBS signal."""
         nbs = Kind.NBS
-        assert nbs not in DEVELOPMENT_KINDS
-        assert sig(kind=nbs, series="noble").signal_id != sig(kind=nbs).signal_id
+        assert nbs in DEVELOPMENT_KINDS
+        assert sig(kind=nbs, series="noble").signal_id == sig(kind=nbs).signal_id
 
     def test_series_does_not_affect_identity_of_development_kinds(self):
         """A merge owed in stonking is the same merge once tumbling opens."""
@@ -50,9 +56,9 @@ class TestIdentity:
         assert sig(series="stonking").signal_id == sig(series="tumbling").signal_id
 
     def test_none_and_empty_string_collapse(self):
-        nbs = Kind.NBS
+        sru = Kind.SRU_PENDING
         assert (
-            sig(kind=nbs, series=None).signal_id == sig(kind=nbs, series="").signal_id
+            sig(kind=sru, series=None).signal_id == sig(kind=sru, series="").signal_id
         )
 
     def test_separator_prevents_field_smear(self):

@@ -23,7 +23,7 @@ from cairn.core import health
 from cairn.core import log as logmod
 from cairn.core.reconcile import DEFAULT_MAX_RESOLVE_FRACTION
 from cairn.core.runner import Outcome, RunReport, run
-from cairn.ingest import metadata, migration, registry
+from cairn.ingest import metadata, migration, nbs, registry
 from cairn.ingest.base import Fetcher
 from cairn.ingest.http import Cache, FileCache, HttpFetcher, ReadOnlyCache
 from cairn.ingest.metadata import IncompleteRefresh
@@ -180,9 +180,11 @@ def _refresh_metadata(
     """
     active = [st for st in logmod.load(args.signals).values() if st.is_active]
     wanted = {st.signal.source_package for st in active}
-    # The owners of a regressing test can fix it, so they need routing too.
+    # The owners of a regressing test can fix it, so they need routing too,
+    # as do the owners of what still needs an NBS binary.
     for st in active:
         wanted |= migration.referenced_packages(st.signal)
+        wanted |= nbs.referenced_packages(st.signal)
     candidates = {
         st.signal.source_package: (
             st.signal.payload["ubuntu_version"],

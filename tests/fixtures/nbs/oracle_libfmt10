@@ -1,0 +1,43 @@
+-- tenacious/universe amd64 deps on libfmt10:
+ccache libfmt10
+genomicsdb-tools libfmt10
+libgenomicsdb-jni libfmt10
+libgenomicsdb1 libfmt10
+libtorch-rocm-2.12 libfmt10
+libvolk-bin libfmt10
+-- tenacious/universe amd64v3 deps on libfmt10:
+ccache libfmt10
+genomicsdb-tools libfmt10
+libgenomicsdb-jni libfmt10
+libgenomicsdb1 libfmt10
+libtorch-rocm-2.12 libfmt10
+libvolk-bin libfmt10
+-- tenacious/universe arm64 deps on libfmt10:
+ccache libfmt10
+genomicsdb-tools libfmt10
+libgenomicsdb-jni libfmt10
+libgenomicsdb1 libfmt10
+libvolk-bin libfmt10
+-- tenacious/universe armhf deps on libfmt10:
+ccache libfmt10
+genomicsdb-tools libfmt10
+libgenomicsdb1 libfmt10
+libvolk-bin libfmt10
+-- tenacious/universe ppc64el deps on libfmt10:
+ccache libfmt10
+genomicsdb-tools libfmt10
+libgenomicsdb-jni libfmt10
+libgenomicsdb1 libfmt10
+libvolk-bin libfmt10
+-- tenacious/universe riscv64 deps on libfmt10:
+ccache libfmt10
+genomicsdb-tools libfmt10
+libgenomicsdb-jni libfmt10
+libgenomicsdb1 libfmt10
+libvolk-bin libfmt10
+-- tenacious/universe s390x deps on libfmt10:
+ccache libfmt10
+genomicsdb-tools libfmt10
+libgenomicsdb-jni libfmt10
+libgenomicsdb1 libfmt10
+libvolk-bin libfmt10

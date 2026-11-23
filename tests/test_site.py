@@ -339,7 +339,8 @@ class TestRender:
 
     def test_the_collection_date_is_in_the_footer_only(self, tmp_path):
         both = healthy() | {
-            "migration": SourceHealth("migration", last_attempt=NOW, last_success=NOW)
+            s: SourceHealth(s, last_attempt=NOW, last_success=NOW)
+            for s in ("migration", "nbs")
         }
         build(state_of(opened(signal("cron"))), both, just(), out=tmp_path, now=NOW)
         pages = list(tmp_path.rglob("*.html"))

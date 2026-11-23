@@ -77,6 +77,11 @@ class StubFetcher:
             if not self.launchpad:
                 raise OSError("launchpad 503")
             return json.dumps({"entries": []}).encode()
+        if "archive.ubuntu.com" in url and url.endswith("/Release"):
+            return b"Architectures: amd64\nComponents: main\n"
+        if "archive.ubuntu.com" in url and "/binary-" in url:
+            # Every binary is built by a current source: no NBS.
+            return lzma.compress(b"")
         if "archive.ubuntu.com" in url:
             return gzip.compress(self.ubuntu)
         if "deb.debian.org" in url:
