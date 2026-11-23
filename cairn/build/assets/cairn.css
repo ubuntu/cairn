@@ -954,3 +954,18 @@ h1 + .cairn-title__links {
   margin-left: 0.25rem;
   white-space: nowrap;
 }
+
+/* Narrow screens turn tables into cards, and Vanilla gives each card cell
+   one line cut off with an ellipsis: right for a name, wrong for "Why it
+   is held", whose test results ran off the card (Nov 2026). Cells wrap
+   instead, between whole items: .cairn-arch, .cairn-version and the
+   rerun links stay unbroken, and only a word longer than the card (a long
+   package name) breaks inside itself. Same breakpoint as Vanilla's. */
+@media (width < 1036px) {
+  .p-table--mobile-card td,
+  .p-table--mobile-card tbody th {
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+    white-space: normal;
+  }
+}
