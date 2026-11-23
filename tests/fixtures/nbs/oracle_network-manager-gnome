@@ -1,0 +1,96 @@
+-- tenacious/main amd64 deps on network-manager-gnome:
+gnome-control-center (r) nm-connection-editor|network-manager-gnome
+-- tenacious/main amd64v3 deps on network-manager-gnome:
+gnome-control-center (r) nm-connection-editor|network-manager-gnome
+-- tenacious/main arm64 deps on network-manager-gnome:
+gnome-control-center (r) nm-connection-editor|network-manager-gnome
+-- tenacious/main armhf deps on network-manager-gnome:
+gnome-control-center (r) nm-connection-editor|network-manager-gnome
+-- tenacious/main ppc64el deps on network-manager-gnome:
+gnome-control-center (r) nm-connection-editor|network-manager-gnome
+-- tenacious/main riscv64 deps on network-manager-gnome:
+gnome-control-center (r) nm-connection-editor|network-manager-gnome
+-- tenacious/main s390x deps on network-manager-gnome:
+gnome-control-center (r) nm-connection-editor|network-manager-gnome
+-- tenacious/universe amd64 deps on network-manager-gnome:
+lubuntu-desktop (r) network-manager-gnome
+lubuntu-desktop-minimal (r) network-manager-gnome
+lxqt (r) nm-tray|cmst|network-manager-gnome|plasma-nm|wicd
+ubuntu-mate-core (r) network-manager-gnome
+ubuntu-mate-desktop (r) network-manager-gnome
+ubuntu-unity-desktop (r) network-manager-gnome
+ubuntukylin-desktop (r) network-manager-gnome
+ubuntukylin-desktop-minimal (r) network-manager-gnome
+unity-greeter (r) network-manager-gnome
+xubuntu-desktop (r) network-manager-gnome
+xubuntu-desktop-minimal (r) network-manager-gnome
+-- tenacious/universe amd64v3 deps on network-manager-gnome:
+lubuntu-desktop (r) network-manager-gnome
+lubuntu-desktop-minimal (r) network-manager-gnome
+lxqt (r) nm-tray|cmst|network-manager-gnome|plasma-nm|wicd
+ubuntu-mate-core (r) network-manager-gnome
+ubuntu-mate-desktop (r) network-manager-gnome
+ubuntu-unity-desktop (r) network-manager-gnome
+ubuntukylin-desktop (r) network-manager-gnome
+ubuntukylin-desktop-minimal (r) network-manager-gnome
+unity-greeter (r) network-manager-gnome
+xubuntu-desktop (r) network-manager-gnome
+xubuntu-desktop-minimal (r) network-manager-gnome
+-- tenacious/universe arm64 deps on network-manager-gnome:
+lubuntu-desktop (r) network-manager-gnome
+lubuntu-desktop-minimal (r) network-manager-gnome
+lxqt (r) nm-tray|cmst|network-manager-gnome|plasma-nm|wicd
+ubuntu-mate-core (r) network-manager-gnome
+ubuntu-mate-desktop (r) network-manager-gnome
+ubuntu-unity-desktop (r) network-manager-gnome
+ubuntukylin-desktop (r) network-manager-gnome
+ubuntukylin-desktop-minimal (r) network-manager-gnome
+unity-greeter (r) network-manager-gnome
+xubuntu-desktop (r) network-manager-gnome
+xubuntu-desktop-minimal (r) network-manager-gnome
+-- tenacious/universe armhf deps on network-manager-gnome:
+lubuntu-desktop (r) network-manager-gnome
+lubuntu-desktop-minimal (r) network-manager-gnome
+lxqt (r) nm-tray|cmst|network-manager-gnome|plasma-nm|wicd
+ubuntu-mate-core (r) network-manager-gnome
+ubuntu-mate-desktop (r) network-manager-gnome
+ubuntu-unity-desktop (r) network-manager-gnome
+ubuntukylin-desktop (r) network-manager-gnome
+ubuntukylin-desktop-minimal (r) network-manager-gnome
+unity-greeter (r) network-manager-gnome
+xubuntu-desktop (r) network-manager-gnome
+xubuntu-desktop-minimal (r) network-manager-gnome
+-- tenacious/universe ppc64el deps on network-manager-gnome:
+lubuntu-desktop (r) network-manager-gnome
+lubuntu-desktop-minimal (r) network-manager-gnome
+lxqt (r) nm-tray|cmst|network-manager-gnome|plasma-nm|wicd
+ubuntu-mate-core (r) network-manager-gnome
+ubuntu-mate-desktop (r) network-manager-gnome
+ubuntu-unity-desktop (r) network-manager-gnome
+ubuntukylin-desktop (r) network-manager-gnome
+ubuntukylin-desktop-minimal (r) network-manager-gnome
+unity-greeter (r) network-manager-gnome
+xubuntu-desktop (r) network-manager-gnome
+xubuntu-desktop-minimal (r) network-manager-gnome
+-- tenacious/universe riscv64 deps on network-manager-gnome:
+lubuntu-desktop (r) network-manager-gnome
+lubuntu-desktop-minimal (r) network-manager-gnome
+lxqt (r) nm-tray|cmst|network-manager-gnome|plasma-nm|wicd
+ubuntu-mate-core (r) network-manager-gnome
+ubuntu-mate-desktop (r) network-manager-gnome
+ubuntukylin-desktop (r) network-manager-gnome
+ubuntukylin-desktop-minimal (r) network-manager-gnome
+unity-greeter (r) network-manager-gnome
+xubuntu-desktop (r) network-manager-gnome
+xubuntu-desktop-minimal (r) network-manager-gnome
+-- tenacious/universe s390x deps on network-manager-gnome:
+lubuntu-desktop (r) network-manager-gnome
+lubuntu-desktop-minimal (r) network-manager-gnome
+lxqt (r) nm-tray|cmst|network-manager-gnome|plasma-nm|wicd
+ubuntu-mate-core (r) network-manager-gnome
+ubuntu-mate-desktop (r) network-manager-gnome
+ubuntukylin-desktop (r) network-manager-gnome
+ubuntukylin-desktop-minimal (r) network-manager-gnome
+unity-greeter (r) network-manager-gnome
+xubuntu-desktop (r) network-manager-gnome
+xubuntu-desktop-minimal (r) network-manager-gnome

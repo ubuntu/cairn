@@ -113,6 +113,51 @@
           {% endif %}
         </div>
 
+        {# Binaries no longer built, from both sides: the ones this source
+           left behind, and the ones from other sources it still needs.
+           The second is where the work is; the report lists it only
+           under the binary. #}
+        <div class="cairn-status-item">
+          {% if package.nbs or package.needs_nbs %}
+          {% if package.nbs %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong class="cairn-term"{{ g.tip("nbs") }}>NBS: binaries it no longer builds</strong></p>
+          <ul class="cairn-tests">
+            {% for row in package.nbs %}
+            <li>
+              <a href="{{ root }}nbs/index.html#{{ row.anchor }}">{{ row.binary }}</a> <code>{{ row.version }}</code>:
+              {% if row.removable %}nothing needs it, so it <span class="cairn-term"{{ g.tip("removable") }}>can be removed</span>.
+              {% else %}
+              {% set others = row.needing | rejectattr("nbs") | map(attribute="source") | unique | sort | list %}
+              {% set chained = row.still_needed_nbs | sort %}
+              still needed by
+              {% for source in others %}<a href="{{ root }}{{ package_href(source) }}">{{ source }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+              {%- if others and chained %}, and by {% endif %}
+              {%- if chained %}{{ 'NBS binary' if chained | length == 1 else 'NBS binaries' }}
+              {% for name in chained %}<a href="{{ root }}nbs/index.html#{{ name }}">{{ name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+              that {{ 'is still needed itself' if chained | length == 1 else 'are still needed themselves' }}{% endif %}.
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {% if package.needs_nbs %}
+          <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong class="cairn-term"{{ g.tip("needs_nbs") }}>Needs NBS binaries</strong></p>
+          <ul class="cairn-tests">
+            {% for row, need in package.needs_nbs %}
+            <li>
+              {% if need.build %}Builds with{% else %}{{ need.package }} needs{% endif %}
+              <a href="{{ root }}nbs/index.html#{{ row.anchor }}">{{ row.binary }}</a>,
+              which <a href="{{ root }}{{ package_href(row.source) }}">{{ row.source }}</a> no longer builds.
+            </li>
+            {% endfor %}
+          </ul>
+          <p>A rebuild, or a port to what replaced them, lets them be removed.</p>
+          {% endif %}
+          {% else %}
+          <p class="cairn-status-item__head is-ok"><i class="p-icon--success"></i> No NBS binaries<span class="u-text--muted">: none it published is left without a source, and it needs none that are.</span></p>
+          {% endif %}
+        </div>
+
         <div class="cairn-status-item">
           {% if package.blocking or package.waiting %}
           <p class="cairn-status-item__head"><i class="p-icon--warning"></i> <strong>Holding back other uploads</strong></p>
@@ -136,7 +181,7 @@
           {% endif %}
         </div>
       </div>
-      {{ g.definitions(g.HOLDING_TERMS + ["settling", "up_for_grabs", "excuse_bug"]) }}
+      {{ g.definitions(g.HOLDING_TERMS + ["settling", "up_for_grabs", "excuse_bug", "nbs", "removable", "needs_nbs"]) }}
     </div>
     <aside class="col-4 col-medium-2 cairn-side">
       <h2 class="p-heading--5">Who looks after it</h2>
@@ -190,12 +235,13 @@
         The sites Cairn collects from only show the present; this is kept
         from every run.
         {% set since_merges = watching_since.get("needs_merge") %}
-        {% set since_migration = watching_since.get("migration_blocked") %}
-        {% if since_merges or since_migration %}
+        {% set watched = [] %}
+        {% for kind, what in (("needs_merge", "merges"), ("migration_blocked", "proposed migration"), ("nbs", "NBS")) %}
+        {% if watching_since.get(kind) %}{% set _ = watched.append(what ~ " since " ~ (watching_since[kind] | iso_date)) %}{% endif %}
+        {% endfor %}
+        {% if watched %}
         Cairn has watched
-        {% if since_merges %}merges since {{ since_merges | iso_date }}{% endif %}
-        {%- if since_merges and since_migration %} and {% endif %}
-        {% if since_migration %}proposed migration since {{ since_migration | iso_date }}{% endif %},
+        {% for w in watched %}{{ w }}{% if loop.revindex == 2 %} and {% elif not loop.last %}, {% endif %}{% endfor %},
         so anything already open then may have been open for longer.
         {% endif %}
       </p>
@@ -208,7 +254,7 @@
           {% set p = moment.payload %}
           <tr>
             <td data-heading="When" class="cairn-history__when">{{ moment.ts | iso_time }}</td>
-            <td data-heading="Board">{{ "Merges" if moment.kind == "needs_merge" else "Proposed migration" }}</td>
+            <td data-heading="Board">{{ {"needs_merge": "Merges", "nbs": "NBS"}.get(moment.kind, "Proposed migration") }}</td>
             <td data-heading="What happened">
               {% if moment.kind == "needs_merge" %}
                 {% if moment.event == "opened" %}
@@ -221,6 +267,16 @@
                   {% elif field == "debian_version" %}Debian moved to <code>{{ after }}</code>.
                   {% elif field == "in_proposed" %}{{ "The Ubuntu version entered -proposed." if after else "The Ubuntu version left -proposed." }}
                   {% endif %}
+                {% endfor %}
+                {% endif %}
+              {% elif moment.kind == "nbs" %}
+                {% if moment.event == "opened" %}
+                Binary {{ moment.binary }} <code>{{ p.version }}</code> no longer built, still published.
+                {% elif moment.event == "resolved" %}
+                Binary {{ moment.binary }} gone from the archive, or built again.
+                {% else %}
+                {% for field, before, after in moment.changes %}
+                  {% if field == "removable" %}{{ ("Nothing needs " ~ moment.binary ~ " any more: it can be removed.") if after else ("Something needs " ~ moment.binary ~ " again.") }}{% endif %}
                 {% endfor %}
                 {% endif %}
               {% else %}

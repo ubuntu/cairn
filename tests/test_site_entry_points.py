@@ -720,11 +720,17 @@ class TestNavigation:
     def nav(self, html):
         return html.split('aria-label="Main"')[1].split("</nav>")[0]
 
-    def test_four_entries_menus_first(self, tmp_path):
+    def test_menus_first_then_the_boards(self, tmp_path):
         out = site(tmp_path, [ev(EventType.OPENED, stuck())])
         nav = self.nav((out / "index.html").read_text())
         top = re.findall(r'<a class="p-navigation__link"[^>]*>([^<]+)</a>', nav)
-        assert top == ["Browse", "Up for grabs", "Merges", "Stuck in proposed"]
+        assert top == [
+            "Browse",
+            "Up for grabs",
+            "Merges",
+            "Stuck in proposed",
+            "NBS",
+        ]
         items = re.findall(r'class="p-navigation__dropdown-item"[^>]*>([^<]+)<', nav)
         assert items == [
             "Packages",

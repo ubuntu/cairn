@@ -59,6 +59,42 @@ class TestReconcile:
         with pytest.raises(MassResolve):
             reconcile(state_from(first), [], source=SOURCE, now=T1)
 
+    def test_a_small_source_may_resolve_most_of_itself(self):
+        """Review on #26: an archive admin removing 11 of 21 NBS binaries."""
+        first = reconcile({}, [sig(str(i)) for i in range(21)], source=SOURCE, now=T0)
+        events = reconcile(
+            state_from(first), [sig(str(i)) for i in range(10)], source=SOURCE, now=T1
+        )
+        assert len(events) == 11
+
+    def test_a_large_source_is_still_guarded(self):
+        first = reconcile({}, [sig(str(i)) for i in range(60)], source=SOURCE, now=T0)
+        with pytest.raises(MassResolve):
+            reconcile(
+                state_from(first),
+                [sig(str(i)) for i in range(20)],
+                source=SOURCE,
+                now=T1,
+            )
+
+    def test_nbs_rolls_over_with_the_series(self):
+        """Review on #26: the new series' NBS binaries are updates, not
+        21 resolutions the guard would refuse."""
+        names = [f"lib{i}" for i in range(21)]
+        first = reconcile(
+            {},
+            [sig(n, kind=Kind.NBS, series="tenacious") for n in names],
+            source="nbs",
+            now=T0,
+        )
+        events = reconcile(
+            state_from(first),
+            [sig(n, kind=Kind.NBS, series="next") for n in names],
+            source="nbs",
+            now=T1,
+        )
+        assert {e.event for e in events} == {EventType.UPDATED}
+
     def test_guard_can_be_disabled(self):
         first = reconcile({}, [sig(str(i)) for i in range(10)], source=SOURCE, now=T0)
         events = reconcile(
@@ -146,15 +182,15 @@ class TestSeriesRollover:
         assert {e.event for e in events} == {EventType.UPDATED}
 
     def test_series_bound_kinds_still_split_by_series(self):
-        """Only development kinds roll over; an NBS in noble is not one in
+        """Only development kinds roll over; an SRU in noble is not one in
         plucky, so a series change there is a different signal."""
         first = reconcile(
-            {}, [sig(kind=Kind.NBS, series="noble")], source="nbs", now=T0
+            {}, [sig(kind=Kind.SRU_PENDING, series="noble")], source="sru", now=T0
         )
         events = reconcile(
             state_from(first),
-            [sig(kind=Kind.NBS, series="plucky")],
-            source="nbs",
+            [sig(kind=Kind.SRU_PENDING, series="plucky")],
+            source="sru",
             now=T1,
             max_resolve_fraction=None,
         )

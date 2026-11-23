@@ -1214,6 +1214,7 @@ class TestThirdReview:
                 last_attempt=NOW,
                 last_success=NOW - timedelta(days=3),
             ),
+            "nbs": SourceHealth("nbs", last_attempt=NOW, last_success=NOW),
         }
         events = [opened(stuck()), opened(merge("libssh2"))]
         build(replay(events), health, meta(), out=tmp_path, now=NOW, series="stonking")

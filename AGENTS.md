@@ -165,7 +165,7 @@ Counted live from the current archive, as a sanity check on the static approach:
 | --- | --- |
 | proposed-migration (entries not a candidate) | 587 of 606 (1 Oct 2026, during freeze); ~1,080 of ~1,335 at first count |
 | merge candidates (main + universe) | ~690 |
-| NBS binaries | ~675 |
+| NBS binaries | 21, 9 removable (23 Nov 2026); ~675 at first count |
 | pending SRU (all series) | ~215 |
 | transitions, sponsorships, LP | not yet counted |
 
@@ -267,12 +267,30 @@ from, and which published report validates it as an oracle.
 | Signal kind | Computed from | Oracle |
 | --- | --- | --- |
 | `needs_merge` | Ubuntu `Sources` vs Debian `Sources`, compared with Debian version ordering | `merges.ubuntu.com/{main,universe}.json` |
-| `nbs` | binaries in `Packages.gz` that no current source's `Binary:` field claims | `static-reports.ubuntu.com/nbs/` |
+| `nbs` | binaries in the release pocket's `Packages` that no current source's `Binary:` field claims, with what still needs them (`cairn/ingest/nbs.py`) | `static-reports.ubuntu.com/nbs/` (`cairn/oracles/nbs.py`) |
 | `sru_pending`, `sru_verification_failed` | LP bugs with `verification-*` tags + `-proposed` queue + archive state | `static-reports.ubuntu.com/pending-sru/sru_report.yaml` |
 | `migration_blocked` | britney verdict and its policy results (consumed, see above); detail may be added from autopkgtest + LP builds | `update_excuses.csv` "not considered" count; `update_excuses_by_team.yaml` for regressing-other |
 | `transition_*` | ben config from the transition tracker + archive state | `transitions.ubuntu.com` |
 | `sponsorship_pending` | UDD | — UDD is the system of record |
 | `build_failed`, `bug_*` | LP API | — LP is the system of record |
+
+**NBS follows archive-cruft-check and checkrdepends** (ubuntu-archive-tools,
+which the report runs), decided per architecture on that architecture's
+index, with version constraints and architecture restrictions honoured
+(an unversioned `Provides` satisfies only an unversioned dependency), and
+a binary held by a dependency on a name it is the only one to `Provide`. Three deliberate differences,
+each recorded in `cairn/ingest/nbs.py`: an or-group with another
+alternative available does not hold a binary (checkrdepends compares
+alternatives as text, constraint included); a name a still-built binary
+`Provides`, at a satisfying version, holds nothing; `Build-Depends-Arch`
+counts. An NBS binary that still needs another is work, not "goes with
+it": only a removable one goes with it (review on #26). Against the report on
+23 Nov 2026: the same 21 binaries, and one more removable,
+`libmaven-exec-plugin-java`, which its renamed successor provides. The
+board's "Still needed" and "Can be removed" split by who acts: the owners
+of what still needs a binary, or an archive admin. Package pages list both
+sides, and "Needs NBS binaries" is the inversion that tells
+the package to rebuild, as "Waiting for yours" does for britney.
 
 ### Keep the old reports as oracles, not inputs
 
@@ -290,8 +308,12 @@ This is a deliberate trade of complexity for independence:
 - cairn must parse archive indexes and do full-archive dependency analysis,
   which is real work. It raises the weight of the Debian version comparison
   rule in section 3 from "important" to "load-bearing."
-- Bandwidth per run goes from a few MB to a few tens of MB. Cache aggressively;
-  honour `If-Modified-Since` on the archive indexes.
+- Bandwidth per run goes from a few MB to about a hundred. Measured for NBS
+  on 23 Nov 2026: the release pocket's `Packages.xz` for 8 architectures and
+  4 components is 93 MB (universe is 11 MB per architecture), fetched in
+  14 s and parsed in under 10 s. Cache aggressively; honour
+  `If-Modified-Since` on the archive indexes. The `Packages` reader in
+  `cairn/ingest/archive.py` is shared, so transitions add no second download.
 - NBS and merge detection become cairn's own algorithms, with cairn's own bugs.
   Hence the oracles above.
 
@@ -326,14 +348,23 @@ hashed into a stable `signal_id` used to match observations across runs — whic
 is what makes `first_seen` and `resolved_at` possible.
 
 **Except for development kinds.** Kinds listed in `DEVELOPMENT_KINDS`
-(currently `needs_merge` and `migration_blocked`) are only ever observed in whichever series is open
+(currently `needs_merge`, `migration_blocked` and `nbs`) are only ever observed in whichever series is open
 for development, and that is a moving pointer: at each release a new series
 opens and the archive is copied forward, but the outstanding work is the same.
 For those kinds the series is left out of identity and kept as an observed
 field, so a rollover appends one `updated` event per signal instead of
 resolving every signal as if merged (which would also trip the mass-resolve
-guard) and reopening it as if new. Series-bound kinds such as `nbs` or
-`sru_pending` keep the series in identity: an NBS in noble is not one in plucky.
+guard) and reopening it as if new. NBS joined them in Nov 2026 (review on
+#26): it is computed, and its oracle published, only for the development
+series, and a new series is copied forward with its NBS binaries, so the
+same binary is the same work. Series-bound kinds such as `sru_pending`
+keep the series in identity: an SRU in noble is not one in plucky.
+
+**The mass-resolve guard** refuses a run that resolves more than half of a
+source, which is how a broken fetch looks. It applies only from 50 active
+signals: below that, half is a dozen, and an archive admin removing a dozen
+NBS binaries at once is the change NBS exists to record. An empty result
+from a source that had signals is refused at any size.
 
 Replay recomputes `signal_id` from each event's fields rather than trusting the
 stored one, so a revised identity rule applies to all history without
@@ -478,6 +509,7 @@ listing boards:
 | Is my work holding others back? | The "Holding others back" tab of owner pages; "Holding back other uploads" on package pages |
 | What can I work on? | `work/index.html` ("Up for grabs") |
 | I am on a +1 maintenance shift: where do I start? | `work/plus-one.html`, a tab of Up for grabs, in the order the +1 maintenance guide gives |
+| What binaries are no longer built, and what still needs them? | `nbs/index.html` ("NBS"); both sides on package pages |
 | Is it getting better? | Trend lines on the root and each board, replayed from the log |
 
 "Waiting for yours" inverts britney's `waits_for`, as "Tests holding back
@@ -623,10 +655,11 @@ so the filter's field names and option values are a URL contract: a test
 checks that every link names an option the filter offers. With JavaScript
 such a link filters in place; without, it reloads the page.
 
-**Navigation has four entries** (Oct 2026, after users found the bar
-overloaded for a site with two boards): *Browse* (Packages, Teams and
+**Navigation: two menus, then the boards** (Oct 2026, after users found the
+bar overloaded for a site with two boards): *Browse* (Packages, Teams and
 people) and *Up for grabs* (Anyone can pick up, +1 maintenance shift) are
-Vanilla navigation menus, then the two boards. The menus open on hover and
+Vanilla navigation menus, then one entry per board (Merges, Stuck in
+proposed, and since Nov 2026 NBS). The menus open on hover and
 keyboard focus in CSS, so they need no script; `cairn.js` adds
 click-to-open. On a small screen the open menu lists every sub-page under
 its heading.

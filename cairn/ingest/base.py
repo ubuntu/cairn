@@ -26,8 +26,14 @@ class Kind(StrEnum):
 # copied forward, but the outstanding work is the same work. Keeping the series
 # out of identity lets a merge that waits through a release keep its history,
 # rather than resolving as if merged and reopening as if new.
+#
+# NBS too (review on #26): cairn computes it, and the report it is checked
+# against publishes it, only for the development series. A new series is
+# opened by copying the archive forward, NBS binaries included, so the same
+# binary is the same work; with the series in identity every NBS signal
+# resolved at a release and the guard refused the run.
 DEVELOPMENT_KINDS: frozenset[Kind] = frozenset(
-    {Kind.NEEDS_MERGE, Kind.MIGRATION_BLOCKED}
+    {Kind.NEEDS_MERGE, Kind.MIGRATION_BLOCKED, Kind.NBS}
 )
 
 

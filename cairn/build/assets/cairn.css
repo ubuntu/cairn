@@ -969,3 +969,9 @@ h1 + .cairn-title__links {
     white-space: normal;
   }
 }
+
+/* "Seen since" is a date: kept whole rather than broken at its hyphens. */
+.cairn-nbs .cairn-days {
+  white-space: nowrap;
+  width: 8rem;
+}

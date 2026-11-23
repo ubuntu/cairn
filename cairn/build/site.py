@@ -23,6 +23,7 @@ from urllib.parse import quote, urlencode
 from debian.debian_support import version_compare
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from cairn.build.nbs import NbsOverview, NbsRow, NeededBy, nbs_rows, needs_nbs
 from cairn.build.trends import Trends, trends
 from cairn.build.work import (
     ABANDONED_DAYS,
@@ -49,6 +50,7 @@ GENERATED = (
     "index.html",
     "merges",
     "migration",
+    "nbs",
     "holding",
     # Where the +1 maintenance page lived before it became a tab of
     # Up for grabs; listed so a rebuild clears it.
@@ -1291,6 +1293,7 @@ def _observed_series(state: Mapping[str, SignalState]) -> str:
 BOARD_SOURCES: dict[str, tuple[str, ...]] = {
     "merges": ("merges",),
     "migration": ("migration",),
+    "nbs": ("nbs",),
 }
 
 
@@ -1385,6 +1388,7 @@ def waiting_for(stuck: Iterable[StuckRow]) -> dict[str, list[StuckRow]]:
 TIMELINE_FIELDS: dict[Kind, tuple[str, ...]] = {
     Kind.NEEDS_MERGE: ("ubuntu_version", "debian_version", "in_proposed"),
     Kind.MIGRATION_BLOCKED: ("new_version", "reasons"),
+    Kind.NBS: ("removable",),
 }
 
 
@@ -1399,6 +1403,8 @@ class Moment:
     payload: Mapping[str, Any]
     # (field, before, after) for each tracked field an update changed.
     changes: tuple[tuple[str, Any, Any], ...] = ()
+    # Which binary, for kinds about one (NBS).
+    binary: str | None = None
 
 
 def timeline(events: Iterable[Event]) -> list[Moment]:
@@ -1423,10 +1429,25 @@ def timeline(events: Iterable[Event]) -> list[Moment]:
             if not changes:
                 continue
             moments.append(
-                Moment(event.ts, event.kind, event.event, event.payload, changes)
+                Moment(
+                    event.ts,
+                    event.kind,
+                    event.event,
+                    event.payload,
+                    changes,
+                    event.binary_package,
+                )
             )
         else:
-            moments.append(Moment(event.ts, event.kind, event.event, event.payload))
+            moments.append(
+                Moment(
+                    event.ts,
+                    event.kind,
+                    event.event,
+                    event.payload,
+                    binary=event.binary_package,
+                )
+            )
     moments.reverse()
     return moments
 
@@ -1451,6 +1472,10 @@ class PackageView:
     owners: PackageMetadata
     history: tuple[Moment, ...]
     up_for_grabs: bool = False
+    # Binaries this source no longer builds that are still published.
+    nbs: tuple[NbsRow, ...] = ()
+    # NBS binaries from other sources that this package still needs.
+    needs_nbs: tuple[tuple[NbsRow, NeededBy], ...] = ()
 
     @property
     def href(self) -> str:
@@ -1458,7 +1483,14 @@ class PackageView:
 
     @property
     def is_open(self) -> bool:
-        return bool(self.merge or self.stuck or self.blocking or self.waiting)
+        return bool(
+            self.merge
+            or self.stuck
+            or self.blocking
+            or self.waiting
+            or self.nbs
+            or self.needs_nbs
+        )
 
     @property
     def holding_count(self) -> int:
@@ -1476,7 +1508,14 @@ class PackageView:
     def component(self) -> str | None:
         if self.merge and self.merge.component:
             return self.merge.component
-        return self.stuck.component if self.stuck else None
+        if self.stuck and self.stuck.component:
+            return self.stuck.component
+        # An NBS binary's component, failing anything better: the source's
+        # own may have moved since. Then that of what it needs one with, for
+        # a package on the site only for that (review on #26).
+        if self.nbs:
+            return self.nbs[0].component
+        return self.needs_nbs[0][1].component if self.needs_nbs else None
 
     @property
     def launchpad_url(self) -> str:
@@ -1523,10 +1562,17 @@ def package_views(
     metadata: Snapshot,
     history: History,
     grabs: UpForGrabs | None = None,
+    nbs: Iterable[NbsRow] = (),
 ) -> dict[str, PackageView]:
     """A page for every package cairn has ever had something to say about:
     every package in the log, open or resolved, plus every package holding
-    another back, whose owners need to find it by name."""
+    another back, whose owners need to find it by name, and every package
+    still needing a binary no longer built."""
+    nbs = list(nbs)
+    unbuilt: dict[str, list[NbsRow]] = {}
+    for row in nbs:
+        unbuilt.setdefault(row.source, []).append(row)
+    needing = needs_nbs(nbs)
     stuck = list(stuck)
     merges = {r.package: r for r in rows}
     stucks = {r.package: r for r in stuck}
@@ -1536,7 +1582,7 @@ def package_views(
     waiting = waiting_for(stuck)
     taken = {r.package for r in grabs.merges} | grabs.stuck_names if grabs else set()
     names = set(history.by_package) | set(merges) | set(stucks)
-    names |= set(blocked) | set(waiting)
+    names |= set(blocked) | set(waiting) | set(unbuilt) | set(needing)
     return {
         name: PackageView(
             name=name,
@@ -1547,6 +1593,8 @@ def package_views(
             owners=metadata.get(name),
             history=tuple(timeline(history.by_package.get(name, ()))),
             up_for_grabs=name in taken,
+            nbs=tuple(unbuilt.get(name, ())),
+            needs_nbs=tuple(needing.get(name, ())),
         )
         for name in sorted(names)
     }
@@ -1601,7 +1649,8 @@ def _context(
     teams = group_by_team(rows, stuck, blocking)
     grabs = up_for_grabs(rows, stuck, now=now)
     waiting = waiting_for(stuck)
-    packages = package_views(rows, stuck, blocking, metadata, history, grabs)
+    unbuilt = nbs_rows(state)
+    packages = package_views(rows, stuck, blocking, metadata, history, grabs, unbuilt)
     collected = collected_for(health)
     cutoff = now - RECENT
 
@@ -1674,6 +1723,15 @@ def _context(
         "migration_trend": history.trends.of(Kind.MIGRATION_BLOCKED).until(
             collected.get("migration")
         ),
+        "nbs_rows": unbuilt,
+        "nbs": NbsOverview(
+            total=len(unbuilt),
+            removable=sum(1 for r in unbuilt if r.removable),
+            sources_needing=len({s for r in unbuilt for s in r.sources_needing}),
+            opened_recently=history.opened_since(Kind.NBS, cutoff),
+            resolved_recently=history.resolved_since(Kind.NBS, cutoff),
+        ),
+        "nbs_trend": history.trends.of(Kind.NBS).until(collected.get("nbs")),
         "recent_merges": history.opened_packages_since(Kind.NEEDS_MERGE, cutoff),
         "recent_stuck": history.opened_packages_since(Kind.MIGRATION_BLOCKED, cutoff),
         # The directory is for finding a name, so it is alphabetical; the
@@ -1971,6 +2029,7 @@ def build(
     for view in context["packages"].values():
         (out / view.href).write_text(render_package(view, context), encoding="utf-8")
     for href, template, section in (
+        ("nbs/index.html", "nbs.html", "nbs"),
         ("packages/index.html", "packages.html", "packages"),
         ("owners/index.html", "owners.html", "owners"),
         ("work/index.html", "work.html", "work"),

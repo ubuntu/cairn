@@ -1,0 +1,16 @@
+-- tenacious/main build deps on libmaven-exec-plugin-java:
+libphonenumber libmaven-exec-plugin-java
+-- tenacious/universe build deps on libmaven-exec-plugin-java:
+apache-log4j2 libmaven-exec-plugin-java
+basex libmaven-exec-plugin-java
+freehep-export libmaven-exec-plugin-java
+freehep-xml libmaven-exec-plugin-java
+hikaricp libmaven-exec-plugin-java
+jnr-unixsocket libmaven-exec-plugin-java
+jruby libmaven-exec-plugin-java
+libjoda-time-java libmaven-exec-plugin-java
+libstringprep-java libmaven-exec-plugin-java
+osmosis libmaven-exec-plugin-java
+qdox2 libmaven-exec-plugin-java
+umlet libmaven-exec-plugin-java
+undertow libmaven-exec-plugin-java

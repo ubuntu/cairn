@@ -1,0 +1,60 @@
+Package: ccache
+Version: 4.13.6-1
+Architecture: amd64
+Depends: libc6 (>= 2.38), libfmt10 (>= 10.1.1+ds1), libgcc-s1 (>= 3.4), libhiredis1.1.0 (>= 1.2.0), libstdc++6 (>= 14), libxxhash0 (>= 0.8.0), libzstd1 (>= 1.5.5)
+
+Package: giza-dev
+Source: giza
+Version: 2.0.2-1ubuntu1
+Architecture: amd64
+Depends: libcpgplot2 (= 2.0.2-1ubuntu1), libgiza2 (= 2.0.2-1ubuntu1), libpgplot2 (= 2.0.2-1ubuntu1)
+
+Package: libcpgplot0
+Source: giza
+Version: 1.5.0-3
+Architecture: amd64
+Depends: libc6 (>= 2.4), libgiza0 (>= 1.5.0)
+
+Package: libexec-maven-plugin-java
+Source: exec-maven-plugin
+Version: 3.6.4-1
+Architecture: all
+Provides: libmaven-exec-plugin-java
+Depends: libasm-java (>= 9.11.1), libcommons-exec-java (>= 1.6.0), libmaven-resolver-java (>= 1.9.27), libplexus-utils2-java (>= 3.6.2), libplexus-xml-java (>= 3.0.1)
+
+Package: libfmt10
+Source: fmtlib
+Version: 10.1.1+ds1-4build1
+Architecture: amd64
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 14)
+
+Package: libfmt11
+Source: fmtlib
+Version: 11.1.1+ds1-2
+Architecture: amd64
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libstdc++6 (>= 5.2)
+
+Package: libgiza0
+Source: giza
+Version: 1.5.0-3
+Architecture: amd64
+Depends: libc6 (>= 2.38), libcairo2 (>= 1.7.2), libfontconfig1 (>= 2.12.6), libfreetype6 (>= 2.2.1), libx11-6
+
+Package: libmaven-exec-plugin-java
+Source: exec-maven-plugin
+Version: 3.1.0-2build1
+Architecture: all
+Depends: libexec-maven-plugin-java
+
+Package: lubuntu-desktop
+Source: lubuntu-meta
+Version: 26.10.1
+Architecture: amd64
+Depends: lubuntu-desktop-minimal, alsa-base, alsa-utils, anacron, avahi-daemon, bc, bluez, bluez-cups, ca-certificates, dbus-x11, desktop-file-utils, ffmpegthumbnailer, fontconfig, fonts-dejavu-core, foomatic-db-compressed-ppds, fwupd, fwupd-signed, ghostscript, gstreamer1.0-pipewire, gvfs-fuse, inputattach, iw, language-selector-common, laptop-detect, libfm-qt5-14, libmtp-runtime, libnss-mdns, libqt5xdg3, libqt5xdgiconloader3, libsasl2-modules, libspa-0.2-bluetooth, lubuntu-update-notifier, lxqt-admin, lxqt-core, lxqt-menu-data, lxqt-notificationd, lxqt-openssh-askpass, lxqt-policykit, lxqt-powermanagement, lxqt-qtplugin-qt5, lxqt-sudo, memtest86+, mobile-broadband-provider-info, modemmanager, network-manager, nm-tray, openbox, openprinting-ppds, pcmanfm-qt, pcmciautils, pipewire, pipewire-audio, policykit-desktop-privileges, printer-driver-pnm2ppa, python3-launchpadlib, qttranslations5-l10n, qtxdg-tools, rfkill, sddm, sddm-theme-lubuntu, spice-vdagent, ubuntu-drivers-common, ubuntu-mono, ubuntu-release-upgrader-qt, unzip, usb-modeswitch, util-linux-extra, whoopsie, wpasupplicant, wvdial, xdg-desktop-portal-lxqt, xdg-user-dirs, xkb-data, xorg, zip
+Recommends: aptitude, arc-theme, blueman, breeze-cursor-theme, btrfs-progs, cryptsetup, cups, cups-bsd, cups-client, cups-filters, curl, dracut, fastfetch, featherpad, firefox, fonts-indic, fonts-kacst-one, fonts-khmeros-core, fonts-lao, fonts-liberation, fonts-lklug-sinhala, fonts-noto-cjk, fonts-noto-color-emoji, fonts-noto-core, fonts-sil-abyssinica, fonts-sil-padauk, fonts-thai-tlwg, fonts-tibetan-machine, fonts-ubuntu, gawk, genisoimage, git, gvfs-backends, hplip, htop, inxi, kde-style-breeze, kdialog, kwalletmanager, libreoffice-calc, libreoffice-impress, libreoffice-qt6, libreoffice-style-breeze, libreoffice-writer, lubuntu-artwork, lubuntu-default-settings, lubuntu-grub-theme, lxqt-about, lxqt-archiver, network-manager-gnome, network-manager-openvpn, noblenote, obconf-qt, orca, oxygen-icon-theme, packagekit, papirus-icon-theme, partitionmanager, pastebinit, pavucontrol-qt, picom, picom-conf, pinentry-qt, plasma-discover, plymouth-theme-lubuntu-logo, plymouth-theme-lubuntu-text, printer-driver-brlaser, printer-driver-c2esp, printer-driver-foo2zjs, printer-driver-gutenprint, printer-driver-m2300w, printer-driver-min12xxw, printer-driver-ptouch, printer-driver-pxljr, printer-driver-sag-gdi, printer-driver-splix, qalculate-qt, qlipper, qpdfview, qps, qterminal, qtpass, redshift-qt, screengrab, skanlite, snapd, snapd-installation-monitor, software-properties-qt, transmission-qt, usb-creator-kde, va-driver-all, vim, vlc, vlc-plugin-access-extra, vlc-plugin-notify, vlc-plugin-pipewire, vlc-plugin-samba, vlc-plugin-skins2, vlc-plugin-svg, vlc-plugin-video-splitter, wireplumber, x11-utils, xfonts-efont-unicode, xfsprogs, xscreensaver, xscreensaver-data-extra, xscreensaver-gl, xscreensaver-gl-extra, zsync
+
+Package: network-manager-gnome
+Source: network-manager-applet
+Version: 1.36.0-4ubuntu1
+Architecture: amd64
+Depends: network-manager-applet (= 1.36.0-4ubuntu1), nm-connection-editor (= 1.36.0-4ubuntu1)

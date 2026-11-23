@@ -17,6 +17,12 @@
 {% if view.holding_count %}
 <span class="p-chip--negative is-readonly is-inline is-dense cairn-term"{{ g.tip("holds_back") }}><span class="p-chip__value">holds back {{ view.holding_count }}</span></span>
 {% endif %}
+{% if view.nbs %}
+<span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("nbs") }}><span class="p-chip__value">{{ view.nbs | length }} NBS</span></span>
+{% endif %}
+{% if view.needs_nbs %}
+<span class="p-chip--caution is-readonly is-inline is-dense cairn-term"{{ g.tip("needs_nbs") }}><span class="p-chip__value">needs {{ view.needs_nbs | map(attribute="0.binary") | unique | list | length }} NBS</span></span>
+{% endif %}
 {% if view.up_for_grabs %}
 <span class="p-chip--positive is-readonly is-inline is-dense cairn-term"{{ g.tip("up_for_grabs") }}><span class="p-chip__value">up for grabs</span></span>
 {% endif %}
@@ -26,7 +32,7 @@
 <li class="cairn-pkg" data-filter
     data-f-q="{{ view.name }} {{ view.merge.uploader if view.merge and view.merge.uploader }} {{ view.stuck.uploader if view.stuck and view.stuck.uploader }} {{ view.owners.teams | join(' ') }} {{ view.owners.package_sets | join(' ') }}"
     data-f-component="{{ view.component or 'unknown' }}"
-    data-f-has="{{ 'merge' if view.merge }} {{ 'stuck' if view.stuck }} {{ 'holding' if view.holding_count }} {{ 'grabs' if view.up_for_grabs }}">
+    data-f-has="{{ 'merge' if view.merge }} {{ 'stuck' if view.stuck }} {{ 'holding' if view.holding_count }} {{ 'nbs' if view.nbs or view.needs_nbs }} {{ 'grabs' if view.up_for_grabs }}">
   <a class="cairn-pkg__name" href="{{ root }}{{ view.href }}">{{ view.name }}</a>
   {% if view.component %}<span class="cairn-pkg__component">{{ view.component }}</span>{% endif %}
   <div class="cairn-pkg__chips">
@@ -58,7 +64,7 @@
   <div class="row">
     <div class="col-12">
       {{ ui.filters("packages") }}
-      {{ g.glossary(["needs_merge", "new_upstream", "older_upstream", "stuck_days", "holds_back", "up_for_grabs"]) }}
+      {{ g.glossary(["needs_merge", "new_upstream", "older_upstream", "stuck_days", "holds_back", "nbs", "needs_nbs", "up_for_grabs"]) }}
     </div>
   </div>
   {% include "_stale.html" %}

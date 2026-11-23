@@ -1,0 +1,14 @@
+-- tenacious/universe amd64 deps on libgiza0:
+libcpgplot0 libgiza0
+-- tenacious/universe amd64v3 deps on libgiza0:
+libcpgplot0 libgiza0
+-- tenacious/universe arm64 deps on libgiza0:
+libcpgplot0 libgiza0
+-- tenacious/universe armhf deps on libgiza0:
+libcpgplot0 libgiza0
+-- tenacious/universe ppc64el deps on libgiza0:
+libcpgplot0 libgiza0
+-- tenacious/universe riscv64 deps on libgiza0:
+libcpgplot0 libgiza0
+-- tenacious/universe s390x deps on libgiza0:
+libcpgplot0 libgiza0

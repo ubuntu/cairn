@@ -1,0 +1,4 @@
+Origin: Ubuntu
+Suite: tenacious
+Architectures: amd64 arm64
+Components: main universe

@@ -93,6 +93,18 @@
         {{ ui.trend(migration_trend, "stuck", compact=True) }}
       </div>
     </div>
+    <div class="col-6 col-medium-3">
+      <div class="p-card">
+        <h3 class="p-heading--4"><a href="{{ root }}nbs/index.html">NBS</a></h3>
+        <p class="p-heading--2 u-no-margin--bottom">{% if nbs.total %}<a class="cairn-stat__link" href="{{ root }}nbs/index.html#the_list">{{ nbs.total }}</a>{% else %}0{% endif %}</p>
+        <p class="u-text--muted">
+          binar{{ 'y' if nbs.total == 1 else 'ies' }} not built from source:
+          still published, though no current source builds them, {{ nbs.removable }} of them needed by
+          nothing.
+        </p>
+        {{ ui.trend(nbs_trend, "binaries", compact=True) }}
+      </div>
+    </div>
   </div>
 </section>
 
