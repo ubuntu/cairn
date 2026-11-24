@@ -27,17 +27,21 @@ concurrency:
 env:
   POETRY_VERSION: "2.5.1"
 
+# Two jobs, as GitHub's own Pages workflows have them. With upload and deploy
+# in one job, deploy-pages asked for the artifact under a second after it was
+# uploaded and was told there was none (Nov 2026: "Found 0 artifact(s)", 0.4
+# and 0.7 s after upload); re-running the job then uploaded a second and a
+# third artifact of the same name, which deploy-pages refuses, so every re-run
+# failed too. Apart, the job boundary gives the artifact time to be listed,
+# and "Re-run failed jobs" re-runs only the deploy, against the one artifact.
 jobs:
-  publish:
-    name: Publish
+  build:
+    name: Build
     runs-on: ubuntu-latest
     # An ingest that failed outright has nothing new to show.
     if: >
       github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success'
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
 
     steps:
       - name: Checkout
@@ -67,6 +71,15 @@ jobs:
         with:
           path: site
 
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
       - name: Deploy
         id: deploy
         uses: actions/deploy-pages@v5
