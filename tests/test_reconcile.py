@@ -158,6 +158,96 @@ class TestLogRoundTrip:
         assert log.load(tmp_path / "nope.jsonl") == {}
 
 
+class TestMonthlyFiles:
+    """A directory of monthly files, so no file reaches GitHub's 100 MB."""
+
+    def test_each_event_goes_in_its_month(self, tmp_path):
+        path = tmp_path / "signals"
+        log.append(path, reconcile({}, [sig("a")], source=SOURCE, now=T0))
+        feb = reconcile(
+            log.load(path), [sig("b")], source=SOURCE, now=T0 + timedelta(days=40)
+        )
+        log.append(path, feb)
+        assert sorted(p.name for p in path.iterdir()) == [
+            "2026-01.jsonl",
+            "2026-02.jsonl",
+        ]
+        assert len((path / "2026-01.jsonl").read_text().splitlines()) == 1
+        # b opened, a resolved: both February.
+        assert len((path / "2026-02.jsonl").read_text().splitlines()) == 2
+
+    def test_a_finished_month_is_never_written_again(self, tmp_path):
+        path = tmp_path / "signals"
+        log.append(path, reconcile({}, [sig("a")], source=SOURCE, now=T0))
+        before = (path / "2026-01.jsonl").read_text()
+        later = T0 + timedelta(days=40)
+        log.append(
+            path,
+            reconcile(log.load(path), [sig("a"), sig("b")], source=SOURCE, now=later),
+        )
+        assert (path / "2026-01.jsonl").read_text() == before
+
+    def test_replay_crosses_months(self, tmp_path):
+        """History survives the split: first_seen comes from January."""
+        path = tmp_path / "signals"
+        log.append(path, reconcile({}, [sig("a")], source=SOURCE, now=T0))
+        later = T0 + timedelta(days=40)
+        log.append(
+            path,
+            reconcile(
+                log.load(path), [sig("a", payload={"x": 1})], source=SOURCE, now=later
+            ),
+        )
+        [state] = log.load(path).values()
+        assert state.first_seen == T0
+        assert state.signal.payload == {"x": 1}
+
+    def test_months_are_read_in_date_order(self, tmp_path):
+        path = tmp_path / "signals"
+        path.mkdir()
+        for name in ("2026-10.jsonl", "2025-12.jsonl", "2026-02.jsonl"):
+            (path / name).touch()
+        assert [p.name for p in log.files(path)] == [
+            "2025-12.jsonl",
+            "2026-02.jsonl",
+            "2026-10.jsonl",
+        ]
+
+    def test_other_files_are_not_the_log(self, tmp_path):
+        path = tmp_path / "signals"
+        path.mkdir()
+        (path / "2026-01.jsonl").touch()
+        (path / "notes.txt").touch()
+        (path / "2026-01.jsonl.orig").touch()
+        assert [p.name for p in log.files(path)] == ["2026-01.jsonl"]
+
+    def test_the_single_file_it_replaced_is_read_first(self, tmp_path):
+        """data/signals.jsonl keeps its history until it is deliberately
+        removed, and is never written to again."""
+        legacy = tmp_path / "signals.jsonl"
+        path = tmp_path / "signals"
+        log.append(legacy, reconcile({}, [sig("a")], source=SOURCE, now=T0))
+        before = legacy.read_text()
+        later = T0 + timedelta(days=40)
+        log.append(
+            path,
+            reconcile(log.load(path), [sig("a"), sig("b")], source=SOURCE, now=later),
+        )
+        assert legacy.read_text() == before
+        states = log.load(path)
+        assert states[sig("a").signal_id].first_seen == T0
+        assert len(states) == 2
+
+    def test_month_is_utc(self):
+        from datetime import timezone
+
+        late = datetime(2026, 1, 31, 23, 30, tzinfo=timezone(timedelta(hours=-5)))
+        assert log.month_of(late) == "2026-02"
+
+    def test_missing_directory_is_empty(self, tmp_path):
+        assert log.load(tmp_path / "signals") == {}
+
+
 class TestSeriesRollover:
     def test_a_new_series_updates_rather_than_reopens(self):
         first = reconcile({}, [sig(series="stonking")], source=SOURCE, now=T0)

@@ -43,6 +43,14 @@ def found() -> dict[str, Signal]:
     return {s.source_package: s for s in ingester().run()}
 
 
+@pytest.fixture(scope="module")
+def detailed() -> dict[str, dict]:
+    """Each package's detail: what the log does not keep."""
+    ing = ingester()
+    ing.run()
+    return ing.detail()["packages"]
+
+
 def document(*entries, generated="2026-10-01 07:18:41") -> bytes:
     return yaml.safe_dump(
         {"generated-date": generated, "sources": list(entries)}
@@ -126,8 +134,8 @@ class TestPayload:
         assert found["shadow"].payload["component"] == "main"
         assert found["toil"].payload["component"] == "universe"
 
-    def test_a_regression_names_the_test_and_its_architectures(self, found):
-        assert found["libssh2"].payload["tests"] == [
+    def test_a_regression_names_the_test_and_its_architectures(self, found, detailed):
+        assert detailed["libssh2"]["tests"] == [
             {
                 "test": "curl",
                 "version": "8.20.0-2ubuntu11",
@@ -138,9 +146,40 @@ class TestPayload:
         ]
         assert Reason.REGRESSION in found["libssh2"].payload["reasons"]
 
-    def test_a_running_test_keeps_no_log(self, every_excuse):
+    def test_the_log_keeps_only_which_tests_fail(self, found):
+        """Results per architecture and log ids change run to run and were
+        most of the log (see the module docstring)."""
+        payload = found["libssh2"].payload
+        assert payload["failing_tests"] == ["curl"]
+        assert "tests" not in payload
+        assert "britney_reasons" not in payload
+
+    def test_a_running_test_is_not_a_failing_one(self, found):
+        payload = found["golang-github-charlievieth-strcase"].payload
+        assert payload["failing_tests"] == []
+
+    def test_detail_names_the_upload_it_describes(self, found, detailed):
+        """The build uses it only for that upload."""
+        assert (
+            detailed["libssh2"]["new_version"]
+            == (found["libssh2"].payload["new_version"])
+        )
+
+    def test_detail_covers_every_signal_and_nothing_else(self, found, detailed):
+        assert set(detailed) == set(found)
+
+    def test_detail_is_dated_by_britney(self):
+        ing = ingester()
+        ing.run()
+        assert ing.detail()["generated"] == GENERATED.isoformat()
+        assert ing.detail()["series"] == "stonking"
+
+    def test_no_detail_before_a_run(self):
+        assert ingester().detail() is None
+
+    def test_a_running_test_keeps_no_log(self, every_excuse_detail):
         """Its "log" is autopkgtest's generic /running page."""
-        [running] = every_excuse["hwloc"].payload["tests"][:1]
+        [running] = every_excuse_detail["hwloc"]["tests"][:1]
         assert set(running["results"].values()) == {"running"}
         assert "logs" not in running
 
@@ -172,8 +211,8 @@ class TestPayload:
         """A bug tagged update-excuse says someone is looking at it."""
         assert found["gettext"].payload["bugs"] == [2167365]
 
-    def test_keeps_britneys_own_wording(self, found):
-        assert found["ceph"].payload["britney_reasons"] == [
+    def test_keeps_britneys_own_wording(self, detailed):
+        assert detailed["ceph"]["britney_reasons"] == [
             "autopkgtest",
             "block",
             "missingbuild",
@@ -262,24 +301,29 @@ class TestFailedWhileBaselineReruns:
     it red with a retry link, so it is a failure, not a running test."""
 
     def entry_with(self, result):
+        """The payload, with the detail's tests under "tests"."""
         policy = entry()["policy_info"] | {
             "autopkgtest": {
                 "verdict": "REJECTED_TEMPORARILY",
                 "hipsparselt/unknown": {"s390x": [result, "log", "hist", None, None]},
             }
         }
-        return ingester(document(entry(policy_info=policy))).run()[0].payload
+        ing = ingester(document(entry(policy_info=policy)))
+        [signal] = ing.run()
+        return signal.payload | {"tests": ing.detail()["packages"]["x"]["tests"]}
 
     def test_is_a_failed_test_with_its_own_status(self):
         payload = self.entry_with("RUNNING-REFERENCE")
         assert payload["tests"][0]["results"] == {"s390x": "reference_running"}
         assert payload["reasons"] == [Reason.REGRESSION]
+        assert payload["failing_tests"] == ["hipsparselt"]
 
     def test_a_running_test_is_listed_as_running(self):
         """It holds the upload until it finishes, so the reader needs it."""
         payload = self.entry_with("RUNNING")
         assert payload["tests"][0]["results"] == {"s390x": "running"}
         assert payload["reasons"] == [Reason.TESTS_RUNNING]
+        assert payload["failing_tests"] == []
 
     @pytest.mark.parametrize(
         "result", ["PASS", "NEUTRAL", "ALWAYSFAIL", "RUNNING-ALWAYSFAIL", "OLD_PASS"]
@@ -290,12 +334,13 @@ class TestFailedWhileBaselineReruns:
         assert payload["tests"] == []
         assert Reason.TESTS_RUNNING not in payload["reasons"]
 
-    def test_a_reverse_dependency_running_on_the_fixture(self, found):
+    def test_a_reverse_dependency_running_on_the_fixture(self, found, detailed):
         """A real entry: golang-github-charlievieth-strcase waits on its own
         test, still running on one arch."""
-        payload = found["golang-github-charlievieth-strcase"].payload
-        assert payload["reasons"] == [Reason.TESTS_RUNNING]
-        assert any("running" in t["results"].values() for t in payload["tests"])
+        name = "golang-github-charlievieth-strcase"
+        assert found[name].payload["reasons"] == [Reason.TESTS_RUNNING]
+        tests = detailed[name]["tests"]
+        assert any("running" in t["results"].values() for t in tests)
 
 
 def test_reads_the_payload_shape_written_before_1_oct():
@@ -340,6 +385,13 @@ ISSUE_18_NOW = datetime(2026, 11, 20, 7, tzinfo=UTC)
 def every_excuse() -> dict[str, Signal]:
     found = ingester(ISSUE_18, series="tenacious", now=ISSUE_18_NOW).run()
     return {s.source_package: s for s in found}
+
+
+@pytest.fixture(scope="module")
+def every_excuse_detail() -> dict[str, dict]:
+    ing = ingester(ISSUE_18, series="tenacious", now=ISSUE_18_NOW)
+    ing.run()
+    return ing.detail()["packages"]
 
 
 class TestEveryExcuseIsCarried:
@@ -457,6 +509,34 @@ class TestArchitectureItemsMerge:
     def test_every_architectures_old_binaries_are_kept(self):
         [signal] = ingester(document(self.item("arm64"), self.item("armhf"))).run()
         assert signal.payload["old_binaries"] == {"1.0-1": ["libp-arm64", "libp-armhf"]}
+
+    def test_every_architectures_tests_are_kept(self):
+        def failing(arch):
+            return {
+                "autopkgtest": {
+                    "verdict": "REJECTED_PERMANENTLY",
+                    "q/1": {arch: ["REGRESSION", f"x/{arch}/run{arch}/log.gz"]},
+                }
+            }
+
+        ing = ingester(
+            document(
+                self.item("arm64", policy_info=failing("arm64"), reason=["x"]),
+                self.item("armhf", policy_info=failing("armhf"), reason=["y"]),
+            )
+        )
+        [signal] = ing.run()
+        assert signal.payload["failing_tests"] == ["q"]
+        found = ing.detail()["packages"]["p"]
+        assert found["tests"] == [
+            {
+                "test": "q",
+                "version": "1",
+                "results": {"arm64": "regression", "armhf": "regression"},
+                "logs": {"arm64": "runarm64", "armhf": "runarmhf"},
+            }
+        ]
+        assert found["britney_reasons"] == ["x", "y"]
 
 
 def test_binaries_waiting_for_a_build_are_not_old_binaries():

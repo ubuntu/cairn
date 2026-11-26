@@ -172,6 +172,13 @@
   font-size: 0.875rem;
 }
 
+/* "N more failing tests" in a table, linking to the package page. */
+p.cairn-more {
+  font-size: 0.875rem;
+  margin-bottom: 0;
+  padding-top: 0;
+}
+
 .cairn-why {
   width: 40%;
 }
@@ -190,9 +197,18 @@
   text-decoration: underline;
 }
 
+/* A circular arrow in the link's colour. Drawn here once rather than as
+   an inline SVG beside every rerun: python3-defaults alone had 5,869 of
+   them, and the copies were 35 MB of a 317 MB site (26 Nov 2026). */
 .cairn-retry__icon {
+  background-color: currentColor;
+  display: inline-block;
+  height: 12px;
   margin-right: 0.2rem;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.5 15a9 9 0 1 1-2.1-9.4L23 10M23 4v6h-6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.5 15a9 9 0 1 1-2.1-9.4L23 10M23 4v6h-6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
   vertical-align: -0.1em;
+  width: 12px;
 }
 
 /* A chip that links somewhere. Vanilla styles a.p-chip, hover and focus

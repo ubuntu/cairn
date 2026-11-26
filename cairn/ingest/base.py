@@ -123,3 +123,14 @@ class Ingester[Raw](ABC):
 
     def run(self) -> Sequence[Signal]:
         return self.parse(self.fetch())
+
+    def detail(self) -> Mapping[str, Any] | None:
+        """What the last parse found that the log does not keep.
+
+        Detail that changes from run to run without being worth remembering
+        (a test finishing on one more architecture) would append an update
+        per signal per run. It is kept here instead, and saved whole after a
+        successful run, overwriting the last: current state, no history.
+        None for a source with nothing beyond its signals.
+        """
+        return None

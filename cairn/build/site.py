@@ -38,7 +38,7 @@ from cairn.core.rules import severity
 from cairn.ingest.base import DEVELOPMENT_KINDS, Kind
 from cairn.ingest.merges import has_ubuntu_delta, upstream_release
 from cairn.ingest.metadata import PackageMetadata, Snapshot
-from cairn.ingest.migration import FAILED, payload_tests
+from cairn.ingest.migration import FAILED, failing_tests, payload_tests
 
 TEMPLATES = Path(__file__).parent / "templates"
 ASSETS = Path(__file__).parent / "assets"
@@ -310,8 +310,13 @@ class HeldTest:
     test: str
     version: str
     results: tuple[TestResult, ...]
+    # Known to fail, from the log, with no results to say where: the
+    # migration detail was missing or described another upload.
+    failing: bool = False
 
     def only(self, failed: bool) -> HeldTest | None:
+        if not self.results:
+            return self if self.failing is failed else None
         kept = tuple(r for r in self.results if r.failed is failed)
         return HeldTest(self.test, self.version, kept) if kept else None
 
@@ -323,6 +328,8 @@ class HeldTest:
         "Test in progress", not the same words four times over.
         """
         order = ("regression", "reference_running", "running")
+        if not self.results:
+            return [("regression", ())] if self.failing else []
         groups: dict[str, list[TestResult]] = {}
         for result in self.results:
             groups.setdefault(result.status, []).append(result)
@@ -332,7 +339,41 @@ class HeldTest:
         )
 
 
-def _held_tests(payload: Mapping[str, Any]) -> tuple[HeldTest, ...]:
+def _detail_agrees(payload: Mapping[str, Any], detail: Mapping[str, Any]) -> bool:
+    if detail.get("new_version") != payload.get("new_version"):
+        return False
+    if "failing_tests" not in payload:
+        # Written before the split: nothing in the log to disagree with.
+        return True
+    return set(payload.get("failing_tests") or ()) == set(
+        failing_tests(detail.get("tests") or ())
+    )
+
+
+def _held_tests(
+    payload: Mapping[str, Any], detail: Mapping[str, Any] | None = None
+) -> tuple[HeldTest, ...]:
+    """The tests holding an upload, from the most detailed source there is.
+
+    The migration detail has every result per architecture, but only for
+    the upload it was taken from. Older log lines carried the results
+    themselves. Failing that, the log's names say which tests fail and not
+    where, which is still worth showing.
+
+    The log wins a disagreement (review on #28): a run that appended its
+    events and then failed to save its detail leaves an older detail for
+    the same upload, which could hide a new failure or bring back a cleared
+    one. So the detail is used only when it fails the tests the log says.
+    """
+    if detail is not None and _detail_agrees(payload, detail):
+        records = list(detail.get("tests") or ())
+    elif "tests" in payload or "regressions" in payload:
+        records = payload_tests(payload)
+    else:
+        return tuple(
+            HeldTest(test=str(name), version="", results=(), failing=True)
+            for name in payload.get("failing_tests") or ()
+        )
     return tuple(
         HeldTest(
             test=t.get("test", ""),
@@ -344,7 +385,7 @@ def _held_tests(payload: Mapping[str, Any]) -> tuple[HeldTest, ...]:
                 for arch, status in (t.get("results") or {}).items()
             ),
         )
-        for t in payload_tests(payload)
+        for t in records
     )
 
 
@@ -499,7 +540,10 @@ class BlockingRow:
     teams: tuple[str, ...]
 
     def by_status(self) -> list[tuple[str, tuple[TestResult, ...]]]:
-        return HeldTest(self.test, self.version, self.results).by_status()
+        # Every blocking row is a failure. Without results (no migration
+        # detail for this upload) the status is still "regression", not
+        # blank (review on #28).
+        return HeldTest(self.test, self.version, self.results, failing=True).by_status()
 
 
 @dataclass(frozen=True, slots=True)
@@ -892,10 +936,15 @@ def stuck_rows(
     *,
     now: datetime,
     uploads: Mapping[str, int] | None = None,
+    detail: Mapping[str, Any] | None = None,
 ) -> list[StuckRow]:
-    """Longest in -proposed first; undated rows trail, as on the merges board."""
+    """Longest in -proposed first; undated rows trail, as on the merges board.
+
+    `detail` is the migration source's saved detail (cairn.core.detail).
+    """
     metadata = metadata or Snapshot()
     uploads = uploads or {}
+    detailed = (detail or {}).get("packages") or {}
     rows = []
     for sid, st in state.items():
         if not st.is_active or st.signal.kind is not Kind.MIGRATION_BLOCKED:
@@ -912,7 +961,7 @@ def stuck_rows(
                 old_version=payload.get("old_version") or "",
                 new_version=new_version,
                 reasons=tuple(sorted(payload.get("reasons") or (), key=_reason_key)),
-                tests=_held_tests(payload),
+                tests=_held_tests(payload, detailed.get(name)),
                 missing_builds=tuple(payload.get("missing_builds") or ()),
                 waits_for=tuple(payload.get("waits_for") or ()),
                 bugs=tuple(payload.get("bugs") or ()),
@@ -1635,11 +1684,14 @@ def _context(
     series: str | None,
     history: History | None = None,
     series_status: str | None = None,
+    migration_detail: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     metadata = metadata or Snapshot()
     rows = merge_rows(state, metadata, now=now)
     history = history or History.approximate(state)
-    stuck = stuck_rows(state, metadata, now=now, uploads=history.uploads)
+    stuck = stuck_rows(
+        state, metadata, now=now, uploads=history.uploads, detail=migration_detail
+    )
     blocking = blocking_rows(stuck, metadata)
     if series is None:
         series = _observed_series(state)
@@ -1979,6 +2031,7 @@ def build(
     series: str | None = None,
     history: History | None = None,
     series_status: str | None = None,
+    migration_detail: Mapping[str, Any] | None = None,
 ) -> Path:
     context = _context(
         state,
@@ -1988,6 +2041,7 @@ def build(
         series=series,
         history=history,
         series_status=series_status,
+        migration_detail=migration_detail,
     )
     _clear(out)
     out.mkdir(parents=True, exist_ok=True)

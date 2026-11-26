@@ -114,10 +114,10 @@
    checks upload rights; Cairn only links to it. #}
 {% macro retry(test, arch, row) -%}
 <a class="cairn-retry" href="{{ retry_url(test, arch, series, row.package, row.new_version) }}" target="_blank" rel="noopener noreferrer" title="Re-run {{ test }} on {{ arch }} against {{ row.package }} {{ row.new_version }}">
-  {#- Vanilla 4.59 has no restart icon. This is a circular arrow drawn in
-      currentColor, so it follows the link colour; the word carries the
-      meaning and the icon only supports it. -#}
-  <svg class="cairn-retry__icon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" focusable="false"><path d="M20.5 15a9 9 0 1 1-2.1-9.4L23 10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 4v6h-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>rerun<span class="u-off-screen"> {{ test }} on {{ arch }} (opens in a new tab)</span></a>
+  {#- Vanilla 4.59 has no restart icon. cairn.css draws a circular arrow
+      in the link colour; the word carries the meaning and the icon only
+      supports it. -#}
+  <span class="cairn-retry__icon" aria-hidden="true"></span>rerun<span class="u-off-screen"> {{ test }} on {{ arch }} (opens in a new tab)</span></a>
 {%- endmacro %}
 
 {# Britney's own words for each result, shown as a tag after the
@@ -164,6 +164,15 @@
 {% for status, results in test.by_status() %}{{ status_group(test.test, status, results, row) }}{% if not loop.last %} · {% endif %}{% endfor %}
 {%- endmacro %}
 
+{# A test still running has no log and nothing to rerun, so its
+   architectures are plain text, not one link each: glibc waited on 4,898
+   such lines on 26 Nov 2026. The test's history is one link away. #}
+{% macro running_line(test) -%}
+<span class="cairn-result">{{ test.results | map(attribute="arch") | join(", ") }}
+  <span class="p-chip--information is-readonly is-inline is-dense cairn-status cairn-term"{{ g.tip("running") }}><span class="p-chip__value">{{ RESULT_WORDS["running"] }}</span></span>
+</span>
+{%- endmacro %}
+
 {# One line per test, as britney's page lists them. Most are reverse
    dependencies' tests that this upload triggered. The test name is bold
    and not a link, so it never reads as one more architecture: the
@@ -172,7 +181,7 @@
 {% for t in tests %}
 <li>
   <strong>{{ t.test }}</strong>{% if t.version and t.version != "unknown" %}<span class="cairn-test-version">/{{ t.version }}</span>{% endif %}:
-  {{ results_line(t, row) }}
+  {% if t.results and not (t.results | rejectattr("status", "equalto", "running") | list) %}{{ running_line(t) }}{% else %}{{ results_line(t, row) }}{% endif %}
   {# The test's history on autopkgtest.ubuntu.com, every series and
      architecture; the site has no page for one series alone. #}
   <a class="cairn-test-history" href="{{ autopkgtest_url(t.test) }}" target="_blank" rel="noopener noreferrer">history<span class="u-off-screen"> of {{ t.test }} (opens in a new tab)</span></a>
@@ -182,14 +191,22 @@
 
 {# Long lists fold after FOLD lines, so the other reasons on the row stay
    in view: systemd held fourteen regressions on 1 Oct 2026. #}
+{# Only the package page lists every test. A table lists FOLD and links
+   the rest there: the same upload appears on the board, its owners' pages
+   and the work queues, and repeating thousands of tests on each made the
+   board 28 MB and the site 317 MB (26 Nov 2026). #}
 {% set FOLD = 5 %}
-{% macro test_list(tests, row, what) %}
+{% macro test_list(tests, row, what, full=False) %}
 <ul class="cairn-tests">{{ test_lines(tests[:FOLD], row) }}</ul>
 {% if tests | length > FOLD %}
+{% if full %}
 <details class="cairn-more">
   <summary>{{ tests | length - FOLD }} more {{ what }}</summary>
   <ul class="cairn-tests">{{ test_lines(tests[FOLD:], row) }}</ul>
 </details>
+{% else %}
+<p class="cairn-more"><a href="{{ root }}{{ package_href(row.package) }}#why_held">{{ tests | length - FOLD }} more {{ what }}</a><span class="u-off-screen"> of {{ row.package }}</span></p>
+{% endif %}
 {% endif %}
 {% endmacro %}
 
@@ -221,7 +238,8 @@
 {% endfor %}
 {% endmacro %}
 
-{% macro why(row) %}
+{# full: every test, on the package page. Tables list FOLD. #}
+{% macro why(row, full=False) %}
 <div class="cairn-reasons">
   {% for reason in row.reasons %}
   <div class="cairn-reason">
@@ -244,9 +262,9 @@
     {% for version, names in row.old_binaries %}{{ names | join(", ") }} (from <code>{{ version }}</code>){% if not loop.last %}; {% endif %}{% endfor %}
     {%- endif %}
     {% if reason == "regression" and row.failing_tests %}
-    {{ test_list(row.failing_tests, row, "failing tests") }}
+    {{ test_list(row.failing_tests, row, "failing tests", full) }}
     {% elif reason == "tests_running" and row.running_tests %}
-    {{ test_list(row.running_tests, row, "tests in progress") }}
+    {{ test_list(row.running_tests, row, "tests in progress", full) }}
     {% elif reason == "uninstallable" and row.depends_issues %}
     {{ depends_list(row.depends_issues) }}
     {% elif reason == "waiting" and row.waits_for %}

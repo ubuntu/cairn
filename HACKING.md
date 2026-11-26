@@ -54,8 +54,8 @@ else.
 ## How the pipeline fits together
 
 ```
-ingest  →  reconcile  →  data/signals.jsonl  →  render static HTML
-(fetch,    (diff vs     (append-only,          (Jinja + Vanilla)
+ingest  →  reconcile  →  data/signals/  →  render static HTML
+(fetch,    (diff vs     (append-only,     (Jinja + Vanilla)
  parse,     last run)    committed,
  normalize)              source of truth)
 ```
@@ -66,11 +66,18 @@ replays the whole log to recover `first_seen`, `occurrences` and the rest.
 
 ## The log
 
-`data/signals.jsonl` is the only thing in the repository that cannot be
-regenerated. One JSON object per line, each recording a single state change:
-opened, updated or resolved.
+`data/signals/` is the only thing in the repository that cannot be
+regenerated. One file per month, `<YYYY-MM>.jsonl`, one JSON object per line,
+each recording a single state change: opened, updated or resolved. Each event
+goes in the month of its timestamp, so only the current month's file is ever
+written, and no file nears GitHub's 100 MB limit. The single
+`data/signals.jsonl` it replaced is read first while it exists.
 
-It is append-only. Corrections are new events rather than rewrites, and it is
+`data/<source>.json` (for now `data/migration.json`) holds detail the log
+does not keep, such as test results per architecture. It is overwritten
+after each successful run and is not history.
+
+The log is append-only. Corrections are new events rather than rewrites, and it is
 never hand-edited. If you need to change what the log says, add to it.
 
 `data/health.jsonl` records the outcome of each run separately. That is
