@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-26T01:24:47.697887+00:00",
+ "collected_at": "2026-11-26T16:00:21.964631+00:00",
  "packages": {
   "0c-ime": {
    "debian_uploaded": null,
@@ -250,6 +250,30 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "team+python"
+  },
+  "ada-url": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-11-26T02:07:41.280260+00:00",
+     "requester": "jbicha",
+     "signer": null,
+     "uploader": "kapouer",
+     "version": "4.1.1+~0.8.0-2"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-10-31T06:21:56.264346+00:00",
+     "signer": "costamagnagianfranco",
+     "uploader": "costamagnagianfranco",
+     "version": "3.4.4-1build1"
+    }
+   ],
+   "published": "2026-11-26T02:07:41.280260+00:00",
+   "teams": [],
+   "uploader": "kapouer"
   },
   "adblock-plus": {
    "debian_uploaded": null,
@@ -999,29 +1023,6 @@
    "teams": [],
    "uploader": null
   },
-  "alicevision": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:09:10.448109+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "3.3.7+repack-3build1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-08T09:16:50.502834+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "3.3.7+repack-3"
-    }
-   ],
-   "published": "2026-11-20T18:09:10.448109+00:00",
-   "teams": [],
-   "uploader": "jbicha"
-  },
   "alkimia": {
    "debian_uploaded": null,
    "package_sets": [
@@ -1210,21 +1211,14 @@
    ],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-25T21:48:12.690926+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T04:08:21.532487+00:00",
      "signer": "enr0n",
      "uploader": "graysonwolf",
      "version": "1:2.15.0-2ubuntu1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "seb128",
-     "uploader": "desktop-rebuild-bot",
-     "version": "1:2.13.0-7ubuntu2"
     }
    ],
-   "published": "2026-11-25T21:48:12.690926+00:00",
+   "published": "2026-11-26T04:08:21.532487+00:00",
    "teams": [
     "ubuntu-server"
    ],
@@ -1555,22 +1549,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "apache-arrow": {
-   "debian_uploaded": "2026-11-24T13:49:16+00:00",
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "seb128",
-     "uploader": "karljs",
-     "version": "25.0.0-2ubuntu1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "karljs"
   },
   "apache-log4j1.2": {
    "debian_uploaded": null,
@@ -2953,6 +2931,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-26T10:36:12.109068+00:00",
+     "signer": "ginggs",
+     "uploader": "nooreldeenmansour",
+     "version": "0.7.2ubuntu1"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-21T12:04:36.738997+00:00",
      "signer": "aleasto",
@@ -2960,9 +2945,9 @@
      "version": "0.7.1"
     }
    ],
-   "published": "2026-10-21T12:04:36.738997+00:00",
+   "published": "2026-11-26T10:36:12.109068+00:00",
    "teams": [],
-   "uploader": "adombeck"
+   "uploader": "nooreldeenmansour"
   },
   "auto-value-gson-java": {
    "debian_uploaded": null,
@@ -3270,6 +3255,22 @@
    "teams": [],
    "uploader": "deki"
   },
+  "awl": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "davical-devel",
+     "version": "0.65-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "davical-devel"
+  },
   "aws-crt-python": {
    "debian_uploaded": "2026-10-17T19:51:21+00:00",
    "package_sets": [],
@@ -3569,6 +3570,22 @@
    "teams": [],
    "uploader": null
   },
+  "baconqrcode": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "williamdes",
+     "version": "3.1.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "williamdes"
+  },
   "bacula": {
    "debian_uploaded": null,
    "package_sets": [
@@ -3594,6 +3611,13 @@
    "package_sets": [],
    "publications": [
     {
+     "pocket": "Proposed",
+     "published": "2026-11-26T07:56:11.815973+00:00",
+     "signer": "jbicha",
+     "uploader": "jbicha",
+     "version": "1.7.4-2build1"
+    },
+    {
      "pocket": "Release",
      "published": "2026-10-27T16:39:18.760003+00:00",
      "signer": null,
@@ -3601,9 +3625,9 @@
      "version": "1.7.4-2"
     }
    ],
-   "published": "2026-10-27T16:39:18.760003+00:00",
+   "published": "2026-11-26T07:56:11.815973+00:00",
    "teams": [],
-   "uploader": "debian-med"
+   "uploader": "jbicha"
   },
   "baloo-kf5": {
    "debian_uploaded": null,
@@ -5396,31 +5420,6 @@
    "teams": [],
    "uploader": "sudip"
   },
-  "bpftrace": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-25T14:07:11.633560+00:00",
-     "signer": "enr0n",
-     "uploader": "willow-ch",
-     "version": "0.27.1-1ubuntu1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "enr0n",
-     "uploader": "karljs",
-     "version": "0.25.0-1ubuntu2"
-    }
-   ],
-   "published": "2026-11-25T14:07:11.633560+00:00",
-   "teams": [
-    "debcrafters-packages"
-   ],
-   "uploader": "willow-ch"
-  },
   "br.ispell": {
    "debian_uploaded": null,
    "package_sets": [
@@ -5542,22 +5541,6 @@
    "published": "2026-11-22T23:41:26.693637+00:00",
    "teams": [],
    "uploader": "jbicha"
-  },
-  "brickos": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-lego-team",
-     "version": "0.9.0.dfsg-16"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "debian-lego-team"
   },
   "brise": {
    "debian_uploaded": null,
@@ -6887,15 +6870,15 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-10-27T21:32:54.388924+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "2026.9+ds2+~3.30.1+ds1-1"
+     "published": "2026-11-26T00:46:54.720121+00:00",
+     "signer": "jbicha",
+     "uploader": "jbicha",
+     "version": "2026.9+ds2+~3.30.1+ds1-1build1"
     }
    ],
-   "published": "2026-10-27T21:32:54.388924+00:00",
+   "published": "2026-11-26T00:46:54.720121+00:00",
    "teams": [],
-   "uploader": "debian-science-maintainers-lists"
+   "uploader": "jbicha"
   },
   "cd-boot-images-amd64": {
    "debian_uploaded": null,
@@ -7503,6 +7486,38 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "christianriesen-base32": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.6.0-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "christianriesen-otp": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.4.3-5build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ginggs"
   },
   "chromaprint": {
    "debian_uploaded": null,
@@ -8322,29 +8337,6 @@
    "teams": [],
    "uploader": "ginggs"
   },
-  "colmap": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:09:17.625916+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "4.2.1-1build2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-04T12:56:00.633853+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "4.2.1-1build1"
-    }
-   ],
-   "published": "2026-11-20T18:09:17.625916+00:00",
-   "teams": [],
-   "uploader": "jbicha"
-  },
   "colorcet": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -8531,6 +8523,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "composer": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-19T00:30:39.790644+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.11.1-1"
+    }
+   ],
+   "published": "2026-11-19T00:30:39.790644+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
   },
   "compton": {
    "debian_uploaded": null,
@@ -9059,29 +9067,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "crengine-ng": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:09:22.117144+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "0.9.15+ds-2build1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-14T07:53:38.159810+00:00",
-     "signer": null,
-     "uploader": "emfox",
-     "version": "0.9.15+ds-2"
-    }
-   ],
-   "published": "2026-11-20T18:09:22.117144+00:00",
-   "teams": [],
-   "uploader": "jbicha"
   },
   "crispy": {
    "debian_uploaded": null,
@@ -11096,6 +11081,22 @@
    "teams": [],
    "uploader": "team+python"
   },
+  "dasprid-enum": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "williamdes",
+     "version": "1.0.7-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "williamdes"
+  },
   "datalab": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -11745,13 +11746,13 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
+     "published": "2026-11-26T00:46:26.149554+00:00",
      "signer": null,
      "uploader": "debputy",
-     "version": "0.1.96"
+     "version": "0.1.98"
     }
    ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
+   "published": "2026-11-26T00:46:26.149554+00:00",
    "teams": [],
    "uploader": "debputy"
   },
@@ -12532,27 +12533,10 @@
    "package_sets": [
     "kubuntu"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-25T13:10:11.755785+00:00",
-     "signer": "rikmills",
-     "uploader": "rikmills",
-     "version": "4:9.1.0-1ubuntu4"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-28T07:09:06.868122+00:00",
-     "signer": "rikmills",
-     "uploader": "rikmills",
-     "version": "4:9.1.0-1ubuntu3"
-    }
-   ],
-   "published": "2026-11-25T13:10:11.755785+00:00",
-   "teams": [
-    "kubuntu-bugs"
-   ],
-   "uploader": "rikmills"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "digimend-dkms": {
    "debian_uploaded": null,
@@ -13111,9 +13095,17 @@
    "uploader": null
   },
   "dnf5": {
-   "debian_uploaded": "2026-11-24T20:49:09+00:00",
+   "debian_uploaded": null,
    "package_sets": [],
    "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-11-26T09:33:12.552653+00:00",
+     "requester": "nadzeya",
+     "signer": null,
+     "uploader": "team+pkg-rpm",
+     "version": "5.4.8.0-1"
+    },
     {
      "pocket": "Release",
      "published": "2026-11-25T17:09:12.855132+00:00",
@@ -13122,9 +13114,9 @@
      "version": "5.4.6.0-2ubuntu1"
     }
    ],
-   "published": "2026-11-25T17:09:12.855132+00:00",
+   "published": "2026-11-26T09:33:12.552653+00:00",
    "teams": [],
-   "uploader": "enr0n"
+   "uploader": "team+pkg-rpm"
   },
   "dns-root-data": {
    "debian_uploaded": null,
@@ -14023,20 +14015,10 @@
    "package_sets": [
     "core"
    ],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-dpkg",
-     "version": "2.14.0"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [
-    "debcrafters-packages"
-   ],
-   "uploader": "debian-dpkg"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "dutch": {
    "debian_uploaded": null,
@@ -14491,25 +14473,10 @@
    "package_sets": [
     "ubuntustudio"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:09:25.525160+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "1.29.0-2build1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-08T17:16:50.508799+00:00",
-     "signer": null,
-     "uploader": "pkg-e-devel",
-     "version": "1.29.0-2"
-    }
-   ],
-   "published": "2026-11-20T18:09:25.525160+00:00",
+   "publications": [],
+   "published": null,
    "teams": [],
-   "uploader": "jbicha"
+   "uploader": null
   },
   "eggdrop": {
    "debian_uploaded": null,
@@ -14560,26 +14527,10 @@
    "package_sets": [
     "kubuntu"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-30T15:09:17.715693+00:00",
-     "requester": "costamagnagianfranco",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "5.0.1-3"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "3.4.0-5"
-    }
-   ],
-   "published": "2026-10-30T15:09:17.715693+00:00",
+   "publications": [],
+   "published": null,
    "teams": [],
-   "uploader": "debian-science-maintainers-lists"
+   "uploader": null
   },
   "ekiga": {
    "debian_uploaded": null,
@@ -14773,6 +14724,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "eluceo-ical": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.16.1-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
   },
   "emacsen-common": {
    "debian_uploaded": null,
@@ -17237,22 +17204,6 @@
    "teams": [],
    "uploader": null
   },
-  "flowblade": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-multimedia",
-     "version": "2.24.2-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "debian-multimedia"
-  },
   "flox": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -19107,6 +19058,22 @@
    "teams": [],
    "uploader": "vorlon"
   },
+  "fotocx": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-phototools-devel",
+     "version": "26.8-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-phototools-devel"
+  },
   "four-in-a-row": {
    "debian_uploaded": null,
    "package_sets": [
@@ -20736,26 +20703,10 @@
     "ubuntustudio",
     "xubuntu"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-16T17:19:08.252938+00:00",
-     "requester": "steelf",
-     "signer": null,
-     "uploader": "pkg-gnome-extras-maintainers",
-     "version": "1:0.4.72-3"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-gnome-extras-maintainers",
-     "version": "1:0.4.70-4"
-    }
-   ],
-   "published": "2026-11-16T17:19:08.252938+00:00",
+   "publications": [],
+   "published": null,
    "teams": [],
-   "uploader": "pkg-gnome-extras-maintainers"
+   "uploader": null
   },
   "geis": {
    "debian_uploaded": null,
@@ -23492,13 +23443,13 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-11-21T07:17:38.783295+00:00",
+     "published": "2026-11-26T00:46:40.671512+00:00",
      "signer": "athos",
      "uploader": "sumit-tiwari",
-     "version": "1.26.10-1ubuntu1"
+     "version": "1.26.10-1ubuntu2"
     }
    ],
-   "published": "2026-11-21T07:17:38.783295+00:00",
+   "published": "2026-11-26T00:46:40.671512+00:00",
    "teams": [
     "foundations-bugs"
    ],
@@ -23510,13 +23461,13 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-11-18T15:17:35.097381+00:00",
-     "signer": "seb128",
+     "published": "2026-11-26T00:46:39.665905+00:00",
+     "signer": "athos",
      "uploader": "sumit-tiwari",
-     "version": "1.27.3-1ubuntu1"
+     "version": "1.27.3-1ubuntu2"
     }
    ],
-   "published": "2026-11-18T15:17:35.097381+00:00",
+   "published": "2026-11-26T00:46:39.665905+00:00",
    "teams": [
     "foundations-bugs"
    ],
@@ -23628,7 +23579,7 @@
    "uploader": null
   },
   "golang-github-a-h-templ": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-11-25T14:37:32+00:00",
    "package_sets": [],
    "publications": [
     {
@@ -24938,6 +24889,22 @@
    "teams": [],
    "uploader": null
   },
+  "google-recaptcha": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.4.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "googletest": {
    "debian_uploaded": null,
    "package_sets": [
@@ -25515,6 +25482,22 @@
    "teams": [],
    "uploader": null
   },
+  "gregwar-captcha": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.2.1+ds-2build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ginggs"
+  },
   "grep": {
    "debian_uploaded": null,
    "package_sets": [
@@ -26051,25 +26034,10 @@
     "desktop-extra",
     "ubuntu-budgie"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:10:05.695349+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "3:3.12.10-1build2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "doko",
-     "uploader": "doko",
-     "version": "3:3.12.10-1build1"
-    }
-   ],
-   "published": "2026-11-20T18:10:05.695349+00:00",
+   "publications": [],
+   "published": null,
    "teams": [],
-   "uploader": "jbicha"
+   "uploader": null
   },
   "gtk+2.0": {
    "debian_uploaded": null,
@@ -26360,30 +26328,6 @@
    "teams": [],
    "uploader": null
   },
-  "gtsam": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-10-30T20:59:18.063762+00:00",
-     "requester": "jbicha",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "4.2.2+dfsg-12"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-28T13:56:51.534290+00:00",
-     "signer": "seb128",
-     "uploader": "seb128",
-     "version": "4.2.2+dfsg-6build1"
-    }
-   ],
-   "published": "2026-10-30T20:59:18.063762+00:00",
-   "teams": [],
-   "uploader": "debian-science-maintainers-lists"
-  },
   "gtwitter": {
    "debian_uploaded": null,
    "package_sets": [
@@ -26645,6 +26589,22 @@
     "desktop-packages"
    ],
    "uploader": "ginggs"
+  },
+  "guzzle": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T15:17:01.716685+00:00",
+     "signer": "jbicha",
+     "uploader": "jbicha",
+     "version": "8.3.1-3build1"
+    }
+   ],
+   "published": "2026-11-18T15:17:01.716685+00:00",
+   "teams": [],
+   "uploader": "jbicha"
   },
   "gvars3": {
    "debian_uploaded": null,
@@ -28329,29 +28289,6 @@
    "teams": [],
    "uploader": "ginggs"
   },
-  "hyprgraphics": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:10:10.375559+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "0.5.1-2build3"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "sudip",
-     "uploader": "sudip",
-     "version": "0.5.1-2build2"
-    }
-   ],
-   "published": "2026-11-20T18:10:10.375559+00:00",
-   "teams": [],
-   "uploader": "jbicha"
-  },
   "ibus": {
    "debian_uploaded": null,
    "package_sets": [
@@ -29176,48 +29113,10 @@
     "ubuntustudio",
     "xubuntu"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-24T18:30:10.863425+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "1.12.6-1build2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "apo-v",
-     "version": "1.12.6-1"
-    }
-   ],
-   "published": "2026-11-24T18:30:10.863425+00:00",
+   "publications": [],
+   "published": null,
    "teams": [],
-   "uploader": "jbicha"
-  },
-  "imv": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:10:18.894101+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "5.0.1-5build1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-08T09:15:40.586928+00:00",
-     "signer": null,
-     "uploader": "pkg-phototools-devel-2",
-     "version": "5.0.1-5"
-    }
-   ],
-   "published": "2026-11-20T18:10:18.894101+00:00",
-   "teams": [],
-   "uploader": "jbicha"
+   "uploader": null
   },
   "imwheel": {
    "debian_uploaded": null,
@@ -29700,22 +29599,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "interimap": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "seb128",
-     "uploader": "ravi-sharma",
-     "version": "0.5.8-2ubuntu1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "ravi-sharma"
   },
   "intltool": {
    "debian_uploaded": null,
@@ -31402,21 +31285,14 @@
    ],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-24T10:25:09.895444+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T04:08:16.559195+00:00",
      "signer": "costamagnagianfranco",
      "uploader": "costamagnagianfranco",
      "version": "0.13.0-1ubuntu3"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "costamagnagianfranco",
-     "uploader": "costamagnagianfranco",
-     "version": "0.11.2-5.1ubuntu1"
     }
    ],
-   "published": "2026-11-24T10:25:09.895444+00:00",
+   "published": "2026-11-26T04:08:16.559195+00:00",
    "teams": [
     "debcrafters-packages"
    ],
@@ -31618,6 +31494,22 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "team+python"
+  },
+  "jsonlint": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:26:17.305530+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.12.2-1"
+    }
+   ],
+   "published": "2026-11-18T00:26:17.305530+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
   },
   "jsonpath-ng": {
    "debian_uploaded": null,
@@ -32342,7 +32234,7 @@
    "uploader": "rikmills"
   },
   "kamailio": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-11-25T12:34:22+00:00",
    "package_sets": [],
    "publications": [
     {
@@ -42380,22 +42272,6 @@
    "teams": [],
    "uploader": "team+homeassistant"
   },
-  "ledger2beancount": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "jelmer",
-     "version": "2.7-3"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "jelmer"
-  },
   "ledit": {
    "debian_uploaded": null,
    "package_sets": [
@@ -47032,7 +46908,7 @@
    "uploader": "ginggs"
   },
   "libcrypt-ssleay-perl": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-11-25T19:49:39+00:00",
    "package_sets": [],
    "publications": [
     {
@@ -52973,22 +52849,6 @@
    "teams": [],
    "uploader": null
   },
-  "libhtml-widgets-navmenu-perl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "1.1000-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
-  },
   "libhttp-cache-transparent-perl": {
    "debian_uploaded": null,
    "package_sets": [
@@ -53541,10 +53401,20 @@
     "core",
     "i386-whitelist"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "sudip",
+     "uploader": "sudip",
+     "version": "61-1ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "sudip"
   },
   "libinline-java-perl": {
    "debian_uploaded": null,
@@ -53702,24 +53572,6 @@
    "published": "2026-11-20T09:35:24.141913+00:00",
    "teams": [],
    "uploader": "ginggs"
-  },
-  "libio-async-perl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "0.805-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [
-    "debcrafters-packages"
-   ],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
   },
   "libio-compress-brotli-perl": {
    "debian_uploaded": null,
@@ -54440,22 +54292,6 @@
     }
    ],
    "published": "2026-11-07T11:44:31.009870+00:00",
-   "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
-  },
-  "libjson-webtoken-perl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "0.10-5"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-perl-maintainers-lists-alioth"
   },
@@ -55966,22 +55802,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "libmarc-loader-perl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "0.004001-2"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
   },
   "libmarpa-r2-perl": {
    "debian_uploaded": null,
@@ -60531,6 +60351,22 @@
    "teams": [],
    "uploader": null
   },
+  "libphp-swiftmailer": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "6.3.0-8"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "libpillowfight": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -61209,11 +61045,11 @@
    "publications": [
     {
      "pocket": "Proposed",
-     "published": "2026-11-06T23:32:20.637723+00:00",
-     "requester": "bdrung",
+     "published": "2026-11-26T14:15:35.305716+00:00",
+     "requester": "jbicha",
      "signer": null,
      "uploader": "pkg-phototools-devel",
-     "version": "0.22.3-1exp1"
+     "version": "0.22.3-2"
     },
     {
      "pocket": "Release",
@@ -61223,7 +61059,7 @@
      "version": "0.22.1-1ubuntu1"
     }
    ],
-   "published": "2026-11-06T23:32:20.637723+00:00",
+   "published": "2026-11-26T14:15:35.305716+00:00",
    "teams": [
     "debcrafters-packages"
    ],
@@ -62689,22 +62525,6 @@
    "teams": [],
    "uploader": null
   },
-  "libsnmp-info-perl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-18T20:50:29.664786+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "3.985001-1"
-    }
-   ],
-   "published": "2026-11-18T20:50:29.664786+00:00",
-   "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
-  },
   "libsoap-lite-perl": {
    "debian_uploaded": null,
    "package_sets": [
@@ -63535,22 +63355,6 @@
    "published": "2026-11-21T10:38:10.484168+00:00",
    "teams": [],
    "uploader": "ginggs"
-  },
-  "libsuper-perl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-perl-maintainers-lists-alioth",
-     "version": "1.20190531-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "pkg-perl-maintainers-lists-alioth"
   },
   "libsyntax-infix-smartmatch-perl": {
    "debian_uploaded": null,
@@ -65526,6 +65330,31 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "libtraceevent": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-11-25T23:08:10.228307+00:00",
+     "signer": "bdrung",
+     "uploader": "fheimes",
+     "version": "1:1.9.1-0ubuntu1"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "sudip",
+     "version": "1:1.9.0-2"
+    }
+   ],
+   "published": "2026-11-25T23:08:10.228307+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "fheimes"
   },
   "libtrue-perl": {
    "debian_uploaded": null,
@@ -70847,14 +70676,14 @@
    ],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-15T13:41:11.128316+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T04:08:23.745635+00:00",
      "signer": "jbicha",
      "uploader": "karljs",
      "version": "1:23.1.5-2ubuntu1"
     }
    ],
-   "published": "2026-11-15T13:41:11.128316+00:00",
+   "published": "2026-11-26T04:08:23.745635+00:00",
    "teams": [],
    "uploader": "karljs"
   },
@@ -72579,7 +72408,7 @@
    "uploader": null
   },
   "makedumpfile": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-11-25T15:58:42+00:00",
    "package_sets": [
     "core"
    ],
@@ -72918,6 +72747,22 @@
    "published": "2026-11-01T07:16:25.395893+00:00",
    "teams": [],
    "uploader": "jbicha"
+  },
+  "mariadb-mysql-kbs": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "williamdes",
+     "version": "1.3.0-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "williamdes"
   },
   "marisa": {
    "debian_uploaded": null,
@@ -73483,6 +73328,86 @@
    "teams": [],
    "uploader": null
   },
+  "matomo-component-cache": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "debian-matomo-maintainers",
+     "version": "3.0.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "debian-matomo-maintainers"
+  },
+  "matomo-component-decompress": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "debian-matomo-maintainers",
+     "version": "3.0.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "debian-matomo-maintainers"
+  },
+  "matomo-component-network": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-03T08:34:36.885080+00:00",
+     "signer": null,
+     "uploader": "debian-matomo-maintainers",
+     "version": "2.0.3-1"
+    }
+   ],
+   "published": "2026-11-03T08:34:36.885080+00:00",
+   "teams": [],
+   "uploader": "debian-matomo-maintainers"
+  },
+  "matomo-device-detector": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "debian-matomo-maintainers",
+     "version": "6.5.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "debian-matomo-maintainers"
+  },
+  "matomo-php-tracker": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "debian-matomo-maintainers",
+     "version": "3.3.2-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "debian-matomo-maintainers"
+  },
   "matplotlib": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -73522,6 +73447,38 @@
    "published": "2026-11-02T22:30:09.677532+00:00",
    "teams": [],
    "uploader": "team+python"
+  },
+  "matthiasmullie-minify": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.3.73-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "matthiasmullie-path-converter": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.1.3-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
   },
   "maven": {
    "debian_uploaded": null,
@@ -74433,29 +74390,6 @@
    "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "desktop-rebuild-bot"
-  },
-  "mia": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-21T02:39:26.182284+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "2.4.7-19build4"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-07T15:28:21.458694+00:00",
-     "signer": "costamagnagianfranco",
-     "uploader": "costamagnagianfranco",
-     "version": "2.4.7-19build3"
-    }
-   ],
-   "published": "2026-11-21T02:39:26.182284+00:00",
-   "teams": [],
-   "uploader": "jbicha"
   },
   "microcode-initrd": {
    "debian_uploaded": null,
@@ -75940,21 +75874,14 @@
    ],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-17T12:29:13.097983+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T04:08:14.621973+00:00",
      "signer": "jbicha",
      "uploader": "jbicha",
      "version": "4.1.2-3ubuntu1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "doko",
-     "uploader": "doko",
-     "version": "4.1.1-1ubuntu2"
     }
    ],
-   "published": "2026-11-17T12:29:13.097983+00:00",
+   "published": "2026-11-26T04:08:14.621973+00:00",
    "teams": [],
    "uploader": "jbicha"
   },
@@ -76648,22 +76575,6 @@
    "teams": [],
    "uploader": "team+python"
   },
-  "myrepos": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "ginggs",
-     "uploader": "ginggs",
-     "version": "1.20180726build1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "ginggs"
-  },
   "myspell-el-gr": {
    "debian_uploaded": null,
    "package_sets": [
@@ -77324,6 +77235,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "ncrack": {
+   "debian_uploaded": "2026-11-26T00:05:49+00:00",
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ravi-sharma",
+     "version": "0.7+debian-6ubuntu2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ravi-sharma"
   },
   "ncurses": {
    "debian_uploaded": null,
@@ -78382,7 +78309,7 @@
    "uploader": null
   },
   "nginx": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-11-25T18:35:31+00:00",
    "package_sets": [
     "ubuntu-server"
    ],
@@ -79065,14 +78992,6 @@
      "signer": null,
      "uploader": "team+homeassistant",
      "version": "7.3.0-1"
-    },
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-08T19:26:27.594801+00:00",
-     "requester": "costamagnagianfranco",
-     "signer": null,
-     "uploader": "team+homeassistant",
-     "version": "7.3.0-1"
     }
    ],
    "published": "2026-11-08T19:26:27.594801+00:00",
@@ -79090,21 +79009,6 @@
      "signer": null,
      "uploader": "pkg-javascript-devel-lists",
      "version": "1.1.2-7"
-    },
-    {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:26:47.185347+00:00",
-     "signer": null,
-     "uploader": "pkg-javascript-devel-lists",
-     "version": "1.1.2-7"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-javascript-devel-lists",
-     "version": "1.1.2-6"
     },
     {
      "pocket": "Release",
@@ -79129,21 +79033,6 @@
      "signer": null,
      "uploader": "pkg-javascript-devel-lists",
      "version": "6.1.1-1"
-    },
-    {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:26:48.090965+00:00",
-     "signer": null,
-     "uploader": "pkg-javascript-devel-lists",
-     "version": "6.1.1-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-javascript-devel-lists",
-     "version": "5.0.3-3"
     },
     {
      "pocket": "Release",
@@ -83766,14 +83655,6 @@
    "package_sets": [],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T01:31:47.002720+00:00",
-     "signer": null,
-     "uploader": "debian-ocaml-maint",
-     "version": "1.2.4-5"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "costamagnagianfranco",
@@ -83781,9 +83662,9 @@
      "version": "1.2.4-4build37"
     }
    ],
-   "published": "2026-11-09T01:31:47.002720+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
-   "uploader": "debian-ocaml-maint"
+   "uploader": "costamagnagianfranco"
   },
   "nut": {
    "debian_uploaded": null,
@@ -84536,24 +84417,6 @@
    "published": "2026-11-09T01:33:06.857972+00:00",
    "teams": [],
    "uploader": "debian-ocaml-maint"
-  },
-  "ocfs2-tools": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-18T00:26:58.131894+00:00",
-     "signer": null,
-     "uploader": "debian-ha-maintainers-j",
-     "version": "1.8.9-2"
-    }
-   ],
-   "published": "2026-11-18T00:26:58.131894+00:00",
-   "teams": [
-    "ubuntu-server"
-   ],
-   "uploader": "debian-ha-maintainers-j"
   },
   "ocl-icd": {
    "debian_uploaded": null,
@@ -87316,14 +87179,6 @@
    ],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-21T03:33:53.174286+00:00",
-     "requester": "jbicha",
-     "signer": null,
-     "uploader": "debichem-devel",
-     "version": "3.2.0+dfsg-2"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ural",
@@ -87331,11 +87186,11 @@
      "version": "3.1.1+dfsg-14ubuntu2"
     }
    ],
-   "published": "2026-11-21T03:33:53.174286+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [
     "kubuntu-bugs"
    ],
-   "uploader": "debichem-devel"
+   "uploader": "ural"
   },
   "openblas": {
    "debian_uploaded": null,
@@ -87706,28 +87561,10 @@
    "package_sets": [
     "i386-whitelist"
    ],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-18T23:06:42.995365+00:00",
-     "requester": "vpa1977",
-     "signer": null,
-     "uploader": "openjdk-21",
-     "version": "21.0.13.1+2-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-04T05:38:04.226668+00:00",
-     "signer": null,
-     "uploader": "openjdk-21",
-     "version": "21.0.13.0.3+1-1"
-    }
-   ],
-   "published": "2026-11-18T23:06:42.995365+00:00",
-   "teams": [
-    "foundations-bugs"
-   ],
-   "uploader": "openjdk-21"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "openjdk-22": {
    "debian_uploaded": null,
@@ -87764,20 +87601,10 @@
    "package_sets": [
     "i386-whitelist"
    ],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-25T21:10:36.085949+00:00",
-     "signer": null,
-     "uploader": "openjdk-25",
-     "version": "25.0.5.1+2-1"
-    }
-   ],
-   "published": "2026-11-25T21:10:36.085949+00:00",
-   "teams": [
-    "foundations-bugs"
-   ],
-   "uploader": "openjdk-25"
+   "publications": [],
+   "published": null,
+   "teams": [],
+   "uploader": null
   },
   "openjdk-26": {
    "debian_uploaded": null,
@@ -91383,6 +91210,22 @@
    "teams": [],
    "uploader": "jbicha"
   },
+  "phing": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.1.2-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "phonon": {
    "debian_uploaded": null,
    "package_sets": [
@@ -91476,6 +91319,22 @@
    "teams": [],
    "uploader": "debian-astro-maintainers"
   },
+  "php-algo26-idna-convert": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.2.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "php-amqplib": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91500,6 +91359,22 @@
    "teams": [],
    "uploader": "pkg-php-pear"
   },
+  "php-archive-tar": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T18:04:08.826974+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.6.1-1"
+    }
+   ],
+   "published": "2026-11-16T18:04:08.826974+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "php-arthurhoaro-web-thumbnailer": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91513,6 +91388,102 @@
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-async-aws-core": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-19T00:30:27.487466+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.30.0-1"
+    }
+   ],
+   "published": "2026-11-19T00:30:27.487466+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-async-aws-dynamo-db": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-04T03:58:08.459184+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.12.0-1"
+    }
+   ],
+   "published": "2026-11-04T03:58:08.459184+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-async-aws-ses": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-05T15:00:58.677586+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.17.0-1"
+    }
+   ],
+   "published": "2026-11-05T15:00:58.677586+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-async-aws-sns": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.12.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-async-aws-sqs": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.9.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-brick-math": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-15T14:29:56.462702+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.14.8-1"
+    }
+   ],
+   "published": "2026-11-15T14:29:56.462702+00:00",
    "teams": [],
    "uploader": "pkg-php-pear"
   },
@@ -91540,6 +91511,22 @@
    "teams": [],
    "uploader": "pkg-php-pear"
   },
+  "php-code-lts-u2f-php-server": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "williamdes",
+     "version": "1.2.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "williamdes"
+  },
   "php-codecoverage": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91563,6 +91550,182 @@
    "teams": [],
    "uploader": "jbicha"
   },
+  "php-codeigniter-framework": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.1.13+dfsg1-9"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-composer-ca-bundle": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-19T00:30:38.802820+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.6.1-1"
+    }
+   ],
+   "published": "2026-11-19T00:30:38.802820+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-composer-class-map-generator": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:30:30.450840+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.9.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:30:30.450840+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-composer-metadata-minifier": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.0.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-composer-pcre": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.4.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-composer-spdx-licenses": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.6.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-composer-xdebug-handler": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.0.5-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-constant-time": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T15:17:25.295431+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.1.4-1"
+    }
+   ],
+   "published": "2026-11-18T15:17:25.295431+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-crypt-gpg": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.0.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-datto-json-rpc": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "6.1.0-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-deepcopy": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.14.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "php-defaults": {
    "debian_uploaded": "2026-10-18T12:50:47+00:00",
    "package_sets": [
@@ -91583,6 +91746,86 @@
     "ubuntu-server"
    ],
    "uploader": "rr"
+  },
+  "php-dflydev-dot-access-data": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.0.3-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-di": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "7.1.1-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-di-invoker": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.3.7-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-directory-scanner": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.3.3-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-annotations": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.0.2-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
   },
   "php-doctrine-cache": {
    "debian_uploaded": null,
@@ -91624,6 +91867,262 @@
    "teams": [],
    "uploader": "pkg-php-pear"
   },
+  "php-doctrine-data-fixtures": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.2.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-dbal": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T07:29:34.222072+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.5.0+dfsg-1"
+    }
+   ],
+   "published": "2026-11-16T07:29:34.222072+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-deprecations": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.1.6-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-event-manager": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.1.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-inflector": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:34.396116+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.1.1-1"
+    }
+   ],
+   "published": "2026-11-18T00:29:34.396116+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-instantiator": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-19T00:30:48.842323+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.1.0-2"
+    }
+   ],
+   "published": "2026-11-19T00:30:48.842323+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-lexer": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-19T00:30:24.051423+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.0.3-1"
+    }
+   ],
+   "published": "2026-11-19T00:30:24.051423+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-doctrine-persistence": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-19T00:30:47.260321+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.2.1-1"
+    }
+   ],
+   "published": "2026-11-19T00:30:47.260321+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-dragonmantank-cron-expression": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-04T03:58:10.718310+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.6.1-1"
+    }
+   ],
+   "published": "2026-11-04T03:58:10.718310+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-email-validator": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.0.4-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-embed": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:26:26.776276+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.6.2-1"
+    }
+   ],
+   "published": "2026-11-18T00:26:26.776276+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-enum": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.7.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-faker": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:28:04.675346+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.24.1+dfsg-1"
+    }
+   ],
+   "published": "2026-11-18T00:28:04.675346+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-fig-http-message-util": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.1.5-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-fig-link-util": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.2.0-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-fig-log-test": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.2.1-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "php-file-iterator": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91648,6 +92147,246 @@
    "teams": [],
    "uploader": "pkg-php-pear"
   },
+  "php-font-lib": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.0.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-fruitcake-php-cors": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:55:28.410545+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.4.0-1"
+    }
+   ],
+   "published": "2026-11-14T07:55:28.410545+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-getallheaders": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.0.3-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-gettext": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T07:24:34.075396+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.0.12-8"
+    }
+   ],
+   "published": "2026-11-16T07:24:34.075396+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-gettext-languages": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.10.0-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-giggsey-libphonenumber": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "9.0.35-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-giggsey-locale": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.9.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-graham-campbell-result-type": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:30:27.263164+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.2.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:30:27.263164+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-guzzlehttp-promises": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T15:17:02.452826+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.1.0-2"
+    }
+   ],
+   "published": "2026-11-18T15:17:02.452826+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-guzzlehttp-psr7": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T15:17:04.141934+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.4.0-1"
+    }
+   ],
+   "published": "2026-11-18T15:17:04.141934+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-guzzlehttp-uri-template": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T18:07:59.630874+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.0.1-1"
+    }
+   ],
+   "published": "2026-11-16T18:07:59.630874+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-hamcrest": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:27:10.013159+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.0.0-2"
+    }
+   ],
+   "published": "2026-11-18T00:27:10.013159+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-http-psr7-integration-tests": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:30:28.653054+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.5.2-1"
+    }
+   ],
+   "published": "2026-11-18T00:30:28.653054+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-image-text": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.7.0-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-imagick": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "athos",
+     "uploader": "rr",
+     "version": "3.8.0-3ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "rr"
+  },
   "php-invoker": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91669,6 +92408,454 @@
     }
    ],
    "published": "2026-11-09T01:39:24.050359+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-jakeasmith-http-build-url": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:30:01.659029+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.0.2-1"
+    }
+   ],
+   "published": "2026-11-18T00:30:01.659029+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-jolicode-jolinotif": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-05T01:32:08.955302+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.4.1-1"
+    }
+   ],
+   "published": "2026-11-05T01:32:08.955302+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-jolicode-php-os-helper": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.3.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-json-schema": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-17T19:46:56.006135+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "6.14.0-1"
+    }
+   ],
+   "published": "2026-11-17T19:46:56.006135+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-kissifrot-php-ixr": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.8.5-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-klogger": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.2.2-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-lcobucci-clock": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:28:46.830093+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.7.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:28:46.830093+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-lcobucci-jwt": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:28:17.905661+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "5.6.1-1"
+    }
+   ],
+   "published": "2026-11-18T00:28:17.905661+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-league-commonmark": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:35.239116+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.10.7-1"
+    }
+   ],
+   "published": "2026-11-18T00:29:35.239116+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-league-config": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.2.0-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-league-csv": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "9.28.0+dfsg-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-league-flysystem": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:19.778321+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.36.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:29:19.778321+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-league-html-to-markdown": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-05T17:27:35.086048+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "5.2.3-1"
+    }
+   ],
+   "published": "2026-11-05T17:27:35.086048+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-league-mime-type-detection": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-17T19:48:07.160434+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.17.0+ds-1"
+    }
+   ],
+   "published": "2026-11-17T19:48:07.160434+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-league-uri-src": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "7.5.1-7"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-lorenzo-pinky": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.1.0-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-mail-mime": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-15T20:02:44.984875+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.11.0-1"
+    }
+   ],
+   "published": "2026-11-15T20:02:44.984875+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-malkusch-lock": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.3.0+ds-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-masterminds-html5": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-04T03:58:10.000706+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.12.0+dfsg-1"
+    }
+   ],
+   "published": "2026-11-04T03:58:10.000706+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-matomo-doctrine-cache": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T18:07:53.906668+00:00",
+     "signer": null,
+     "uploader": "debian-matomo-maintainers",
+     "version": "1.10.4-3"
+    }
+   ],
+   "published": "2026-11-16T18:07:53.906668+00:00",
+   "teams": [],
+   "uploader": "debian-matomo-maintainers"
+  },
+  "php-mikey179-vfsstream": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.6.12-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-ml-iri": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.1.4-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-ml-json-ld": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.2.1-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-mock": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:26:13.070318+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.7.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:26:13.070318+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-mock-integration": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T09:59:28.090252+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.1.0-1"
+    }
+   ],
+   "published": "2026-11-18T09:59:28.090252+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-mock-mockery": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T07:26:38.242365+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.5.0-1"
+    }
+   ],
+   "published": "2026-11-16T07:26:38.242365+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-mock-phpunit": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "seb128",
+     "uploader": "seb128",
+     "version": "2.15.0-2ubuntu1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "seb128"
+  },
+  "php-mockery": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.6.15-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-php-pear"
   },
@@ -91696,6 +92883,22 @@
    "teams": [],
    "uploader": "pkg-php-pear"
   },
+  "php-nerd-cartesian-product": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-15T20:03:40.437995+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.3.0-1"
+    }
+   ],
+   "published": "2026-11-15T20:03:40.437995+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "php-net-ldap2": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91709,6 +92912,166 @@
     }
    ],
    "published": "2026-11-16T18:02:51.904910+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-net-sieve": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.4.8-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-net-url2": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "packages",
+     "version": "2.2.3-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "packages"
+  },
+  "php-netscape-bookmark-parser": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.0.0-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-nikic-fast-route": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:01.624521+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.3.1-1"
+    }
+   ],
+   "published": "2026-11-18T00:29:01.624521+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-opis-closure": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.5.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-oscarotero-gettext": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.8.12-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-oscarotero-html-parser": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.1.8-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-parsedown": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.8.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-parser": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:26:48.340478+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "5.9.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:26:48.340478+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-pda-pheanstalk": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "8.0.2-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-php-pear"
   },
@@ -91731,6 +93094,214 @@
     "ubuntu-server"
    ],
    "uploader": "rr"
+  },
+  "php-phar-io-manifest": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.0.4-6"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phar-io-version": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.2.1-4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpdocumentor-reflection-common": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:30:51.275584+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.2.1-1"
+    }
+   ],
+   "published": "2026-11-18T00:30:51.275584+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpdocumentor-reflection-docblock": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "6.0.3-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpdocumentor-type-resolver": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-17T08:14:25.961416+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.1.0-1"
+    }
+   ],
+   "published": "2026-11-17T08:14:25.961416+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpoption": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T18:03:34.507934+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.10.0-1"
+    }
+   ],
+   "published": "2026-11-16T18:03:34.507934+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpseclib": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:27:50.243234+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.0.56-1"
+    }
+   ],
+   "published": "2026-11-18T00:27:50.243234+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpseclib3": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T09:59:10.068647+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.0.58-2"
+    }
+   ],
+   "published": "2026-11-18T09:59:10.068647+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpseclib4": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-17T08:13:41.521102+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.0.3-2"
+    }
+   ],
+   "published": "2026-11-17T08:13:41.521102+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpspec-prophecy": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.26.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpspec-prophecy-phpunit": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.5.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-phpstan-phpdoc-parser": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-04T09:05:09.573773+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.4.1-1"
+    }
+   ],
+   "published": "2026-11-04T09:05:09.573773+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-proxy-manager": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:49.019584+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.11.1+1.0.19-4"
+    }
+   ],
+   "published": "2026-11-18T00:29:49.019584+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
   },
   "php-ps": {
    "debian_uploaded": "2026-03-03T17:35:34+00:00",
@@ -91758,6 +93329,374 @@
    "teams": [],
    "uploader": null
   },
+  "php-ramsey-collection": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:26.985903+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.1.1-1"
+    }
+   ],
+   "published": "2026-11-18T00:29:26.985903+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-ramsey-uuid": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T07:26:13.690617+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.9.4-1"
+    }
+   ],
+   "published": "2026-11-16T07:26:13.690617+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-random-compat": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "seb128",
+     "uploader": "desktop-rebuild-bot",
+     "version": "2.0.21-1build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "desktop-rebuild-bot"
+  },
+  "php-react-promise": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.3.0-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-revolt-event-loop": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.0.9-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-roundcube-rtf-html-php": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-roundcube-maintainers-p",
+     "version": "2.2-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-roundcube-maintainers-p"
+  },
+  "php-seld-signal-handler": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.0.2-5"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-shellcommand": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.7.0-2build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ginggs"
+  },
+  "php-slim-psr7": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "williamdes",
+     "version": "1.8.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "williamdes"
+  },
+  "php-spomky-labs-aes-key-wrap": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T18:08:07.743030+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "7.0.0-1"
+    }
+   ],
+   "published": "2026-11-16T18:08:07.743030+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-spomky-labs-pki-framework": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T18:08:15.807562+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.6.3-1"
+    }
+   ],
+   "published": "2026-11-16T18:08:15.807562+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-spyc": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "debian-matomo-maintainers",
+     "version": "0.6.3-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "debian-matomo-maintainers"
+  },
+  "php-staabm-side-effects-detector": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.0.5-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-symfony-contracts": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-24T00:49:50.118435+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.8.1-1"
+    }
+   ],
+   "published": "2026-11-24T00:49:50.118435+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-symfony-mercure": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-03T11:12:48.960354+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.8.0-2"
+    }
+   ],
+   "published": "2026-11-03T11:12:48.960354+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-symfony-mercure-bundle": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-03T11:12:47.343226+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "0.5.0-2"
+    }
+   ],
+   "published": "2026-11-03T11:12:47.343226+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-symfony-polyfill": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-06T03:57:06.572505+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.43.3-1"
+    }
+   ],
+   "published": "2026-11-06T03:57:06.572505+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-symfony-security-acl": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-02T22:12:39.865767+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.5.0-1"
+    }
+   ],
+   "published": "2026-11-02T22:12:39.865767+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-symfony-webpack-encore-bundle": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:30:46.556763+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.4.3-1"
+    }
+   ],
+   "published": "2026-11-18T00:30:46.556763+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-tempest-highlight": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-17T19:47:11.416315+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.30.0-1"
+    }
+   ],
+   "published": "2026-11-17T19:47:11.416315+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-text-captcha": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "ginggs",
+     "uploader": "ginggs",
+     "version": "1.0.2-9build1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "ginggs"
+  },
+  "php-text-figlet": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.0.2-6"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-text-password": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.2.1-6"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "php-text-template": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91780,6 +93719,22 @@
    "published": "2026-11-21T06:06:10.264070+00:00",
    "teams": [],
    "uploader": "jbicha"
+  },
+  "php-tijsverkoyen-css-to-inline-styles": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.4.0-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
   },
   "php-timer": {
    "debian_uploaded": null,
@@ -91804,6 +93759,198 @@
    "published": "2026-11-09T01:29:30.625428+00:00",
    "teams": [],
    "uploader": "pkg-php-pear"
+  },
+  "php-tokenizer": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": "costamagnagianfranco",
+     "uploader": "costamagnagianfranco",
+     "version": "2.0.1-3ubuntu4"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "costamagnagianfranco"
+  },
+  "php-twig": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-06T23:27:51.988253+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.30.0-1"
+    }
+   ],
+   "published": "2026-11-06T23:27:51.988253+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-vlucas-phpdotenv": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:30:27.952528+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "5.8.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:30:27.952528+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-voku-portable-ascii": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-14T07:55:31.491132+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "2.1.1-1"
+    }
+   ],
+   "published": "2026-11-14T07:55:31.491132+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-web-token-jwt-framework": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-17T02:20:24.124878+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.2.7-1"
+    }
+   ],
+   "published": "2026-11-17T02:20:24.124878+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-webmozart-assert": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.12.1-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-xml-util": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-16T18:02:06.144854+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.4.5-2"
+    }
+   ],
+   "published": "2026-11-16T18:02:06.144854+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-zend-code": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:31:28.539415+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "4.18.0-1"
+    }
+   ],
+   "published": "2026-11-18T00:31:28.539415+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-zend-stdlib": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-22T23:42:59.827218+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "3.21.0-2"
+    }
+   ],
+   "published": "2026-11-22T23:42:59.827218+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-zeta-base": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.9.5-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-zeta-console-tools": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.7.5-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
+  "php-zumba-json-serializer": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:49.791002+00:00",
+     "signer": null,
+     "uploader": "williamdes",
+     "version": "3.2.5-1"
+    }
+   ],
+   "published": "2026-11-18T00:29:49.791002+00:00",
+   "teams": [],
+   "uploader": "williamdes"
   },
   "php5": {
    "debian_uploaded": null,
@@ -91886,6 +94033,22 @@
    ],
    "uploader": "mdeslaur"
   },
+  "phpab": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-05T17:26:53.833076+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.29.4-2"
+    }
+   ],
+   "published": "2026-11-05T17:26:53.833076+00:00",
+   "teams": [],
+   "uploader": "pkg-php-pear"
+  },
   "phpmyadmin": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -91899,6 +94062,54 @@
     }
    ],
    "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "team+phpmyadmin"
+  },
+  "phpmyadmin-motranslator": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "team+phpmyadmin",
+     "version": "5.4.0-3"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "team+phpmyadmin"
+  },
+  "phpmyadmin-shapefile": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "team+phpmyadmin",
+     "version": "3.0.2-2"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "team+phpmyadmin"
+  },
+  "phpmyadmin-sql-parser": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-18T00:29:37.184722+00:00",
+     "signer": null,
+     "uploader": "team+phpmyadmin",
+     "version": "5.11.2-1"
+    }
+   ],
+   "published": "2026-11-18T00:29:37.184722+00:00",
    "teams": [],
    "uploader": "team+phpmyadmin"
   },
@@ -92511,21 +94722,14 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:10:21.041503+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T04:08:46.045791+00:00",
      "signer": "jbicha",
      "uploader": "jbicha",
      "version": "1.3.8-1build2"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-07T06:31:51.502823+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "1.3.8-1build1"
     }
    ],
-   "published": "2026-11-20T18:10:21.041503+00:00",
+   "published": "2026-11-26T04:08:46.045791+00:00",
    "teams": [],
    "uploader": "jbicha"
   },
@@ -92774,10 +94978,20 @@
     "ubuntu-desktop",
     "ubuntu-server"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-02T23:40:48.389378+00:00",
+     "signer": null,
+     "uploader": "pkg-php-pear",
+     "version": "1.50"
+    }
+   ],
+   "published": "2026-11-02T23:40:48.389378+00:00",
+   "teams": [
+    "ubuntu-server"
+   ],
+   "uploader": "pkg-php-pear"
   },
   "pkg-rocm-tools": {
    "debian_uploaded": null,
@@ -101466,13 +103680,6 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "team+homeassistant",
-     "version": "1.3.0-1"
-    },
-    {
-     "pocket": "Release",
      "published": "2026-11-26T00:46:34.792020+00:00",
      "signer": null,
      "uploader": "team+homeassistant",
@@ -107843,13 +110050,6 @@
    "publications": [
     {
      "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "gboutry",
-     "uploader": "himax16",
-     "version": "7.1.2-0ubuntu1"
-    },
-    {
-     "pocket": "Release",
      "published": "2026-11-26T00:46:36.062881+00:00",
      "signer": "seb128",
      "uploader": "maxgmr",
@@ -112068,22 +114268,6 @@
    "teams": [],
    "uploader": "team+homeassistant"
   },
-  "python-vigietools": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-22T23:43:04.452013+00:00",
-     "signer": null,
-     "uploader": "team+openstack",
-     "version": "0.0.13"
-    }
-   ],
-   "published": "2026-11-22T23:43:04.452013+00:00",
-   "teams": [],
-   "uploader": "team+openstack"
-  },
   "python-virtualenv": {
    "debian_uploaded": null,
    "package_sets": [
@@ -113394,7 +115578,7 @@
    "uploader": "jbicha"
   },
   "q2-alignment": {
-   "debian_uploaded": null,
+   "debian_uploaded": "2026-11-25T15:53:30+00:00",
    "package_sets": [],
    "publications": [
     {
@@ -114191,29 +116375,6 @@
    "teams": [],
    "uploader": "rikmills"
   },
-  "qtalicevision": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-24T12:41:09.857070+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "2025.1.8-1build1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-07T15:28:26.421812+00:00",
-     "signer": null,
-     "uploader": "debian-science-maintainers-lists",
-     "version": "2025.1.8-1"
-    }
-   ],
-   "published": "2026-11-24T12:41:09.857070+00:00",
-   "teams": [],
-   "uploader": "jbicha"
-  },
   "qtav": {
    "debian_uploaded": null,
    "package_sets": [
@@ -114233,13 +116394,6 @@
    ],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-18T11:05:12.440120+00:00",
-     "signer": "mitya57",
-     "uploader": "mitya57",
-     "version": "5.15.19+dfsg-8ubuntu2"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "ginggs",
@@ -114247,9 +116401,9 @@
      "version": "5.15.19+dfsg-2ubuntu2"
     }
    ],
-   "published": "2026-11-18T11:05:12.440120+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
-   "uploader": "mitya57"
+   "uploader": "ravi-sharma"
   },
   "qtcharts-opensource-src": {
    "debian_uploaded": null,
@@ -117785,29 +119939,6 @@
    "teams": [],
    "uploader": null
   },
-  "rawtherapee": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:10:24.449708+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "5.13-1build1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-10T03:44:22.405106+00:00",
-     "signer": null,
-     "uploader": "rinni",
-     "version": "5.13-1"
-    }
-   ],
-   "published": "2026-11-20T18:10:24.449708+00:00",
-   "teams": [],
-   "uploader": "jbicha"
-  },
   "rayforge": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -118826,22 +120957,6 @@
    "published": "2026-11-18T04:49:36.579199+00:00",
    "teams": [],
    "uploader": "apoikos-t"
-  },
-  "riseup-vpn": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "rikmills",
-     "uploader": "rikmills",
-     "version": "0.25.8+ds3-6build1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "rikmills"
   },
   "ristretto": {
    "debian_uploaded": null,
@@ -122120,22 +124235,6 @@
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
-  "rust-auto-impl": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-22T23:43:19.470374+00:00",
-     "signer": null,
-     "uploader": "dr",
-     "version": "1.4.0+ds-1"
-    }
-   ],
-   "published": "2026-11-22T23:43:19.470374+00:00",
-   "teams": [],
-   "uploader": "dr"
-  },
   "rust-axum": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -122207,22 +124306,6 @@
     }
    ],
    "published": "2026-11-03T18:14:58.847594+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-bcrypt-pbkdf": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-25T13:25:25.835726+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.11.0-1"
-    }
-   ],
-   "published": "2026-11-25T13:25:25.835726+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -127529,22 +129612,14 @@
    "package_sets": [],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:04:45.034088+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T10:19:46.486954+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "0.25.4-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "0.25.3-1"
     }
    ],
-   "published": "2026-11-09T02:04:45.034088+00:00",
+   "published": "2026-11-26T10:19:46.486954+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -129965,14 +132040,6 @@
    "package_sets": [],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:16:12.020271+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.3.1-1"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": null,
@@ -129980,23 +132047,7 @@
      "version": "2.3.0-1"
     }
    ],
-   "published": "2026-11-09T02:16:12.020271+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-minus": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-11-24T00:50:27.988767+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "5.8.0-1"
-    }
-   ],
-   "published": "2026-11-24T00:50:27.988767+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -130771,22 +132822,14 @@
    "package_sets": [],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:20:16.834329+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T04:08:12.420628+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "2.9.2-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.8.8-1"
     }
    ],
-   "published": "2026-11-09T02:20:16.834329+00:00",
+   "published": "2026-11-26T04:08:12.420628+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -130819,70 +132862,14 @@
    "package_sets": [],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:20:19.969599+00:00",
+     "pocket": "Release",
+     "published": "2026-11-26T04:08:13.495251+00:00",
      "signer": null,
      "uploader": "pkg-rust-maintainers-h",
      "version": "2.9.2-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.8.8-1"
     }
    ],
-   "published": "2026-11-09T02:20:19.969599+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-pest-meta": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:20:21.638040+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.9.2-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.8.8-1"
-    }
-   ],
-   "published": "2026-11-09T02:20:21.638040+00:00",
-   "teams": [],
-   "uploader": "pkg-rust-maintainers-h"
-  },
-  "rust-pest-vm": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:20:23.277390+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.9.2-1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "2.8.8-1"
-    }
-   ],
-   "published": "2026-11-09T02:20:23.277390+00:00",
+   "published": "2026-11-26T04:08:13.495251+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -134360,14 +136347,6 @@
    "package_sets": [],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:25:43.174610+00:00",
-     "signer": null,
-     "uploader": "pkg-rust-maintainers-h",
-     "version": "1.13.3-1"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": null,
@@ -134375,7 +136354,7 @@
      "version": "1.12.0-1"
     }
    ],
-   "published": "2026-11-09T02:25:43.174610+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pkg-rust-maintainers-h"
   },
@@ -135783,29 +137762,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "sail": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Proposed",
-     "published": "2026-11-20T18:10:40.625620+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "1.2.0-1build1"
-    },
-    {
-     "pocket": "Release",
-     "published": "2026-11-10T07:22:01.863817+00:00",
-     "signer": null,
-     "uploader": "sudip",
-     "version": "1.2.0-1"
-    }
-   ],
-   "published": "2026-11-20T18:10:40.625620+00:00",
-   "teams": [],
-   "uploader": "jbicha"
   },
   "sail-ocaml": {
    "debian_uploaded": null,
@@ -137737,6 +139693,24 @@
    "teams": [],
    "uploader": "ginggs"
   },
+  "simdutf": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-26T00:46:27.433258+00:00",
+     "signer": null,
+     "uploader": "lumin-9",
+     "version": "9.5.0-1"
+    }
+   ],
+   "published": "2026-11-26T00:46:27.433258+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "lumin-9"
+  },
   "simple-scan": {
    "debian_uploaded": null,
    "package_sets": [
@@ -138578,22 +140552,6 @@
    "teams": [],
    "uploader": null
   },
-  "snippy": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-med",
-     "version": "4.6.0+dfsg-6"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "debian-med"
-  },
   "snowball": {
    "debian_uploaded": null,
    "package_sets": [
@@ -138895,6 +140853,24 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "sos": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-11-25T21:10:32.102500+00:00",
+     "signer": null,
+     "uploader": "team+python",
+     "version": "4.12.1-3"
+    }
+   ],
+   "published": "2026-11-25T21:10:32.102500+00:00",
+   "teams": [
+    "ubuntu-server"
+   ],
+   "uploader": "team+python"
   },
   "sosreport": {
    "debian_uploaded": null,
@@ -140040,13 +142016,6 @@
    ],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-25T14:29:12.017386+00:00",
-     "signer": "enr0n",
-     "uploader": "mclemenceau",
-     "version": "7.8-1ubuntu1"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "rr",
@@ -140054,11 +142023,11 @@
      "version": "7.7-1ubuntu1"
     }
    ],
-   "published": "2026-11-25T14:29:12.017386+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [
     "ubuntu-server"
    ],
-   "uploader": "mclemenceau"
+   "uploader": "rr"
   },
   "squid-langpack": {
    "debian_uploaded": null,
@@ -141682,7 +143651,7 @@
    "uploader": null
   },
   "systemd": {
-   "debian_uploaded": "2026-11-05T16:06:52+00:00",
+   "debian_uploaded": null,
    "package_sets": [
     "core",
     "i386-whitelist"
@@ -141744,22 +143713,6 @@
    "published": null,
    "teams": [],
    "uploader": null
-  },
-  "systray-mdstat": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "seb128",
-     "uploader": "seb128",
-     "version": "1.2.0-2build1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "seb128"
   },
   "sysvinit": {
    "debian_uploaded": "2026-11-08T19:50:35+00:00",
@@ -142135,22 +144088,6 @@
     "ubuntu-security"
    ],
    "uploader": "team+pkg-security"
-  },
-  "tcpreplay": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-axhn",
-     "version": "4.5.4-1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "debian-axhn"
   },
   "tcpxtract": {
    "debian_uploaded": null,
@@ -143117,13 +145054,6 @@
    "package_sets": [],
    "publications": [
     {
-     "pocket": "Proposed",
-     "published": "2026-11-21T02:42:10.821035+00:00",
-     "signer": "jbicha",
-     "uploader": "jbicha",
-     "version": "1.9.6-7build2"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": "doko",
@@ -143131,9 +145061,9 @@
      "version": "1.9.6-7build1"
     }
    ],
-   "published": "2026-11-21T02:42:10.821035+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
-   "uploader": "jbicha"
+   "uploader": "doko"
   },
   "tillitis-tkey-device-signer": {
    "debian_uploaded": null,
@@ -144633,6 +146563,22 @@
    "published": null,
    "teams": [],
    "uploader": null
+  },
+  "twig-i18n-extension": {
+   "debian_uploaded": null,
+   "package_sets": [],
+   "publications": [
+    {
+     "pocket": "Release",
+     "published": "2026-10-15T14:40:17.721693+00:00",
+     "signer": null,
+     "uploader": "team+phpmyadmin",
+     "version": "5.0.2-1"
+    }
+   ],
+   "published": "2026-10-15T14:40:17.721693+00:00",
+   "teams": [],
+   "uploader": "team+phpmyadmin"
   },
   "twisted": {
    "debian_uploaded": "2026-10-07T15:36:48+00:00",
@@ -146291,14 +148237,6 @@
    ],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:35:00.876482+00:00",
-     "signer": null,
-     "uploader": "pitti",
-     "version": "0.19.9-1"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": null,
@@ -146306,7 +148244,7 @@
      "version": "0.19.8-1"
     }
    ],
-   "published": "2026-11-09T02:35:00.876482+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "pitti"
   },
@@ -146514,13 +148452,6 @@
    "debian_uploaded": null,
    "package_sets": [],
    "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-med",
-     "version": "1.5.1-1"
-    },
     {
      "pocket": "Release",
      "published": "2026-11-26T00:46:30.734416+00:00",
@@ -147989,10 +149920,27 @@
    "package_sets": [
     "ubuntu-desktop"
    ],
-   "publications": [],
-   "published": null,
-   "teams": [],
-   "uploader": null
+   "publications": [
+    {
+     "pocket": "Proposed",
+     "published": "2026-11-26T07:56:26.996784+00:00",
+     "signer": "jbicha",
+     "uploader": "jbicha",
+     "version": "0.84.1-1build2"
+    },
+    {
+     "pocket": "Release",
+     "published": "2026-10-31T14:42:41.289980+00:00",
+     "signer": "costamagnagianfranco",
+     "uploader": "costamagnagianfranco",
+     "version": "0.84.1-1build1"
+    }
+   ],
+   "published": "2026-11-26T07:56:26.996784+00:00",
+   "teams": [
+    "debcrafters-packages"
+   ],
+   "uploader": "jbicha"
   },
   "vtk7": {
    "debian_uploaded": null,
@@ -148754,22 +150702,6 @@
    "teams": [],
    "uploader": null
   },
-  "when": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": "ginggs",
-     "uploader": "ginggs",
-     "version": "1.1.45-1build1"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "ginggs"
-  },
   "whipper": {
    "debian_uploaded": null,
    "package_sets": [],
@@ -148952,14 +150884,6 @@
    "package_sets": [],
    "publications": [
     {
-     "auto_synced": true,
-     "pocket": "Proposed",
-     "published": "2026-11-09T02:41:54.147607+00:00",
-     "signer": null,
-     "uploader": "sudip",
-     "version": "5.2.2-1"
-    },
-    {
      "pocket": "Release",
      "published": "2026-10-15T14:40:17.721693+00:00",
      "signer": null,
@@ -148967,7 +150891,7 @@
      "version": "5.1.3-2"
     }
    ],
-   "published": "2026-11-09T02:41:54.147607+00:00",
+   "published": "2026-10-15T14:40:17.721693+00:00",
    "teams": [],
    "uploader": "sudip"
   },
@@ -149191,22 +151115,6 @@
     "debcrafters-packages"
    ],
    "uploader": "antoinelassagne"
-  },
-  "writer2latex": {
-   "debian_uploaded": null,
-   "package_sets": [],
-   "publications": [
-    {
-     "pocket": "Release",
-     "published": "2026-10-15T14:40:17.721693+00:00",
-     "signer": null,
-     "uploader": "debian-openoffice",
-     "version": "1.6.1-8"
-    }
-   ],
-   "published": "2026-10-15T14:40:17.721693+00:00",
-   "teams": [],
-   "uploader": "debian-openoffice"
   },
   "wsjtx-improved": {
    "debian_uploaded": null,
