@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
 
@@ -48,6 +48,10 @@ class RunReport:
     # Launchpad's status for that series ("Active Development", "Pre-release
     # Freeze"). None when the series was given on the command line.
     series_status: str | None = None
+    # Each succeeding source's detail (Ingester.detail), by source. Only a
+    # source whose events are accepted has its detail saved, so the detail
+    # never describes a run the log refused. Not part of the health record.
+    details: Mapping[str, Mapping[str, Any]] = field(default_factory=dict)
 
     @property
     def succeeded(self) -> tuple[Outcome, ...]:
@@ -97,6 +101,7 @@ def run(
     """
     outcomes: list[Outcome] = []
     events: list[Event] = []
+    details: dict[str, Mapping[str, Any]] = {}
 
     for ingester in ingesters:
         source = ingester.name
@@ -130,6 +135,9 @@ def run(
             continue
 
         events.extend(produced)
+        found = ingester.detail()
+        if found is not None:
+            details[source] = found
         outcomes.append(
             Outcome(source, ok=True, signals=len(signals), events=len(produced))
         )
@@ -140,4 +148,5 @@ def run(
         events=tuple(events),
         series=series,
         series_status=series_status,
+        details=details,
     )

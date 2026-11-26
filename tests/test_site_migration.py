@@ -153,6 +153,130 @@ class TestStuckRows:
         assert not row.synced
 
 
+class TestTestsFromTheDetail:
+    """The log names failing tests; the detail says where and how."""
+
+    def logged(self):
+        """A payload as written since the split: names only."""
+        sig = stuck(failing_tests=["curl"])
+        payload = {k: v for k, v in sig.payload.items() if k != "tests"}
+        return replay(
+            [
+                opened(
+                    Signal(
+                        kind=sig.kind,
+                        source_package=sig.source_package,
+                        series=sig.series,
+                        payload=payload,
+                    )
+                )
+            ]
+        )
+
+    def detail(self, version="1.0-2"):
+        return {
+            "packages": {
+                "libssh2": {
+                    "new_version": version,
+                    "tests": [
+                        {
+                            "test": "curl",
+                            "version": "8.0-1",
+                            "results": {"s390x": "regression", "amd64": "running"},
+                            "logs": {"s390x": "run1"},
+                        }
+                    ],
+                }
+            }
+        }
+
+    def test_results_come_from_the_detail(self):
+        [row] = stuck_rows(self.logged(), now=NOW, detail=self.detail())
+        [failing] = row.failing_tests
+        assert [(r.arch, r.run) for r in failing.results] == [("s390x", "run1")]
+        assert [r.arch for r in row.running_tests[0].results] == ["amd64"]
+
+    def test_detail_for_another_upload_is_not_used(self):
+        """It would show one upload's tests under another."""
+        [row] = stuck_rows(self.logged(), now=NOW, detail=self.detail("1.0-3"))
+        [failing] = row.failing_tests
+        assert failing.test == "curl"
+        assert failing.results == ()
+        assert failing.by_status() == [("regression", ())]
+        assert row.running_tests == ()
+
+    def test_without_detail_the_log_still_names_the_test(self):
+        [row] = stuck_rows(self.logged(), now=NOW)
+        assert [t.test for t in row.failing_tests] == ["curl"]
+
+    def test_blocking_rows_reach_the_test_owner_without_detail(self):
+        [blocking] = blocking_rows(stuck_rows(self.logged(), now=NOW))
+        assert blocking.test == "curl"
+
+    def test_a_blocking_row_without_detail_still_says_regression(self):
+        """Review on #28: the holding-back tables showed a blank status."""
+        [blocking] = blocking_rows(stuck_rows(self.logged(), now=NOW))
+        assert blocking.by_status() == [("regression", ())]
+
+    def test_a_stale_detail_does_not_hide_a_new_failure(self):
+        """Review on #28: the log says curl and wget fail; a detail left by
+        a run that failed to save its own knows only curl."""
+        sig = stuck(failing_tests=["curl", "wget"])
+        payload = {k: v for k, v in sig.payload.items() if k != "tests"}
+        state = replay(
+            [
+                opened(
+                    Signal(
+                        kind=sig.kind,
+                        source_package=sig.source_package,
+                        series=sig.series,
+                        payload=payload,
+                    )
+                )
+            ]
+        )
+        [row] = stuck_rows(state, now=NOW, detail=self.detail())
+        assert [t.test for t in row.failing_tests] == ["curl", "wget"]
+        assert all(t.results == () for t in row.failing_tests)
+
+    def test_a_stale_detail_does_not_bring_back_a_cleared_failure(self):
+        sig = stuck(failing_tests=[], reasons=["tests_running"])
+        payload = {k: v for k, v in sig.payload.items() if k != "tests"}
+        state = replay(
+            [
+                opened(
+                    Signal(
+                        kind=sig.kind,
+                        source_package=sig.source_package,
+                        series=sig.series,
+                        payload=payload,
+                    )
+                )
+            ]
+        )
+        [row] = stuck_rows(state, now=NOW, detail=self.detail())
+        assert row.failing_tests == ()
+
+    def test_an_old_format_log_line_takes_the_detail(self):
+        """Nothing in a payload written before the split to disagree with."""
+        [row] = stuck_rows(replay([opened(stuck())]), now=NOW, detail=self.detail())
+        assert [r.arch for r in row.running_tests[0].results] == ["amd64"]
+
+    def test_the_holding_page_names_the_status_without_detail(self, tmp_path):
+        owners = meta(curl=PackageMetadata(teams=("t",)))
+        build(
+            self.logged(),
+            healthy(),
+            owners,
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+        )
+        blocking = (tmp_path / "holding/teams/t.html").read_text()
+        blocking = blocking.split('id="blocking"')[1]
+        assert ">Regression<" in blocking
+
+
 class TestSettling:
     def test_a_young_upload_is_settling(self):
         [row] = stuck_rows(replay([opened(stuck(days=SETTLING_DAYS - 1))]), now=NOW)
@@ -680,7 +804,10 @@ def test_guide_links_name_their_target():
     assert "Ubuntu project docs" not in why
 
 
-def test_a_long_regression_list_folds_after_five(tmp_path):
+def test_a_long_regression_list_shows_five_and_links_the_rest(tmp_path):
+    """Only the package page lists every test: the same upload appears on
+    the board, its owners' pages and the work queues (26 Nov 2026: the
+    board was 28 MB of repeated test lines)."""
     many = [
         {"test": f"t{i}", "version": "1", "results": {"s390x": "regression"}}
         for i in range(10)
@@ -697,10 +824,17 @@ def test_a_long_regression_list_folds_after_five(tmp_path):
     )
     row = (tmp_path / "migration/teams/t.html").read_text().split('id="libssh2"')[1]
     row = row.split("</tr>")[0]
-    shown, folded = row.split("<details")
+    assert ">t4<" in row and ">t5<" not in row and ">t9<" not in row
+    assert "<details" not in row
+    more = row.split('class="cairn-more"')[1].split("</p>")[0]
+    assert 'href="../../packages/libssh2.html#why_held"' in more
+    assert ">5 more failing tests<" in more
+    assert "Needs approval" in row.split('class="cairn-more"')[1]
+
+    page = (tmp_path / "packages/libssh2.html").read_text()
+    shown, folded = page.split('id="why_held"')[1].split("<details", 1)
     assert ">t4<" in shown and ">t5<" not in shown
     assert "5 more failing tests" in folded and ">t9<" in folded
-    assert "Needs approval" in folded.split("</details>")[1]
 
 
 class TestUploaderIsTheChangelogPersonNotTheSponsor:
@@ -805,8 +939,8 @@ class TestRetryLinks:
         """Text carries the meaning; the icon is hidden from screen readers."""
         row = self.page(tmp_path).split('id="libssh2"')[1].split("</tr>")[0]
         link = row.split('class="cairn-retry"')[1].split("</a>")[0]
-        assert "</svg>rerun<" in link
-        assert 'aria-hidden="true"' in link
+        assert 'class="cairn-retry__icon" aria-hidden="true"></span>rerun<' in link
+        assert "<svg" not in link, "drawn once in cairn.css, not per link"
         assert "&#9851;" not in link and "♻" not in link
 
     def test_the_tests_owner_can_retry_too(self, tmp_path):
@@ -932,12 +1066,11 @@ class TestWhyColumn:
         line = row.split('class="cairn-tests"')[1].split("</li>")[0]
         assert line.count(">Test in progress<") == 1
         assert "p-chip--information" in line
-        # Still running: no log yet, so each architecture opens its history.
-        for arch in ("amd64", "arm64", "ppc64el"):
-            assert (
-                f'stonking/{arch}" target="_blank" rel="noopener noreferrer">{arch}<'
-                in line
-            )
+        # Still running: no log and nothing to rerun, so the architectures
+        # are text, and the test's history is the one link.
+        assert "amd64, arm64, ppc64el" in line
+        assert "stonking/amd64" not in line
+        assert ">history<" in line
         assert "cairn-retry" not in line
 
     def test_mixed_failures_get_a_tag_each_regressions_first(self, tmp_path):

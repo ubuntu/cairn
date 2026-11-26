@@ -1,11 +1,26 @@
-"""Append-only event log and its replay into current state."""
+"""Append-only event log and its replay into current state.
+
+The log is a directory of monthly files, data/signals/<YYYY-MM>.jsonl, each
+event in the month of its timestamp (UTC). Only the current month's file is
+ever appended to, so a finished month never changes again, and no file
+approaches GitHub's 100 MB limit on one file: measured 26 Nov 2026, about
+0.4 MB a day once test results moved to the detail, 0.8 MB on a busy one,
+so 12 to 25 MB a month. Replay reads every month in order, so splitting
+loses nothing. Nothing is ever deleted (AGENTS.md section 2: cairn
+remembers).
+
+The single file it replaced, data/signals.jsonl, is read first while it
+exists and never written to again. A path ending in .jsonl is one file,
+read and written as before, which tests use.
+"""
 
 from __future__ import annotations
 
 import json
+import re
 from collections.abc import Iterable, Iterator, Mapping
 from dataclasses import dataclass, field, replace
-from datetime import datetime
+from datetime import UTC, datetime
 from enum import StrEnum
 from pathlib import Path
 from typing import Any
@@ -113,25 +128,68 @@ class SignalState:
         return self.resolved_at is None
 
 
-def append(path: Path, events: Iterable[Event]) -> int:
-    events = list(events)
-    if not events:
-        return 0
+_MONTH_FILE = re.compile(r"^\d{4}-\d{2}\.jsonl$")
+
+
+def is_single_file(path: Path) -> bool:
+    return path.suffix == ".jsonl"
+
+
+def month_of(ts: datetime) -> str:
+    """The file an event belongs in. Naive timestamps are taken as UTC, as
+    the rest of the log writes them."""
+    if ts.tzinfo is not None:
+        ts = ts.astimezone(UTC)
+    return ts.strftime("%Y-%m")
+
+
+def files(path: Path) -> list[Path]:
+    """Every file of the log, oldest first.
+
+    Month names sort as dates, and each month only holds events from that
+    month, so reading them in name order replays events in the order they
+    were written.
+    """
+    if is_single_file(path):
+        return [path] if path.is_file() else []
+    found = []
+    legacy = path.with_suffix(".jsonl")
+    if legacy.is_file():
+        found.append(legacy)
+    if path.is_dir():
+        found += sorted(p for p in path.iterdir() if _MONTH_FILE.match(p.name))
+    return found
+
+
+def _write(path: Path, events: Iterable[Event]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as fh:
         for event in events:
             fh.write(event.to_json() + "\n")
+
+
+def append(path: Path, events: Iterable[Event]) -> int:
+    events = list(events)
+    if not events:
+        return 0
+    if is_single_file(path):
+        _write(path, events)
+        return len(events)
+    by_month: dict[str, list[Event]] = {}
+    for event in events:
+        by_month.setdefault(month_of(event.ts), []).append(event)
+    for month, found in sorted(by_month.items()):
+        _write(path / f"{month}.jsonl", found)
     return len(events)
 
 
 def read(path: Path) -> Iterator[Event]:
-    if not path.exists():
-        return
-    with path.open(encoding="utf-8") as fh:
-        for line in fh:
-            line = line.strip()
-            if line:
-                yield Event.from_json(line)
+    for part in files(path):
+        with part.open(encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if line:
+                    yield Event.from_json(line)
 
 
 def replay(events: Iterable[Event]) -> dict[str, SignalState]:

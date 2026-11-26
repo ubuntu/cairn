@@ -135,6 +135,8 @@ def ingest(logs, *extra, fetcher=None, connect=None):
             str(healthlog),
             "--packages",
             str(signals.parent / "packages.json"),
+            "--detail-dir",
+            str(signals.parent),
             *extra,
         ],
         fetcher=fetcher or StubFetcher(),
@@ -506,10 +508,69 @@ def build_site(logs, out):
             str(logs[1]),
             "--packages",
             str(logs[0].parent / "packages.json"),
+            "--detail-dir",
+            str(logs[0].parent),
             "--out",
             str(out),
         ]
     )
+
+
+class BritneyDown(StubFetcher):
+    def get(self, url: str) -> bytes:
+        if url == EXCUSES_URL:
+            raise OSError("britney's output unreachable")
+        return super().get(url)
+
+
+class TestMigrationDetail:
+    """What the log does not keep (test results per architecture), saved
+    whole after each successful run."""
+
+    def detail(self, logs):
+        return logs[0].parent / "migration.json"
+
+    def test_a_run_saves_it(self, logs):
+        ingest(logs, "--source", "migration")
+        found = json.loads(self.detail(logs).read_text())
+        assert len(found["packages"]) == FIXTURE_STUCK
+        assert found["series"] == "stonking"
+        assert found["packages"]["libssh2"]["tests"][0]["test"] == "curl"
+
+    def test_the_log_keeps_only_names(self, logs):
+        ingest(logs, "--source", "migration")
+        for event in logmod.read(logs[0]):
+            assert "tests" not in event.payload
+            assert "failing_tests" in event.payload
+
+    def test_a_failed_run_leaves_the_last_one(self, logs):
+        ingest(logs, "--source", "migration")
+        before = self.detail(logs).read_text()
+        ingest(logs, "--source", "migration", fetcher=BritneyDown())
+        assert self.detail(logs).read_text() == before
+
+    def test_a_dry_run_writes_none(self, logs):
+        ingest(logs, "--source", "migration", "--dry-run")
+        assert not self.detail(logs).exists()
+
+    def test_a_source_without_detail_writes_none(self, logs):
+        ingest(logs, "--source", "merges")
+        assert not (logs[0].parent / "merges.json").exists()
+
+    def test_the_page_shows_results_from_it(self, logs, tmp_path):
+        ingest(logs, "--source", "migration")
+        assert build_site(logs, tmp_path / "site") == 0
+        page = (tmp_path / "site" / "packages" / "libssh2.html").read_text()
+        # The architecture curl regressed on, which only the detail holds.
+        assert "s390x" in page
+
+    def test_the_page_still_names_failing_tests_without_it(self, logs, tmp_path):
+        ingest(logs, "--source", "migration")
+        self.detail(logs).unlink()
+        assert build_site(logs, tmp_path / "site") == 0
+        page = (tmp_path / "site" / "packages" / "libssh2.html").read_text()
+        assert "<strong>curl</strong>" in page
+        assert "s390x" not in page
 
 
 class TestSeriesRollover:
@@ -561,3 +622,29 @@ class TestSeriesRollover:
         page = (tmp_path / "site" / "index.html").read_text()
         assert "tumbling" in page
         assert "stonking" not in page
+
+
+class TestMonthlyLog:
+    """The default log is a directory of monthly files."""
+
+    def test_the_default_is_a_directory(self):
+        args = build_parser().parse_args(["ingest"])
+        assert args.signals.name == "signals"
+        assert args.signals.suffix == ""
+
+    def test_ingest_writes_this_months_file_and_build_reads_it(self, tmp_path):
+        logs = (tmp_path / "signals", tmp_path / "health.jsonl")
+        assert ingest(logs, "--source", "merges") == 0
+        month = datetime.now(UTC).strftime("%Y-%m")
+        assert [p.name for p in logs[0].iterdir()] == [f"{month}.jsonl"]
+        assert build_site(logs, tmp_path / "site") == 0
+        assert (tmp_path / "site" / "merges" / "index.html").exists()
+
+    def test_the_old_single_file_still_counts(self, tmp_path):
+        """Until it is deliberately removed, the old file is history: an
+        unchanged run on top of it appends nothing."""
+        old = (tmp_path / "signals.jsonl", tmp_path / "health.jsonl")
+        ingest(old, "--source", "merges")
+        new = (tmp_path / "signals", old[1])
+        ingest(new, "--source", "merges")
+        assert not new[0].exists()

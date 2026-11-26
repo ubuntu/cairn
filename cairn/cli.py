@@ -19,7 +19,7 @@ from pathlib import Path
 from cairn import paths
 from cairn.build import site
 from cairn.build.site import NotASiteDirectory
-from cairn.core import health
+from cairn.core import detail, health
 from cairn.core import log as logmod
 from cairn.core.reconcile import DEFAULT_MAX_RESOLVE_FRACTION
 from cairn.core.runner import Outcome, RunReport, run
@@ -82,6 +82,8 @@ def _record(report: RunReport, args: argparse.Namespace) -> None:
         return
     logmod.append(args.signals, report.events)
     health.append(args.health, report)
+    for source, found in report.details.items():
+        detail.save(args.detail_dir, source, found)
 
 
 def _emit(summary: str) -> None:
@@ -242,6 +244,7 @@ def cmd_build(
                 else health.latest_series_status(health.read(args.health))
             ),
             history=site.History.of(events),
+            migration_detail=detail.load(args.detail_dir, "migration"),
         )
     except NotASiteDirectory as exc:
         print(f"cairn: {exc}", file=sys.stderr)
@@ -271,6 +274,7 @@ def build_parser() -> argparse.ArgumentParser:
     ingest.add_argument("--signals", type=Path, default=paths.SIGNALS_LOG)
     ingest.add_argument("--health", type=Path, default=paths.HEALTH_LOG)
     ingest.add_argument("--packages", type=Path, default=paths.PACKAGES)
+    ingest.add_argument("--detail-dir", type=Path, default=paths.DETAIL_DIR)
     ingest.add_argument("--cache-dir", type=Path, default=paths.CACHE_DIR)
     ingest.add_argument(
         "--no-cache",
@@ -291,6 +295,7 @@ def build_parser() -> argparse.ArgumentParser:
     build.add_argument("--signals", type=Path, default=paths.SIGNALS_LOG)
     build.add_argument("--health", type=Path, default=paths.HEALTH_LOG)
     build.add_argument("--packages", type=Path, default=paths.PACKAGES)
+    build.add_argument("--detail-dir", type=Path, default=paths.DETAIL_DIR)
     build.add_argument("--out", type=Path, default=paths.SITE_DIR)
     build.add_argument("--series", help="default: the last ingest run's series")
     build.set_defaults(handler=cmd_build)

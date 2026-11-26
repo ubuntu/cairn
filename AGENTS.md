@@ -69,7 +69,7 @@ fragmentation cairn exists to remove.
 Static HTML out. No server.**
 
 ```
-ingest  →  reconcile  →  data/signals.jsonl  →  build SQLite  →  render static HTML
+ingest  →  reconcile  →  data/signals/  →  build SQLite  →  render static HTML
 (fetch,    (diff vs     (append-only,          (replay the      (Jinja + Vanilla)
  parse,     last run)    committed,             log)
  normalize)              source of truth)
@@ -123,6 +123,33 @@ this makes it diffable, reviewable and git-native. The archive team reached the
 same conclusion independently: `nbs.csv` is a `time,removable,total` trend series
 in 7.8 KB. Follow that precedent.
 
+**One file per month, nothing ever deleted.** The log is `data/signals/<YYYY-MM>.jsonl`
+(`cairn/core/log.py`), each event in the month of its timestamp, and replay
+reads every month in order. Only the current month is written, so finished
+months never change, and no file nears GitHub's 100 MB limit on one file,
+which the single `signals.jsonl` would have hit within a year. Old events are
+not rotated out: they are what `first_seen`, "stuck through N uploads", the
+history tables and the trends are made of, and git stores an append-only
+file cheaply (120 commits of the 84 MB file packed to 12.6 MB). If the total
+ever needs cutting, compact (a checkpoint of each signal's state, then drop
+the events before it) rather than delete, and only when the PostgreSQL
+trigger below is close. The old `data/signals.jsonl` is read first while it
+exists and is never written.
+
+**Detail beside the log, not in it.** The log is for what is worth
+remembering. Detail that changes from run to run without being history goes
+in `data/<source>.json` (`Ingester.detail()`, `cairn/core/detail.py`),
+overwritten whole after each successful run, like `packages.json`. A failed
+or refused run writes none, so the file is never newer than the source's
+signals. Pages prefer it and fall back to the log, so losing it loses no
+history. Measured 26 Nov 2026: the log was 84 MB after 59 days, and 59 MB of
+it was migration's per-architecture test results; 20,759 of 35,958 updates
+changed nothing else. Migration now logs which tests fail, by name, and keeps
+results, versions, log ids and britney's reason codes in
+`data/migration.json`; the same history replayed that way is 22 MB. Before
+adding a payload field, ask whether a reader would want its *history*. If
+not, it is detail.
+
 **SQLite as a build artifact, never committed.** Fully rebuildable by replaying
 the log, so there is no binary churn in git. Gives real SQL for the joins that
 make the unified view possible.
@@ -148,7 +175,7 @@ dependencies total).
 | Deferred | Build it when |
 | --- | --- |
 | FastAPI over the same SQLite file | a query must be live: full-text search, arbitrary per-developer filters |
-| PostgreSQL | `signals.jsonl` exceeds ~100 MB, or concurrent writers appear |
+| PostgreSQL | the log (`data/signals/`, every month together) exceeds ~100 MB, or concurrent writers appear |
 | Rust or Go rewrite | there is a running service with real traffic and a *measured* reason |
 
 Rust is **postponed, not rejected.** The project's eventual home may prefer
@@ -174,7 +201,21 @@ guess. At a few hundred bytes each the rendered payload is low single-digit MB,
 so the static approach holds with room to spare.
 
 The remaining unknown is history growth, not breadth: the append-only log grows
-with every state change, forever. Re-measure when it passes 50 MB. Grouping
+with every state change, forever. Re-measure when it passes 50 MB. It passed
+84 MB within two months (26 Nov 2026), almost all of it test-result churn,
+which is now detail (section 3); about 0.4 MB a day remains, 0.8 MB on a
+busy one, so 12 to 25 MB a month.
+
+The site is a separate budget: GitHub Pages publishes at most 1 GB. Measured
+26 Nov 2026 it was 317 MB, almost all of it the same test results repeated
+on the board, owner pages and work queues, and an inline rerun icon per
+link. Tables now list five tests and link the rest to the package page, the
+only page that lists every test; tests still running list their
+architectures as text; the icon is drawn once in CSS. The same data then
+rendered 179 MB. What still grows is the number of package pages, one per
+package ever in the log (8,616 on 26 Nov 2026, jumping when a new series
+opened with mass syncs): bounded by the archive's ~36,000 source packages,
+about 430 MB at 12 KB a page. Re-measure if the site passes 600 MB. Grouping
 pages are bounded — 51 distinct package set names and a few hundred teams — so
 pre-rendering one page per group stays cheap.
 
@@ -606,13 +647,17 @@ type hints throughout. Module docstrings should record *measured evidence*
 (status codes, sizes, latencies) rather than assertions. Mark every intentionally
 broad `except` with `# noqa: BLE001` and a reason.
 
-**Never hand-edit `data/signals.jsonl`.** It is append-only. Corrections are new
+**Never hand-edit the log (`data/signals/`).** It is append-only. Corrections are new
 events, not rewrites. Never edit `site/` — it is generated.
 
 **The log may be reset once, before v1 publishes.** The `needs_merge` ingester
 still diverges from its oracle on a handful of packages, so the first weeks of
 history record some things that were never true. Until the site is published,
-deleting `data/*.jsonl` and starting again is allowed; after that it is not.
+deleting the log (`data/signals.jsonl` and `data/signals/`) and starting
+again is allowed; after that it is not. Delete both together, between two
+ingest runs. Deleting only `data/signals.jsonl` once `data/signals/` exists
+keeps updates whose openings are gone, and replay drops them: measured on
+26 Nov 2026, 12 of 2,518 active signals survived.
 Record the date the log restarted here when it happens, so the append-only
 guarantee begins from a stated point rather than being quietly broken later.
 
@@ -623,7 +668,7 @@ CI run, because both append to the same files: that is what failed ingest run
 the one entry in the log not written by CI. Keep `data/` out of pull requests.
 It resolves the
 development series from Launchpad unless `--series` says otherwise, appends
-changes to `data/signals.jsonl` and the run outcome to `data/health.jsonl`, and
+changes to `data/signals/<YYYY-MM>.jsonl` and the run outcome to `data/health.jsonl`, and
 exits non-zero only when every source failed. `--dry-run` reports without
 writing. The schedule lives in `.github/workflows/ingest.yaml` and belongs to
 the repository: history cannot be backfilled, so a run that does not happen is

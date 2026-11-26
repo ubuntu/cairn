@@ -105,8 +105,8 @@
             Britney only dates the latest upload, so its own page says {{ days(d) if d is not none else "less" }}.
           </p>
           {% endif %}
-          <p class="u-no-margin--bottom"><strong>Why britney holds it</strong></p>
-          {{ m.why(stuck) }}
+          <p class="u-no-margin--bottom" id="why_held"><strong>Why britney holds it</strong></p>
+          {{ m.why(stuck, full=True) }}
           <p class="cairn-status-item__more"><a href="{{ root }}{{ stuck.page }}#{{ stuck.anchor }}">See it on the stuck in proposed board</a></p>
           {% else %}
           <p class="cairn-status-item__head is-ok"><i class="p-icon--success"></i> Not stuck in proposed</p>

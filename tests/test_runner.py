@@ -187,3 +187,34 @@ class TestMassResolveOverride:
         previous = state(seed("merges", [str(i) for i in range(10)]))
         report = run([StubIngester("merges", [])], previous, now=T1)
         assert report.failed
+
+
+class Detailed(StubIngester):
+    def detail(self):
+        return {"seen": [s.source_package for s in self._signals]}
+
+
+class TestDetail:
+    """Ingester.detail is saved only for a run the log accepted."""
+
+    def test_a_succeeding_source_carries_its_detail(self):
+        report = run([Detailed("migration", [sig("a")])], {}, now=T0)
+        assert report.details == {"migration": {"seen": ["a"]}}
+
+    def test_a_failed_source_carries_none(self):
+        failing = Detailed("migration", fail_on=OSError("down"))
+        assert run([failing], {}, now=T0).details == {}
+
+    def test_a_refused_source_carries_none(self):
+        """The guard refused its signals; its detail would describe them."""
+        previous = state(seed("migration", [str(i) for i in range(10)]))
+        report = run([Detailed("migration", [])], previous, now=T1)
+        assert report.stale_sources == ("migration",)
+        assert report.details == {}
+
+    def test_a_source_without_detail_carries_none(self):
+        assert run([StubIngester("merges", [sig("a")])], {}, now=T0).details == {}
+
+    def test_detail_is_not_part_of_the_health_record(self):
+        report = run([Detailed("migration", [sig("a")])], {}, now=T0)
+        assert "details" not in json.dumps(report.as_dict())

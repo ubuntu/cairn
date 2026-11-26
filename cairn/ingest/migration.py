@@ -25,6 +25,15 @@ Britney's floating-point age is not stored: it changes every run, and storing
 it would append one meaningless update per signal per run. The date it implies
 is stored instead, which is constant for one upload.
 
+The log keeps what is worth remembering; the rest is detail, overwritten each
+run (`detail()`, saved as data/migration.json). Measured on 26 Nov 2026, the
+log was 84 MB after 59 days, 59 MB of it per-architecture test results: 20,759
+of 35,958 updates changed nothing else, a test finishing on one more
+architecture or a retry with a new log id. So the log stores which tests fail,
+by name, and the detail stores how: each test's version, its result per
+architecture and the ids of its logs, with britney's own reason codes. Which
+tests fail is history; which architecture finished first is not.
+
 Every excuse britney can give in Ubuntu's configuration is carried, checked
 against britney2-ubuntu's source and the 20 Nov 2026 report (2,791 blocked
 items) for issue #18. Most come from structured fields. Three exist only as
@@ -211,12 +220,27 @@ def tests(entry: Mapping[str, Any]) -> list[dict[str, Any]]:
     return records
 
 
+def failing_tests(records: Iterable[Mapping[str, Any]]) -> list[str]:
+    """Names of the tests that fail on at least one architecture: what the
+    log remembers of `tests()`."""
+    return sorted(
+        {
+            str(r["test"])
+            for r in records
+            if r.get("test") and FAILED & set((r.get("results") or {}).values())
+        }
+    )
+
+
 def payload_tests(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     """The tests in a stored payload, whichever shape it was written in.
 
     The log is append-only, so every shape ever written is read forever.
     Payloads before 1 Oct 2026 10:00 UTC stored only regressions, as
-    "regressions": [{"test", "version", "arches"}].
+    "regressions": [{"test", "version", "arches"}]; payloads until the
+    detail split stored every test as "tests". Payloads since store only
+    "failing_tests", names, which this does not read: their results are in
+    the detail.
     """
     if "tests" in payload:
         return list(payload.get("tests") or ())
@@ -407,9 +431,7 @@ def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, A
         # Britney leaves out the component for main.
         "component": entry.get("component") or "main",
         "reasons": reasons(entry),
-        # Britney's own wording, for display and debugging only.
-        "britney_reasons": sorted(entry.get("reason") or []),
-        "tests": tests(entry),
+        "failing_tests": failing_tests(tests(entry)),
         "missing_builds": sorted(
             (entry.get("missing-builds") or {}).get("on-architectures") or []
         ),
@@ -439,6 +461,27 @@ def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, A
     return found
 
 
+def detail(entry: Mapping[str, Any]) -> dict[str, Any]:
+    """What the log does not keep (see the module docstring)."""
+    return {
+        "new_version": entry.get("new-version"),
+        "tests": tests(entry),
+        # Britney's own reason codes, for display and debugging only.
+        "britney_reasons": sorted(entry.get("reason") or []),
+    }
+
+
+def arch_only_detail(entries: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
+    found = [detail(entry) for entry in entries]
+    merged = dict(found[0])
+    for more in found[1:]:
+        merged["tests"] = _merge_tests(merged["tests"], more["tests"])
+        merged["britney_reasons"] = sorted(
+            {*merged["britney_reasons"], *more["britney_reasons"]}
+        )
+    return merged
+
+
 def arch_only_payload(
     entries: Iterable[Mapping[str, Any]], generated: datetime | None
 ) -> dict[str, Any]:
@@ -456,8 +499,6 @@ def arch_only_payload(
         for key, value in more.items():
             if key not in merged:
                 merged[key] = value
-            elif key == "tests":
-                merged[key] = _merge_tests(merged[key], value)
             elif key == "depends_issues":
                 merged[key] = _merge_depends_issues(merged[key], value)
             elif key == "old_binaries":
@@ -518,11 +559,10 @@ def referenced_packages(signal: Signal) -> set[str]:
     """
     if signal.kind is not Kind.MIGRATION_BLOCKED:
         return set()
-    tests = {
-        r["test"]
-        for r in payload_tests(signal.payload)
-        if r.get("test") and FAILED & set((r.get("results") or {}).values())
-    }
+    tests = set(
+        signal.payload.get("failing_tests")
+        or failing_tests(payload_tests(signal.payload))
+    )
     awaited = set(signal.payload.get("waits_for") or ())
     return (tests | awaited) - {signal.source_package}
 
@@ -556,6 +596,10 @@ class MigrationIngester(Ingester[Excuses]):
         self.fetcher = fetcher
         self.series = series
         self._now = now
+        self._detail: dict[str, Any] | None = None
+
+    def detail(self) -> dict[str, Any] | None:
+        return self._detail
 
     def fetch(self) -> Excuses:
         return parse_document(decompress(self.fetcher.get(EXCUSES_URL), EXCUSES_URL))
@@ -600,11 +644,14 @@ class MigrationIngester(Ingester[Excuses]):
             log.info("migration: skipped %d removal item(s)", skipped)
 
         signals = []
+        packages: dict[str, dict[str, Any]] = {}
         for name in [*whole, *(n for n in by_arch if n not in whole)]:
             if name in whole:
                 found = payload(whole[name], raw.generated)
+                packages[name] = detail(whole[name])
             else:
                 found = arch_only_payload(by_arch[name], raw.generated)
+                packages[name] = arch_only_detail(by_arch[name])
             signals.append(
                 Signal(
                     kind=Kind.MIGRATION_BLOCKED,
@@ -616,4 +663,9 @@ class MigrationIngester(Ingester[Excuses]):
                     url=f"https://launchpad.net/ubuntu/+source/{name}",
                 )
             )
+        self._detail = {
+            "generated": raw.generated.isoformat(),
+            "series": self.series,
+            "packages": dict(sorted(packages.items())),
+        }
         return signals
