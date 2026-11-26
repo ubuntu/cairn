@@ -105,9 +105,9 @@
             Britney only dates the latest upload, so its own page says {{ days(d) if d is not none else "less" }}.
           </p>
           {% endif %}
-          <p class="u-no-margin--bottom" id="why_held"><strong>Why britney holds it</strong></p>
+          <p class="u-no-margin--bottom" id="why_held"><strong>Why Britney Holds It</strong></p>
           {{ m.why(stuck, full=True) }}
-          <p class="cairn-status-item__more"><a href="{{ root }}{{ stuck.page }}#{{ stuck.anchor }}">See it on the stuck in proposed board</a></p>
+          <p class="cairn-status-item__more"><a href="{{ root }}{{ stuck.page }}#{{ stuck.anchor }}">See it in the proposed queue</a></p>
           {% else %}
           <p class="cairn-status-item__head is-ok"><i class="p-icon--success"></i> Not stuck in proposed</p>
           {% endif %}
@@ -184,7 +184,7 @@
       {{ g.definitions(g.HOLDING_TERMS + ["settling", "up_for_grabs", "excuse_bug", "nbs", "removable", "needs_nbs"]) }}
     </div>
     <aside class="col-4 col-medium-2 cairn-side">
-      <h2 class="p-heading--5">Who looks after it</h2>
+      <h2 class="p-heading--5">Who Looks After It</h2>
       <table class="cairn-owners-table">
         <caption class="u-hide">Who looks after {{ package.name }}, on each ownership axis</caption>
         <tbody>

@@ -121,8 +121,8 @@
       </p>
       <nav class="p-tabs" aria-label="NBS board">
         <ul class="p-tabs__list">
-          <li class="p-tabs__item"><a class="p-tabs__link" href="#still_needed" data-tab="still_needed"><span>Still needed ({{ needed | length }})</span></a></li>
-          <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#can_remove" data-tab="can_remove"{{ g.tip("removable") }}><span>Can be removed ({{ removable | length }})</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#still_needed" data-tab="still_needed"><span>Still Needed ({{ needed | length }})</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#can_remove" data-tab="can_remove"{{ g.tip("removable") }}><span>Can Be Removed ({{ removable | length }})</span></a></li>
           <li class="p-tabs__item"><a class="p-tabs__link" href="#board_stats" data-tab="board_stats">Statistics</a></li>
         </ul>
       </nav>
@@ -134,7 +134,7 @@
   <div class="cairn-tab-panel" id="still_needed">
     <div class="row">
       <div class="col-12">
-        <h2 class="p-heading--4 cairn-tab-panel__title">Still needed</h2>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Still Needed</h2>
         {% if needed %}{{ nbs_table(needed, "NBS binaries that something still needs") }}
         {% else %}<p>Nothing needs an NBS binary.</p>{% endif %}
       </div>
@@ -143,7 +143,7 @@
   <div class="cairn-tab-panel" id="can_remove">
     <div class="row">
       <div class="col-12">
-        <h2 class="p-heading--4 cairn-tab-panel__title">Can be removed</h2>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Can Be Removed</h2>
         {% if removable %}{{ nbs_table(removable, "NBS binaries that nothing needs") }}
         {% else %}<p>None right now: every NBS binary is still needed.</p>{% endif %}
       </div>
@@ -160,7 +160,7 @@
     </div>
     <div class="row">
       <div class="col-7 col-medium-6">
-        <h2 class="p-heading--5">NBS binaries over time</h2>
+        <h2 class="p-heading--5">NBS Binaries Over Time</h2>
         {{ ui.trend(nbs_trend, "binaries") }}
       </div>
     </div>

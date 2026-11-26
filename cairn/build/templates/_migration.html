@@ -16,6 +16,8 @@
   "block_bug": "Blocked by a bug",
   "rc_bug": "Release-critical bug",
   "tests_running": "Tests still running",
+  "breaks_installs": "Tried by britney, then skipped",
+  "will_attempt": "Ready, outcome not known",
   "other": "Other",
 } %}
 {% set GUIDES = {
@@ -29,6 +31,8 @@
   "block_bug": DOCS ~ "contributors/bug-triage/bug-tags/#release-specific",
   "rc_bug": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/",
   "tests_running": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/",
+  "breaks_installs": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/#parse-the-update-output-txt-file",
+  "will_attempt": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/#no-reason-still-stuck",
   "other": DOCS ~ "how-ubuntu-is-made/processes/proposed-migration/issues-preventing-migration/",
 } %}
 
@@ -45,6 +49,8 @@
   "tests_running": "Proposed migration",
   "old_binaries": "Removals of binary packages",
   "block_bug": "The block-proposed bug tag",
+  "breaks_installs": "Parse the update_output.txt file",
+  "will_attempt": "No reason: still stuck?",
 } %}
 
 {# Why a package is uninstallable, by the kind the ingester recorded: a
@@ -200,10 +206,9 @@
 <ul class="cairn-tests">{{ test_lines(tests[:FOLD], row) }}</ul>
 {% if tests | length > FOLD %}
 {% if full %}
-<details class="cairn-more">
-  <summary>{{ tests | length - FOLD }} more {{ what }}</summary>
-  <ul class="cairn-tests">{{ test_lines(tests[FOLD:], row) }}</ul>
-</details>
+{% call more_less(tests | length - FOLD, what) %}
+<ul class="cairn-tests">{{ test_lines(tests[FOLD:], row) }}</ul>
+{% endcall %}
 {% else %}
 <p class="cairn-more"><a href="{{ root }}{{ package_href(row.package) }}#why_held">{{ tests | length - FOLD }} more {{ what }}</a><span class="u-off-screen"> of {{ row.package }}</span></p>
 {% endif %}
@@ -239,6 +244,68 @@
 {% endmacro %}
 
 {# full: every test, on the package page. Tables list FOLD. #}
+{# A package an attempt would break: its stuck row if it has one, its page
+   if Cairn has one, Launchpad otherwise. #}
+{% macro package_link(name) -%}
+{% if name in stuck_by_package %}<a href="{{ root }}{{ stuck_by_package[name].page }}#{{ stuck_by_package[name].anchor }}">{{ name }}</a>
+{%- elif name in packages %}<a href="{{ root }}{{ package_href(name) }}">{{ name }}</a>
+{%- else %}{{ ext("https://launchpad.net/ubuntu/+source/" ~ name, name) }}{% endif %}
+{%- endmacro %}
+
+{# "Show N more" that turns into "Show less" once open, without
+   JavaScript: both labels are in the summary and cairn.css shows one.
+   The rest of a long list folds under it, so a package page is not one
+   long list (an upload can break 800 packages). #}
+{% macro more_less(count, what) %}
+<details class="cairn-expand">
+  <summary><span class="cairn-expand__more">Show {{ count }} more {{ what }}</span><span class="cairn-expand__less">Show less</span></summary>
+  {{ caller() }}
+</details>
+{% endmacro %}
+
+{# One broken source: its link, and how many of its binaries. #}
+{% macro broken_item(source, names) -%}
+<li>{% if source %}{{ package_link(source) }}{% if names | length > 1 %} <span class="cairn-test-version">({{ names | length }} binaries)</span>{% endif %}
+{%- else %}{{ names | join(", ") }} <span class="u-text--muted">(source not known)</span>{% endif %}</li>
+{%- endmacro %}
+
+{# What britney's run log says it did with a candidate. The excuses said
+   "Will attempt migration", which reads as done; this says what happened,
+   as a list a reader can scan. full: the package page, where the rest of
+   the list folds under "Show more"; elsewhere it links there. #}
+{% macro attempt_lines(row, full=False) %}
+{% for a in row.attempts %}
+<div class="cairn-attempt">
+  {% if a.error %}
+  <p class="u-no-margin--bottom">Britney refused to try it: <code>{{ a.error }}</code></p>
+  {% else %}
+  {% set others = a.others(row.package) %}
+  {% set own = a.own(row.package) %}
+  <p class="u-no-margin--bottom">
+    Britney tried to migrate it{% if a.together %} together with {{ a.together | join(", ") }}{% endif %}
+    and backed out. On <strong>{{ a.arch }}</strong>,
+    {% if others %}these would stop installing:{% else %}its own binaries would not install:{% endif %}
+  </p>
+  <ul class="cairn-tests">
+    {% for source, names in others[:FOLD] %}{{ broken_item(source, names) }}{% endfor %}
+    {% if own and others %}<li>its own binaries: {{ own | join(", ") }}</li>
+    {% elif own %}<li>{{ own | join(", ") }}</li>{% endif %}
+  </ul>
+  {% if others | length > FOLD %}
+  {% if full %}
+  {% call more_less(others | length - FOLD, "packages") %}
+  <ul class="cairn-tests">{% for source, names in others[FOLD:] %}{{ broken_item(source, names) }}{% endfor %}</ul>
+  {% endcall %}
+  {% else %}
+  <p class="cairn-more"><a href="{{ root }}{{ package_href(row.package) }}#why_held">{{ others | length - FOLD }} more</a><span class="u-off-screen"> packages {{ row.package }} would break</span></p>
+  {% endif %}
+  {% endif %}
+  {% endif %}
+</div>
+{% endfor %}
+<p class="cairn-more"><a href="{{ root }}migration/update-output.html#how_to_read">Learn more</a><span class="u-off-screen"> about britney's update output</span></p>
+{% endmacro %}
+
 {% macro why(row, full=False) %}
 <div class="cairn-reasons">
   {% for reason in row.reasons %}
@@ -267,6 +334,15 @@
     {{ test_list(row.running_tests, row, "tests in progress", full) }}
     {% elif reason == "uninstallable" and row.depends_issues %}
     {{ depends_list(row.depends_issues) }}
+    {% elif reason == "breaks_installs" %}
+    {% if row.attempts %}{{ attempt_lines(row, full) }}
+    {% else %}<p class="cairn-attempt u-no-margin--bottom">Britney tried to migrate it and backed out: packages in {{ series }} would stop installing. <a href="{{ root }}migration/update-output.html#how_to_read">Learn more</a></p>{% endif %}
+    {% elif reason == "will_attempt" %}
+    {# Three ways to get here (candidate_reason): no update output from the
+       same run, a candidate the output does not mention, or an attempt
+       britney refused with an error, which row.attempts holds. #}
+    {% if row.attempts %}{{ attempt_lines(row, full) }}
+    {% else %}<p class="cairn-attempt u-no-margin--bottom">Britney says it will attempt the migration. Its update output has no record of the attempt, so what happened is not known. <a href="{{ root }}migration/update-output.html#how_to_read">Learn more</a></p>{% endif %}
     {% elif reason == "waiting" and row.waits_for %}
     <ul class="cairn-tests">
       {% for name in row.waits_for %}
@@ -308,11 +384,14 @@
         data-f-component="{{ row.component or 'unknown' }}"
         data-f-reason="{{ row.reasons | join(' ') }}"
         data-f-origin="{{ row.origin }}"
-        data-f-history="{{ 'recent' if row.package in recent_stuck }} {{ 'reuploaded' if row.uploads > 1 }} {{ 'returning' if row.occurrences > 1 }}"
+        data-f-history="{{ 'recent' if row.package in recent_stuck }} {{ 'reuploaded' if row.uploads > 1 }} {{ 'returning' if row.occurrences > 1 }} {{ 'settling' if row.settling(now) else 'settled' }}"
         data-f-q="{{ row.package }} {{ row.uploader or '' }} {{ row.requester or '' }} {{ '+1 maintenance' if row.synced }} {{ row.teams | join(' ') }} {{ row.package_sets | join(' ') }}">
       <td data-heading="Package" class="cairn-package" data-sort="{{ row.package }}">
         <a href="{{ root }}{{ package_href(row.package) }}">{{ row.package }}</a>
         {{ merge_chip(row, group) }}
+        {% if row.settling(now) %}
+        <span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("settling") }}><span class="p-chip__value">still settling</span></span>
+        {% endif %}
         {% if row.uploads > 1 %}
         <span class="p-chip--caution is-readonly is-inline is-dense cairn-term"{{ g.tip("uploads") }}>
           <span class="p-chip__value">{{ row.uploads }} uploads</span>
@@ -481,48 +560,14 @@
 </table>
 {% endmacro %}
 
-{# A stuck list as two tabs: uploads past settling, and those still
-   settling. Settling uploads used to be folded under the table, where
-   people did not find them. The caller supplies what sits between the
-   tabs and the panels (the filter, the glossary), so one filter serves
-   both. Panel ids contain "_", which no package name (a row id) can. #}
-{# Each tab names its count; with a filter on, cairn.js keeps it to the
-   rows that match, so the tab and its list never disagree. The label is
-   one span: Vanilla's tab link is a flex box with a gap, which would
-   otherwise space out "Stuck (", the number and ")". #}
-{% macro stuck_tabs(settled, settling, group, caption) %}
-<div class="cairn-tabbed" data-tabs>
-  {# What sets the two tabs apart, before the reader picks one. #}
-<p class="cairn-tabs-intro u-text--muted">
-  <strong>Stuck</strong>: britney has held the upload more than
-  {{ settling_days }} days.<br />
-  <strong>Still settling</strong>: uploaded in the
-  last {{ settling_days }} days, so the uploader is probably still on it.
-</p>
-  <nav class="p-tabs" aria-label="Stuck or still settling">
-    <ul class="p-tabs__list">
-      <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck_list" data-tab="stuck_list"><span>Stuck (<span data-tab-count="stuck_list">{{ settled | length }}</span>)</span></a></li>
-      <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#still_settling" data-tab="still_settling"{{ g.tip("settling") }}><span>Still settling (<span data-tab-count="still_settling">{{ settling | length }}</span>)</span></a></li>
-    </ul>
-  </nav>
+{# A stuck list: every upload britney holds, longest first, so uploads in
+   their first days come last, marked "still settling". They were a tab of
+   their own until Nov 2026, which split one question over two lists. The
+   caller supplies what sits above the table (the filter, the glossary). #}
+{% macro stuck_list(rows, group, caption) %}
+<div data-filter-group>
   {{ caller() }}
-  <div class="cairn-tab-panel" id="stuck_list" data-filter-group>
-    <h3 class="p-heading--5 cairn-tab-panel__title">Stuck</h3>
-    {% if settled %}
-    {{ stuck_table(settled, group, caption) }}
-    {% else %}
-    <p>Nothing has been stuck for more than {{ settling_days }} days.</p>
-    {% endif %}
-    <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
-  </div>
-  <div class="cairn-tab-panel" id="still_settling" data-filter-group>
-    <h3 class="p-heading--5 cairn-tab-panel__title">Still settling</h3>
-    {% if settling %}
-    {{ stuck_table(settling, group, caption ~ ", still settling") }}
-    {% else %}
-    <p>Nothing uploaded in the last {{ settling_days }} days is held.</p>
-    {% endif %}
-    <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
-  </div>
+  {{ stuck_table(rows, group, caption) }}
+  <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
 </div>
 {% endmacro %}

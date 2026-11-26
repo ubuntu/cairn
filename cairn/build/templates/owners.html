@@ -2,7 +2,7 @@
 {% import "_migration.html" as m with context %}
 {% import "_ui.html" as ui with context %}
 {% import "_glossary.html" as g with context %}
-{% block title %}Cairn | Teams and people{% endblock %}
+{% block title %}Cairn | Teams and People{% endblock %}
 
 {# Every owner as a name and a chip per kind of work they have, each chip
    opening that tab of their pages. Replaces three wide tables whose
@@ -41,7 +41,7 @@
 <section class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
-      <h1 class="p-heading--2">Teams and people</h1>
+      <h1 class="p-heading--2">Teams and People</h1>
       <p>
         Everyone Cairn routes work to. A package can be yours three ways,
         kept apart because they cover different packages even when they
@@ -55,10 +55,10 @@
   {% include "_stale.html" %}
 </section>
 
-{{ axis(owners.teams, "Subscribed teams",
+{{ axis(owners.teams, "Subscribed Teams",
    "Who gets the bug mail. Teams also see the uploads their packages' tests are holding back.", "teams") }}
 
-{{ axis(owners.sets, "Package sets",
+{{ axis(owners.sets, "Package Sets",
    "Upload rights, keyed by name and series.", "sets") }}
 
 {{ axis(owners.uploaders, "Uploaders",

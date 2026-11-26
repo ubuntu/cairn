@@ -8,7 +8,7 @@
 <section class="p-strip is-shallow cairn-hero">
   <div class="row">
     <div class="col-12">
-      <h1 class="p-heading--2 u-no-margin--bottom">Ubuntu archive health, in one place</h1>
+      <h1 class="p-heading--2 u-no-margin--bottom">Ubuntu Archive Health, in One Place</h1>
       {{ ui.series_line() }}
       {# The idea, not an inventory: a list of boards or sources here would
          go stale with every page added. #}
@@ -25,7 +25,7 @@
 <section class="p-strip is-shallow u-no-padding--top">
   <div class="row">
     <div class="col-12">
-      <h2 class="p-heading--4">Where to start</h2>
+      <h2 class="p-heading--4">Where to Start</h2>
     </div>
   </div>
   {# One card per way in, each to a different place: a package, an owner,
@@ -35,7 +35,7 @@
   <div class="row cairn-questions">
     <div class="col-4 col-medium-2">
       <div class="p-card cairn-question">
-        <h3 class="p-heading--5">A package</h3>
+        <h3 class="p-heading--5">A Package</h3>
         <p>Its merge, why britney holds its upload, what it holds back, who looks after it, and its history.</p>
         {{ ui.jump(root ~ "packages/index.html", "package-names", "Find a package", "Source package name, e.g. glibc") }}
         {{ ui.package_options("package-names") }}
@@ -44,7 +44,7 @@
     </div>
     <div class="col-4 col-medium-2">
       <div class="p-card cairn-question">
-        <h3 class="p-heading--5">Your work</h3>
+        <h3 class="p-heading--5">Your Work</h3>
         <p>For a team, package set or uploader: what to merge, what is stuck, and whose uploads it is holding back.</p>
         {{ ui.jump(root ~ "owners/index.html", "owner-names", "Find your team, package set or yourself", "e.g. ubuntu-server, core, seb128") }}
         {{ ui.owner_options("owner-names") }}
@@ -53,7 +53,7 @@
     </div>
     <div class="col-4 col-medium-2">
       <div class="p-card cairn-question">
-        <h3 class="p-heading--5">Something to pick up</h3>
+        <h3 class="p-heading--5">Something to Pick Up</h3>
         <p>Work that has waited: stuck Debian syncs, long-stuck uploads and smaller merges. Ask the uploader on the row before you start.</p>
         <p><a href="{{ root }}work/index.html">Up for grabs</a></p>
         <p class="u-no-margin--bottom">On a +1 shift? <a href="{{ root }}work/plus-one.html">The +1 Maintenance queue</a></p>
@@ -65,7 +65,7 @@
 <section class="p-strip is-shallow u-no-padding--top">
   <div class="row">
     <div class="col-12">
-      <h2 class="p-heading--4">The boards</h2>
+      <h2 class="p-heading--4">The Boards</h2>
     </div>
   </div>
   <div class="row">
@@ -83,7 +83,7 @@
     </div>
     <div class="col-6 col-medium-3">
       <div class="p-card">
-        <h3 class="p-heading--4"><a href="{{ root }}migration/index.html">Stuck in proposed</a></h3>
+        <h3 class="p-heading--4"><a href="{{ root }}migration/index.html">Stuck in Proposed</a></h3>
         <p class="p-heading--2 u-no-margin--bottom">{% if migration.total %}<a class="cairn-stat__link" href="{{ root }}migration/index.html#the_list">{{ migration.total }}</a>{% else %}0{% endif %}</p>
         <p class="u-text--muted">
           upload{{ '' if migration.total == 1 else 's' }} britney will not
@@ -114,7 +114,7 @@
 <section class="p-strip is-shallow u-no-padding--top">
   <div class="row">
     <div class="col-12">
-      <h2 class="p-heading--4">What only Cairn shows</h2>
+      <h2 class="p-heading--4">What Only Cairn Shows</h2>
       <ul class="p-list--divided">
         <li class="p-list__item">
           <strong>It remembers.</strong> The sites Cairn collects from show

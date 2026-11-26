@@ -1,0 +1,888 @@
+Package: libnet-dns-sec-perl
+Architecture: s390x
+Version: 1.28-1build1
+
+Package: librust-abscissa-core-dev
+Source: rust-abscissa-core
+Architecture: s390x
+Version: 0.9.0-4
+
+Package: librust-actix-multipart-dev
+Source: rust-actix-multipart
+Architecture: s390x
+Version: 0.8.5+ds-1
+
+Package: librust-actix-rt-dev
+Source: rust-actix-rt
+Architecture: s390x
+Version: 2.15.0+ds-1
+
+Package: librust-actix-server-dev
+Source: rust-actix-server
+Architecture: s390x
+Version: 2.10.0-1
+
+Package: librust-actix-tls-dev
+Source: rust-actix-tls
+Architecture: s390x
+Version: 3.6.1+ds-1
+
+Package: librust-actix-web-dev
+Source: rust-actix-web
+Architecture: s390x
+Version: 4.15.0-1
+
+Package: librust-ambient-id-dev
+Source: rust-ambient-id
+Architecture: s390x
+Version: 0.0.11-4
+
+Package: librust-ammonia-dev
+Source: rust-ammonia
+Architecture: s390x
+Version: 4.2.3-1
+
+Package: librust-aom-sys-dev
+Source: rust-aom-sys
+Architecture: s390x
+Version: 0.3.3-8
+
+Package: librust-apr-dev
+Source: rust-apr
+Architecture: s390x
+Version: 0.4.7-1
+
+Package: librust-apr-sys-dev
+Source: rust-apr-sys
+Architecture: s390x
+Version: 0.2.4-2
+
+Package: librust-astral-async-zip-dev
+Source: rust-astral-async-zip
+Architecture: s390x
+Version: 0.0.22-2
+
+Package: librust-bacon-dev
+Source: rust-bacon
+Architecture: s390x
+Version: 3.26.0+ds-1
+
+Package: librust-bat-dev
+Source: rust-bat
+Architecture: s390x
+Version: 0.26.1+ds-2
+
+Package: librust-bindgen-dev
+Source: rust-bindgen
+Architecture: s390x
+Version: 0.72.1-5
+
+Package: librust-broot-dev
+Source: rust-broot
+Architecture: s390x
+Version: 1.60.2+ds-1
+
+Package: librust-brush-parser-dev
+Source: rust-brush-parser
+Architecture: s390x
+Version: 0.4.0-2
+
+Package: librust-built-dev
+Source: rust-built
+Architecture: s390x
+Version: 0.8.1-4
+
+Package: librust-cached-dev
+Source: rust-cached
+Architecture: s390x
+Version: 4.0.2-1
+
+Package: librust-calamine-dev
+Source: rust-calamine
+Architecture: s390x
+Version: 0.34.0+ds-1
+
+Package: librust-cargo-dev
+Source: rust-cargo
+Architecture: s390x
+Version: 0.99.0-1
+
+Package: librust-cargo-test-support-dev
+Source: rust-cargo-test-support
+Architecture: s390x
+Version: 0.11.4-1
+
+Package: librust-cddl-dev
+Source: rust-cddl
+Architecture: s390x
+Version: 0.10.7-1
+
+Package: librust-chic-dev
+Source: rust-chic
+Architecture: s390x
+Version: 1.2.2-3
+
+Package: librust-compact-str-dev
+Source: rust-compact-str
+Architecture: s390x
+Version: 0.10.0-2
+
+Package: librust-crates-io-dev
+Source: rust-crates-io
+Architecture: s390x
+Version: 0.41.1-1
+
+Package: librust-cryptoki-dev
+Source: rust-cryptoki
+Architecture: s390x
+Version: 0.12.1-1
+
+Package: librust-cryptoki-sys-dev
+Source: rust-cryptoki-sys
+Architecture: s390x
+Version: 0.5.0-2
+
+Package: librust-css-inline-dev
+Source: rust-css-inline
+Architecture: s390x
+Version: 0.22.0-1
+
+Package: librust-cssparser-color-dev
+Source: rust-cssparser-color
+Architecture: s390x
+Version: 0.6.0-1
+
+Package: librust-cssparser-dev
+Source: rust-cssparser
+Architecture: s390x
+Version: 0.38.0-1
+
+Package: librust-cursive-core-dev
+Source: rust-cursive-core
+Architecture: s390x
+Version: 0.4.7-1
+
+Package: librust-czkawka-core-dev
+Source: rust-czkawka-core
+Architecture: s390x
+Version: 12.0.2-3
+
+Package: librust-debcargo-dev
+Source: rust-debcargo
+Architecture: s390x
+Version: 2.8.4-5
+
+Package: librust-debian-workspace-dev
+Source: debian-codemods
+Architecture: s390x
+Version: 0.189
+
+Package: librust-docx-rs-dev
+Source: rust-docx-rs
+Architecture: s390x
+Version: 0.4.20-2
+
+Package: librust-doxx-dev
+Source: rust-doxx
+Architecture: s390x
+Version: 0.1.4+ds-1
+
+Package: librust-dromedary-dev
+Source: rust-dromedary
+Architecture: s390x
+Version: 0.1.11-1
+
+Package: librust-dua-cli-dev
+Source: dua-cli
+Architecture: s390x
+Version: 2.34.0-3
+
+Package: librust-erbium-core-dev
+Source: rust-erbium-core
+Architecture: s390x
+Version: 1.0.8-5
+
+Package: librust-fraction-dev
+Source: rust-fraction
+Architecture: s390x
+Version: 0.15.3-3
+
+Package: librust-garde-dev
+Source: rust-garde
+Architecture: s390x
+Version: 0.23.0-1
+
+Package: librust-get-size2-dev
+Source: rust-get-size2
+Architecture: s390x
+Version: 0.11.1-1
+
+Package: librust-gix-archive-dev
+Source: rust-gix-archive
+Architecture: s390x
+Version: 0.38.0-1
+
+Package: librust-gix-attributes-dev
+Source: rust-gix-attributes
+Architecture: s390x
+Version: 0.37.0-1
+
+Package: librust-gix-blame-dev
+Source: rust-gix-blame
+Architecture: s390x
+Version: 0.19.0-1
+
+Package: librust-gix-commitgraph-dev
+Source: rust-gix-commitgraph
+Architecture: s390x
+Version: 0.41.0-1
+
+Package: librust-gix-config-dev
+Source: rust-gix-config
+Architecture: s390x
+Version: 0.62.0-1
+
+Package: librust-gix-dev
+Source: rust-gix
+Architecture: s390x
+Version: 0.89.0-1
+
+Package: librust-gix-diff-dev
+Source: rust-gix-diff
+Architecture: s390x
+Version: 0.69.0-1
+
+Package: librust-gix-dir-dev
+Source: rust-gix-dir
+Architecture: s390x
+Version: 0.31.0-1
+
+Package: librust-gix-discover-dev
+Source: rust-gix-discover
+Architecture: s390x
+Version: 0.57.0-1
+
+Package: librust-gix-features-dev
+Source: rust-gix-features
+Architecture: s390x
+Version: 0.50.0-2
+
+Package: librust-gix-filter-dev
+Source: rust-gix-filter
+Architecture: s390x
+Version: 0.36.0-1
+
+Package: librust-gix-fs-dev
+Source: rust-gix-fs
+Architecture: s390x
+Version: 0.24.0-1
+
+Package: librust-gix-glob-dev
+Source: rust-gix-glob
+Architecture: s390x
+Version: 0.29.0-1
+
+Package: librust-gix-hash-dev
+Source: rust-gix-hash
+Architecture: s390x
+Version: 0.28.0-1
+
+Package: librust-gix-hashtable-dev
+Source: rust-gix-hashtable
+Architecture: s390x
+Version: 0.18.0-1
+
+Package: librust-gix-ignore-dev
+Source: rust-gix-ignore
+Architecture: s390x
+Version: 0.24.0-1
+
+Package: librust-gix-index-dev
+Source: rust-gix-index
+Architecture: s390x
+Version: 0.57.0-1
+
+Package: librust-gix-lock-dev
+Source: rust-gix-lock
+Architecture: s390x
+Version: 26.0.0-1
+
+Package: librust-gix-merge-dev
+Source: rust-gix-merge
+Architecture: s390x
+Version: 0.22.0-1
+
+Package: librust-gix-negotiate-dev
+Source: rust-gix-negotiate
+Architecture: s390x
+Version: 0.37.0-1
+
+Package: librust-gix-object-dev
+Source: rust-gix-object
+Architecture: s390x
+Version: 0.66.0-1
+
+Package: librust-gix-odb-dev
+Source: rust-gix-odb
+Architecture: s390x
+Version: 0.86.0-1
+
+Package: librust-gix-pack-dev
+Source: rust-gix-pack
+Architecture: s390x
+Version: 0.76.0-1
+
+Package: librust-gix-pathspec-dev
+Source: rust-gix-pathspec
+Architecture: s390x
+Version: 0.22.0-1
+
+Package: librust-gix-protocol-dev
+Source: rust-gix-protocol
+Architecture: s390x
+Version: 0.67.0-1
+
+Package: librust-gix-ref-dev
+Source: rust-gix-ref
+Architecture: s390x
+Version: 0.69.0-1
+
+Package: librust-gix-refspec-dev
+Source: rust-gix-refspec
+Architecture: s390x
+Version: 0.47.0-1
+
+Package: librust-gix-revision-dev
+Source: rust-gix-revision
+Architecture: s390x
+Version: 0.51.0-1
+
+Package: librust-gix-revwalk-dev
+Source: rust-gix-revwalk
+Architecture: s390x
+Version: 0.37.0-1
+
+Package: librust-gix-shallow-dev
+Source: rust-gix-shallow
+Architecture: s390x
+Version: 0.15.0-1
+
+Package: librust-gix-status-dev
+Source: rust-gix-status
+Architecture: s390x
+Version: 0.36.0-1
+
+Package: librust-gix-submodule-dev
+Source: rust-gix-submodule
+Architecture: s390x
+Version: 0.36.0-1
+
+Package: librust-gix-tempfile-dev
+Source: rust-gix-tempfile
+Architecture: s390x
+Version: 26.0.0-2
+
+Package: librust-gix-testtools-dev
+Source: rust-gix-testtools
+Architecture: s390x
+Version: 0.21.0-1
+
+Package: librust-gix-transport-dev
+Source: rust-gix-transport
+Architecture: s390x
+Version: 0.61.0-1
+
+Package: librust-gix-traverse-dev
+Source: rust-gix-traverse
+Architecture: s390x
+Version: 0.63.0-1
+
+Package: librust-gix-worktree-dev
+Source: rust-gix-worktree
+Architecture: s390x
+Version: 0.58.0-1
+
+Package: librust-gix-worktree-state-dev
+Source: rust-gix-worktree-state
+Architecture: s390x
+Version: 0.36.0-1
+
+Package: librust-gix-worktree-stream-dev
+Source: rust-gix-worktree-stream
+Architecture: s390x
+Version: 0.38.0-1
+
+Package: librust-grcov-dev
+Source: rust-grcov
+Architecture: s390x
+Version: 0.10.7-2
+
+Package: librust-h3-dev
+Source: rust-h3
+Architecture: s390x
+Version: 0.0.8-1
+
+Package: librust-h3-quinn-dev
+Source: rust-h3-quinn
+Architecture: s390x
+Version: 0.0.10-1
+
+Package: librust-hickory-net-dev
+Source: rust-hickory-net
+Architecture: s390x
+Version: 0.26.3-1
+
+Package: librust-hickory-resolver-dev
+Source: rust-hickory-resolver
+Architecture: s390x
+Version: 0.26.3-1
+
+Package: librust-hickory-server-dev
+Source: rust-hickory-server
+Architecture: s390x
+Version: 0.26.3-1
+
+Package: librust-html2md-dev
+Source: rust-html2md
+Architecture: s390x
+Version: 0.2.17-1
+
+Package: librust-html2pango-dev
+Source: rust-html2pango
+Architecture: s390x
+Version: 0.6.0-5
+
+Package: librust-html2text-dev
+Source: rust-html2text
+Architecture: s390x
+Version: 0.17.1-2
+
+Package: librust-html5ever-dev
+Source: rust-html5ever
+Architecture: s390x
+Version: 0.40.1+ds-1
+
+Package: librust-http-body-util-dev
+Source: rust-http-body-util
+Architecture: s390x
+Version: 0.1.5-1
+
+Package: librust-http-types-dev
+Source: rust-http-types
+Architecture: s390x
+Version: 2.12.0-4
+
+Package: librust-human-name-dev
+Source: rust-human-name
+Architecture: s390x
+Version: 2.0.4-3
+
+Package: librust-hyper-dev
+Source: rust-hyper
+Architecture: s390x
+Version: 1.11.1-1
+
+Package: librust-icann-rdap-client-dev
+Source: icann-rdap-client
+Architecture: s390x
+Version: 1.0.1-1
+
+Package: librust-icann-rdap-common-dev
+Source: icann-rdap-common
+Architecture: s390x
+Version: 1.0.1-3
+
+Package: librust-icann-rdap-srv-dev
+Source: icann-rdap-srv
+Architecture: s390x
+Version: 1.0.1-1
+
+Package: librust-icu-provider-source-dev
+Source: rust-icu-provider-source
+Architecture: s390x
+Version: 2.2.0-3
+
+Package: librust-image-extras-dev
+Source: rust-image-extras
+Architecture: s390x
+Version: 0.1.1-3
+
+Package: librust-insta-dev
+Source: rust-insta
+Architecture: s390x
+Version: 1.49.0-1
+
+Package: librust-jsonschema-dev
+Source: rust-jsonschema
+Architecture: s390x
+Version: 0.58.6-2
+
+Package: librust-juniper-dev
+Source: rust-juniper
+Architecture: s390x
+Version: 0.18.0-1
+
+Package: librust-libcst-dev
+Source: rust-libcst
+Architecture: s390x
+Version: 1.9.0-1
+
+Package: librust-libspa-dev
+Source: rust-libspa
+Architecture: s390x
+Version: 0.10.1-2
+
+Package: librust-libspa-sys-dev
+Source: rust-libspa-sys
+Architecture: s390x
+Version: 0.10.1-2
+
+Package: librust-libsqlite3-sys-dev
+Source: rust-libsqlite3-sys
+Architecture: s390x
+Version: 0.38.2+ds-2
+
+Package: librust-lintian-brush-dev
+Source: debian-codemods
+Architecture: s390x
+Version: 0.189
+
+Package: librust-lol-html-dev
+Source: rust-lol-html
+Architecture: s390x
+Version: 3.0.1-4
+
+Package: librust-lopdf-dev
+Source: rust-lopdf
+Architecture: s390x
+Version: 0.45.0-1
+
+Package: librust-markup5ever-dev
+Source: rust-markup5ever
+Architecture: s390x
+Version: 0.40.0-1
+
+Package: librust-markup5ever-rcdom-dev
+Source: rust-markup5ever-rcdom
+Architecture: s390x
+Version: 0.35.0+ds-3
+
+Package: librust-multiarch-hints-dev
+Source: debian-codemods
+Architecture: s390x
+Version: 0.189
+
+Package: librust-octocrab-dev
+Source: rust-octocrab
+Architecture: s390x
+Version: 0.43.0-2
+
+Package: librust-opendal-dev
+Source: rust-opendal
+Architecture: s390x
+Version: 0.55.0-4
+
+Package: librust-openpgp-card-state-dev
+Source: rust-openpgp-card-state
+Architecture: s390x
+Version: 0.4.1-1
+
+Package: librust-parsec-interface-dev
+Source: rust-parsec-interface
+Architecture: s390x
+Version: 0.30.0-4
+
+Package: librust-parsec-service-dev
+Source: rust-parsec-service
+Architecture: s390x
+Version: 1.5.0+ds-1
+
+Package: librust-parsec-tool-dev
+Source: rust-parsec-tool
+Architecture: s390x
+Version: 0.7.0-9
+
+Package: librust-pest-derive-dev
+Source: rust-pest-derive
+Architecture: s390x
+Version: 2.9.2-1
+
+Package: librust-piet-dev
+Source: rust-piet
+Architecture: s390x
+Version: 0.7.0-4
+
+Package: librust-pipewire-sys-dev
+Source: rust-pipewire-sys
+Architecture: s390x
+Version: 0.10.1-2
+
+Package: librust-prodash-dev
+Source: rust-prodash
+Architecture: s390x
+Version: 31.0.1-1
+
+Package: librust-prometheus-dev
+Source: rust-prometheus
+Architecture: s390x
+Version: 0.14.0-1
+
+Package: librust-prost-reflect-dev
+Source: rust-prost-reflect
+Architecture: s390x
+Version: 0.16.5-2
+
+Package: librust-protox-parse-dev
+Source: rust-protox-parse
+Architecture: s390x
+Version: 0.9.0-3
+
+Package: librust-python-pkginfo-dev
+Source: rust-python-pkginfo
+Architecture: s390x
+Version: 0.6.8-2
+
+Package: librust-rawler-dev
+Source: rust-rawler
+Architecture: s390x
+Version: 0.8.0+ds-1
+
+Package: librust-rbw-dev
+Source: rust-rbw
+Architecture: s390x
+Version: 1.15.0-2
+
+Package: librust-rebuilderd-common-dev
+Source: rust-rebuilderd-common
+Architecture: s390x
+Version: 0.28.0-1
+
+Package: librust-rebuilderd-dev
+Source: rust-rebuilderd
+Architecture: s390x
+Version: 0.28.0+ds-2
+
+Package: librust-rusqlite-dev
+Source: rust-rusqlite
+Architecture: s390x
+Version: 0.40.2-2
+
+Package: librust-rusqlite-migration-dev
+Source: rust-rusqlite-migration
+Architecture: s390x
+Version: 2.6.0-2
+
+Package: librust-russh-dev
+Source: rust-russh
+Architecture: s390x
+Version: 0.65.1-2
+
+Package: librust-rustsec-dev
+Source: rust-rustsec
+Architecture: s390x
+Version: 0.33.0-4
+
+Package: librust-rustyline-dev
+Source: rust-rustyline
+Architecture: s390x
+Version: 17.0.2-4
+
+Package: librust-rxml-validation-dev
+Source: rust-rxml-validation
+Architecture: s390x
+Version: 0.12.0-2
+
+Package: librust-salsa-dev
+Source: rust-salsa
+Architecture: s390x
+Version: 0.28.5+ds-2
+
+Package: librust-samply-quota-manager-dev
+Source: rust-samply-quota-manager
+Architecture: s390x
+Version: 0.1.0-2
+
+Package: librust-scraper-dev
+Source: rust-scraper
+Architecture: s390x
+Version: 0.27.0-3
+
+Package: librust-selectors-dev
+Source: rust-selectors
+Architecture: s390x
+Version: 0.41.0-1
+
+Package: librust-sequoia-cert-store-dev
+Source: rust-sequoia-cert-store
+Architecture: s390x
+Version: 0.7.6-1
+
+Package: librust-sequoia-ipc-dev
+Source: rust-sequoia-ipc
+Architecture: s390x
+Version: 0.36.1-2
+
+Package: librust-sequoia-keystore-dev
+Source: rust-sequoia-keystore
+Architecture: s390x
+Version: 0.7.2-3
+
+Package: librust-sequoia-keystore-openpgp-card-dev
+Source: rust-sequoia-keystore-openpgp-card
+Architecture: s390x
+Version: 0.2.2-1
+
+Package: librust-sequoia-openpgp-dev
+Source: rust-sequoia-openpgp
+Architecture: s390x
+Version: 2.4.1-2
+
+Package: librust-sequoia-policy-config-dev
+Source: rust-sequoia-policy-config
+Architecture: s390x
+Version: 0.8.2-1
+
+Package: librust-serde-sarif-dev
+Source: rust-serde-sarif
+Architecture: s390x
+Version: 0.8.0-5
+
+Package: librust-sftp-dev
+Source: rust-sftp
+Architecture: s390x
+Version: 0.3.0-2
+
+Package: librust-signal-hook-tokio-dev
+Source: rust-signal-hook-tokio
+Architecture: s390x
+Version: 0.4.0-1
+
+Package: librust-sqlx-core-dev
+Source: rust-sqlx-core
+Architecture: s390x
+Version: 0.9.0-2
+
+Package: librust-sqlx-dev
+Source: rust-sqlx
+Architecture: s390x
+Version: 0.9.0-1
+
+Package: librust-sqlx-macros-core-dev
+Source: rust-sqlx-macros-core
+Architecture: s390x
+Version: 0.9.0-1
+
+Package: librust-sqlx-macros-dev
+Source: rust-sqlx-macros
+Architecture: s390x
+Version: 0.9.0-1
+
+Package: librust-sqlx-mysql-dev
+Source: rust-sqlx-mysql
+Architecture: s390x
+Version: 0.9.0-1
+
+Package: librust-sqlx-postgres-dev
+Source: rust-sqlx-postgres
+Architecture: s390x
+Version: 0.9.0-1
+
+Package: librust-sqlx-sqlite-dev
+Source: rust-sqlx-sqlite
+Architecture: s390x
+Version: 0.9.0-1
+
+Package: librust-ssh-agent-lib-dev
+Source: rust-ssh-agent-lib
+Architecture: s390x
+Version: 0.6.0+ds-1
+
+Package: librust-subversion-sys-dev
+Source: rust-subversion-sys
+Architecture: s390x
+Version: 0.1.4-2
+
+Package: librust-syntect-dev
+Source: rust-syntect
+Architecture: s390x
+Version: 5.3.0-2
+
+Package: librust-syntect-no-panic-dev
+Source: rust-syntect-no-panic
+Architecture: s390x
+Version: 6.0.0+ds-1
+
+Package: librust-taffy-dev
+Source: rust-taffy
+Architecture: s390x
+Version: 0.14.0-2
+
+Package: librust-taskchampion-dev
+Source: rust-taskchampion
+Architecture: s390x
+Version: 3.1.0+ds-2
+
+Package: librust-tiff-dev
+Source: rust-tiff
+Architecture: s390x
+Version: 0.11.3-3
+
+Package: librust-to-shmem-dev
+Source: rust-to-shmem
+Architecture: s390x
+Version: 0.6.0-1
+
+Package: librust-tokio-dev
+Source: rust-tokio
+Architecture: s390x
+Version: 1.53.2-1
+
+Package: librust-tokio-rusqlite-dev
+Source: rust-tokio-rusqlite
+Architecture: s390x
+Version: 0.7.0-1
+
+Package: librust-tokio-rustls-dev
+Source: rust-tokio-rustls
+Architecture: s390x
+Version: 0.26.6-1
+
+Package: librust-tower-lsp-server-dev
+Source: rust-tower-lsp-server
+Architecture: s390x
+Version: 0.23.0-2
+
+Package: librust-trivialdb-dev
+Source: rust-trivialdb
+Architecture: s390x
+Version: 0.1.10-2
+
+Package: librust-tss-esapi-dev
+Source: rust-tss-esapi
+Architecture: s390x
+Version: 7.7.0-2
+
+Package: librust-wayland-scanner-dev
+Source: rust-wayland-scanner
+Architecture: s390x
+Version: 0.31.11-1
+
+Package: librust-web-atoms-dev
+Source: rust-web-atoms
+Architecture: s390x
+Version: 0.3.0-1
+
+Package: librust-xml5ever-dev
+Source: rust-xml5ever
+Architecture: s390x
+Version: 0.40.0-1
+
+Package: librust-zbus-dev
+Source: rust-zbus
+Architecture: s390x
+Version: 5.19.0-1
+
+Package: librust-zip-dev
+Source: rust-zip
+Architecture: s390x
+Version: 9.4.1+ds-1

@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+{% import "_migration.html" as m with context %}
+{% import "_ui.html" as ui with context %}
+{% block title %}Cairn | Update Output{% endblock %}
+
+{# Britney's run log, update_output.txt, read so nobody has to: what it did
+   with the uploads its excuses call ready. The lists come first and the
+   numbers last, as on the boards: people come here to find a package.
+   Panel ids contain "_": row ids are package names, which never do. #}
+{% set LOG = "https://ubuntu-archive-team.ubuntu.com/proposed-migration/update_output.txt" %}
+{% block content %}
+<section class="p-strip is-shallow">
+  <div class="row">
+    <div class="col-12">
+      <p class="p-text--small-caps u-text--muted">
+        Stuck in Proposed / Update Output
+      </p>
+      <h1 class="p-heading--2">Update Output</h1>
+      {{ ui.series_line() }}
+    </div>
+    <div class="col-8 col-medium-6">
+      <p>
+        When an upload passes every check, britney's excuses say
+        <em>Will attempt migration</em>, and the
+        <a href="{{ root }}migration/index.html">proposed queue</a> stops
+        listing it as held. Britney then tries each such upload
+        against {{ series }} and keeps it only if nothing already there
+        stops installing. Its update output records what happened. Cairn
+        reads it after every run.
+      </p>
+      {% if run.available %}
+      <p>
+        <strong>Run of {{ run.generated | iso_time }}</strong>:
+        britney set out to try {{ run.considered if run.considered is not none else "its" }} items.
+        {{ run.migrated | length }} migrated, and {{ run.skipped.rows | length }}
+        upload{{ '' if run.skipped.rows | length == 1 else 's' }} it tried {{ 'was' if run.skipped.rows | length == 1 else 'were' }} skipped.
+        {% if run.before and run.after %}
+        Packages in {{ series }} that cannot be installed:
+        {{ run.total(run.before) }} before the run, {{ run.total(run.after) }} after.
+        {% endif %}
+        <a href="{{ LOG }}" target="_blank" rel="noopener noreferrer" class="cairn-ext">The log itself<i class="p-icon--external-link"></i><span class="u-off-screen"> (opens in a new tab)</span></a>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% include "_stale.html" %}
+
+  <div class="row">
+    <div class="col-8 col-medium-6">
+      <details class="cairn-howto" id="how_to_read">
+        <summary>How to Read the Update Output</summary>
+        <p>
+          The log lists each attempt in britney's own terms. This page
+          sorts them out; here is where each kind of line ends up:
+        </p>
+        <table>
+          <caption class="u-hide">Lines of britney's update output and where this page shows them</caption>
+          <thead><tr><th>In the log</th><th>What it means</th><th>Here</th></tr></thead>
+          <tbody>
+            <tr><td><code>recur:</code></td><td>A pass of britney's loop begins, with how many items it has left to try. After accepting items it goes round again, in case they made room for others.</td><td>The run summary above; the number of tries on each skipped upload.</td></tr>
+            <tr><td><code>trying:</code></td><td>Britney tries to migrate an item, or several that depend on each other at once.</td><td>Every item below was tried.</td></tr>
+            <tr><td><code>accepted:</code></td><td>Nothing new stopped installing, so britney keeps the item.</td><td>The Migrated tab.</td></tr>
+            <tr><td><code>skipped:</code></td><td>Something would stop installing, so britney backs out. Its three numbers are britney's bookkeeping: items to retry, items maybe to retry, items left in this pass.</td><td>The Skipped tab.</td></tr>
+            <tr><td><code>got:</code></td><td>How many packages would not install, per architecture, in the order britney checks them, up to the first one with a problem.</td><td>The Statistics tab.</td></tr>
+            <tr><td><code>* arch:</code></td><td>What would stop installing on the first architecture with a problem. Britney checks architectures in a fixed order ({{ run.architectures | join(", ") }}) and stops there: the ones before it passed, the ones after it were not checked and may break too. So there is one architecture per attempt.</td><td>"Breaks first on" and "What would stop installing".</td></tr>
+            <tr><td><code>final:</code>, <code>SUCCESS</code></td><td>The items that migrated in this run.</td><td>The Migrated tab.</td></tr>
+            <tr><td><code>List of old libraries</code></td><td>Binaries their source no longer builds that britney could not remove, because something still needs them.</td><td>The Old libraries tab.</td></tr>
+          </tbody>
+        </table>
+        <p>
+          A skipped upload usually needs the packages that would break to be
+          updated or rebuilt first, or to migrate together with it, which an
+          archive admin can arrange with a hint.
+          <a href="{{ m.guide('breaks_installs') }}" target="_blank" rel="noopener noreferrer" class="cairn-ext">Ubuntu's guide to the update output<i class="p-icon--external-link"></i><span class="u-off-screen"> (opens in a new tab)</span></a>
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+{% if run.available %}
+<section class="p-strip is-shallow u-no-padding--top cairn-tabbed" data-tabs>
+  <div class="row">
+    <div class="col-12">
+      <nav class="p-tabs" aria-label="Update output">
+        <ul class="p-tabs__list">
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#uo_skipped" data-tab="uo_skipped"><span>Skipped (<span data-tab-count="uo_skipped">{{ run.skipped.rows | length }}</span>)</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#uo_migrated" data-tab="uo_migrated"><span>Migrated ({{ run.migrated | length }})</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#uo_old_libraries" data-tab="uo_old_libraries"><span>Old Libraries ({{ run.old_libraries | length }})</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#uo_stats" data-tab="uo_stats">Statistics</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="cairn-tab-panel" id="uo_skipped" data-filter-group>
+    <div class="row">
+      <div class="col-12">
+        <h2 class="p-heading--4 cairn-tab-panel__title">Skipped</h2>
+        <p class="u-text--muted">Uploads britney said it would attempt, tried, and backed out of. They stay in -proposed. Longest waiting first.</p>
+        {% if run.skipped.rows %}
+        {{ ui.text_filter("Package, architecture, uploader, team or package set") }}
+        <table class="p-table--mobile-card cairn-stuck cairn-sortable">
+          <caption class="u-hide">Uploads britney tried to migrate and skipped. Version and package links open in a new tab.</caption>
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th data-nosort>Upload</th>
+              <th>Breaks first on</th>
+              <th data-nosort class="cairn-why">What would stop installing</th>
+              <th class="u-align--right">Tries</th>
+              <th class="u-align--right">In proposed</th>
+              <th>Uploader</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in run.skipped.rows %}
+            {% set first = row.attempts[0] if row.attempts else none %}
+            <tr id="{{ row.anchor }}" data-filter
+                data-f-q="{{ row.package }} {{ first.arch if first else '' }} {{ row.uploader or '' }} {{ row.requester or '' }} {{ '+1 maintenance' if row.synced }} {{ row.teams | join(' ') }} {{ row.package_sets | join(' ') }}">
+              <td data-heading="Package" data-sort="{{ row.package }}"><a href="{{ root }}{{ package_href(row.package) }}">{{ row.package }}</a></td>
+              <td data-heading="Upload"><a href="{{ row.new_version_url }}" target="_blank" rel="noopener noreferrer"><code>{{ row.new_version }}</code></a></td>
+              <td data-heading="Breaks first on" data-sort="{{ first.arch if first else '' }}">
+                {% if first and first.arch %}
+                <strong>{{ first.arch }}</strong>
+                {% set passed, unchecked = run.checked(first) %}
+                {% if passed or unchecked %}
+                <div class="p-text--small u-text--muted">
+                  {% if passed %}Passed on {{ passed | join(", ") }}.{% endif %}
+                  {% if unchecked %}Not checked on {{ unchecked | join(", ") }}.{% endif %}
+                </div>
+                {% endif %}
+                {% else %}<span class="u-text--muted">unknown</span>{% endif %}
+              </td>
+              <td data-heading="What would stop installing">
+                {% if row.attempts %}
+                {% for a in row.attempts %}
+                {% if a.error %}Refused: <code>{{ a.error }}</code>
+                {% else %}
+                {% set others = a.others(row.package) %}
+                {% set own = a.own(row.package) %}
+                <ul class="cairn-tests u-no-margin--bottom">
+                  {% for source, names in others[:m.FOLD] %}{{ m.broken_item(source, names) }}{% endfor %}
+                  {% if own %}<li>its own binaries: {{ own | join(", ") }}</li>{% endif %}
+                </ul>
+                {% if others | length > m.FOLD %}<p class="cairn-more"><a href="{{ root }}{{ package_href(row.package) }}#why_held">{{ others | length - m.FOLD }} more</a><span class="u-off-screen"> packages {{ row.package }} would break</span></p>{% endif %}
+                {% if a.together %}<p class="cairn-more u-text--muted">Only tried together with {{ a.together | join(", ") }}.</p>{% endif %}
+                {% endif %}
+                {% endfor %}
+                {% else %}<span class="u-text--muted">Not in this run's log.</span>{% endif %}
+              </td>
+              <td data-heading="Tries" class="u-align--right" data-sort="{{ first.tries if first else '' }}">{{ first.tries if first else "" }}</td>
+              {% set d = row.days(now) %}
+              <td data-heading="In proposed" class="cairn-days u-align--right" data-sort="{{ d if d is not none else '' }}">{% if d is none %}<span class="u-text--muted">unknown</span>{% else %}{{ d }} day{{ '' if d == 1 else 's' }}{% endif %}</td>
+              <td data-heading="Uploader" data-sort="{{ row.owner }}">
+                {% if row.owner %}<a href="{{ root }}{{ row.page }}">{{ "+1 maintenance" if row.owner == "plus-one-maintenance" else row.owner }}</a>{% else %}<span class="u-text--muted">unknown</span>{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
+        {% else %}
+        <p>Britney migrated every upload it tried.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="cairn-tab-panel" id="uo_migrated">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="p-heading--4 cairn-tab-panel__title">Migrated</h2>
+        <p class="u-text--muted">What britney accepted and kept in this run, in the order it did.</p>
+        {% if run.migrated %}
+        <table class="p-table--mobile-card">
+          <caption class="u-hide">Items britney migrated in its last run</caption>
+          <thead><tr><th>Package</th><th>What moved</th><th>Upload</th></tr></thead>
+          <tbody>
+            {% for a in run.migrated %}
+            <tr>
+              <td data-heading="Package">{% if a.name in packages %}<a href="{{ root }}{{ package_href(a.name) }}">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}</td>
+              <td data-heading="What moved">
+                {% if a.removal %}Removed from {{ series }}{% if a.arch %} on {{ a.arch }}{% endif %}: a binary its source no longer builds
+                {% elif a.arch %}The upload, on {{ a.arch }} only
+                {% else %}The upload{% endif %}
+              </td>
+              <td data-heading="Upload">{% if a.new_version %}{% if a.old_version and a.old_version != "-" %}<code>{{ a.old_version }}</code> <span aria-label="to">&rarr;</span> {% endif %}<code>{{ a.new_version }}</code>{% else %}<span class="u-text--muted">&mdash;</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>Nothing migrated in this run.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="cairn-tab-panel" id="uo_old_libraries">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="p-heading--4 cairn-tab-panel__title">Old Libraries</h2>
+        <p class="u-text--muted">
+          Binaries their source no longer builds, still in {{ series }}.
+          Britney tries to remove them after each run and backs out while
+          something still needs them; they go once those packages are
+          rebuilt or updated.
+        </p>
+        {% if run.old_libraries %}
+        <table class="p-table--mobile-card">
+          <caption class="u-hide">Old libraries britney could not remove</caption>
+          <thead><tr><th>Binary</th><th>Architectures</th><th class="cairn-why">Still needed by</th></tr></thead>
+          <tbody>
+            {% for lib in run.old_libraries %}
+            <tr>
+              <td data-heading="Binary"><code>{{ lib.binary }}</code></td>
+              <td data-heading="Architectures">{{ lib.arches | join(", ") }}</td>
+              <td data-heading="Still needed by">
+                {% set a = lib.attempts[0] if lib.attempts else none %}
+                {% if a and a.broken %}
+                <p class="u-no-margin--bottom">On {{ a.arch }}{% if lib.also_on %} (and on {{ lib.also_on | join(", ") }}){% endif %}:</p>
+                <ul class="cairn-tests u-no-margin--bottom">
+                  {% for source, names in a.broken[:m.FOLD] %}{{ m.broken_item(source, names) }}{% endfor %}
+                </ul>
+                {% if a.broken | length > m.FOLD %}
+                {% call m.more_less(a.broken | length - m.FOLD, "packages") %}
+                <ul class="cairn-tests">{% for source, names in a.broken[m.FOLD:] %}{{ m.broken_item(source, names) }}{% endfor %}</ul>
+                {% endcall %}
+                {% endif %}
+                {% else %}<span class="u-text--muted">Not named in this run's log.</span>{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>None: britney removed every old library it found.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="cairn-tab-panel" id="uo_stats">
+    <div class="row"><div class="col-12"><h2 class="p-heading--4 cairn-tab-panel__title">Statistics</h2></div></div>
+    <div class="row">
+      {% if run.before and run.after %}
+      <div class="col-4 col-medium-3">
+        <h3 class="p-heading--5">Packages That Cannot Be Installed</h3>
+        <table>
+          <caption class="u-hide">Uninstallable packages in {{ series }} per architecture, before and after the run</caption>
+          <thead><tr><th>Architecture</th><th class="u-align--right">Before</th><th class="u-align--right">After</th></tr></thead>
+          <tbody>
+            {% for arch in run.architectures if arch in run.before %}
+            <tr><td>{{ arch }}</td><td class="u-align--right">{{ run.before[arch] }}</td><td class="u-align--right">{{ run.after.get(arch, "") }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+      {% if run.skipped.arches %}
+      <div class="col-4 col-medium-3">
+        <h3 class="p-heading--5">Where Skipped Uploads Break First</h3>
+        {% set widest = run.skipped.arches[0][1] %}
+        <ul class="cairn-bars">
+          {% for arch, count in run.skipped.arches %}{{ ui.bar(arch, count, widest) }}{% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+    {% if run.skipped.most_broken %}
+    <div class="row">
+      <div class="col-8 col-medium-6" id="most_broken">
+        <h3 class="p-heading--5">Most Often in the Way</h3>
+        <p class="p-text--small u-text--muted">Packages that the most skipped uploads would break. Fixing one of these can let several uploads through.</p>
+        {% set widest = run.skipped.most_broken[0][1] | length %}
+        <ol class="cairn-bars">
+          {% for source, held in run.skipped.most_broken[:10] %}
+          {% set note %}<span class="u-text--muted">in the way of {{ held[:3] | map(attribute="package") | join(", ") }}{% if held | length > 3 %} and {{ held | length - 3 }} more{% endif %}</span>{% endset %}
+          {{ ui.bar(source, held | length, widest, root ~ package_href(source) if source in packages else None, note) }}
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% else %}
+<section class="p-strip is-shallow u-no-padding--top">
+  <div class="row">
+    <div class="col-12">
+      <p>
+        {% if run.generated and not run.matches %}
+        Cairn's saved update output (from {{ run.generated | iso_time }})
+        does not match the latest excuses, so it is not shown: the next
+        run replaces it.
+        {% else %}
+        Cairn has no update output from britney's last run: it was not
+        available, or came from a different run than the excuses.
+        {% endif %}
+        Uploads britney called ready are listed in the
+        <a href="{{ root }}migration/index.html">proposed queue</a> as
+        "Ready, outcome not known".
+      </p>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

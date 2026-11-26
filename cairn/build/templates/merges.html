@@ -12,7 +12,7 @@
 <section class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
-      <h1 class="p-heading--2">Merge candidates</h1>
+      <h1 class="p-heading--2">Merge Candidates</h1>
       {{ ui.series_line() }}
       <p>
         Packages carrying an Ubuntu delta where Debian has since moved
@@ -46,7 +46,7 @@
   <div class="cairn-tab-panel" id="all_candidates" data-filter-group>
     <div class="row">
       <div class="col-12">
-        <h2 class="p-heading--4 cairn-tab-panel__title">Every merge candidate</h2>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Every Merge Candidate</h2>
         {{ t.merge_table(rows, everything, "Every merge candidate") }}
         <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
       </div>
@@ -64,12 +64,12 @@
   </div>
   <div class="row">
     <div class="col-7 col-medium-6">
-      <h2 class="p-heading--5">Open candidates over time</h2>
+      <h2 class="p-heading--5">Open Candidates Over Time</h2>
       {{ ui.trend(merges_trend, "open candidates") }}
     </div>
     {% if overview.buckets %}
     <div class="col-5 col-medium-6" id="debian_ahead">
-      <h2 class="p-heading--5">How long Debian has been ahead</h2>
+      <h2 class="p-heading--5">How Long Debian Has Been Ahead</h2>
       {% set widest = overview.buckets | map(attribute="count") | max %}
       <ul class="cairn-bars">
         {% for bucket in overview.buckets %}
@@ -88,13 +88,13 @@
 
   <div class="row" id="top_owners">
     <div class="col-12">
-      <h2 class="p-heading--5">Who has the most</h2>
+      <h2 class="p-heading--5">Who Has the Most</h2>
     </div>
     <div class="col-4 col-medium-2">
-      {{ ui.top_owners(teams, "Subscribed teams", "count", "href", root ~ "owners/index.html#teams") }}
+      {{ ui.top_owners(teams, "Subscribed Teams", "count", "href", root ~ "owners/index.html#teams") }}
     </div>
     <div class="col-4 col-medium-2">
-      {{ ui.top_owners(package_sets, "Package sets", "count", "href", root ~ "owners/index.html#sets") }}
+      {{ ui.top_owners(package_sets, "Package Sets", "count", "href", root ~ "owners/index.html#sets") }}
     </div>
     <div class="col-4 col-medium-2">
       {{ ui.top_owners(uploaders | rejectattr("name", "in", ["plus-one-maintenance", "no-uploader-recorded"]) | list, "Uploaders", "count", "href", root ~ "owners/index.html#uploaders") }}

@@ -3,7 +3,7 @@
 {% import "_merges.html" as t with context %}
 {% import "_ui.html" as ui with context %}
 {% import "_glossary.html" as g with context %}
-{% block title %}Cairn | +1 maintenance{% endblock %}
+{% block title %}Cairn | +1 Maintenance{% endblock %}
 
 {% set PLUS_ONE_GUIDE = "https://documentation.ubuntu.com/project/contributors/advanced/plus-one-maintenance/" %}
 
@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-12">
       <p class="p-text--small-caps u-text--muted">
-        <a href="{{ root }}work/index.html">Up for grabs</a> / +1 Maintenance
+        <a href="{{ root }}work/index.html">Up for Grabs</a> / +1 Maintenance
       </p>
       <h1 class="p-heading--2">+1 Maintenance</h1>
       {{ ui.series_line() }}
@@ -50,17 +50,17 @@
     <div class="col-12">
       <nav class="p-tabs" aria-label="Steps of a shift">
         <ul class="p-tabs__list">
-          <li class="p-tabs__item"><a class="p-tabs__link" href="#high-impact" data-tab="high-impact">Unblock several uploads</a></li>
-          <li class="p-tabs__item"><a class="p-tabs__link" href="#missing-builds" data-tab="missing-builds">Missing builds</a></li>
-          <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck" data-tab="stuck">Other stuck uploads</a></li>
-          <li class="p-tabs__item"><a class="p-tabs__link" href="#merges" data-tab="merges">Universe merges</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#high-impact" data-tab="high-impact">Unblock Several Uploads</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#missing-builds" data-tab="missing-builds">Missing Builds</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck" data-tab="stuck">Other Stuck Uploads</a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#merges" data-tab="merges">Universe Merges</a></li>
         </ul>
       </nav>
       {{ ui.filters("work") }}
       {{ g.glossary(((g.STUCK_TERMS + g.MERGE_TERMS) | unique | list) + ["unblocks"]) }}
 
       <div class="cairn-tab-panel" id="high-impact" data-filter-group>
-        <h2 class="p-heading--4 cairn-tab-panel__title">Unblock several uploads</h2>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Unblock Several Uploads</h2>
         <p class="u-text--muted">
           First, because one fix here lets {{ high_impact_min }} or more
           other uploads migrate: the package's tests regress on them, or
@@ -109,7 +109,7 @@
       </div>
 
       <div class="cairn-tab-panel" id="missing-builds" data-filter-group>
-        <h2 class="p-heading--4 cairn-tab-panel__title">Missing builds</h2>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Missing Builds</h2>
         <p class="u-text--muted">
           Next: build failures are usually isolated, so they can be fixed
           without getting in anyone's way. Debian syncs past the first
@@ -124,7 +124,7 @@
       </div>
 
       <div class="cairn-tab-panel" id="stuck" data-filter-group>
-        <h2 class="p-heading--4 cairn-tab-panel__title">Other stuck uploads</h2>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Other Stuck Uploads</h2>
         <p class="u-text--muted">
           Then the rest of update-excuses, chosen by the same rule: test
           regressions, uninstallable binaries and the like.
@@ -136,7 +136,7 @@
       </div>
 
       <div class="cairn-tab-panel" id="merges" data-filter-group>
-        <h2 class="p-heading--4 cairn-tab-panel__title">Universe merges</h2>
+        <h2 class="p-heading--4 cairn-tab-panel__title">Universe Merges</h2>
         <p class="u-text--muted">
           Last, because each belongs to whoever last uploaded the package. A
           shift may help when they are not around, most of all before

@@ -2,7 +2,7 @@
 {% import "_migration.html" as m with context %}
 {% import "_ui.html" as ui with context %}
 {% import "_glossary.html" as g with context %}
-{% block title %}Cairn | Holding others back: {{ group.title }}{% endblock %}
+{% block title %}Cairn | Holding Others Back: {{ group.title }}{% endblock %}
 
 {# What an owner is holding back. Both halves invert britney: she lists
    under each held upload what holds it, never under the holder what it
@@ -12,7 +12,7 @@
   <div class="row">
     <div class="col-12">
       <p class="p-text--small-caps u-text--muted">
-        <a href="{{ root }}migration/index.html">Stuck in proposed</a> / {{ group.subtitle }}
+        <a href="{{ root }}migration/index.html">Proposed Queue</a> / {{ group.subtitle }}
       </p>
       <h1 class="p-heading--3">{{ group.title }}</h1>
       {% if group.note %}
@@ -34,7 +34,7 @@
 <section class="p-strip is-shallow u-no-padding--top" id="blocking">
   <div class="row">
     <div class="col-12">
-      <h2 class="p-heading--4">Tests holding back other uploads ({{ group.blocking_count }})</h2>
+      <h2 class="p-heading--4">Tests Holding Back Other Uploads ({{ group.blocking_count }})</h2>
       <p class="u-text--muted">
         These packages' own tests regress against someone else's upload, so
         that upload cannot migrate. Fixing or explaining the test is usually
@@ -51,7 +51,7 @@
 <section class="p-strip is-shallow u-no-padding--top" id="waiting-on-yours">
   <div class="row">
     <div class="col-12">
-      <h2 class="p-heading--4">Uploads waiting for yours ({{ group.waiting_count }})</h2>
+      <h2 class="p-heading--4">Uploads Waiting for Yours ({{ group.waiting_count }})</h2>
       <p class="u-text--muted">
         Britney will not migrate these until an upload of yours migrates
         first. Getting yours unstuck unblocks them too.

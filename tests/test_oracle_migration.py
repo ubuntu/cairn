@@ -51,3 +51,24 @@ def test_check_compares_like_with_like():
     assert result.cairn == 9
     assert result.published == 586
     assert result.difference == 9 - 586
+
+
+def test_a_source_blocked_on_one_arch_and_a_candidate_on_another_is_blocked():
+    """Review on #30: only rows that are entirely candidates are left out."""
+    from cairn.ingest.base import Kind, Signal
+    from cairn.oracles.migration import blocked
+
+    def sig(*reasons):
+        return Signal(
+            kind=Kind.MIGRATION_BLOCKED,
+            source_package="p" + "".join(reasons),
+            payload={"reasons": list(reasons)},
+        )
+
+    signals = [
+        sig("regression", "breaks_installs"),
+        sig("breaks_installs"),
+        sig("will_attempt"),
+        sig("missing_build"),
+    ]
+    assert blocked(signals) == 2

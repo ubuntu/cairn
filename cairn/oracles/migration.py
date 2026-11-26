@@ -26,11 +26,16 @@ from __future__ import annotations
 
 import csv
 import io
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
-from cairn.ingest.base import Fetcher
-from cairn.ingest.migration import PROPOSED_MIGRATION, MigrationIngester
+from cairn.ingest.base import Fetcher, Signal
+from cairn.ingest.migration import (
+    CANDIDATE_REASONS,
+    PROPOSED_MIGRATION,
+    MigrationIngester,
+)
 from cairn.ingest.series import development_series
 
 ORACLE_URL = f"{PROPOSED_MIGRATION}/update_excuses.csv"
@@ -89,6 +94,18 @@ def matching(rows: list[Row], generated: datetime | None) -> Row | None:
     return best if abs(best.at - generated) <= SAME_RUN else None
 
 
+def blocked(signals: Iterable[Signal]) -> int:
+    """Signals for britney's "not considered": cairn also keeps candidates
+    that did not migrate, which britney counts as candidates. A source
+    blocked on one architecture and a candidate on another carries both
+    kinds of reason and is still blocked (review on #30)."""
+    return sum(
+        1
+        for s in signals
+        if not set(s.payload.get("reasons") or ()) <= CANDIDATE_REASONS
+    )
+
+
 def check(
     fetcher: Fetcher,
     *,
@@ -104,6 +121,6 @@ def check(
     return Divergence(
         generated=raw.generated,
         oracle_at=row.at if row else None,
-        cairn=len(signals),
+        cairn=blocked(signals),
         published=row.blocked if row else None,
     )
