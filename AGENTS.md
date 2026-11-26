@@ -487,6 +487,19 @@ signer is a copy, usually a sync from Debian: Launchpad names the
 Those are routed to the "+1 maintenance" group, never to someone outside
 Ubuntu.
 
+**One person, one name.** cairn names people by Launchpad account and never
+sees an email address. A changelog address that belongs to no account gets a
+placeholder account made from its local part (`nadzeya@debian.org` while
+`~nadzeya` holds the ubuntu.com address becomes `~nadzeya-s`), which split one
+developer's work over two owner pages. `cairn/ingest/people.py` folds a
+placeholder into the account only when Launchpad's naming rule links the two
+names, the placeholder was never activated, the account is active, and both
+carry the same display name; teams are never folded. Measured 26 Nov 2026:
+six name pairs fitted, Launchpad confirmed four (`nadzeya-s`, `superm1-m`,
+`charles05-d`, `ivan-hu`), and refused two Debian list addresses with no
+active account. Names in `packages.json` are already folded; its `aliases`
+says which were, and confirmed pairs are reused without asking again.
+
 **Who asked for a sync is a fourth fact, from the copy's `creator`** (not
 `package_creator`), on its `-proposed` publication (issue #14). Measured
 over tenacious-proposed, 20 Nov 2026, 2,299 copies: 1,577 by the auto-sync

@@ -463,6 +463,15 @@ class TestOwnershipSurvivesLaunchpad:
         self.run(logs, lp_up=False)
         assert "keeping the previous ownership data" in capsys.readouterr().err
 
+    def test_a_damaged_snapshot_is_rebuilt_not_a_crash(self, logs, capsys):
+        """Review on #29: reading its aliases must not stop the refresh
+        that would replace it."""
+        self.run(logs, lp_up=True)
+        self.metadata(logs).write_text('{"collected_at": "2026-11')
+        assert self.run(logs, lp_up=True) == 0
+        assert "cannot read the previous ownership data" in capsys.readouterr().err
+        assert json.loads(self.metadata(logs).read_text())["packages"]
+
     def test_the_signal_log_carries_no_ownership(self, logs):
         """Ownership is a property of a package, not an observation."""
         self.run(logs, lp_up=True)

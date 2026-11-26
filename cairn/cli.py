@@ -197,6 +197,17 @@ def _refresh_metadata(
         and st.signal.payload.get("ubuntu_version")
     }
     suites = {st.signal.payload.get("debian_suite") for st in active} - {None}
+    # The previous snapshot only lends its confirmed aliases. An unreadable
+    # one must not stop the refresh that would replace it (review on #29).
+    try:
+        known_aliases = metadata.load(args.packages).aliases
+    except (OSError, ValueError) as exc:
+        print(
+            f"cairn: cannot read the previous ownership data, "
+            f"rebuilding it without its aliases: {exc}",
+            file=sys.stderr,
+        )
+        known_aliases = {}
     try:
         snapshot = metadata.collect(
             fetcher,
@@ -205,6 +216,7 @@ def _refresh_metadata(
             candidates=candidates,
             debian_suite=suites.pop() if len(suites) == 1 else "unstable",
             connect=connect,
+            known_aliases=known_aliases,
         )
     except IncompleteRefresh as exc:
         print(f"cairn: keeping the previous ownership data: {exc}", file=sys.stderr)
