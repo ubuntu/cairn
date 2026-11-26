@@ -26,7 +26,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from cairn.ingest import debian_uploads, packagesets, publications, teams
+from cairn.ingest import debian_uploads, packagesets, people, publications, teams
 from cairn.ingest.base import Fetcher
 
 
@@ -144,6 +144,11 @@ class PackageMetadata:
 class Snapshot:
     collected_at: datetime | None = None
     packages: dict[str, PackageMetadata] = field(default_factory=dict)
+    # Placeholder Launchpad accounts folded into the person's real one
+    # (cairn.ingest.people). Already applied to every name above; kept so
+    # the next refresh reuses each confirmed pair, and so the file says why
+    # a name differs from the one Launchpad's publication links.
+    aliases: dict[str, str] = field(default_factory=dict)
 
     def get(self, package: str) -> PackageMetadata:
         return self.packages.get(package, PackageMetadata())
@@ -164,8 +169,13 @@ def collect(
     debian_suite: str = "unstable",
     connect: Callable[[], object] | None = None,
     now: datetime | None = None,
+    known_aliases: Mapping[str, str] | None = None,
 ) -> Snapshot:
-    """Fetch every axis, or raise. Callers keep the previous snapshot on error."""
+    """Fetch every axis, or raise. Callers keep the previous snapshot on error.
+
+    Every name is the person's, not a placeholder account Launchpad made for
+    a second address of theirs (cairn.ingest.people): one person, one page.
+    """
     candidates = candidates or {}
     try:
         published = publications.fetch_all(fetcher, series, keep=keep)
@@ -175,6 +185,21 @@ def collect(
     except Exception as exc:
         raise IncompleteRefresh(f"{type(exc).__name__}: {exc}") from exc
 
+    folded = people.aliases(
+        fetcher,
+        {
+            name
+            for every in published.values()
+            for p in every
+            for name in (p.uploader, p.signer, p.requester)
+            if name
+        },
+        known=known_aliases,
+    )
+
+    def person(name: str | None) -> str | None:
+        return people.resolve(name, folded)
+
     names = set(published) | set(sets) | set(subscribed) | set(candidates)
     packages = {}
     for name in names:
@@ -182,7 +207,7 @@ def collect(
         publication = publications.latest(every)
         debian_date = uploaded.get(name)
         packages[name] = PackageMetadata(
-            uploader=publication.uploader if publication else None,
+            uploader=person(publication.uploader) if publication else None,
             published=(
                 publication.uploaded.isoformat()
                 if publication and publication.uploaded
@@ -195,16 +220,18 @@ def collect(
                 PublishedVersion(
                     version=p.version,
                     pocket=p.pocket,
-                    uploader=p.uploader,
-                    signer=p.signer,
+                    uploader=person(p.uploader),
+                    signer=person(p.signer),
                     published=p.uploaded.isoformat() if p.uploaded else None,
-                    requester=p.requester,
+                    requester=person(p.requester),
                     auto_synced=p.auto_synced,
                 )
                 for p in sorted(every, key=lambda p: (p.pocket or "", p.version))
             ),
         )
-    return Snapshot(collected_at=now or datetime.now(UTC), packages=packages)
+    return Snapshot(
+        collected_at=now or datetime.now(UTC), packages=packages, aliases=folded
+    )
 
 
 def save(path: Path, snapshot: Snapshot) -> None:
@@ -216,6 +243,7 @@ def save(path: Path, snapshot: Snapshot) -> None:
         "packages": {
             name: meta.as_dict() for name, meta in sorted(snapshot.packages.items())
         },
+        "aliases": dict(sorted(snapshot.aliases.items())),
     }
     path.write_text(json.dumps(payload, indent=1, sort_keys=True) + "\n")
 
@@ -231,4 +259,5 @@ def load(path: Path) -> Snapshot:
             name: PackageMetadata.from_dict(meta)
             for name, meta in (raw.get("packages") or {}).items()
         },
+        aliases=dict(raw.get("aliases") or {}),
     )

@@ -1,0 +1,72 @@
+{
+ "charles05": {
+  "account_status": "Active",
+  "display_name": "Charles",
+  "is_team": false,
+  "is_valid": true,
+  "name": "charles05"
+ },
+ "charles05-d": {
+  "account_status": "Unactivated",
+  "display_name": "Charles",
+  "is_team": false,
+  "is_valid": false,
+  "name": "charles05-d"
+ },
+ "ivan-hu": {
+  "account_status": "Unactivated",
+  "display_name": "Ivan Hu",
+  "is_team": false,
+  "is_valid": false,
+  "name": "ivan-hu"
+ },
+ "ivan.hu": {
+  "account_status": "Active",
+  "display_name": "Ivan Hu",
+  "is_team": false,
+  "is_valid": true,
+  "name": "ivan.hu"
+ },
+ "nadzeya": {
+  "account_status": "Active",
+  "display_name": "Nadzeya Hutsko",
+  "is_team": false,
+  "is_valid": true,
+  "name": "nadzeya"
+ },
+ "nadzeya-s": {
+  "account_status": "Unactivated",
+  "display_name": "Nadzeya Hutsko",
+  "is_team": false,
+  "is_valid": false,
+  "name": "nadzeya-s"
+ },
+ "seb128": {
+  "account_status": "Active",
+  "display_name": "Sebastien Bacher",
+  "is_team": false,
+  "is_valid": true,
+  "name": "seb128"
+ },
+ "superm1": {
+  "account_status": "Active",
+  "display_name": "Mario Limonciello",
+  "is_team": false,
+  "is_valid": true,
+  "name": "superm1"
+ },
+ "superm1-m": {
+  "account_status": "Unactivated",
+  "display_name": "Mario Limonciello",
+  "is_team": false,
+  "is_valid": false,
+  "name": "superm1-m"
+ },
+ "team+python": {
+  "account_status": "Unactivated",
+  "display_name": "Debian Python Team",
+  "is_team": false,
+  "is_valid": false,
+  "name": "team+python"
+ }
+}
