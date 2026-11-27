@@ -167,8 +167,8 @@ class TestRows:
 class TestBoard:
     def test_two_lists_by_who_acts(self, tmp_path):
         page = (site(tmp_path, EVENTS) / "nbs/index.html").read_text()
-        assert "<span>Still needed (1)</span>" in page
-        assert "<span>Can be removed (3)</span>" in page
+        assert "<span>Still Needed (1)</span>" in page
+        assert "<span>Can Be Removed (3)</span>" in page
         needed = page.split('id="still_needed"')[1].split('id="can_remove"')[0]
         removable = page.split('id="can_remove"')[1].split('id="board_stats"')[0]
         assert 'id="libfmt10"' in needed and 'id="libgiza0"' not in needed

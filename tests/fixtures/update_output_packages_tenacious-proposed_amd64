@@ -1,0 +1,14 @@
+Package: python3-jsonschema-path
+Source: python-jsonschema-path
+Architecture: all
+Version: 0.5.0-1
+
+Package: python3-openapi-core
+Source: python-openapi-core
+Architecture: all
+Version: 0.23.1-4
+
+Package: python3-openapi-spec-validator
+Source: python-openapi-spec-validator
+Architecture: all
+Version: 0.8.4-2

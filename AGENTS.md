@@ -266,14 +266,16 @@ Raw data. Nothing here is a report, and nothing here is a page cairn replaces.
 | Bugs, uploads, queues, builds, MPs, package sets, teams | `api.launchpad.net/devel` | varies | System of record. Anonymous reads work. No `Access-Control-Allow-Origin`, so the browser cannot call it — a second reason fetching happens at build time. Slow; stalls of ~270 s observed. |
 | Sponsorships | `udd-mirror.debian.net:5432` | PostgreSQL | Debian's own mined data; there is no source closer to the origin. The CGI's `format=json` is ignored and returns HTML — do not scrape it. |
 
-### The single non-primary input
+### The non-primary inputs
 
-One source is consumed despite not being primary, under the decision-engine
-exception above. It is listed separately so it is never mistaken for raw data:
+One decision engine is consumed despite not being primary, under the
+exception above, through two files of the same run. They are listed
+separately so they are never mistaken for raw data:
 
 | Need | Endpoint | Size | Why it is here |
 | --- | --- | --- | --- |
 | Migration verdict | `ubuntu-archive-team.ubuntu.com/proposed-migration/update_excuses.yaml.xz` | 0.7 MB xz → 13.4 MB (1 Oct 2026); 1.7 MB xz at first count | Britney's output. A package migrates *because britney said so*, so this is the verdict, not a description of it. Served as `application/x-xz` despite the `.yaml` name. 606 entries, 587 blocked on 1 Oct 2026; ~1,335 and ~1,080 at first count. Read by `cairn/ingest/migration.py`. |
+| What britney did with its candidates | `ubuntu-archive-team.ubuntu.com/proposed-migration/update_output.txt` | 2.9 MB, plain text, no compressed copy (26 Nov 2026) | Britney's run log. "Will attempt migration" in the excuses is not a promise: britney then tries each candidate and skips one that would make packages uninstallable, which the excuses never say. 796 candidates on 26 Nov 2026, 19:53 UTC: 29 migrated, 767 skipped. Used only when it is the same run as the excuses (written within an hour after them). Read by `cairn/ingest/update_output.py`. |
 
 Note what cairn replaces here: `update_excuses_by_team.html` — the *page*. The
 YAML underneath is britney's structured output and is the thing worth keeping.
@@ -293,8 +295,37 @@ britney2-ubuntu's source and the 20 Nov 2026 report): tests, missing builds,
 old binaries, uninstallability and why, waiting, freeze blocks,
 block-proposed bugs, and sources held only per architecture. A few exist only
 as britney's text lines (why a package is uninstallable, which linux-meta a
-kernel waits for); `migration.py` reads those, the one place allowed to parse
-britney's wording, and stores codes the templates can branch on. A new
+kernel waits for); `migration.py` reads those, and `update_output.py` reads
+britney's run log; they are the only places allowed to parse britney's
+wording, and store codes the templates can branch on.
+
+**A candidate is gone only when britney's run log says it migrated.** Until
+Nov 2026 cairn dropped every candidate, so an upload whose last test passed
+was logged as resolved and stayed in -proposed: 186 of 211 candidates on 26
+Nov 2026, 15:37 UTC, python-pathable for 178 days. A skipped candidate is a
+`migration_blocked` signal with the reason `breaks_installs`; what it would
+break (first broken architecture, binaries grouped by the source that
+builds them, read from the release and -proposed `Packages`) is detail,
+because it changes as other uploads land. Without the same run's log a
+candidate is kept with `will_attempt`, which claims nothing more than the
+excuses: dropping it would log a resolution that may not have happened.
+On the board such an upload says what britney did ("tried to migrate it and
+backed out. On s390x, these would stop installing:") over a bulleted list
+of what would break, rather than a bare label, which users found confusing,
+and "Learn more" leads to the update output page,
+`migration/update-output.html`. That page presents the whole run log, not
+only skips: what was skipped (with how often britney retried it), what
+migrated, the old libraries britney could not remove and what still needs
+them, and, last, statistics (uninstallable counts before and after, where
+skipped uploads break first, the packages most often in the way). It opens
+with a "How to Read the Update Output" key mapping each kind of log line
+(`recur:`, `trying:`, `accepted:`, `skipped:`, `got:`, `* arch:`,
+`final:`) to where the page shows it. The run itself (items considered,
+accepted, uninstallable counts, old libraries) is detail under `run` in
+`data/migration.json`; an old library keeps one architecture's list of
+what needs it and names the others, as the lists repeat. Long lists on a
+package page fold under "Show N more" / "Show less" (`<details>`, labels
+switched in CSS), so an upload breaking 800 packages does not fill it. A new
 payload field is written only when it has a value, so adding one appends
 updates for the signals it concerns, not for every signal. When britney
 gains a policy, add it here and to the fixture
@@ -310,7 +341,7 @@ from, and which published report validates it as an oracle.
 | `needs_merge` | Ubuntu `Sources` vs Debian `Sources`, compared with Debian version ordering | `merges.ubuntu.com/{main,universe}.json` |
 | `nbs` | binaries in the release pocket's `Packages` that no current source's `Binary:` field claims, with what still needs them (`cairn/ingest/nbs.py`) | `static-reports.ubuntu.com/nbs/` (`cairn/oracles/nbs.py`) |
 | `sru_pending`, `sru_verification_failed` | LP bugs with `verification-*` tags + `-proposed` queue + archive state | `static-reports.ubuntu.com/pending-sru/sru_report.yaml` |
-| `migration_blocked` | britney verdict and its policy results (consumed, see above); detail may be added from autopkgtest + LP builds | `update_excuses.csv` "not considered" count; `update_excuses_by_team.yaml` for regressing-other |
+| `migration_blocked` | britney verdict and its policy results, and its run log for candidates it skipped (consumed, see above); detail may be added from autopkgtest + LP builds | `update_excuses.csv` "not considered" count, against signals that are not candidates; `update_excuses_by_team.yaml` for regressing-other |
 | `transition_*` | ben config from the transition tracker + archive state | `transitions.ubuntu.com` |
 | `sponsorship_pending` | UDD | — UDD is the system of record |
 | `build_failed`, `bug_*` | LP API | — LP is the system of record |
@@ -535,8 +566,8 @@ beside what the owner is.
 Each board has its own directory (`merges/`, `migration/`) and none is the
 default.
 
-**A board's front page opens on its list.** Tabs: the list (for stuck in
-proposed, two: *Stuck* and *Still settling*) and *Statistics*, with the
+**A board's front page opens on its list.** Tabs: the list and
+*Statistics*, with the
 headline numbers, the trend, one breakdown (how long Debian has been ahead;
 why uploads are stuck) and a five-line "who has the most" per ownership
 axis. The numbers and the breakdown's bars filter the list and switch to
@@ -545,7 +576,14 @@ not above it. Until Oct 2026 the page showed three tables of every
 owner and kept the packages on `all.html`, behind a link people did not
 find; then the summary sat above the list, two screens of it before the
 first package, and settling uploads were folded under the table, where
-people did not see them. The full owner directory is `owners/index.html`.
+people did not see them, then a tab of their own, which split one
+question over two lists. Since Nov 2026 the stuck list is one list,
+longest first, so uploads in their first days come last, each marked
+"still settling", and the History filter shows or hides them. The stuck
+board's front page is the *Proposed Queue*, beside *Update Output*, and
+owner pages' tab for the same list has the same name: briefly the page
+was *Excuses* while the tab said "Stuck in Proposed", which read as two
+different lists. The full owner directory is `owners/index.html`.
 `all.html` remains as a redirect. Section and panel ids on these pages
 contain `_`, because the rows' ids are package names and no Debian source
 name can contain one (`age`, an old section id, is a real package).
@@ -715,12 +753,24 @@ such a link filters in place; without, it reloads the page.
 
 **Navigation: two menus, then the boards** (Oct 2026, after users found the
 bar overloaded for a site with two boards): *Browse* (Packages, Teams and
-people) and *Up for grabs* (Anyone can pick up, +1 maintenance shift) are
+People) and *Up for Grabs* (Anyone Can Pick Up, +1 Maintenance Shift) are
 Vanilla navigation menus, then one entry per board (Merges, Stuck in
-proposed, and since Nov 2026 NBS). The menus open on hover and
+Proposed, and since Nov 2026 NBS). Stuck in Proposed became a menu too
+(Nov 2026) for britney's two outputs: *Proposed Queue* (`migration/index.html`,
+what its excuses hold) and *Update Output* (`migration/update-output.html`,
+what it did with those it called ready). The menus open on hover and
 keyboard focus in CSS, so they need no script; `cairn.js` adds
 click-to-open. On a small screen the open menu lists every sub-page under
 its heading.
+
+**Titles use APA title case** (Nov 2026): page titles, headings, tabs,
+navigation, breadcrumbs and section summaries ("How to Read the Update
+Output", "Stuck in Proposed", "Who Looks After It"). Capitalise every word
+of four letters or more and every major word, whatever its length (nouns,
+verbs including "Is", "Be", "Has", pronouns such as "It"). Short articles,
+conjunctions and prepositions stay lowercase unless they come first.
+Everything else stays in sentence case: body text, chips, reason labels,
+form labels, buttons and "Show N more".
 
 **Labels are explained once, in `templates/_glossary.html`.** A chip, tag
 or headline number that needs explaining carries

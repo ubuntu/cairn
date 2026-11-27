@@ -73,13 +73,13 @@
 <section class="p-strip is-shallow u-no-padding--top">
   <div class="row">
     <div class="col-12">
-      <h2 class="u-off-screen">Packages with something open</h2>
+      <h2 class="u-off-screen">Packages With Something Open</h2>
       <ul class="cairn-pkgs">
         {% for view in open %}{{ item(view) }}{% endfor %}
       </ul>
       {% if closed %}
       <details class="cairn-pkgs-closed" data-filter-group data-filter-open>
-        <summary>Nothing open now (<span data-filter-group-count>{{ closed | length }}</span>)</summary>
+        <summary>Nothing Open Now (<span data-filter-group-count>{{ closed | length }}</span>)</summary>
         <p class="u-text--muted">
           Packages Cairn has seen on a board that have since been merged,
           migrated or removed. Their pages keep the history.

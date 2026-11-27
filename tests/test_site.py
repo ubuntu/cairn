@@ -363,7 +363,7 @@ class TestRender:
         merges = (tmp_path / "merges/index.html").read_text()
         assert "<title>Cairn | Merges</title>" in merges
         migration = (tmp_path / "migration/index.html").read_text()
-        assert "<title>Cairn | Stuck in proposed</title>" in migration
+        assert "<title>Cairn | Proposed Queue</title>" in migration
         page = (tmp_path / "merges/uploaders/doko.html").read_text()
         assert "<title>Cairn | Merges for doko</title>" in page
 
@@ -393,7 +393,7 @@ class TestBoardLayout:
     def test_one_short_ranking_per_ownership_axis(self):
         """Team and package set stay apart (AGENTS.md section 5)."""
         top = self.everything().split('id="top_owners"')[1].split('id="the_list"')[0]
-        for heading in ("Subscribed teams", "Package sets", "Uploaders"):
+        for heading in ("Subscribed Teams", "Package Sets", "Uploaders"):
             assert heading in top
         assert "merges/teams/foundations.html" in top
         assert "merges/sets/core.html" in top
@@ -660,7 +660,10 @@ def test_every_date_on_every_page_is_iso(tmp_path):
         out=tmp_path,
         now=NOW,
     )
-    months = r"\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b"
+    # A month name is a date only beside a day: "3 May", "May 3". Alone it
+    # can be a word, as in the "Data May Be Out of Date" heading.
+    month = r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)"
+    months = rf"\b\d{{1,2}} {month}\b|\b{month} \d{{1,2}}\b"
     for page in tmp_path.rglob("*.html"):
         html = re.sub(r"<(style|head)[^>]*>.*?</\1>", " ", page.read_text(), flags=re.S)
         text = re.sub(r"<[^>]+>", " ", html)

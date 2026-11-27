@@ -23,8 +23,10 @@ EXCUSES = (FIXTURES / "update_excuses.yaml").read_bytes()
 
 # Merge candidates the fixtures yield, as asserted in test_oracle_merges.py.
 FIXTURE_MERGES = 8
-# Blocked uploads in the britney fixture, as asserted in test_migration.py.
-FIXTURE_STUCK = 9
+# Uploads in the britney fixture that stay in -proposed, as asserted in
+# test_migration.py: nine blocked, and one candidate (dhcpcd) kept because
+# the stub serves no run log to say it migrated.
+FIXTURE_STUCK = 10
 
 
 def fresh_excuses() -> bytes:

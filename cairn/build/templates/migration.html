@@ -2,24 +2,28 @@
 {% import "_migration.html" as m with context %}
 {% import "_ui.html" as ui with context %}
 {% import "_glossary.html" as g with context %}
-{% block title %}Cairn | Stuck in proposed{% endblock %}
+{% block title %}Cairn | Proposed Queue{% endblock %}
 
-{# The stuck-in-proposed board: a summary of the whole board, then every
-   stuck upload in one filterable list. Owners get a short "who has the
+{# The proposed queue, the first page of Stuck in Proposed (the update
+   output is the second): every upload britney's excuses hold, in one
+   filterable list, then the statistics. One name for this list wherever
+   it appears, the owner pages' tab included, so nobody wonders whether
+   two names mean two lists. Owners get a short "who has the
    most" panel; the full directory is the Teams and people page. Section
    ids contain "_": row ids are package names, which never do. #}
 {% block content %}
-{% set settled = everything.settled(now) %}
-{% set settling = everything.settling(now) %}
 <section class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
-      <h1 class="p-heading--2">Stuck in proposed</h1>
+      <p class="p-text--small-caps u-text--muted">Stuck in Proposed / Proposed Queue</p>
+      <h1 class="p-heading--2">Proposed Queue</h1>
       {{ ui.series_line() }}
       <p>
-        Uploads to {{ series }} that britney will not migrate from -proposed.
-        Britney's verdict is the verdict; Cairn adds who owns each upload,
-        how long it has been stuck and what it has been through.
+        Uploads to {{ series }} that britney will not migrate from -proposed,
+        from its excuses. Britney's verdict is the verdict; Cairn adds who
+        owns each upload, how long it has been stuck and what it has been
+        through. For what britney did with the uploads it called ready, see
+        its <a href="{{ root }}migration/update-output.html">update output</a>.
         {% if stuck %}On a +1 maintenance shift? <a href="{{ root }}work/plus-one.html">Start from the +1 queue</a>.{% endif %}
       </p>
     </div>
@@ -33,22 +37,14 @@
 
 {% if stuck %}
 {# The list first, the statistics one tab away: people open the board to
-   find packages. Uploads in their first days have their own tab, where
-   they are seen; folded under the table, they were not. #}
+   find packages. One list: uploads in their first days come last, marked
+   "still settling", and the History filter can show or hide them. #}
 <section class="p-strip is-shallow u-no-padding--top cairn-tabbed" id="the_list" data-tabs>
   <div class="row">
     <div class="col-12">
-      {# What sets Stuck and Still settling apart, before the reader picks. #}
-      <p class="cairn-tabs-intro u-text--muted">
-        <strong>Stuck</strong>: britney has held the upload more than
-        {{ settling_days }} days.<br />
-        <strong>Still settling</strong>: uploaded in the
-        last {{ settling_days }} days, so the uploader is probably still on it.
-      </p>
-      <nav class="p-tabs" aria-label="Stuck in proposed board">
+      <nav class="p-tabs" aria-label="Proposed queue">
         <ul class="p-tabs__list">
-          <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck_list" data-tab="stuck_list"><span>Stuck (<span data-tab-count="stuck_list">{{ settled | length }}</span>)</span></a></li>
-          <li class="p-tabs__item"><a class="p-tabs__link cairn-term" href="#still_settling" data-tab="still_settling"{{ g.tip("settling") }}><span>Still settling (<span data-tab-count="still_settling">{{ settling | length }}</span>)</span></a></li>
+          <li class="p-tabs__item"><a class="p-tabs__link" href="#stuck_list" data-tab="stuck_list"><span>Stuck (<span data-tab-count="stuck_list">{{ stuck | length }}</span>)</span></a></li>
           <li class="p-tabs__item"><a class="p-tabs__link" href="#board_stats" data-tab="board_stats">Statistics</a></li>
         </ul>
       </nav>
@@ -62,24 +58,13 @@
     <div class="row">
       <div class="col-12">
         <h2 class="p-heading--4 cairn-tab-panel__title">Stuck</h2>
-        {% if settled %}
-        {{ m.stuck_table(settled, everything, "Every upload stuck in proposed") }}
-        {% else %}
-        <p>Nothing has been stuck for more than {{ settling_days }} days.</p>
-        {% endif %}
-        <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
-      </div>
-    </div>
-  </div>
-  <div class="cairn-tab-panel" id="still_settling" data-filter-group>
-    <div class="row">
-      <div class="col-12">
-        <h2 class="p-heading--4 cairn-tab-panel__title">Still settling</h2>
-        {% if settling %}
-        {{ m.stuck_table(settling, everything, "Uploads still settling") }}
-        {% else %}
-        <p>Nothing uploaded in the last {{ settling_days }} days is held.</p>
-        {% endif %}
+        <p class="u-text--muted">
+          Longest in -proposed first. Uploads from the last
+          {{ settling_days }} days come last, marked
+          <span class="p-chip is-readonly is-inline is-dense cairn-term"{{ g.tip("settling") }}><span class="p-chip__value">still settling</span></span>:
+          the uploader is probably still on them.
+        </p>
+        {{ m.stuck_table(stuck, everything, "Every upload stuck in proposed") }}
         <p class="cairn-tab-panel__none u-text--muted" hidden>Nothing here matches the filter.</p>
       </div>
     </div>
@@ -89,7 +74,7 @@
   <div class="row">
     {# The total spans both list tabs, so it opens neither. #}
     {{ ui.stat(migration.total, "in -proposed, held by britney") }}
-    {{ ui.stat(migration.total - migration.settling, "past the first " ~ settling_days ~ " days", "?#stuck_list", term="past_settling") }}
+    {{ ui.stat(migration.total - migration.settling, "past the first " ~ settling_days ~ " days", "?history=settled#the_list", term="past_settling") }}
     {{ ui.stat(migration.blocking, "packages whose tests block others", term="blocking") }}
     {% if migration.has_a_week(now) %}
     {{ ui.stat(migration.opened_recently, "stuck this week", "?history=recent#the_list" if migration.opened_recently else None) }}
@@ -99,12 +84,12 @@
   </div>
   <div class="row">
     <div class="col-7 col-medium-6">
-      <h2 class="p-heading--5">Stuck uploads over time</h2>
+      <h2 class="p-heading--5">Stuck Uploads Over Time</h2>
       {{ ui.trend(migration_trend, "stuck uploads") }}
     </div>
     {% if migration.reasons %}
     <div class="col-5 col-medium-6" id="why_stuck">
-      <h2 class="p-heading--5">Why uploads are stuck</h2>
+      <h2 class="p-heading--5">Why Uploads Are Stuck</h2>
       {% set widest = migration.reasons | map(attribute=1) | max %}
       <ul class="cairn-bars">
         {% for reason, count in migration.reasons %}
@@ -121,13 +106,13 @@
 
   <div class="row" id="top_owners">
     <div class="col-12">
-      <h2 class="p-heading--5">Who has the most stuck</h2>
+      <h2 class="p-heading--5">Who Has the Most Stuck</h2>
     </div>
     <div class="col-4 col-medium-2">
-      {{ ui.top_owners(migration_teams, "Subscribed teams", "stuck_count", "migration_href", root ~ "owners/index.html#teams") }}
+      {{ ui.top_owners(migration_teams, "Subscribed Teams", "stuck_count", "migration_href", root ~ "owners/index.html#teams") }}
     </div>
     <div class="col-4 col-medium-2">
-      {{ ui.top_owners(migration_package_sets, "Package sets", "stuck_count", "migration_href", root ~ "owners/index.html#sets") }}
+      {{ ui.top_owners(migration_package_sets, "Package Sets", "stuck_count", "migration_href", root ~ "owners/index.html#sets") }}
     </div>
     <div class="col-4 col-medium-2">
       {{ ui.top_owners(migration_uploaders | rejectattr("name", "in", ["plus-one-maintenance", "no-uploader-recorded"]) | list, "Uploaders", "stuck_count", "migration_href", root ~ "owners/index.html#uploaders") }}

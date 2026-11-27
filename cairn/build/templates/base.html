@@ -45,17 +45,23 @@
                wrong whenever it is open. cairn.js adds it and keeps it
                true to what is shown. #}
             {% set current = current_href | default(none) %}
+            {# Stuck in proposed has britney's two outputs: its excuses (why it
+               holds uploads) and its update output (what it did with the
+               ones it called ready). #}
             {% for key, label, href, children in (
               ("browse", "Browse", "packages/index.html", (
                 ("packages/index.html", "Packages"),
-                ("owners/index.html", "Teams and people"),
+                ("owners/index.html", "Teams and People"),
               )),
-              ("work", "Up for grabs", "work/index.html", (
-                ("work/index.html", "Anyone can pick up"),
-                ("work/plus-one.html", "+1 maintenance shift"),
+              ("work", "Up for Grabs", "work/index.html", (
+                ("work/index.html", "Anyone Can Pick Up"),
+                ("work/plus-one.html", "+1 Maintenance Shift"),
               )),
               ("merges", "Merges", "merges/index.html", ()),
-              ("migration", "Stuck in proposed", "migration/index.html", ()),
+              ("migration", "Stuck in Proposed", "migration/index.html", (
+                ("migration/index.html", "Proposed Queue"),
+                ("migration/update-output.html", "Update Output"),
+              )),
               ("nbs", "NBS", "nbs/index.html", ()),
             ) %}
             {% set selected = section == key or (key == "browse" and section in ("packages", "owners")) %}

@@ -2,28 +2,27 @@
 {% import "_migration.html" as m with context %}
 {% import "_ui.html" as ui with context %}
 {% import "_glossary.html" as g with context %}
-{% block title %}Cairn | {% if group.is_everything %}All uploads stuck in proposed{% else %}Stuck in proposed for {{ group.title }}{% endif %}{% endblock %}
+{% block title %}Cairn | {% if group.is_everything %}All of the Proposed Queue{% else %}Proposed Queue for {{ group.title }}{% endif %}{% endblock %}
 
 {# An owner's stuck uploads. What the owner is holding back has its own tab,
    holding_group.html. #}
 {% block content %}
-{% set settled = group.settled(now) %}
 {% set settling = group.settling(now) %}
 <section class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
       <p class="p-text--small-caps u-text--muted">
-        <a href="{{ root }}migration/index.html">Stuck in proposed</a> / {{ group.subtitle }}
+        <a href="{{ root }}migration/index.html">Proposed Queue</a> / {{ group.subtitle }}
       </p>
-      <h1 class="p-heading--3">{{ "All uploads stuck in proposed" if group.is_everything else group.title }}</h1>
+      <h1 class="p-heading--3">{{ "All of the Proposed Queue" if group.is_everything else group.title }}</h1>
       {% if group.note %}
       <p class="u-text--muted">{{ group.note }}</p>
       {% endif %}
       <ul class="p-inline-list--middot">
         {% if group.stuck %}
         {# The total is plain text: the list starts right below. The
-           settling count opens its tab, which is otherwise easy to miss. #}
-        <li class="p-inline-list__item">{{ group.stuck_count }} stuck in proposed{% if settling %}, <a href="#still_settling">{{ settling | length }} still settling</a>{% endif %}</li>
+           settling count filters the list to them. #}
+        <li class="p-inline-list__item">{{ group.stuck_count }} stuck in proposed{% if settling %}, <a href="?history=settling#stuck">{{ settling | length }} still settling</a>{% endif %}</li>
         {% endif %}
       </ul>
       {% if group.kind == "sets" %}{{ ui.share(group.stuck_count, set_sizes.get(group.name, 0), "packages in this set are stuck in proposed") }}{% endif %}
@@ -36,7 +35,7 @@
 <section class="p-strip is-shallow u-no-padding--top" id="stuck">
   <div class="row">
     <div class="col-12">
-      {% call m.stuck_tabs(settled, settling, group, "Uploads stuck in proposed for " ~ group.title) %}
+      {% call m.stuck_list(group.stuck, group, "Uploads stuck in proposed for " ~ group.title) %}
       {{ ui.filters("migration", reasons=migration.reasons | map(attribute=0) | list) }}
       {{ g.glossary(g.STUCK_TERMS) }}
       {% endcall %}

@@ -1,9 +1,11 @@
-"""The "Stuck in proposed" board, and how it joins the merges board."""
+"""The "Stuck in Proposed" board, and how it joins the merges board."""
 
 from __future__ import annotations
 
 import re
 from datetime import UTC, datetime, timedelta
+
+import pytest
 
 from cairn.build.site import (
     PLUS_ONE,
@@ -424,7 +426,7 @@ class TestPages:
     def test_writes_the_migration_index(self, tmp_path):
         out = self.built(tmp_path, [opened(stuck())], self.owners())
         page = (out / "migration/index.html").read_text()
-        assert "Stuck in proposed" in page
+        assert "Stuck in Proposed" in page
         assert "migration/teams/ubuntu-server.html" in page
         assert 'aria-current="page"' in page
 
@@ -483,7 +485,9 @@ class TestPages:
         assert "curl" in blocking
         assert "libssh2" in blocking
 
-    def test_young_uploads_have_their_own_tab(self, tmp_path):
+    def test_young_uploads_share_the_list_marked_settling(self, tmp_path):
+        """One list (Nov 2026): settling uploads were a tab of their own,
+        which split one question over two lists."""
         events = [opened(stuck("old", days=20)), opened(stuck("new", days=1))]
         owners = meta(
             old=PackageMetadata(teams=("t",)), new=PackageMetadata(teams=("t",))
@@ -491,23 +495,17 @@ class TestPages:
         page = (
             self.built(tmp_path, events, owners) / "migration/teams/t.html"
         ).read_text()
-        # Their own tab, not a fold under the table that people missed.
-        stuck_tab = page.split('id="stuck_list"')[1].split('id="still_settling"')[0]
-        settling_tab = page.split('class="cairn-tab-panel" id="still_settling"')[1]
-        assert 'id="old"' in stuck_tab and 'id="new"' not in stuck_tab
-        assert 'id="new"' in settling_tab
-        tabs = page.split('aria-label="Stuck or still settling"')[1].split("</nav>")[0]
-        assert re.search(
-            r'data-tab="still_settling"[^>]*><span>Still settling \(', tabs
-        )
-        # Each tab names its count, in a span cairn.js keeps to the filter.
-        assert '<span>Stuck (<span data-tab-count="stuck_list">1</span>)' in tabs
-        assert (
-            '<span>Still settling (<span data-tab-count="still_settling">1</span>)'
-            in tabs
-        )
+        assert 'id="still_settling"' not in page
+        assert page.index('id="old"') < page.index('id="new"')
+        new = page.split('id="new"')[1].split("</tr>")[0]
+        old = page.split('id="old"')[1].split("</tr>")[0]
+        assert ">still settling<" in new and ">still settling<" not in old
+        assert "settling" in new.split('data-f-history="')[1].split('"')[0]
+        assert "settled" in old.split('data-f-history="')[1].split('"')[0]
+        # The count filters the list rather than opening a tab.
+        assert 'href="?history=settling#stuck">1 still settling</a>' in page
 
-    def test_the_board_tabs_name_their_counts(self, tmp_path):
+    def test_the_board_has_one_list_and_statistics(self, tmp_path):
         events = [
             opened(stuck("old", days=20)),
             opened(stuck("older", days=30)),
@@ -516,15 +514,18 @@ class TestPages:
         board = (
             self.built(tmp_path, events, meta()) / "migration/index.html"
         ).read_text()
-        tabs = board.split('aria-label="Stuck in proposed board"')[1].split("</nav>")[0]
-        assert '<span>Stuck (<span data-tab-count="stuck_list">2</span>)' in tabs
-        assert (
-            '<span>Still settling (<span data-tab-count="still_settling">1</span>)'
-            in tabs
-        )
-        # cairn.js finds the tab's count by the panel's id.
+        tabs = board.split('aria-label="Proposed queue"')[1].split("</nav>")[0]
+        assert re.findall(r'data-tab="(\w+)"', tabs) == ["stuck_list", "board_stats"]
+        assert '<span>Stuck (<span data-tab-count="stuck_list">3</span>)' in tabs
         assert 'class="cairn-tab-panel" id="stuck_list" data-filter-group' in board
-        assert 'class="cairn-tab-panel" id="still_settling" data-filter-group' in board
+        assert '<option value="settling">Still settling</option>' in board
+
+    def test_the_page_is_called_proposed_queue(self, tmp_path):
+        board = (
+            self.built(tmp_path, [opened(stuck())], meta()) / "migration/index.html"
+        ).read_text()
+        assert "<title>Cairn | Proposed Queue</title>" in board
+        assert '<h1 class="p-heading--2">Proposed Queue</h1>' in board
 
     def test_reuploads_are_counted(self, tmp_path):
         events = [
@@ -614,7 +615,7 @@ class TestSeparatePages:
             in (out / "merges/teams/ubuntu-server.html").read_text()
         )
         assert (
-            "<title>Cairn | Stuck in proposed for ubuntu-server</title>"
+            "<title>Cairn | Proposed Queue for ubuntu-server</title>"
             in (out / "migration/teams/ubuntu-server.html").read_text()
         )
 
@@ -622,7 +623,10 @@ class TestSeparatePages:
         out = self.built(tmp_path, [opened(stuck())], self.owners())
         page = (out / "migration/teams/ubuntu-server.html").read_text()
         nav = page.split('aria-label="Main"')[1].split("</nav>")[0]
-        assert 'href="../../migration/index.html" aria-current="page"' in nav
+        selected = nav.split("is-selected")[1].split("</ul>")[0]
+        assert ">Stuck in Proposed</a>" in selected
+        # An owner page is in the section, but it is neither menu page.
+        assert "aria-current" not in nav
 
 
 def chip(html, text):
@@ -1001,6 +1005,37 @@ class TestWhyColumn:
         page = (tmp_path / "migration/teams/t.html").read_text()
         return page.split('id="libssh2"')[1].split("</tr>")[0]
 
+    @pytest.mark.parametrize(
+        ("reason", "label", "says"),
+        [
+            (
+                "breaks_installs",
+                "Tried by britney, then skipped",
+                "Britney tried to migrate it and backed out",
+            ),
+            (
+                "will_attempt",
+                "Ready, outcome not known",
+                "Britney says it will attempt the migration",
+            ),
+        ],
+    )
+    def test_a_candidate_that_stayed_says_what_britney_did(
+        self, tmp_path, reason, label, says
+    ):
+        """Not a bare label: it says what happened, and links to the tab
+        that explains britney's run log."""
+        row = self.row(tmp_path, reasons=[reason], tests=[])
+        assert f"<strong>{label}</strong>" in row
+        assert says in row
+        assert (
+            'href="../../migration/update-output.html#how_to_read">Learn more<' in row
+        )
+        page = (tmp_path / "migration/index.html").read_text()
+        assert f'<option value="{reason}">{label}</option>' in page
+        uo = (tmp_path / "migration/update-output.html").read_text()
+        assert 'id="how_to_read"' in uo
+
     def test_one_line_per_failing_test(self, tmp_path):
         tests = [
             {"test": "curl", "version": "8", "results": {"s390x": "regression"}},
@@ -1309,7 +1344,7 @@ def test_a_stuck_page_has_no_footer_link_back(tmp_path):
     )
     page = (tmp_path / "migration/teams/t.html").read_text()
     assert "Everything stuck in proposed" not in page
-    assert 'href="../../migration/index.html">Stuck in proposed</a> /' in page
+    assert 'href="../../migration/index.html">Proposed Queue</a> /' in page
 
 
 class TestOwnershipWarningOnTheMigrationBoard:
@@ -1318,18 +1353,18 @@ class TestOwnershipWarningOnTheMigrationBoard:
     def test_says_so_when_ownership_is_old(self):
         old = Snapshot(collected_at=NOW - timedelta(days=5), packages={})
         html = render_migration(replay([opened(stuck())]), healthy(), old, now=NOW)
-        assert "Ownership data is 5 days old" in html
+        assert "Ownership Data Is 5 Days Old" in html
 
     def test_says_so_when_ownership_was_never_collected(self):
         html = render_migration(
             replay([opened(stuck())]), healthy(), Snapshot(), now=NOW
         )
-        assert "No ownership data" in html
+        assert "No Ownership Data" in html
 
     def test_quiet_when_ownership_is_fresh(self):
         html = render_migration(replay([opened(stuck())]), healthy(), meta(), now=NOW)
         assert "Ownership data is" not in html
-        assert "No ownership data" not in html
+        assert "No Ownership Data" not in html
 
 
 class TestThirdReview:
@@ -1524,9 +1559,9 @@ class TestFourthReview:
 
     def banner(self, html):
         main = html.split("<main>")[1].split("<footer")[0]
-        if "Data may be out of date" not in main:
+        if "Data May Be Out of Date" not in main:
             return None
-        return main.split("Data may be out of date")[1].split("</p>")[0]
+        return main.split("Data May Be Out of Date")[1].split("</p>")[0]
 
     def test_a_stale_migration_ingest_does_not_mark_merges_stale(self, tmp_path):
         pages = self.build(tmp_path, self.health(migration_days=3))
@@ -1698,7 +1733,7 @@ class TestPlusOneLink:
         return index.split("<h1")[1].split("</section>")[0]
 
     def test_the_board_links_to_the_plus_one_queue(self, tmp_path):
-        """The shift's queue, not the uploader page for Debian syncs: +1
+        """The shift's queue, not the uploader page for Debian Syncs: +1
         looks after the whole archive, syncs being one part of it."""
         intro = self.intro(tmp_path, [opened(stuck())])
         assert 'href="../work/plus-one.html"' in intro
@@ -1944,7 +1979,7 @@ class TestSyncRequester:
         assert "manually synced from Debian by" in page
         assert "Debian upload by sanvila" in page
         # Who looks after it: the requester and +1 maintenance, each once.
-        owners = page.split("Who looks after it")[1].split("</table>")[0]
+        owners = page.split("Who Looks After It")[1].split("</table>")[0]
         assert owners.count("uploaders/bdrung.html") == 1
         assert owners.count("uploaders/plus-one-maintenance.html") == 1
         assert "sanvila" not in owners
@@ -1972,3 +2007,264 @@ def test_sync_fields_are_written_only_when_set(tmp_path):
     assert PublishedVersion.from_dict(requested.as_dict()) == requested
     auto = PublishedVersion(version="1.0-2", signer=None, auto_synced=True)
     assert PublishedVersion.from_dict(auto.as_dict()) == auto
+
+
+class TestTriedAndSkipped:
+    """Candidates britney tried and backed out of, from its update output."""
+
+    def detail(self, run=None, **packages):
+        found = {
+            "packages": {
+                name: {"new_version": "1.0-2", "tests": [], "breaks": breaks}
+                for name, breaks in packages.items()
+            }
+        }
+        found["run"] = (
+            {
+                "generated": "2026-10-01T11:00:00+00:00",
+                "architectures": ["amd64", "s390x"],
+                "considered": 9,
+                "before": {"amd64": 3, "s390x": 5},
+                "after": {"amd64": 2, "s390x": 5},
+                "accepted": [
+                    {
+                        "item": "ccache",
+                        "migrated": True,
+                        "old_version": "1",
+                        "new_version": "2",
+                    },
+                    {"item": "dz6/armhf", "migrated": True},
+                    {"item": "-libold1/i386", "migrated": True},
+                ],
+                "old_libraries": [
+                    {
+                        "binary": "kmc",
+                        "arches": ["amd64v3"],
+                        "breaks": [self.attempt("amd64v3", ("iva", ["iva"]))],
+                    }
+                ],
+            }
+            if run is None
+            else run
+        )
+        return found
+
+    def attempt(self, arch, *broken, tries=1):
+        found = {
+            "item": "x",
+            "arch": arch,
+            "broken": [{"source": s, "binaries": list(b)} for s, b in broken],
+        }
+        if tries > 1:
+            found["tries"] = tries
+        return found
+
+    def site(self, tmp_path, detail, *signals):
+        events = [opened(s) for s in signals]
+        run = (detail or {}).get("run")
+        if run is not None and "skipped" not in run:
+            # The run names what it skipped: the skipped signals here.
+            run["skipped"] = sorted(
+                s.source_package
+                for s in signals
+                if "breaks_installs" in s.payload["reasons"]
+            )
+        build(
+            replay(events),
+            healthy(),
+            meta(**{s.source_package: PackageMetadata(teams=("t",)) for s in signals}),
+            out=tmp_path,
+            now=NOW,
+            series="stonking",
+            migration_detail=detail,
+        )
+        return (tmp_path / "migration/index.html").read_text()
+
+    def uo(self, tmp_path):
+        return (tmp_path / "migration/update-output.html").read_text()
+
+    def skipped(self, name, days=20):
+        return stuck(name, days=days, reasons=["breaks_installs"], tests=[])
+
+    def test_the_row_lists_what_would_break(self, tmp_path):
+        """python-pathable, 26 Nov 2026: a list to scan, not a sentence."""
+        detail = self.detail(
+            **{
+                "python-pathable": [
+                    self.attempt(
+                        "amd64",
+                        ("python-jsonschema-path", ["python3-jsonschema-path"]),
+                        ("python-openapi-core", ["a", "b"]),
+                    )
+                ]
+            }
+        )
+        page = self.site(tmp_path, detail, self.skipped("python-pathable"))
+        row = page.split('id="python-pathable"')[1].split("</tr>")[0]
+        assert "On <strong>amd64</strong>" in row
+        items = row.split('class="cairn-tests"')[1].split("</ul>")[0]
+        assert items.count("<li>") == 2
+        assert ">python-jsonschema-path<" in items
+        assert "(2 binaries)" in items
+        assert "update-output.html#how_to_read" in row
+
+    def test_its_own_binaries_are_said_so(self, tmp_path):
+        """The perl rebuilds on s390x: the new binary itself would not
+        install."""
+        detail = self.detail(perl1=[self.attempt("s390x", ("perl1", ["libperl1"]))])
+        page = self.site(tmp_path, detail, self.skipped("perl1"))
+        row = page.split('id="perl1"')[1].split("</tr>")[0]
+        assert "its own binaries would not install" in row
+        assert "<li>libperl1</li>" in row
+
+    def test_a_broken_package_that_is_stuck_links_to_its_row(self, tmp_path):
+        detail = self.detail(a=[self.attempt("amd64", ("b", ["libb1"]))], b=[])
+        page = self.site(tmp_path, detail, self.skipped("a"), stuck("b"))
+        row = page.split('id="a"')[1].split("</tr>")[0]
+        assert 'href="../migration/uploaders/no-uploader-recorded.html#b">b</a>' in row
+
+    def test_long_lists_fold_on_the_package_page(self, tmp_path):
+        """The board links "N more"; the package page folds the rest under
+        Show more / Show less rather than filling the screen."""
+        broken = [(f"s{i}", [f"lib{i}"]) for i in range(8)]
+        detail = self.detail(a=[self.attempt("s390x", *broken)])
+        board = self.site(tmp_path, detail, self.skipped("a"))
+        row = board.split('id="a"')[1].split("</tr>")[0]
+        assert ">s4<" in row and ">s5<" not in row
+        assert 'packages/a.html#why_held">3 more' in row
+        why = (tmp_path / "packages/a.html").read_text().split('id="why_held"')[1]
+        shown, folded = why.split('<details class="cairn-expand">', 1)
+        assert ">s4<" in shown and ">s5<" not in shown
+        assert "Show 3 more packages" in folded and "Show less" in folded
+        assert ">s7<" in folded
+
+    def test_failing_tests_fold_the_same_way(self, tmp_path):
+        many = [
+            {"test": f"t{i}", "version": "1", "results": {"s390x": "regression"}}
+            for i in range(7)
+        ]
+        self.site(tmp_path, None, stuck(tests=many))
+        why = (tmp_path / "packages/libssh2.html").read_text().split('id="why_held"')[1]
+        assert "Show 2 more failing tests" in why
+
+    def test_the_update_output_lists_skipped_first(self, tmp_path):
+        detail = self.detail(
+            a=[self.attempt("s390x", ("common", ["libc1"]), tries=3)],
+            b=[self.attempt("s390x", ("common", ["libc1"]))],
+            c=[self.attempt("amd64", ("other", ["libo"]))],
+        )
+        self.site(
+            tmp_path,
+            detail,
+            self.skipped("a", days=30),
+            self.skipped("b"),
+            self.skipped("c"),
+            stuck("held"),
+        )
+        page = self.uo(tmp_path)
+        tabs = re.findall(r'data-tab="(\w+)"', page)
+        assert tabs == ["uo_skipped", "uo_migrated", "uo_old_libraries", "uo_stats"]
+        assert '>Skipped (<span data-tab-count="uo_skipped">3</span>)<' in page
+        skipped = page.split('id="uo_skipped"')[1].split('id="uo_migrated"')[0]
+        assert skipped.count("data-filter\n") == 3
+        assert 'id="held"' not in skipped
+        assert skipped.index('id="a"') < skipped.index('id="b"')
+        row = skipped.split('id="a"')[1].split("</tr>")[0]
+        assert (
+            '<td data-heading="Tries" class="u-align--right" data-sort="3">3</td>'
+            in row
+        )
+
+    def test_breaks_first_on_says_what_was_and_was_not_checked(self, tmp_path):
+        """Britney stops at the first architecture that gets worse: the
+        earlier ones passed, the later ones were never checked."""
+        run = self.detail()["run"] | {
+            "architectures": ["amd64", "arm64", "s390x"],
+        }
+        detail = self.detail(
+            run=run,
+            a=[self.attempt("arm64", ("x", ["libx"])) | {"item": "a"}],
+            b=[self.attempt("arm64", ("x", ["libx"])) | {"item": "b/arm64"}],
+        )
+        self.site(tmp_path, detail, self.skipped("a"), self.skipped("b"))
+        skipped = self.uo(tmp_path).split('id="uo_skipped"')[1]
+        cell = skipped.split('id="a"')[1].split('data-heading="What would')[0]
+        assert "<strong>arm64</strong>" in cell
+        assert "Passed on amd64." in cell and "Not checked on s390x." in cell
+        # An item on one architecture is checked there alone.
+        cell = skipped.split('id="b"')[1].split('data-heading="What would')[0]
+        assert "<strong>arm64</strong>" in cell and "Passed on" not in cell
+
+    def test_the_run_summary_and_how_to_read(self, tmp_path):
+        self.site(tmp_path, self.detail(a=[]), self.skipped("a"))
+        page = self.uo(tmp_path)
+        assert "britney set out to try 9 items" in page
+        assert "8 before the run, 7 after" in page
+        how = page.split('id="how_to_read"')[1].split("</details>")[0]
+        for line in ("recur:", "trying:", "accepted:", "skipped:", "got:", "final:"):
+            assert f"<code>{line}</code>" in how
+
+    def test_what_migrated(self, tmp_path):
+        self.site(tmp_path, self.detail(a=[]), self.skipped("a"))
+        migrated = self.uo(tmp_path).split('id="uo_migrated"')[1]
+        migrated = migrated.split('id="uo_old_libraries"')[0]
+        assert "<code>1</code>" in migrated and "<code>2</code>" in migrated
+        assert "The upload, on armhf only" in migrated
+        assert "Removed from stonking on i386" in migrated
+
+    def test_old_libraries_say_what_still_needs_them(self, tmp_path):
+        self.site(tmp_path, self.detail(a=[]), self.skipped("a"))
+        old = (
+            self.uo(tmp_path)
+            .split('id="uo_old_libraries"')[1]
+            .split('id="uo_stats"')[0]
+        )
+        assert "<code>kmc</code>" in old and "amd64v3" in old and "iva" in old
+
+    def test_statistics_come_last(self, tmp_path):
+        detail = self.detail(
+            a=[self.attempt("s390x", ("common", ["libc1"]))],
+            b=[self.attempt("s390x", ("common", ["libc1"]), ("rare", ["r"]))],
+        )
+        self.site(tmp_path, detail, self.skipped("a"), self.skipped("b"))
+        page = self.uo(tmp_path)
+        assert page.index('id="uo_skipped"') < page.index('id="uo_stats"')
+        ranked = page.split('id="most_broken"')[1].split("</ol>")[0]
+        assert ranked.index("common") < ranked.index("rare")
+        assert "in the way of a, b" in ranked
+
+    def test_a_run_that_does_not_match_the_log_is_not_shown(self, tmp_path):
+        """Review on #30: detail left by an earlier run beside newer signals
+        must not be presented as their outcome."""
+        detail = self.detail(a=[self.attempt("s390x", ("x", ["libx"]))])
+        detail["run"]["skipped"] = ["something-else"]
+        self.site(tmp_path, detail, self.skipped("a"))
+        page = self.uo(tmp_path)
+        assert "does not match the latest excuses" in page
+        assert 'id="uo_skipped"' not in page
+
+    def test_a_refused_attempt_is_shown_not_called_unavailable(self, tmp_path):
+        """Review on #30: will_attempt also covers an attempt britney
+        refused, whose error the detail keeps."""
+        refused = {"item": "a", "arch": "", "broken": [], "error": "Boom('x')"}
+        detail = self.detail(a=[refused])
+        board = self.site(
+            tmp_path, detail, stuck("a", reasons=["will_attempt"], tests=[])
+        )
+        row = board.split('id="a"')[1].split("</tr>")[0]
+        assert "Britney refused to try it: <code>Boom(&#39;x&#39;)</code>" in row
+        assert "no record of the attempt" not in row
+
+    def test_will_attempt_without_a_record_does_not_blame_the_log(self, tmp_path):
+        board = self.site(
+            tmp_path, None, stuck("a", reasons=["will_attempt"], tests=[])
+        )
+        row = board.split('id="a"')[1].split("</tr>")[0]
+        assert "has no record of the attempt" in row
+        assert "was not available" not in row
+
+    def test_without_the_run_log_the_page_says_so(self, tmp_path):
+        self.site(tmp_path, None, self.skipped("a"))
+        page = self.uo(tmp_path)
+        assert "has no update output from britney's last run" in page
+        assert 'id="uo_skipped"' not in page

@@ -91,6 +91,8 @@ REASON_ORDER = (
     "regression",
     "missing_build",
     "uninstallable",
+    # A candidate britney tried and skipped (cairn.ingest.update_output).
+    "breaks_installs",
     "no_binaries",
     "old_binaries",
     "waiting",
@@ -98,6 +100,8 @@ REASON_ORDER = (
     "block_bug",
     "rc_bug",
     "tests_running",
+    # A candidate whose attempt cairn cannot see.
+    "will_attempt",
     "other",
 )
 
@@ -390,6 +394,68 @@ def _held_tests(
 
 
 @dataclass(frozen=True, slots=True)
+class Attempt:
+    """Britney tried to migrate an upload and backed out: what it would have
+    left uninstallable in the release pocket. From the migration detail
+    (cairn.ingest.update_output), so only for the upload it describes."""
+
+    # The first architecture with a problem; britney checks no further, so
+    # others may break too. "" when britney refused the attempt outright.
+    arch: str
+    # (source, its binaries), in source order; source None when no index
+    # named one.
+    broken: tuple[tuple[str | None, tuple[str, ...]], ...] = ()
+    # Items it was only ever tried together with.
+    together: tuple[str, ...] = ()
+    error: str | None = None
+    # How many times britney tried it in the run.
+    tries: int = 1
+    # Britney's item: "src", "src/arch" or "-bin/arch".
+    item: str = ""
+
+    @property
+    def binaries(self) -> int:
+        return sum(len(names) for _, names in self.broken)
+
+    @property
+    def sources(self) -> tuple[str, ...]:
+        return tuple(source for source, _ in self.broken if source)
+
+    def others(self, package: str) -> tuple[tuple[str | None, tuple[str, ...]], ...]:
+        """What it would break besides the upload's own binaries."""
+        return tuple(g for g in self.broken if g[0] != package)
+
+    def own(self, package: str) -> tuple[str, ...]:
+        """Its own binaries that would not install: a rebuild that does not
+        fit what is already in the release (the s390x perl rebuilds)."""
+        return tuple(
+            b for source, names in self.broken if source == package for b in names
+        )
+
+
+def _attempt(record: Mapping[str, Any]) -> Attempt:
+    return Attempt(
+        arch=str(record.get("arch") or ""),
+        broken=tuple(
+            (g.get("source"), tuple(g.get("binaries") or ()))
+            for g in record.get("broken") or ()
+        ),
+        together=tuple(record.get("together") or ()),
+        error=record.get("error"),
+        tries=int(record.get("tries") or 1),
+        item=str(record.get("item") or ""),
+    )
+
+
+def _attempts(
+    payload: Mapping[str, Any], detail: Mapping[str, Any] | None
+) -> tuple[Attempt, ...]:
+    if detail is None or detail.get("new_version") != payload.get("new_version"):
+        return ()
+    return tuple(_attempt(b) for b in detail.get("breaks") or ())
+
+
+@dataclass(frozen=True, slots=True)
 class StuckRow:
     """One upload britney will not migrate, with what cairn knows of it."""
 
@@ -437,6 +503,13 @@ class StuckRow:
     # copied it. See publications.requester().
     requester: str | None = None
     auto_synced: bool = False
+    # Britney tried it and backed out (reason breaks_installs).
+    attempts: tuple[Attempt, ...] = ()
+
+    @property
+    def broken_sources(self) -> tuple[str, ...]:
+        """Every source an attempt would break, each once, in order."""
+        return tuple(dict.fromkeys(s for a in self.attempts for s in a.sources))
 
     @property
     def owner(self) -> str:
@@ -691,9 +764,6 @@ class Group:
     @property
     def stuck_names(self) -> set[str]:
         return {r.package for r in self.stuck}
-
-    def settled(self, now: datetime) -> list[StuckRow]:
-        return [r for r in self.stuck if not r.settling(now)]
 
     def settling(self, now: datetime) -> list[StuckRow]:
         return [r for r in self.stuck if r.settling(now)]
@@ -962,6 +1032,7 @@ def stuck_rows(
                 new_version=new_version,
                 reasons=tuple(sorted(payload.get("reasons") or (), key=_reason_key)),
                 tests=_held_tests(payload, detailed.get(name)),
+                attempts=_attempts(payload, detailed.get(name)),
                 missing_builds=tuple(payload.get("missing_builds") or ()),
                 waits_for=tuple(payload.get("waits_for") or ()),
                 bugs=tuple(payload.get("bugs") or ()),
@@ -1414,6 +1485,163 @@ def merges_for_stuck(rows: Iterable[Row], stuck: Iterable[StuckRow]) -> dict[str
     return found
 
 
+@dataclass(frozen=True, slots=True)
+class Skipped:
+    """The board's view of uploads britney tried and backed out of."""
+
+    # Longest in -proposed first, as on the board.
+    rows: tuple[StuckRow, ...] = ()
+    # (first architecture that breaks, uploads), most first.
+    arches: tuple[tuple[str, int], ...] = ()
+    # (source, the skipped uploads that would break it), most first: the
+    # packages most often in the way, which is where a fix helps most.
+    most_broken: tuple[tuple[str, tuple[StuckRow, ...]], ...] = ()
+
+
+def skipped(stuck: Iterable[StuckRow]) -> Skipped:
+    rows = tuple(r for r in stuck if "breaks_installs" in r.reasons)
+    arches: dict[str, int] = {}
+    broken: dict[str, list[StuckRow]] = {}
+    for row in rows:
+        for arch in dict.fromkeys(a.arch for a in row.attempts if a.arch):
+            arches[arch] = arches.get(arch, 0) + 1
+        for source in row.broken_sources:
+            # An upload breaking its own binaries is in nobody else's way.
+            if source != row.package:
+                broken.setdefault(source, []).append(row)
+    return Skipped(
+        rows=rows,
+        arches=tuple(sorted(arches.items(), key=lambda kv: (-kv[1], kv[0]))),
+        most_broken=tuple(
+            (source, tuple(found))
+            for source, found in sorted(
+                broken.items(), key=lambda kv: (-len(kv[1]), kv[0])
+            )
+        ),
+    )
+
+
+@dataclass(frozen=True, slots=True)
+class Accepted:
+    """An item britney accepted in its run: an upload, an upload on one
+    architecture ("src/arch"), or a removal of binaries left behind
+    ("-bin/arch")."""
+
+    item: str
+    migrated: bool = True
+    old_version: str | None = None
+    new_version: str | None = None
+
+    @property
+    def removal(self) -> bool:
+        return self.item.startswith("-")
+
+    @property
+    def name(self) -> str:
+        return self.item.lstrip("-").split("/", 1)[0]
+
+    @property
+    def arch(self) -> str | None:
+        _, _, arch = self.item.partition("/")
+        return arch or None
+
+
+@dataclass(frozen=True, slots=True)
+class OldLibrary:
+    """A binary its source no longer builds, which britney could not remove
+    from the release without breaking what still needs it."""
+
+    binary: str
+    arches: tuple[str, ...]
+    attempts: tuple[Attempt, ...] = ()
+    # Other architectures where removing it would break something too.
+    also_on: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class RunView:
+    """Britney's last run, from its run log (update_output.txt)."""
+
+    generated: datetime | None = None
+    architectures: tuple[str, ...] = ()
+    considered: int | None = None
+    before: Mapping[str, int] = field(default_factory=dict)
+    after: Mapping[str, int] = field(default_factory=dict)
+    accepted: tuple[Accepted, ...] = ()
+    old_libraries: tuple[OldLibrary, ...] = ()
+    skipped: Skipped = field(default_factory=Skipped)
+    # False when the saved run does not describe the board's rows: a run
+    # that logged its events and then failed to save its detail leaves the
+    # previous run's detail behind (review on #30).
+    matches: bool = True
+
+    @property
+    def available(self) -> bool:
+        return self.generated is not None and self.matches
+
+    @property
+    def migrated(self) -> tuple[Accepted, ...]:
+        return tuple(a for a in self.accepted if a.migrated)
+
+    def total(self, counts: Mapping[str, int]) -> int:
+        return sum(counts.values())
+
+    def checked(self, attempt: Attempt) -> tuple[tuple[str, ...], tuple[str, ...]]:
+        """(passed, not checked) around the architecture an attempt broke.
+
+        Britney checks the architectures in its "Arch order is" order and
+        stops at the first that gets worse (britney2/migration.py,
+        migrate_items_to_target_suite): those before it passed, those after
+        it were never checked. Only for a whole upload; an item on one
+        architecture is checked on that one alone.
+        """
+        if "/" in attempt.item or attempt.arch not in self.architectures:
+            return (), ()
+        i = self.architectures.index(attempt.arch)
+        return self.architectures[:i], self.architectures[i + 1 :]
+
+
+def run_view(detail: Mapping[str, Any] | None, stuck: Iterable[StuckRow]) -> RunView:
+    """The run as saved, joined to the board's rows only when they agree.
+
+    The skipped list comes from the run itself, and must name the same
+    sources the log says are skipped now; otherwise the detail is from
+    another run, and the page says so rather than mixing two runs.
+    """
+    run = (detail or {}).get("run") or {}
+    generated = run.get("generated")
+    stuck = list(stuck)
+    logged = {r.package for r in stuck if "breaks_installs" in r.reasons}
+    saved = set(run.get("skipped") or ())
+    return RunView(
+        generated=datetime.fromisoformat(generated) if generated else None,
+        architectures=tuple(run.get("architectures") or ()),
+        considered=run.get("considered"),
+        before=dict(run.get("before") or {}),
+        after=dict(run.get("after") or {}),
+        accepted=tuple(
+            Accepted(
+                item=str(a.get("item") or ""),
+                migrated=bool(a.get("migrated", True)),
+                old_version=a.get("old_version"),
+                new_version=a.get("new_version"),
+            )
+            for a in run.get("accepted") or ()
+        ),
+        old_libraries=tuple(
+            OldLibrary(
+                binary=str(o.get("binary") or ""),
+                arches=tuple(o.get("arches") or ()),
+                attempts=tuple(_attempt(b) for b in o.get("breaks") or ()),
+                also_on=tuple(o.get("also_on") or ()),
+            )
+            for o in run.get("old_libraries") or ()
+        ),
+        skipped=skipped(r for r in stuck if r.package in saved),
+        matches="skipped" in run and saved == logged,
+    )
+
+
 def waiting_for(stuck: Iterable[StuckRow]) -> dict[str, list[StuckRow]]:
     """Turn "this upload waits for those" around: awaited package -> the
     stuck uploads waiting on it.
@@ -1763,6 +1991,7 @@ def _context(
         ),
         # Cross-links between the boards: a lookup by package, no more.
         "stuck_by_package": {r.package: r for r in stuck},
+        "run": run_view(migration_detail, stuck),
         "merge_for_stuck": merges_for_stuck(rows, stuck),
         "waiting_for": waiting,
         "packages": packages,
@@ -1911,7 +2140,14 @@ def _render_migration(context: Mapping[str, Any]) -> str:
     return (
         _environment()
         .get_template("migration.html")
-        .render(**{**context, "root": "../", "section": "migration"})
+        .render(
+            **{
+                **context,
+                "root": "../",
+                "section": "migration",
+                "current_href": "migration/index.html",
+            }
+        )
     )
 
 
@@ -2083,6 +2319,7 @@ def build(
     for view in context["packages"].values():
         (out / view.href).write_text(render_package(view, context), encoding="utf-8")
     for href, template, section in (
+        ("migration/update-output.html", "update_output.html", "migration"),
         ("nbs/index.html", "nbs.html", "nbs"),
         ("packages/index.html", "packages.html", "packages"),
         ("owners/index.html", "owners.html", "owners"),

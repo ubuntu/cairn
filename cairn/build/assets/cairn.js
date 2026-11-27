@@ -516,10 +516,8 @@
     // The tab the URL names; else, when a filter came with the URL, the
     // first tab with a match; else the first.
     // The panel the URL's #hash names, or the one holding the row it
-    // names: a link to a settling upload opens the settling tab.
-    // A link to the whole tabbed section (a filter link such as
-    // "?reason=regression#the_list") opens the first list with a match:
-    // the matches may all be in Still settling.
+    // names. A link to the whole tabbed section (a filter link such as
+    // "?reason=regression#the_list") opens the first list with a match.
     function panelFor(hash) {
       var id = decodeURIComponent(hash.slice(1));
       if (!id) return -1;

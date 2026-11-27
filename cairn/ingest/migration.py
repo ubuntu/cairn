@@ -18,8 +18,16 @@ Measured on 1 Oct 2026, 07:18 UTC run:
                           39, waiting on another item 21
   reasons per package     one 516, two 62, three 9
 
-Only blocked uploads become signals. A candidate is about to migrate, which is
-the opposite of needing attention.
+Blocked uploads become signals, and so do candidates that did not migrate.
+Britney's excuses call a candidate "Will attempt migration", and the same
+run then tries it; a candidate that would leave packages uninstallable is
+skipped, and stays in -proposed looking ready (cairn.ingest.update_output).
+Until Nov 2026 cairn dropped every candidate, so a package whose last test
+passed was logged as resolved while it stayed where it was: 186 of 211
+candidates on 26 Nov 2026, 15:37 UTC. Now a candidate is left out only when
+britney's run log says it migrated. When that log is missing or from
+another run, a candidate is kept with the reason "will_attempt", which
+claims nothing: dropping it would log a resolution that may not be true.
 
 Britney's floating-point age is not stored: it changes every run, and storing
 it would append one meaningless update per signal per run. The date it implies
@@ -51,15 +59,17 @@ import html
 import logging
 import re
 from collections.abc import Callable, Iterable, Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from enum import StrEnum
 from typing import Any
 
 import yaml
 
-from cairn.ingest.archive import decompress
+from cairn.ingest import update_output
+from cairn.ingest.archive import decompress, packages_url, parse_packages
 from cairn.ingest.base import Fetcher, Ingester, Kind, Signal
+from cairn.ingest.update_output import OUTPUT_URL, Breakage, Output
 
 log = logging.getLogger(__name__)
 
@@ -96,7 +106,16 @@ class Reason(StrEnum):
     # Binaries the new version no longer builds are still in -proposed
     # (britney's "cruft"): an archive admin has to remove them.
     OLD_BINARIES = "old_binaries"
+    # A candidate britney tried and skipped: migrating it would make
+    # packages in the release pocket uninstallable.
+    BREAKS_INSTALLS = "breaks_installs"
+    # A candidate whose attempt cairn cannot see: britney's run log was
+    # missing, from another run, or britney refused the attempt outright.
+    WILL_ATTEMPT = "will_attempt"
     OTHER = "other"
+
+
+CANDIDATE_REASONS = frozenset({Reason.BREAKS_INSTALLS, Reason.WILL_ATTEMPT})
 
 
 _WAITING_VERDICTS = frozenset(
@@ -116,6 +135,11 @@ class StaleVerdict(RuntimeError):
 class Excuses:
     generated: datetime | None
     entries: list[dict[str, Any]]
+    # Britney's run log, when it could be read (cairn.ingest.update_output).
+    output: Output | None = None
+    # Which source each broken binary comes from, by architecture, for the
+    # binaries the run log names.
+    sources: Mapping[str, Mapping[str, str]] = field(default_factory=dict)
 
 
 def _loader() -> type:
@@ -421,7 +445,20 @@ def in_proposed_since(
     return (generated - timedelta(days=age)).date().isoformat()
 
 
-def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, Any]:
+def candidate_reason(entry: Mapping[str, Any], output: Output | None) -> str:
+    """Why a candidate is still here. `output` is britney's run log for the
+    same run, or None."""
+    found = output.breaks.get(str(entry.get("item-name") or "")) if output else None
+    if found is not None and found.arch:
+        return Reason.BREAKS_INSTALLS
+    return Reason.WILL_ATTEMPT
+
+
+def payload(
+    entry: Mapping[str, Any],
+    generated: datetime | None,
+    output: Output | None = None,
+) -> dict[str, Any]:
     policy = entry.get("policy_info") or {}
     dependencies = entry.get("dependencies") or {}
     bugs = (policy.get("update-excuse") or {}).keys() - {"verdict"}
@@ -430,7 +467,11 @@ def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, A
         "new_version": entry.get("new-version"),
         # Britney leaves out the component for main.
         "component": entry.get("component") or "main",
-        "reasons": reasons(entry),
+        "reasons": (
+            [str(candidate_reason(entry, output))]
+            if entry.get("is-candidate")
+            else reasons(entry)
+        ),
         "failing_tests": failing_tests(tests(entry)),
         "missing_builds": sorted(
             (entry.get("missing-builds") or {}).get("on-architectures") or []
@@ -461,29 +502,132 @@ def payload(entry: Mapping[str, Any], generated: datetime | None) -> dict[str, A
     return found
 
 
-def detail(entry: Mapping[str, Any]) -> dict[str, Any]:
-    """What the log does not keep (see the module docstring)."""
+def breakage(
+    item: str, found: Breakage, sources: Mapping[str, Mapping[str, str]]
+) -> dict[str, Any]:
+    """One attempt's result, its binaries grouped by the source that builds
+    them; "source" is None for binaries no index named."""
+    known = sources.get(found.arch) or {}
+    by_source: dict[str | None, list[str]] = {}
+    for binary in found.binaries:
+        by_source.setdefault(known.get(binary), []).append(binary)
+    record: dict[str, Any] = {
+        "item": item,
+        "arch": found.arch,
+        "broken": [
+            {"source": source, "binaries": sorted(binaries)}
+            for source, binaries in sorted(
+                by_source.items(), key=lambda kv: (kv[0] is None, kv[0] or "")
+            )
+        ],
+    }
+    if found.tries > 1:
+        record["tries"] = found.tries
+    if found.together:
+        record["together"] = list(found.together)
+    if found.error:
+        record["error"] = found.error
+    return record
+
+
+def run_detail(
+    output: Output,
+    entries: Iterable[Mapping[str, Any]],
+    sources: Mapping[str, Mapping[str, str]],
+) -> dict[str, Any]:
+    """The whole run, for the update output page: what britney set out to
+    try, what it migrated, how the archive's uninstallable count moved, and
+    the binaries it could not remove. Detail, like the rest: the next run
+    replaces it."""
+    by_item = {str(e.get("item-name") or ""): e for e in entries}
+    accepted = []
+    for item in output.accepted:
+        entry = by_item.get(item) or {}
+        record: dict[str, Any] = {"item": item, "migrated": item in output.migrated}
+        if entry.get("old-version"):
+            record["old_version"] = entry["old-version"]
+        if entry.get("new-version"):
+            record["new_version"] = entry["new-version"]
+        accepted.append(record)
+    old_libraries = []
+    for binary, arches in sorted(output.old_libraries.items()):
+        blocked = []
+        for arch in arches:
+            found = output.breaks.get(f"-{binary}/{arch}")
+            if found is not None and found.arch:
+                blocked.append(breakage(f"-{binary}/{arch}", found, sources))
+        record = {"binary": binary, "arches": list(arches)}
+        if blocked:
+            # The page shows one architecture's list: on the rest it is
+            # nearly always the same packages (libcamel, seven times).
+            record["breaks"] = blocked[:1]
+            if len(blocked) > 1:
+                record["also_on"] = [b["arch"] for b in blocked[1:]]
+        old_libraries.append(record)
     return {
+        "generated": output.generated.isoformat() if output.generated else None,
+        "architectures": list(output.architectures),
+        "considered": output.considered,
+        "before": output.before,
+        "after": output.after,
+        "accepted": accepted,
+        "old_libraries": old_libraries,
+        # The sources this run skipped. The page lists these, joined to the
+        # board's rows, and checks them against the log: a detail left by an
+        # earlier run must not be shown as the outcome of a later one
+        # (review on #30).
+        "skipped": sorted(
+            {
+                str(e.get("source"))
+                for e in entries
+                if e.get("is-candidate")
+                and e.get("source")
+                and str(e.get("item-name") or "") not in output.migrated
+                and candidate_reason(e, output) == Reason.BREAKS_INSTALLS
+            }
+        ),
+    }
+
+
+def detail(
+    entry: Mapping[str, Any],
+    output: Output | None = None,
+    sources: Mapping[str, Mapping[str, str]] | None = None,
+) -> dict[str, Any]:
+    """What the log does not keep (see the module docstring)."""
+    found: dict[str, Any] = {
         "new_version": entry.get("new-version"),
         "tests": tests(entry),
         # Britney's own reason codes, for display and debugging only.
         "britney_reasons": sorted(entry.get("reason") or []),
     }
+    item = str(entry.get("item-name") or "")
+    if output is not None and item in output.breaks:
+        found["breaks"] = [breakage(item, output.breaks[item], sources or {})]
+    return found
 
 
-def arch_only_detail(entries: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
-    found = [detail(entry) for entry in entries]
+def arch_only_detail(
+    entries: Iterable[Mapping[str, Any]],
+    output: Output | None = None,
+    sources: Mapping[str, Mapping[str, str]] | None = None,
+) -> dict[str, Any]:
+    found = [detail(entry, output, sources) for entry in entries]
     merged = dict(found[0])
     for more in found[1:]:
         merged["tests"] = _merge_tests(merged["tests"], more["tests"])
         merged["britney_reasons"] = sorted(
             {*merged["britney_reasons"], *more["britney_reasons"]}
         )
+        if more.get("breaks"):
+            merged["breaks"] = [*merged.get("breaks", ()), *more["breaks"]]
     return merged
 
 
 def arch_only_payload(
-    entries: Iterable[Mapping[str, Any]], generated: datetime | None
+    entries: Iterable[Mapping[str, Any]],
+    generated: datetime | None,
+    output: Output | None = None,
 ) -> dict[str, Any]:
     """One payload for a source held only through architecture items, with
     the architectures it is held on.
@@ -493,7 +637,7 @@ def arch_only_payload(
     ingest when two architectures both had one (review on #24).
     """
     entries = list(entries)
-    found = [payload(entry, generated) for entry in entries]
+    found = [payload(entry, generated, output) for entry in entries]
     merged = dict(found[0])
     for more in found[1:]:
         for key, value in more.items():
@@ -602,7 +746,66 @@ class MigrationIngester(Ingester[Excuses]):
         return self._detail
 
     def fetch(self) -> Excuses:
-        return parse_document(decompress(self.fetcher.get(EXCUSES_URL), EXCUSES_URL))
+        excuses = parse_document(decompress(self.fetcher.get(EXCUSES_URL), EXCUSES_URL))
+        try:
+            output = update_output.parse(self.fetcher.get(OUTPUT_URL))
+        except Exception as exc:  # noqa: BLE001 - candidates then say less
+            log.warning("migration: britney's run log unreadable: %s", exc)
+            return excuses
+        if not output.same_run(excuses.generated):
+            log.warning(
+                "migration: britney's run log is from %s, its excuses from %s",
+                output.generated,
+                excuses.generated,
+            )
+            return excuses
+        return Excuses(
+            generated=excuses.generated,
+            entries=excuses.entries,
+            output=output,
+            sources=self._sources(excuses.entries, output),
+        )
+
+    # Which source builds each broken binary is read from the series'
+    # indexes, release pocket first, then -proposed for binaries only the
+    # attempted upload builds. The same release files the NBS source reads,
+    # so the HTTP cache answers its second request.
+    COMPONENTS = ("main", "restricted", "universe", "multiverse")
+
+    def _sources(
+        self, entries: Iterable[Mapping[str, Any]], output: Output
+    ) -> dict[str, dict[str, str]]:
+        items = [
+            str(e.get("item-name") or "") for e in entries if e.get("is-candidate")
+        ]
+        # The old libraries britney could not remove, too: what still
+        # needs them is the reason.
+        items += [
+            f"-{binary}/{arch}"
+            for binary, arches in output.old_libraries.items()
+            for arch in arches
+        ]
+        wanted: dict[str, set[str]] = {}
+        for item in items:
+            found = output.breaks.get(item)
+            if found is not None and found.arch:
+                wanted.setdefault(found.arch, set()).update(found.binaries)
+        sources: dict[str, dict[str, str]] = {}
+        for arch, binaries in sorted(wanted.items()):
+            known: dict[str, str] = {}
+            for suite in (self.series, f"{self.series}-proposed"):
+                for component in self.COMPONENTS:
+                    url = packages_url(suite, component, arch)
+                    try:
+                        data = decompress(self.fetcher.get(url), url)
+                    except Exception as exc:  # noqa: BLE001 - names stay ungrouped
+                        log.warning("migration: cannot read %s: %s", url, exc)
+                        continue
+                    for package in parse_packages(data):
+                        if package.name in binaries:
+                            known.setdefault(package.name, package.source)
+            sources[arch] = known
+        return sources
 
     def parse(self, raw: Excuses) -> list[Signal]:
         # Britney only publishes the development series. Labelling its
@@ -629,9 +832,16 @@ class MigrationIngester(Ingester[Excuses]):
         whole: dict[str, Mapping[str, Any]] = {}
         by_arch: dict[str, list[Mapping[str, Any]]] = {}
         skipped = 0
+        output = raw.output
         for entry in raw.entries:
             name = entry.get("source")
-            if entry.get("is-candidate") or not name:
+            if not name:
+                continue
+            if (
+                entry.get("is-candidate")
+                and output is not None
+                and str(entry.get("item-name") or "") in output.migrated
+            ):
                 continue
             item = str(entry.get("item-name") or "")
             if item == name:
@@ -647,11 +857,11 @@ class MigrationIngester(Ingester[Excuses]):
         packages: dict[str, dict[str, Any]] = {}
         for name in [*whole, *(n for n in by_arch if n not in whole)]:
             if name in whole:
-                found = payload(whole[name], raw.generated)
-                packages[name] = detail(whole[name])
+                found = payload(whole[name], raw.generated, output)
+                packages[name] = detail(whole[name], output, raw.sources)
             else:
-                found = arch_only_payload(by_arch[name], raw.generated)
-                packages[name] = arch_only_detail(by_arch[name])
+                found = arch_only_payload(by_arch[name], raw.generated, output)
+                packages[name] = arch_only_detail(by_arch[name], output, raw.sources)
             signals.append(
                 Signal(
                     kind=Kind.MIGRATION_BLOCKED,
@@ -665,7 +875,19 @@ class MigrationIngester(Ingester[Excuses]):
             )
         self._detail = {
             "generated": raw.generated.isoformat(),
+            # Britney's run log of the same run, or None when it could not
+            # be read or was from another run: candidates then say less.
+            "output_generated": (
+                output.generated.isoformat()
+                if output is not None and output.generated
+                else None
+            ),
             "series": self.series,
+            "run": (
+                run_detail(output, raw.entries, raw.sources)
+                if output is not None
+                else None
+            ),
             "packages": dict(sorted(packages.items())),
         }
         return signals

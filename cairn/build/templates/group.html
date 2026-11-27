@@ -2,16 +2,16 @@
 {% import "_merges.html" as t with context %}
 {% import "_ui.html" as ui with context %}
 {% import "_glossary.html" as g with context %}
-{% block title %}Cairn | {% if group.is_everything %}All merge candidates{% else %}Merges for {{ group.title }}{% endif %}{% endblock %}
+{% block title %}Cairn | {% if group.is_everything %}All Merge Candidates{% else %}Merges for {{ group.title }}{% endif %}{% endblock %}
 
 {% block content %}
 <section class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
       <p class="p-text--small-caps u-text--muted">
-        <a href="{{ root }}merges/index.html">Merge candidates</a> / {{ group.subtitle }}
+        <a href="{{ root }}merges/index.html">Merge Candidates</a> / {{ group.subtitle }}
       </p>
-      <h1 class="p-heading--3">{{ "All merge candidates" if group.is_everything else group.title }}</h1>
+      <h1 class="p-heading--3">{{ "All Merge Candidates" if group.is_everything else group.title }}</h1>
       {% if group.note %}
       <p class="u-text--muted">{{ group.note }}</p>
       {% endif %}

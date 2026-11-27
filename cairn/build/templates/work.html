@@ -3,7 +3,7 @@
 {% import "_merges.html" as t with context %}
 {% import "_ui.html" as ui with context %}
 {% import "_glossary.html" as g with context %}
-{% block title %}Cairn | Up for grabs{% endblock %}
+{% block title %}Cairn | Up for Grabs{% endblock %}
 
 {% block content %}
 {# Each kind of work is a tab, with one filter for all of them above the
@@ -12,18 +12,18 @@
    not a link, and has no panel. Tabs with work carry no count. Without
    JavaScript the tabs are links to sections that all show in turn. #}
 {% set tabs = [
-  ("syncs", "Debian syncs", grabs.syncs, "stuck"),
-  ("abandoned", "Ubuntu uploads stuck " ~ abandoned_days ~ "+ days", grabs.abandoned, "stuck"),
-  ("merges", "Packaging-only merges", grabs.merges, "merge"),
+  ("syncs", "Debian Syncs", grabs.syncs, "stuck"),
+  ("abandoned", "Ubuntu Uploads Stuck " ~ abandoned_days ~ "+ Days", grabs.abandoned, "stuck"),
+  ("merges", "Packaging-Only Merges", grabs.merges, "merge"),
 ] %}
 {# Rare, and "How this list is made" says it appears only when there are
    any, so it gets no greyed-out tab when empty. #}
-{% if grabs.unknown %}{% set _ = tabs.append(("unknown", "Uploader not known", grabs.unknown, "stuck")) %}{% endif %}
+{% if grabs.unknown %}{% set _ = tabs.append(("unknown", "Uploader Not Known", grabs.unknown, "stuck")) %}{% endif %}
 
 <section class="p-strip is-shallow">
   <div class="row">
     <div class="col-12">
-      <h1 class="p-heading--2">Up for grabs</h1>
+      <h1 class="p-heading--2">Up for Grabs</h1>
       {{ ui.series_line() }}
       <p>
         Work that has waited. A row naming an uploader is theirs:
@@ -31,7 +31,7 @@
         <a href="{{ root }}work/plus-one.html">the +1 maintenance queue</a>.
       </p>
       <details class="cairn-terms" id="how_listed">
-        <summary>How this list is made</summary>
+        <summary>How This List Is Made</summary>
         {# The rules live in build/work.py; this says them in words, with
            the thresholds read from the same constants. #}
         <p>This page includes:</p>

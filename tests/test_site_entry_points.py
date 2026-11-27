@@ -568,8 +568,8 @@ class TestHoldingTab:
         page = (self.built(tmp_path) / "migration/teams/t.html").read_text()
         tabs = text(page.split('class="p-tabs"')[1].split("</nav>")[0])
         assert "Merges (0)" in tabs
-        assert "Stuck in proposed (1)" in tabs
-        assert "Holding others back (1)" in tabs
+        assert "Proposed Queue (1)" in tabs
+        assert "Holding Others Back (1)" in tabs
         assert 'id="blocking"' not in page
 
     def test_an_owner_with_only_blocking_tests_lands_on_that_tab(self, tmp_path):
@@ -726,26 +726,30 @@ class TestNavigation:
         top = re.findall(r'<a class="p-navigation__link"[^>]*>([^<]+)</a>', nav)
         assert top == [
             "Browse",
-            "Up for grabs",
+            "Up for Grabs",
             "Merges",
-            "Stuck in proposed",
+            "Stuck in Proposed",
             "NBS",
         ]
         items = re.findall(r'class="p-navigation__dropdown-item"[^>]*>([^<]+)<', nav)
         assert items == [
             "Packages",
-            "Teams and people",
-            "Anyone can pick up",
-            "+1 maintenance shift",
+            "Teams and People",
+            "Anyone Can Pick Up",
+            "+1 Maintenance Shift",
+            "Proposed Queue",
+            "Update Output",
         ]
 
     def test_a_menu_page_marks_its_menu_and_itself(self, tmp_path):
         out = site(tmp_path, [ev(EventType.OPENED, stuck())])
         for page, menu, item in (
-            ("work/plus-one.html", "Up for grabs", "+1 maintenance shift"),
-            ("work/index.html", "Up for grabs", "Anyone can pick up"),
-            ("owners/index.html", "Browse", "Teams and people"),
+            ("work/plus-one.html", "Up for Grabs", "+1 Maintenance Shift"),
+            ("work/index.html", "Up for Grabs", "Anyone Can Pick Up"),
+            ("owners/index.html", "Browse", "Teams and People"),
             ("packages/index.html", "Browse", "Packages"),
+            ("migration/index.html", "Stuck in Proposed", "Proposed Queue"),
+            ("migration/update-output.html", "Stuck in Proposed", "Update Output"),
         ):
             nav = self.nav((out / page).read_text())
             selected = nav.split("is-selected")[1].split("</li>")[0]
@@ -809,7 +813,7 @@ class TestTooltips:
     def test_the_definitions_stay_on_the_page(self, tmp_path):
         page = (self.built(tmp_path) / "merges/index.html").read_text()
         terms = page.split('class="cairn-terms"')[1].split("</details>")[0]
-        assert "What the labels mean" in terms
+        assert "What the Labels Mean" in terms
         assert '<dd id="term_new_upstream">' in terms
 
 
@@ -965,8 +969,8 @@ class TestReviewOnPR17:
         events = [ev(EventType.OPENED, app), ev(EventType.OPENED, stuck("lib"))]
         out = site(tmp_path, events, owners)
         holding = (out / "holding/teams/team.html").read_text()
-        assert "Holding others back (1)" in holding
-        assert "Uploads waiting for yours (1)" in holding
+        assert "Holding Others Back (1)" in holding
+        assert "Uploads Waiting for Yours (1)" in holding
         assert "holding back 1" in (out / "owners/index.html").read_text()
 
     def test_an_upload_of_unknown_origin_is_not_called_ubuntus(self, tmp_path):
@@ -1129,9 +1133,9 @@ class TestUpForGrabsEmptyTabs:
         out = site(tmp_path, [ev(EventType.OPENED, merge("cron"))])
         page = (out / "work/index.html").read_text()
         tabs = page.split('aria-label="Kinds of work"')[1].split("</nav>")[0]
-        assert re.search(r'cairn-tab--empty"[^>]*>Debian syncs \(0\)<', tabs)
-        assert 'data-tab="merges">Packaging-only merges<' in tabs
-        assert "Uploader not known" not in tabs
+        assert re.search(r'cairn-tab--empty"[^>]*>Debian Syncs \(0\)<', tabs)
+        assert 'data-tab="merges">Packaging-Only Merges<' in tabs
+        assert "Uploader Not Known" not in tabs
         assert 'id="syncs"' not in page  # no panel behind an empty tab
         how = text(page.split('id="how_listed"')[1].split("</details>")[0])
         assert "Uploads with no known uploader (when there are any)" in how
@@ -1141,12 +1145,11 @@ def test_the_board_statistics_tab_holds_the_numbers(tmp_path):
     out = site(tmp_path, [ev(EventType.OPENED, stuck())])
     page = (out / "migration/index.html").read_text()
     main = page.split("<main>")[1]
-    assert main.index('aria-label="Stuck in proposed board"') < main.index("cairn-stat")
+    assert main.index('aria-label="Proposed queue"') < main.index("cairn-stat")
     assert "cairn-stat" in main.split('id="board_stats"')[1]
-    tabs = main.split('aria-label="Stuck in proposed board"')[1].split("</nav>")[0]
+    tabs = main.split('aria-label="Proposed queue"')[1].split("</nav>")[0]
     assert re.findall(r'data-tab="(\w+)"', tabs) == [
         "stuck_list",
-        "still_settling",
         "board_stats",
     ]
     assert ">Statistics</a>" in tabs

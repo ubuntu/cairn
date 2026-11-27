@@ -991,3 +991,24 @@ h1 + .cairn-title__links {
   white-space: nowrap;
   width: 8rem;
 }
+
+/* "Show N more" / "Show less" on one summary, without JavaScript: the
+   open state picks the label. */
+.cairn-expand > summary {
+  font-size: 0.875rem;
+}
+
+.cairn-expand[open] > summary .cairn-expand__more,
+.cairn-expand:not([open]) > summary .cairn-expand__less {
+  display: none;
+}
+
+/* What britney did with an upload it tried and backed out of. */
+.cairn-attempt + .cairn-attempt {
+  margin-top: 0.5rem;
+}
+
+/* The update output page: what each line of britney's log means. */
+.cairn-howto {
+  margin-bottom: 1.5rem;
+}

@@ -129,6 +129,8 @@
         <option value="recent">Stuck this week</option>
         <option value="reuploaded">Stuck through several uploads</option>
         <option value="returning">Stuck before</option>
+        <option value="settled">Past the first {{ settling_days }} days</option>
+        <option value="settling">Still settling</option>
       </select>
     </label>
     {% endif %}
@@ -222,16 +224,16 @@
     </li>
     <li class="p-tabs__item">
       {% if group.has_migration %}
-      <a class="p-tabs__link" href="{{ root }}{{ group.migration_href }}"{% if active == "migration" %} aria-current="page" aria-selected="true"{% endif %}>Stuck in proposed ({{ group.stuck_count }})</a>
+      <a class="p-tabs__link" href="{{ root }}{{ group.migration_href }}"{% if active == "migration" %} aria-current="page" aria-selected="true"{% endif %}>Proposed Queue ({{ group.stuck_count }})</a>
       {% else %}
-      <span class="p-tabs__link cairn-tab--empty">Stuck in proposed (0)</span>
+      <span class="p-tabs__link cairn-tab--empty">Proposed Queue (0)</span>
       {% endif %}
     </li>
     <li class="p-tabs__item">
       {% if group.has_holding %}
-      <a class="p-tabs__link" href="{{ root }}{{ group.holding_href }}"{% if active == "holding" %} aria-current="page" aria-selected="true"{% endif %}>Holding others back ({{ group.holding_count }})</a>
+      <a class="p-tabs__link" href="{{ root }}{{ group.holding_href }}"{% if active == "holding" %} aria-current="page" aria-selected="true"{% endif %}>Holding Others Back ({{ group.holding_count }})</a>
       {% else %}
-      <span class="p-tabs__link cairn-tab--empty">Holding others back (0)</span>
+      <span class="p-tabs__link cairn-tab--empty">Holding Others Back (0)</span>
       {% endif %}
     </li>
   </ul>

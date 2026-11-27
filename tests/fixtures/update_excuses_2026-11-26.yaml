@@ -1,0 +1,758 @@
+# Britney's update_excuses.yaml.xz, 26 Nov 2026 19:53 UTC run, trimmed to
+# the entries tests/fixtures/update_output_2026-11-26.txt (the same run's
+# log) covers: candidates that migrated (ccache, dz6/armhf), candidates it
+# skipped (python-pathable, libnet-dns-sec-perl, the three rust uploads
+# tried together), and one upload that is not a candidate.
+generated-date: 2026-11-26 19:53:27.182607
+sources:
+- component: universe
+  detailed-info:
+  - 'New binary: dz6 (0.7.1-1)'
+  excuses:
+  - 'Migration status for dz6/armhf (0.7.1-1 to 0.7.1-1): Will attempt migration (Any information below is purely informational)'
+  is-candidate: true
+  item-name: dz6/armhf
+  maintainer: Debian Rust Maintainers
+  migration-policy-verdict: PASS
+  new-version: 0.7.1-1
+  old-version: 0.7.1-1
+  policy_info:
+    block:
+      verdict: PASS
+    depends:
+      verdict: PASS
+  reason: []
+  source: dz6
+- component: universe
+  detailed-info:
+  - 'old binaries on ppc64el: libqt5contact5-plugin-sqlite, libqt6contact6-plugin-sqlite, qtcontacts5-plugin-sqlite-dev, qtcontacts6-plugin-sqlite-dev (from <a href="https://launchpad.net/ubuntu/+source/qtcontacts-sqlite/0.3.25-2/+latestbuild/ppc64el" target="_blank">0.3.25-2</a>)'
+  excuses:
+  - 'Migration status for qtcontacts-sqlite (0.3.25-2 to 0.3.25-3): BLOCKED: Maybe temporary, maybe blocked but Britney is missing information (check below)'
+  - 'Issues preventing migration:'
+  - 'missing build on <a href="https://launchpad.net/ubuntu/+source/qtcontacts-sqlite/0.3.25-3/+latestbuild/ppc64el" target="_blank">ppc64el</a>: libqt5contact5-plugin-sqlite, libqt6contact6-plugin-sqlite, qtcontacts5-plugin-sqlite-dev, qtcontacts6-plugin-sqlite-dev (from <a href="https://launchpad.net/ubuntu/+source/qtcontacts-sqlite/0.3.25-2/+latestbuild/ppc64el" target="_blank">0.3.25-2</a>)'
+  - arch:ppc64el not built yet, autopkgtest delayed there
+  - 'Additional info:'
+  - 0 days old
+  is-candidate: false
+  item-name: qtcontacts-sqlite
+  maintainer: Debian UBports Team
+  migration-policy-verdict: REJECTED_CANNOT_DETERMINE_IF_PERMANENT
+  missing-builds:
+    on-architectures:
+    - ppc64el
+    on-unimportant-architectures: []
+  new-version: 0.3.25-3
+  old-binaries:
+    0.3.25-2:
+    - libqt5contact5-plugin-sqlite
+    - libqt6contact6-plugin-sqlite
+    - qtcontacts5-plugin-sqlite-dev
+    - qtcontacts6-plugin-sqlite-dev
+  old-version: 0.3.25-2
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 0.21474537037037036
+      verdict: PASS
+    autopkgtest:
+      verdict: REJECTED_TEMPORARILY
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason:
+  - autopkgtest
+  - missingbuild
+  source: qtcontacts-sqlite
+- dependencies:
+    migrate-after:
+    - perl
+  excuses:
+  - 'Migration status for libnet-dns-sec-perl (1.28-1 to 1.28-1build1): Will attempt migration (Any information below is purely informational)'
+  - 'Depends: libnet-dns-sec-perl <a href="#perl">perl</a>'
+  - 'Additional info:'
+  - 6 days old
+  is-candidate: true
+  item-name: libnet-dns-sec-perl
+  maintainer: Debian Perl Group
+  migration-policy-verdict: PASS
+  new-version: 1.28-1build1
+  old-version: 1.28-1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 6.827407407407407
+      verdict: PASS
+    autopkgtest:
+      libnet-dns-sec-perl/1.28-1build1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/libn/libnet-dns-sec-perl/20261125_060636_17639@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-dns-sec-perl/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/libn/libnet-dns-sec-perl/20261119_215519_c29c4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-dns-sec-perl/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/libn/libnet-dns-sec-perl/20261123_215207_c7ea4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-dns-sec-perl/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/libn/libnet-dns-sec-perl/20261119_215051_755df@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-dns-sec-perl/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/libn/libnet-dns-sec-perl/20261124_120706_408bc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-dns-sec-perl/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/libn/libnet-dns-sec-perl/20261119_214305_9137f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/libn/libnet-dns-sec-perl/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: libnet-dns-sec-perl
+- component: universe
+  excuses:
+  - 'Migration status for ccache (4.13.6-1 to 4.14.3-1): Will attempt migration (Any information below is purely informational)'
+  - 'Additional info:'
+  - 16 days old
+  is-candidate: true
+  item-name: ccache
+  maintainer: Joel Rosdahl
+  migration-policy-verdict: PASS
+  new-version: 4.14.3-1
+  old-version: 4.13.6-1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 16.31854166666667
+      verdict: PASS
+    autopkgtest:
+      ccache/4.14.3-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/c/ccache/20261115_040233_7a125@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ccache/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/c/ccache/20261119_061635_2642c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ccache/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/c/ccache/20261112_154320_50a27@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ccache/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/c/ccache/20261112_064453_51c9f@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ccache/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/c/ccache/20261116_053930_57e1a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ccache/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/c/ccache/20261113_003753_a26d4@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/c/ccache/tenacious/s390x
+        - null
+        - null
+      emscripten/6.0.5+dfsg+~1.41.5-2:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/e/emscripten/20261116_093809_d90b7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/emscripten/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/e/emscripten/20261119_062010_d9004@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/emscripten/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/e/emscripten/20261112_154340_68f5c@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/emscripten/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/e/emscripten/20261112_064332_4a085@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/emscripten/tenacious/armhf
+        - null
+        - null
+        i386:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/i386/e/emscripten/20261110_162625_289b1@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/emscripten/tenacious/i386
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/e/emscripten/20261116_054032_974c8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/emscripten/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/e/emscripten/20261113_004123_9ee88@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/e/emscripten/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+      verilator/5.048-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/v/verilator/20261115_040158_84f76@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/verilator/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/v/verilator/20261126_153343_9ab35@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/verilator/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/v/verilator/20261112_154125_e5dc5@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/verilator/tenacious/arm64
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/v/verilator/20261116_015917_cb4f8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/verilator/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/v/verilator/20261113_003757_86a0b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/v/verilator/tenacious/s390x
+        - null
+        - null
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: ccache
+- component: universe
+  dependencies:
+    migrate-after:
+    - rust-annotate-snippets
+  excuses:
+  - 'Migration status for rust-chic (1.2.2-2 to 1.2.2-3): Will attempt migration (Any information below is purely informational)'
+  - 'Depends: rust-chic <a href="#rust-annotate-snippets">rust-annotate-snippets</a>'
+  - 'Additional info:'
+  - 22 days old
+  is-candidate: true
+  item-name: rust-chic
+  maintainer: Debian Rust Maintainers
+  migration-policy-verdict: PASS
+  new-version: 1.2.2-3
+  old-version: 1.2.2-2
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 22.769791666666666
+      verdict: PASS
+    autopkgtest:
+      rust-chic/1.2.2-3:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/r/rust-chic/20261103_234335_30bb6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/r/rust-chic/20261103_234454_be011@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/r/rust-chic/20261103_234357_b2214@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/r/rust-chic/20261103_234318_17ad9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/r/rust-chic/20261103_234809_d39ac@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/r/rust-chic/20261114_071603_46cca@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: rust-chic
+- component: universe
+  dependencies:
+    migrate-after:
+    - rust-annotate-snippets
+  excuses:
+  - 'Migration status for rust-libcst (1.8.5-1 to 1.9.0-1): Will attempt migration (Any information below is purely informational)'
+  - 'Depends: rust-libcst <a href="#rust-annotate-snippets">rust-annotate-snippets</a>'
+  - 'Additional info:'
+  - 22 days old
+  is-candidate: true
+  item-name: rust-libcst
+  maintainer: Debian Rust Maintainers
+  migration-policy-verdict: PASS
+  new-version: 1.9.0-1
+  old-version: 1.8.5-1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 22.769791666666666
+      verdict: PASS
+    autopkgtest:
+      rust-libcst/1.9.0-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/r/rust-libcst/20261117_033612_63c26@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/r/rust-libcst/20261106_211309_078f7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/r/rust-libcst/20261106_212836_fa758@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/r/rust-libcst/20261106_212014_e9b1e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/r/rust-libcst/20261115_180600_1efc5@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/r/rust-libcst/20261114_174241_e0d53@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: rust-libcst
+- component: universe
+  excuses:
+  - 'Migration status for rust-annotate-snippets (0.11.5-1 to 0.12.16-1): Will attempt migration (Any information below is purely informational)'
+  - 'Additional info:'
+  - 'autopkgtest for rust-annotate-snippets/0.12.16-1: <a href="https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/amd64">amd64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/r/rust-annotate-snippets/20261009_173612_52789@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/amd64v3">amd64v3</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/r/rust-annotate-snippets/20261009_130251_7ee11@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/arm64">arm64</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/r/rust-annotate-snippets/20261009_133943_2edcd@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/armhf">armhf</a>:
+    <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/r/rust-annotate-snippets/20261009_130041_d9d48@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/ppc64el">ppc64el</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/r/rust-annotate-snippets/20261009_130350_168e2@/log.gz"><span style="background:#87d96c">Pass</span></a>, <a href="https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/s390x">s390x</a>: <a href="https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/r/rust-annotate-snippets/20261114_043333_03915@/log.gz"><span style="background:#87d96c">Pass</span></a>'
+  - 48 days old
+  is-candidate: true
+  item-name: rust-annotate-snippets
+  maintainer: Debian Rust Maintainers
+  migration-policy-verdict: PASS
+  new-version: 0.12.16-1
+  old-version: 0.11.5-1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 48.196840277777774
+      verdict: PASS
+    autopkgtest:
+      rust-annotate-snippets/0.12.16-1:
+        amd64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/r/rust-annotate-snippets/20261009_173612_52789@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/r/rust-annotate-snippets/20261009_130251_7ee11@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/r/rust-annotate-snippets/20261009_133943_2edcd@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/r/rust-annotate-snippets/20261009_130041_d9d48@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - OLD_PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/r/rust-annotate-snippets/20261009_130350_168e2@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/r/rust-annotate-snippets/20261114_043333_03915@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-annotate-snippets/tenacious/s390x
+        - null
+        - null
+      rust-bindgen/0.72.1-5:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/r/rust-bindgen/20261102_081124_adbc9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-bindgen/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/r/rust-bindgen/20261102_061226_d39bc@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-bindgen/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/r/rust-bindgen/20261102_061517_78777@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-bindgen/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/r/rust-bindgen/20261102_061650_6177b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-bindgen/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/r/rust-bindgen/20261102_081205_8a0f8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-bindgen/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/r/rust-bindgen/20261116_032140_6213b@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-bindgen/tenacious/s390x
+        - null
+        - null
+      rust-chic/1.2.2-3:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/r/rust-chic/20261103_234335_30bb6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/r/rust-chic/20261103_234454_be011@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/r/rust-chic/20261103_234357_b2214@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/r/rust-chic/20261103_234318_17ad9@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/r/rust-chic/20261103_234809_d39ac@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/r/rust-chic/20261114_071603_46cca@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-chic/tenacious/s390x
+        - null
+        - null
+      rust-libcst/1.9.0-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/r/rust-libcst/20261114_163936_a6970@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/r/rust-libcst/20261106_211309_078f7@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/r/rust-libcst/20261106_212836_fa758@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/r/rust-libcst/20261106_212014_e9b1e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/r/rust-libcst/20261113_212459_ea8df@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/r/rust-libcst/20261114_174241_e0d53@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/r/rust-libcst/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: rust-annotate-snippets
+- component: universe
+  excuses:
+  - 'Migration status for python-pathable (0.4.4-1 to 0.6.0-1): Will attempt migration (Any information below is purely informational)'
+  - 'Additional info:'
+  - 178 days old
+  is-candidate: true
+  item-name: python-pathable
+  maintainer: Debian Python Team
+  migration-policy-verdict: PASS
+  new-version: 0.6.0-1
+  old-version: 0.4.4-1
+  policy_info:
+    age:
+      age-requirement: 0
+      current-age: 178.6522337962963
+      verdict: PASS
+    autopkgtest:
+      python-jsonschema-path/0.5.0-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/p/python-jsonschema-path/20260601_052945_732a8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-jsonschema-path/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/p/python-jsonschema-path/20260601_052958_96386@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-jsonschema-path/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/p/python-jsonschema-path/20260601_052945_71808@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-jsonschema-path/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/p/python-jsonschema-path/20260601_052947_9bde6@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-jsonschema-path/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/p/python-jsonschema-path/20260601_053026_5a675@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-jsonschema-path/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/p/python-jsonschema-path/20260601_052954_db509@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-jsonschema-path/tenacious/s390x
+        - null
+        - null
+      python-pathable/0.6.0-1:
+        amd64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64/p/python-pathable/20260601_052927_fcb6a@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-pathable/tenacious/amd64
+        - null
+        - null
+        amd64v3:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/amd64v3/p/python-pathable/20260603_220414_c9cdb@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-pathable/tenacious/amd64v3
+        - null
+        - null
+        arm64:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/arm64/p/python-pathable/20260601_052946_089b8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-pathable/tenacious/arm64
+        - null
+        - null
+        armhf:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/armhf/p/python-pathable/20260601_052933_f54c8@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-pathable/tenacious/armhf
+        - null
+        - null
+        ppc64el:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/ppc64el/p/python-pathable/20260601_053029_45ca5@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-pathable/tenacious/ppc64el
+        - null
+        - null
+        s390x:
+        - PASS
+        - https://autopkgtest.ubuntu.com/results/autopkgtest-tenacious/tenacious/s390x/p/python-pathable/20260601_052942_b3e2e@/log.gz
+        - https://autopkgtest.ubuntu.com/packages/p/python-pathable/tenacious/s390x
+        - null
+        - null
+      verdict: PASS
+    block:
+      verdict: PASS
+    block-bugs:
+      verdict: PASS
+    depends:
+      verdict: PASS
+    email:
+      verdict: PASS
+    rc-bugs:
+      shared-bugs: []
+      unique-source-bugs: []
+      unique-target-bugs: []
+      verdict: PASS
+    source-ppa:
+      verdict: PASS
+    update-excuse:
+      verdict: PASS
+  reason: []
+  source: python-pathable

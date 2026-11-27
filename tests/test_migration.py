@@ -18,6 +18,7 @@ from cairn.ingest.migration import (
     parse_document,
     referenced_packages,
 )
+from cairn.ingest.update_output import OUTPUT_URL
 
 FIXTURE = (Path(__file__).parent / "fixtures" / "update_excuses.yaml").read_bytes()
 GENERATED = datetime(2026, 10, 1, 7, 18, 41, 241683, tzinfo=UTC)
@@ -80,7 +81,8 @@ class TestFetch:
     def test_reads_britneys_compressed_output(self):
         ing = ingester()
         ing.run()
-        assert ing.fetcher.urls == [EXCUSES_URL]
+        assert ing.fetcher.urls[0] == EXCUSES_URL
+        assert OUTPUT_URL in ing.fetcher.urls
         assert EXCUSES_URL.endswith(".yaml.xz")
 
     def test_reads_the_generation_time_as_utc(self):
@@ -88,9 +90,11 @@ class TestFetch:
 
 
 class TestWhichEntriesBecomeSignals:
-    def test_only_blocked_uploads(self, found):
-        assert "dhcpcd" not in found  # a candidate: about to migrate
-        assert len(found) == 9
+    def test_a_candidate_stays_without_the_run_log(self, found):
+        """dhcpcd is a candidate. With no run log to say it migrated, it is
+        kept, claiming only what britney's excuses do (test_update_output)."""
+        assert found["dhcpcd"].payload["reasons"] == [Reason.WILL_ATTEMPT]
+        assert len(found) == 10
 
     def test_emits_the_migration_kind(self, found):
         assert {s.kind for s in found.values()} == {Kind.MIGRATION_BLOCKED}
